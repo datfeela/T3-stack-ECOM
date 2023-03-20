@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    // Further reading:
+    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    url      = env("DATABASE_URL")
+}
+
+// Necessary for Next auth
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? // @db.Text
+    access_token      String? // @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? // @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id            String          @id @default(cuid())
+    name          String?
+    email         String?         @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    reviews       ProductReview[]
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+// products
+
+model ProductCategory {
+    id       String           @id @unique @default(cuid())
+    name     String           @unique
+    products Product[]
+    filters  CategoryFilter[]
+}
+
+model CategoryFilter {
+    id                String                 @id @unique @default(cuid())
+    name              String                 @unique
+    options           CategoryFilterOption[]
+    ProductCategories ProductCategory[]
+}
+
+model CategoryFilterOption {
+    id               String          @id @unique @default(cuid())
+    name             String
+    categoryFilter   CategoryFilter? @relation(fields: [categoryFilterId], references: [id])
+    categoryFilterId String?
+}
+
+model Product {
+    id                      String                  @id @unique @default(cuid())
+    name                    String
+    price                   String
+    priceWithoutDiscount    String?
+    //!
+    releaseDate             DateTime                @default(now())
+    rating                  Int                     @default(0)
+    ratedByCount            Int                     @default(0)
+    popularity              Int                     @default(0)
+    // !
+    desc                    String?
+    ytTrailerPath           String?
+    coverImagePath          String?
+    verticalOrientImagePath String?
+    miniatureImagePath      String?
+    categories              ProductCategory[]
+    filters                 ProductFilter[]
+    characteristics         ProductCharacteristic[]
+    // !
+    reviews                 ProductReview[]
+}
+
+// custom product characteristics which aren't involved in sorting
+model ProductCharacteristic {
+    id        String   @id @unique @default(cuid())
+    name      String
+    value     String
+    Product   Product? @relation(fields: [productId], references: [id])
+    productId String?
+}
+
+// product characteristics which are involved in sorting
+model ProductFilter {
+    id      String               @id @unique @default(cuid())
+    name    String
+    values  ProductFilterValue[]
+    Product Product[]
+}
+
+model ProductFilterValue {
+    id              String         @id @unique @default(cuid())
+    value           String
+    ProductFilter   ProductFilter? @relation(fields: [productFilterId], references: [id])
+    productFilterId String?
+}
+
+// review
+model ProductReview {
+    id        String   @id @unique @default(cuid())
+    rating    Int
+    message   String?
+    Product   Product? @relation(fields: [productId], references: [id])
+    productId String?
+    User      User?    @relation(fields: [userId], references: [id])
+    userId    String?
+}
