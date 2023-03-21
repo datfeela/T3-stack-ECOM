@@ -5,8 +5,8 @@ const mByte = 1024 * 1024
 const maxFileSize = 4 * mByte
 const acceptedMimeTypes = ['image/webp', 'image/jpeg', 'image/png']
 
-export const validateImage = (img: File | undefined, ctx: z.RefinementCtx) => {
-    if (!img) return
+export const validateImage = (img: File | string | undefined, ctx: z.RefinementCtx) => {
+    if (!img || typeof img === 'string') return
 
     if (!acceptedMimeTypes.includes(img.type)) {
         ctx.addIssue({
