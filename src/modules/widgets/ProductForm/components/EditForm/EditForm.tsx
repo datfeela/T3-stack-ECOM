@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
+import { WithLoader } from '~/modules/shared/components/WithLoader/WithLoader'
 import { mapProductDataFromApi } from '../../mappers/mapProductDataFromApi'
 import { mapProductDataToApi } from '../../mappers/mapProductDataToApi'
 import type { SubmitFormProps } from '../../ProductFormTypes'
@@ -47,16 +48,14 @@ export const EditForm = () => {
         <>
             <h1>Edit product</h1>
             {serverSuccess ? <div>REFACTOR ME PLS: {serverSuccess}</div> : null}
-            {product.data ? (
+            <WithLoader loaderType='dots' conditionToShowLoader={!product.data}>
                 <ProductForm
                     submitForm={handleFormSubmit}
                     serverError={serverError}
                     initialValues={initialValues}
                     isEditForm={true}
                 />
-            ) : (
-                <div>loading...</div>
-            )}
+            </WithLoader>
         </>
     )
 }

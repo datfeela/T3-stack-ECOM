@@ -38,7 +38,7 @@ export const ProductForm = ({
         name: initialValues?.name || '',
         price: initialValues?.price || '',
         priceWithoutDiscount: initialValues?.priceWithoutDiscount || '',
-        releaseDate: initialValues?.releaseDate || '2018-07-22',
+        releaseDate: initialValues?.releaseDate || '2000-01-01',
         desc: initialValues?.desc || '',
         ytTrailerPath: initialValues?.ytTrailerPath || '',
         characteristics:
