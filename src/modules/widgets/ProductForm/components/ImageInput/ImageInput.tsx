@@ -1,6 +1,7 @@
 import s from './ImageInput.module.scss'
 import Image from 'next/image'
-import { MouseEvent, useRef } from 'react'
+import React, { useRef } from 'react'
+import type { MouseEvent } from 'react'
 
 interface ImageInputProps {
     title: string
@@ -10,7 +11,7 @@ interface ImageInputProps {
     onChangeHandler: (field: string, value: any) => void
 }
 
-export const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputProps) => {
+const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputProps) => {
     const imgSrc = value
         ? typeof value === 'string'
             ? value
@@ -70,5 +71,7 @@ export const ImageInput = ({ title, name, value, error, onChangeHandler }: Image
         </div>
     )
 }
+
+export default React.memo(ImageInput)
 
 // setImagePreviewSrc(URL.createObjectURL(img))

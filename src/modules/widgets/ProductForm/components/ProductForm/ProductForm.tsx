@@ -8,7 +8,7 @@ import type { ProductFormProps } from '../../ProductFormTypes'
 
 import { DynamicInput } from '~/modules/shared/components/Inputs/DynamicInput'
 
-import { ImageInput } from '../ImageInput/ImageInput'
+import ImageInput from '../ImageInput/ImageInput'
 import { MainInputs } from '../MainInputs/MainInputs'
 import { CategoriesInput } from '../CategoriesInput/CategoriesInput'
 import { FiltersCheckboxes } from '../FiltersCheckboxes/FiltersCheckboxes'
