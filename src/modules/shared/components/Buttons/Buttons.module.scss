@@ -1,0 +1,29 @@
+.button {
+    border: 1px solid #eeeeee;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 18px;
+    font-family: 'Orbitron';
+
+    &_error {
+        border-color: red;
+    }
+
+    &_withIcon {
+        &_hidden {
+            .iconWrap {
+                display: none;
+            }
+        }
+    }
+
+    &_submitting {
+        opacity: 0.7;
+    }
+}
+
+.iconWrap {
+    height: 20px;
+}

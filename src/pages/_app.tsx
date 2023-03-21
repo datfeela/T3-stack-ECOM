@@ -14,10 +14,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
     const isAdminPage = useIsAdmin()
 
     return (
-        <SessionProvider session={session}>
-            {!isAdminPage ? <Header /> : null}
-            <Component {...pageProps} />
-        </SessionProvider>
+        <>
+            <SessionProvider session={session}>
+                {!isAdminPage ? <Header /> : null}
+                <Component {...pageProps} />
+            </SessionProvider>
+        </>
     )
 }
 

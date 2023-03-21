@@ -9,9 +9,13 @@ export const AddForm = () => {
     const router = useRouter()
 
     const [serverError, setServerError] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     // submit
     const addProduct = api.products.addProduct.useMutation({
+        onSettled: () => {
+            setIsSubmitting(false)
+        },
         onError: (e) => {
             console.log(e.message)
             setServerError(e.message)
@@ -22,14 +26,24 @@ export const AddForm = () => {
     })
 
     const handleFormSubmit = async (props: SubmitFormProps) => {
-        const newProductValues = await mapProductDataToApi(props)
-        addProduct.mutate(newProductValues)
+        try {
+            setIsSubmitting(true)
+            const newProductValues = await mapProductDataToApi(props)
+            addProduct.mutate(newProductValues)
+        } catch (e) {
+            setIsSubmitting(false)
+            throw e
+        }
     }
 
     return (
         <>
             <h1>Add new product</h1>
-            <ProductForm submitForm={handleFormSubmit} serverError={serverError} />
+            <ProductForm
+                submitForm={handleFormSubmit}
+                isSubmitting={isSubmitting}
+                serverError={serverError}
+            />
         </>
     )
 }

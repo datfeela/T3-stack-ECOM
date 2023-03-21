@@ -13,4 +13,5 @@ export interface ProductFormProps {
     serverError?: string
     initialValues?: SubmitFormProps
     isEditForm?: boolean
+    isSubmitting: boolean
 }

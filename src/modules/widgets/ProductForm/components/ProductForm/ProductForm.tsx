@@ -12,6 +12,7 @@ import ImageInput from '../ImageInput/ImageInput'
 import { MainInputs } from '../MainInputs/MainInputs'
 import { CategoriesInput } from '../CategoriesInput/CategoriesInput'
 import { FiltersCheckboxes } from '../FiltersCheckboxes/FiltersCheckboxes'
+import SubmitButton from '../SubmitButton/SubmitButton'
 
 //! todo: set is uploading?
 // if editing existing - add product id in props
@@ -22,6 +23,7 @@ export const ProductForm = ({
     serverError,
     submitForm,
     isEditForm,
+    isSubmitting,
 }: ProductFormProps) => {
     // data for categories chekbox inputs initialize
     const categoriesData = api.categories.getAllCategories.useQuery(undefined, {
@@ -98,10 +100,12 @@ export const ProductForm = ({
             }}
         >
             {({ errors, touched, initialValues, setFieldValue, values }) => {
-                // console.log(errors)
+                console.log(values, errors)
 
                 const { name, price, desc, priceWithoutDiscount, ytTrailerPath, releaseDate } =
                     values
+
+                const isAnyErrors = serverError || Object.keys(errors).length !== 0
 
                 const mainFields = {
                     name,
@@ -174,12 +178,12 @@ export const ProductForm = ({
                             />
                         </div>
                         {serverError ? <div>ERROR! {serverError}</div> : null}
-                        <button
-                            style={{ border: '1px solid #fff', padding: '10px', marginTop: '20px' }}
-                            type='submit'
+                        <SubmitButton
+                            isError={isAnyErrors ? true : false}
+                            isSubmitting={isSubmitting}
                         >
                             {isEditForm ? 'Save' : 'Add product'}
-                        </button>
+                        </SubmitButton>
                     </Form>
                 )
             }}
