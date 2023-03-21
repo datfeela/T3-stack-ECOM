@@ -1,8 +1,12 @@
 .button {
+    width: 100%;
+    max-width: 200px;
+    height: 64px;
     border: 1px solid #eeeeee;
     padding: 15px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 15px;
     font-size: 18px;
     font-family: 'Orbitron';

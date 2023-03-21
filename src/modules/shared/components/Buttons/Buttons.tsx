@@ -3,8 +3,10 @@ import s from './Buttons.module.scss'
 
 interface ButtonPropsBase extends React.HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode
-    isSubmitting: boolean
-    isError: boolean
+    handleClick?: (e: any) => void
+    isSubmitting?: boolean
+    isError?: boolean
+    element?: 'span'
     // visual customization
     color?: 'yellow' | 'red' | 'blue' | 'purple'
     size?: 'default' | 'wide'
@@ -13,9 +15,9 @@ interface ButtonPropsBase extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 interface ButtonWithoutIconProps extends ButtonPropsBase {
-    withIcon: false
-    Icon: undefined
-    shouldIconDisplay: undefined
+    withIcon?: false
+    Icon?: undefined
+    shouldIconDisplay?: undefined
 }
 
 interface ButtonWithIconProps extends ButtonPropsBase {
@@ -27,6 +29,7 @@ interface ButtonWithIconProps extends ButtonPropsBase {
 export type ButtonDefaultProps = ButtonWithoutIconProps | ButtonWithIconProps
 
 export const ButtonDefault = ({
+    handleClick,
     isSubmitting,
     isError,
     children,
@@ -35,6 +38,7 @@ export const ButtonDefault = ({
     color,
     size,
     shouldIconDisplay,
+    element,
     ...props
 }: ButtonDefaultProps) => {
     let clName = `${s.button}`
@@ -60,8 +64,22 @@ export const ButtonDefault = ({
             break
     }
 
+    if (element === 'span') {
+        return (
+            <span onClick={handleClick} {...props} className={clName}>
+                {children}
+                {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
+            </span>
+        )
+    }
+
     return (
-        <button {...props} className={clName} disabled={isError || isSubmitting ? true : false}>
+        <button
+            onClick={handleClick}
+            {...props}
+            className={clName}
+            disabled={isError || isSubmitting ? true : false}
+        >
             {children}
             {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
         </button>

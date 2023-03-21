@@ -33,7 +33,6 @@ body {
     height: 100%;
     width: 100%;
     font-size: 100%;
-    line-height: 1;
     line-height: 150%;
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
@@ -46,6 +45,9 @@ button,
 textarea {
     background: transparent;
     font-family: inherit;
+    font-family: 'Orbitron', 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
+    font-size: 100%;
+    line-height: 150%;
 }
 input::-ms-clear {
     display: none;

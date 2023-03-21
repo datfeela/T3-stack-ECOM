@@ -2,6 +2,7 @@ import s from './ImageInput.module.scss'
 import Image from 'next/image'
 import React, { useRef } from 'react'
 import type { MouseEvent } from 'react'
+import { ButtonDefault } from '~/modules/shared/components/Buttons/Buttons'
 
 interface ImageInputProps {
     title: string
@@ -40,15 +41,17 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                     <>
                         <Image src={imgSrc} alt='' fill style={{ objectFit: 'contain' }} />
                         <div className={s.popup + ' ' + s.popup_hidden}>
-                            <span className={s.popup__btn}>Change image</span>
-                            <button onClick={deleteImage} type='button' className={s.popup__btn}>
+                            <ButtonDefault element='span'>Change image</ButtonDefault>
+                            <ButtonDefault handleClick={deleteImage} type='button'>
                                 Delete image
-                            </button>
+                            </ButtonDefault>
                         </div>
                     </>
                 ) : (
                     <div className={s.popup}>
-                        <span className={s.popup__btn}>Add image</span>
+                        <ButtonDefault type='button' element='span'>
+                            Add Image
+                        </ButtonDefault>
                     </div>
                 )}
             </label>
