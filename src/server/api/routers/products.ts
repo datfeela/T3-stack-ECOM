@@ -33,6 +33,10 @@ export const productsRouter = createTRPCRouter({
     // delete
     deleteAllProducts: adminProcedure.mutation(async ({ ctx }) => {
         try {
+            await ctx.prisma.productFilter.deleteMany()
+            await ctx.prisma.productFilterValue.deleteMany()
+            await ctx.prisma.productCharacteristic.deleteMany()
+            await ctx.prisma.productReview.deleteMany()
             return await ctx.prisma.product.deleteMany()
         } catch (e) {
             console.log(`ERROR! can't delete products!`, e)

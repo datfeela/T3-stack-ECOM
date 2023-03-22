@@ -39,6 +39,8 @@ const Test: NextPage = () => {
         },
     })
 
+    const deleteProducts = api.products.deleteAllProducts.useMutation()
+
     const categories = api.categories.getAllCategories.useQuery()
 
     // add product
@@ -105,7 +107,7 @@ const Test: NextPage = () => {
                             deleteAll.mutate()
                         }}
                     >
-                        DELETE ALL
+                        RESET DB
                     </div>
                     <div
                         onClick={() => {
@@ -113,6 +115,13 @@ const Test: NextPage = () => {
                         }}
                     >
                         ADD PRODUCT
+                    </div>
+                    <div
+                        onClick={() => {
+                            deleteProducts.mutate()
+                        }}
+                    >
+                        DELETE PRODUCTS
                     </div>
                     <div>SERVER ERROR?: {serverError}</div>
                 </main>

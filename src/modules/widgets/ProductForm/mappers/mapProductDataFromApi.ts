@@ -3,17 +3,6 @@ import type { AppRouterOutput } from '~/server/api/root'
 import type { ProductFiltersFormik } from '../ProductFormTypes'
 import { mapDateFromApi } from './mapDateFromApi'
 
-// interface MapProductDataFromApiProps {
-// productData: Product & {
-//     filters: (ProductFilter & {
-//         values: ProductFilterValue[]
-//     })[]
-//     categories: ProductCategory[]
-//     characteristics: ProductCharacteristic[]
-// }
-//     productData: ProductData
-// }
-
 type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 
 export function mapProductDataFromApi(productData: ProductData) {
