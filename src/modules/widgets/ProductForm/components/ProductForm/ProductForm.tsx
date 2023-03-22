@@ -1,3 +1,4 @@
+import s from './ProductForm.module.scss'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { formikAddProductValidationSchema } from '~/modules/shared/lib/validationSchemas'
@@ -125,7 +126,7 @@ export const ProductForm = ({
                         <div>
                             <h2>Main data</h2>
                             <MainInputs mainFields={mainFields} errors={errors} touched={touched} />
-                            <div style={{ display: 'flex', gap: '30px' }}>
+                            <div className={s.imgInputs}>
                                 <ImageInput
                                     name='coverImage'
                                     title='Cover image'

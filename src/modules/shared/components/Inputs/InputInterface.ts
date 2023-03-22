@@ -31,6 +31,7 @@ export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
     extraClassName?: string
     rows?: string
     isUserField?: boolean
+    value?: string | boolean
 }
 
 export interface BasicInputProps extends InputProps {

@@ -1,4 +1,6 @@
 import { Field } from 'formik'
+import { Input } from '~/modules/shared/components/Inputs/Input'
+import s from './CategoriesInput.module.scss'
 
 interface CategoriesInputProps {
     categoriesNames: string[] | undefined
@@ -7,17 +9,24 @@ interface CategoriesInputProps {
 export const CategoriesInput = ({ categoriesNames }: CategoriesInputProps) => {
     const categoriesInput = categoriesNames
         ? categoriesNames.map((name, id) => (
-              <label style={{ marginRight: '15px' }} key={`category${id}`}>
-                  <Field type='checkbox' name='categories' value={name} />
-                  {name}
-              </label>
+              //   <label key={`category${id}`}>
+              //       <Field type='checkbox' name='categories' value={name} />
+              //       {name}
+              // </label>
+              <Input
+                  key={`category${id}`}
+                  name='categories'
+                  type='checkbox'
+                  value={name}
+                  title={name}
+              />
           ))
         : null
 
     return (
         <>
             <h3>Categories</h3>
-            {categoriesInput}
+            <div className={s.checkboxes}>{categoriesInput}</div>
         </>
     )
 }

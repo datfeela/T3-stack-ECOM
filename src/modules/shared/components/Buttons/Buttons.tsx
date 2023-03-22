@@ -10,6 +10,7 @@ interface ButtonPropsBase extends React.HTMLAttributes<HTMLButtonElement> {
     // visual customization
     color?: 'yellow' | 'red' | 'blue' | 'purple'
     size?: 'default' | 'wide'
+    fontW?: '400' | '500' | '700'
     // HTMLButtonElement props
     type?: 'button' | 'reset' | 'submit'
 }
@@ -36,6 +37,7 @@ export const ButtonDefault = ({
     withIcon,
     Icon,
     color,
+    fontW,
     size,
     shouldIconDisplay,
     element,
@@ -61,6 +63,17 @@ export const ButtonDefault = ({
             break
         default:
             clName += ' ' + s.button_purple
+            break
+    }
+
+    switch (fontW) {
+        case '500':
+            clName += ' ' + s.font_500
+            break
+        case '700':
+            clName += ' ' + s.font_700
+            break
+        default:
             break
     }
 

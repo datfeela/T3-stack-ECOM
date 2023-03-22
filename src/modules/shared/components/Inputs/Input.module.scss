@@ -145,6 +145,19 @@
     }
 }
 
+.checkboxWrap {
+    display: flex;
+    align-items: center;
+
+    input {
+        margin: 2px 5px 0 0;
+    }
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
 .error {
     &:first-letter {
         text-transform: capitalize;

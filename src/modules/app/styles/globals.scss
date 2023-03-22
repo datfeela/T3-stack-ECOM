@@ -9,7 +9,7 @@
     padding: 0;
     margin: 0;
     border: 0;
-    letter-spacing: -0.015em;
+    letter-spacing: 0.02em;
 }
 
 :focus,
@@ -37,7 +37,7 @@ body {
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
-    font-family: 'Orbitron', 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
+    font-family: 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
 }
 
 input,
@@ -45,7 +45,7 @@ button,
 textarea {
     background: transparent;
     font-family: inherit;
-    font-family: 'Orbitron', 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
+    font-family: 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
     font-size: 100%;
     line-height: 150%;
 }
@@ -54,6 +54,7 @@ input::-ms-clear {
 }
 button {
     cursor: pointer;
+    font-family: 'Orbitron';
 }
 button::-moz-focus-inner {
     padding: 0;
@@ -84,6 +85,7 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: 'Orbitron';
     font-size: inherit;
     font-weight: 400;
     line-height: 150%;

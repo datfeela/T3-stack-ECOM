@@ -16,8 +16,7 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
     const imgSrc = value
         ? typeof value === 'string'
             ? value
-            : // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              URL.createObjectURL(value)
+            : URL.createObjectURL(value)
         : undefined
 
     const inputRef = useRef(null) as React.RefObject<HTMLInputElement> | null
@@ -76,5 +75,3 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
 }
 
 export default React.memo(ImageInput)
-
-// setImagePreviewSrc(URL.createObjectURL(img))

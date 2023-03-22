@@ -26,6 +26,14 @@
     &_submitting {
         opacity: 0.7;
     }
+
+    &.font_500 {
+        font-weight: 500;
+    }
+
+    &.font_700 {
+        font-weight: 700;
+    }
 }
 
 .iconWrap {
