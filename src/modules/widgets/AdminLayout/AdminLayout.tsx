@@ -58,7 +58,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
     const linkEls = createNavLinks()
 
     return (
-        <div className={s.wrap + ' adminLayout'}>
+        <div className={s.wrap}>
             <div className={s.sidebar}>
                 <nav>
                     <ul className={s.nav}>{linkEls}</ul>
@@ -67,7 +67,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
                     LOG OUT
                 </ButtonDefault>
             </div>
-            <div className={s.conent}>{children}</div>
+            <div className={s.content}>{children}</div>
         </div>
     )
 }

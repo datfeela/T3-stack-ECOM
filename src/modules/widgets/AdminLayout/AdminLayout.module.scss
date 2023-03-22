@@ -1,10 +1,13 @@
 .wrap {
-    display: grid;
-    grid-template-columns: 250px 1fr;
     font-family: 'Tomorrow', sans-serif;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
     padding: 20px;
     border-right: 1px solid #555;
     background: #222;
@@ -30,5 +33,12 @@
         & > a {
             color: red;
         }
+    }
+}
+
+.content {
+    main {
+        margin-left: 250px;
+        padding: 20px;
     }
 }
