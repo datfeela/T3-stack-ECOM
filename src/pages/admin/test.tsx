@@ -1,11 +1,10 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
-import { z } from 'zod'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
 import { env } from '~/env.mjs'
-import { addProductValidationSchema } from '~/modules/shared/lib/validationSchemas'
 import { api } from '~/modules/shared/api/apiTRPC'
+import type { AddProductInput } from '~/modules/widgets/ProductForm'
 
 const Test: NextPage = () => {
     const apiContext = api.useContext()
@@ -61,7 +60,7 @@ const Test: NextPage = () => {
         },
     })
 
-    const productData: z.infer<typeof addProductValidationSchema> = {
+    const productData: AddProductInput = {
         name: 'Igora goda',
         desc: 'igora tak horosha! ou mein got...',
         price: '100',
@@ -75,6 +74,7 @@ const Test: NextPage = () => {
             { name: 'gamemodes', values: ['singleplayer'] },
             { name: 'publisher', values: ['BGPR'] },
         ],
+        releaseDate: new Date(),
     }
 
     return (

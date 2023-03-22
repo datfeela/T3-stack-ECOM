@@ -18,7 +18,7 @@ type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 
 export function mapProductDataFromApi(productData: ProductData) {
     const {
-        // unneeded to edit
+        // unneeded here
         id,
         popularity,
         rating,

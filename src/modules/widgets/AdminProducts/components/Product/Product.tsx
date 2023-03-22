@@ -1,7 +1,6 @@
 import type { Product as ProductT } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
-import {} from 'react'
 import s from './Product.module.scss'
 
 export const Product = ({ id, name, price, priceWithoutDiscount, coverImagePath }: ProductT) => {

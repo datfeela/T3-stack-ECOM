@@ -1,6 +1,4 @@
-import { handleImgUpload } from './../helpers/handleImgUpload'
-import { env } from '~/env.mjs'
-import { uploadImage } from '~/modules/shared/api/uploadImage'
+import { handleImgUpload } from '../lib/handleImgUpload'
 import type { SubmitFormProps } from '../ProductFormTypes'
 import { mapFiltersToApi } from './mapProductFilersToApi'
 

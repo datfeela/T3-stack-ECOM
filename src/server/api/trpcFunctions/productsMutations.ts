@@ -1,16 +1,13 @@
 import { Prisma } from '@prisma/client'
 import type { ProductCategory, ProductFilter } from '@prisma/client'
-import type { z } from 'zod'
-import type {
-    addProductValidationSchema,
-    editProductValidationSchema,
-} from '~/modules/shared/lib/validationSchemas'
+import type {} from '~/modules/shared/lib/validationSchemas'
 import { prisma } from '~/server/db'
 import type { TRPCContext } from '../apiTypes/sharedTypes'
+import type { AddProductInput, EditProductInput } from '~/modules/widgets/ProductForm'
 
 export interface AddProductProps {
     ctx: TRPCContext
-    input: z.infer<typeof addProductValidationSchema>
+    input: AddProductInput
 }
 
 export const addProduct = async ({ ctx, input }: AddProductProps) => {
@@ -43,7 +40,7 @@ export const addProduct = async ({ ctx, input }: AddProductProps) => {
 
 export interface EditProductProps {
     ctx: TRPCContext
-    input: z.infer<typeof editProductValidationSchema>
+    input: EditProductInput
 }
 
 export const editProduct = async ({ ctx, input }: EditProductProps) => {
@@ -122,7 +119,7 @@ async function createProductFilters(filters: CreateProductFiltersProps) {
     return await Promise.all(promises)
 }
 
-// delete helpers
+// delete
 
 interface deleteProductRelationsProps {
     productId: string

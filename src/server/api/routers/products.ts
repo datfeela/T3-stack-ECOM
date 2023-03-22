@@ -1,12 +1,13 @@
 import { z } from 'zod'
 import { adminProcedure, createTRPCRouter, publicProcedure } from '../trpc'
+
+import { getManyProducts, getProductById } from '../trpcFunctions/productsQueries'
+import { addProduct, editProduct } from '../trpcFunctions/productsMutations'
 import {
     addProductValidationSchema,
     editProductValidationSchema,
-    sortProductsSchema,
-} from '~/modules/shared/lib/validationSchemas'
-import { getManyProducts, getProductById } from '../trpcFunctions/productsQueries'
-import { addProduct, editProduct } from '../trpcFunctions/productsMutations'
+} from '~/modules/widgets/ProductForm'
+import { sortProductsSchema } from '~/modules/shared/lib/validationSchemas'
 
 export const productsRouter = createTRPCRouter({
     // get

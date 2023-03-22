@@ -1,7 +1,6 @@
 import s from './ProductForm.module.scss'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
-import { formikAddProductValidationSchema } from '~/modules/shared/lib/validationSchemas'
 
 import { api } from '~/modules/shared/api/apiTRPC'
 import type { FilterName, FilterResponse } from '~/server/api/apiTypes/productsRouterTypes'
@@ -14,6 +13,7 @@ import { MainInputs } from '../MainInputs/MainInputs'
 import { CategoriesInput } from '../CategoriesInput/CategoriesInput'
 import { FiltersCheckboxes } from '../FiltersCheckboxes/FiltersCheckboxes'
 import SubmitButton from '../SubmitButton/SubmitButton'
+import { formikAddProductValidationSchema } from '../../lib/validationSchemas'
 
 //! todo: set is uploading?
 // if editing existing - add product id in props
