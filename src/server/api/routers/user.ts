@@ -1,4 +1,4 @@
-import { getUserWishes } from './../trpcFunctions/userQueries'
+import { getUserWishes } from '../trpcProcedures/userQueries'
 import { createTRPCRouter } from '../trpc'
 
 export const userRouter = createTRPCRouter({

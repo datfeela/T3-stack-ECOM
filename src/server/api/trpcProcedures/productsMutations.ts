@@ -1,153 +1,130 @@
 import { Prisma } from '@prisma/client'
-import type { User } from '@prisma/client'
 import type { ProductCategory, ProductFilter } from '@prisma/client'
 import { prisma } from '~/server/db'
-import type { TRPCContext } from '../apiTypes/sharedTypes'
-import type { AddProductInput, EditProductInput } from '~/modules/widgets/ProductForm'
+import {
+    addProductValidationSchema,
+    editProductValidationSchema,
+} from '~/modules/widgets/ProductForm'
+import { adminProcedure, protectedProcedure } from '../trpc'
+import { z } from 'zod'
 
-export interface AddProductProps {
-    ctx: TRPCContext
-    input: AddProductInput
-}
-
-export const addProduct = async ({ ctx, input }: AddProductProps) => {
-    try {
-        const { categories, characteristics, filters, ...rest } = input
-        const filtersIds: { id: string }[] | undefined =
-            filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
-        return await prisma.product.create({
-            data: {
-                ...rest,
-                categories: categories && { connect: categories.map((name) => ({ name })) },
-                characteristics: {
-                    create: characteristics,
-                },
-                filters: filtersIds && {
-                    connect: filtersIds,
-                },
-            },
-        })
-    } catch (e) {
-        console.log(`ERROR! can't create new product!`, e)
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            if (e.code === 'P2002' && e.meta?.target) {
-                throw `this ${e.meta.target} has been already taken!`
-            }
-        }
-        throw e
-    }
-}
-
-export interface EditProductProps {
-    ctx: TRPCContext
-    input: EditProductInput
-}
-
-export const editProduct = async ({ ctx, input }: EditProductProps) => {
-    const { id, categories, characteristics, filters, ...rest } = input
-    try {
-        // delete old relations
-        const productData = await prisma.product.findFirst({
-            where: {
-                id,
-            },
-            select: {
-                filters: true,
-                categories: true,
-            },
-        })
-
-        await deleteProductRelations({ productId: id, data: productData })
-        // edit product
-        const filtersIds: { id: string }[] | undefined =
-            filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
-        return await prisma.product.update({
-            where: {
-                id,
-            },
-            data: {
-                ...rest,
-                categories: categories && { connect: categories.map((name) => ({ name })) },
-                characteristics: {
-                    create: characteristics,
-                },
-                filters: filtersIds && {
-                    connect: filtersIds,
-                },
-            },
-        })
-    } catch (e) {
-        console.log(`ERROR! can't update product!`, e)
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            if (e.code === 'P2002' && e.meta?.target) {
-                throw `this ${e.meta.target} has been already taken!`
-            }
-        }
-        throw e
-    }
-}
-
-export interface ProductToWishesProps {
-    ctx: TRPCContext
-    input: {
-        productId: string
-    }
-}
-
-export const toggleProductToWishes = async ({ ctx, input }: ProductToWishesProps) => {
-    try {
-        const { productId } = input
-        const userId = ctx.session?.user.id
-
-        const product = await prisma.product.findUnique({
-            where: {
-                id: productId,
-            },
-            select: {
-                wishedBy: {
-                    where: {
-                        id: userId,
+export const addProduct = adminProcedure
+    .input(addProductValidationSchema)
+    .mutation(async ({ input }) => {
+        try {
+            const { categories, characteristics, filters, ...rest } = input
+            const filtersIds: { id: string }[] | undefined =
+                filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
+            return await prisma.product.create({
+                data: {
+                    ...rest,
+                    categories: categories && { connect: categories.map((name) => ({ name })) },
+                    characteristics: {
+                        create: characteristics,
+                    },
+                    filters: filtersIds && {
+                        connect: filtersIds,
                     },
                 },
-            },
-        })
+            })
+        } catch (e) {
+            console.log(`ERROR! can't create new product!`, e)
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                if (e.code === 'P2002' && e.meta?.target) {
+                    throw `this ${e.meta.target} has been already taken!`
+                }
+            }
+            throw e
+        }
+    })
 
-        if (!product?.wishedBy) return
+export const editProduct = adminProcedure
+    .input(editProductValidationSchema)
+    .mutation(async ({ input }) => {
+        const { id, categories, characteristics, filters, ...rest } = input
+        try {
+            // delete old relations
+            const productData = await prisma.product.findFirst({
+                where: {
+                    id,
+                },
+                select: {
+                    filters: true,
+                    categories: true,
+                },
+            })
 
-        const procedure =
-            product.wishedBy.length === 0
-                ? {
-                      connect: {
-                          id: ctx.session?.user.id,
-                      },
-                  }
-                : {
-                      disconnect: {
-                          id: ctx.session?.user.id,
-                      },
-                  }
+            await deleteProductRelations({ productId: id, data: productData })
+            // edit product
+            const filtersIds: { id: string }[] | undefined =
+                filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
+            return await prisma.product.update({
+                where: {
+                    id,
+                },
+                data: {
+                    ...rest,
+                    categories: categories && { connect: categories.map((name) => ({ name })) },
+                    characteristics: {
+                        create: characteristics,
+                    },
+                    filters: filtersIds && {
+                        connect: filtersIds,
+                    },
+                },
+            })
+        } catch (e) {
+            console.log(`ERROR! can't update product!`, e)
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                if (e.code === 'P2002' && e.meta?.target) {
+                    throw `this ${e.meta.target} has been already taken!`
+                }
+            }
+            throw e
+        }
+    })
 
-        await prisma.product.update({
-            where: {
-                id: productId,
-            },
-            data: {
-                wishedBy: procedure,
-            },
-        })
+export const toggleProductToWishes = protectedProcedure
+    .input(z.object({ productId: z.string(), action: z.enum(['add', 'delete']) }))
+    .mutation(async ({ ctx, input }) => {
+        try {
+            const { productId, action } = input
+            const userId = ctx.session?.user.id
 
-        // increment popularity by 1 for adding to wishes, decrement by 1 for deleting
-        await changeProductPopularity({
-            amountToChange: product.wishedBy.length === 0 ? 1 : -1,
-            productId,
-        })
-    } catch (e) {
-        console.log(`ERROR! can't add to wishes!`, e)
-        throw e
-    }
-}
+            const procedure =
+                action === 'add'
+                    ? {
+                          connect: {
+                              id: userId,
+                          },
+                      }
+                    : {
+                          disconnect: {
+                              id: userId,
+                          },
+                      }
 
-export const deleteAllProducts = async () => {
+            await prisma.product.update({
+                where: {
+                    id: productId,
+                },
+                data: {
+                    wishedBy: procedure,
+                },
+            })
+
+            // increment popularity by 1 for adding to wishes, decrement by 1 for deleting
+            await changeProductPopularity({
+                amountToChange: action === 'add' ? 1 : -1,
+                productId,
+            })
+        } catch (e) {
+            console.log(`ERROR! can't add to wishes!`, e)
+            throw e
+        }
+    })
+
+export const deleteAllProducts = adminProcedure.mutation(async () => {
     try {
         await prisma.productFilter.deleteMany()
         await prisma.productFilterValue.deleteMany()
@@ -158,7 +135,7 @@ export const deleteAllProducts = async () => {
         console.log(`ERROR! can't delete products!`, e)
         throw e
     }
-}
+})
 
 // create/edit product helpers
 

@@ -1,6 +1,7 @@
 import { prisma } from '~/server/db'
+import { adminProcedure } from '../trpc'
 
-export const resetDB = async () => {
+export const resetDB = adminProcedure.mutation(async () => {
     const productsPromise = await prisma.product.deleteMany()
     const categoriesPromise = await prisma.productCategory.deleteMany({ where: {} })
     const categoryFiltersPromise = await prisma.categoryFilter.deleteMany()
@@ -20,4 +21,4 @@ export const resetDB = async () => {
         productFilters,
         productFilterValues,
     ]
-}
+})

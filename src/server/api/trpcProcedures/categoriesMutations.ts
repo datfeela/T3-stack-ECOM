@@ -2,8 +2,9 @@ import { Prisma } from '@prisma/client'
 import type { CategoryFilter, ProductCategory } from '@prisma/client'
 import { prisma } from '~/server/db'
 import { categoriesToInit, filtersToInit } from '~/server/initData/categoriesInitializeData'
+import { adminProcedure } from '../trpc'
 
-export const initializeCategories = async () => {
+export const initializeCategories = adminProcedure.mutation(async () => {
     // categories
     const categoriesPromises: Promise<ProductCategory>[] = []
 
@@ -35,7 +36,7 @@ export const initializeCategories = async () => {
     const filters = await Promise.all(filtersPromises)
 
     return { categories, filters }
-}
+})
 
 async function createCategory(name: string) {
     try {
