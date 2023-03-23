@@ -5,5 +5,5 @@ export const useUserWishes = () => {
     const { data: sessionData } = useSession()
     const userId = sessionData?.user.id
 
-    if (userId) return api.user.getUserWishes.useQuery(userId)?.data?.wishedProducts
+    return api.user.getUserWishes.useQuery(userId || '')?.data?.wishedProducts
 }

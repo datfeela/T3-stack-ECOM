@@ -9,14 +9,15 @@ export interface ProductToWishesProps {
 
 export const ProductToWishes = ({ productId, isActive }: ProductToWishesProps) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const [isButtonActive, setIsButtonActive] = useState(isActive)
-
-    console.log('isButtonActive', isButtonActive)
+    const [isProductInWishes, setIsProductInWishes] = useState(isActive)
 
     const toWishesToggle = api.products.toggleProductToWishes.useMutation({
         onMutate: () => {
             setIsSubmitting(true)
-            setIsButtonActive(true)
+            setIsProductInWishes(!isProductInWishes)
+        },
+        onError: () => {
+            setIsProductInWishes(!isProductInWishes)
         },
         onSettled: () => {
             setIsSubmitting(false)
@@ -27,10 +28,12 @@ export const ProductToWishes = ({ productId, isActive }: ProductToWishesProps) =
         <button
             disabled={isSubmitting}
             onClick={() => {
-                toWishesToggle.mutate({ productId })
+                if (isSubmitting) return
+                toWishesToggle.mutate({ productId, action: isProductInWishes ? 'delete' : 'add' })
             }}
         >
-            ADD PRODUCT TO FAV, is active: {isButtonActive}
+            {isProductInWishes ? 'REMOVE PRODUCT FROM FAV' : 'ADD PRODUCT TO FAV'}, is disabled:
+            {`${isSubmitting}`}
         </button>
     )
 }
