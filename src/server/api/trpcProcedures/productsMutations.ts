@@ -91,6 +91,12 @@ export const toggleProductToWishes = protectedProcedure
             const { productId, action } = input
             const userId = ctx.session?.user.id
 
+            // increment popularity by 1 for adding to wishes, decrement by 1 for deleting
+            await changeProductPopularity({
+                amountToChange: action === 'add' ? 1 : -1,
+                productId,
+            })
+
             const procedure =
                 action === 'add'
                     ? {
@@ -104,7 +110,7 @@ export const toggleProductToWishes = protectedProcedure
                           },
                       }
 
-            await prisma.product.update({
+            return await prisma.product.update({
                 where: {
                     id: productId,
                 },
@@ -112,16 +118,44 @@ export const toggleProductToWishes = protectedProcedure
                     wishedBy: procedure,
                 },
             })
-
-            // increment popularity by 1 for adding to wishes, decrement by 1 for deleting
-            await changeProductPopularity({
-                amountToChange: action === 'add' ? 1 : -1,
-                productId,
-            })
         } catch (e) {
             console.log(`ERROR! can't add to wishes!`, e)
             throw e
         }
+    })
+
+export const addReviewToProduct = protectedProcedure
+    .input(
+        z.object({
+            productId: z.string(),
+            rating: z.number().min(1).max(5),
+            message: z.string().optional(),
+        }),
+    )
+    .mutation(async ({ ctx, input }) => {
+        const { productId, rating, message } = input
+        const userId = ctx.session.user.id
+
+        return await prisma.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                reviews: {
+                    create: {
+                        userId,
+                        rating,
+                        message,
+                    },
+                },
+                rating: {
+                    increment: rating,
+                },
+                ratedByCount: {
+                    increment: 1,
+                },
+            },
+        })
     })
 
 export const deleteAllProducts = adminProcedure.mutation(async () => {
@@ -196,7 +230,7 @@ async function changeProductPopularity({
     }
 }
 
-// delete helpers
+// delete product relations helpers
 
 interface deleteProductRelationsProps {
     productId: string

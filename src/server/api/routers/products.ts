@@ -6,6 +6,7 @@ import {
     deleteAllProducts,
     editProduct,
     toggleProductToWishes,
+    addReviewToProduct,
 } from '../trpcProcedures/productsMutations'
 
 export const productsRouter = createTRPCRouter({
@@ -17,6 +18,7 @@ export const productsRouter = createTRPCRouter({
     // update
     editProduct,
     toggleProductToWishes,
+    addReviewToProduct,
     // delete
     deleteAllProducts,
 })
