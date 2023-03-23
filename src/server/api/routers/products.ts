@@ -1,8 +1,13 @@
 import { z } from 'zod'
-import { adminProcedure, createTRPCRouter, publicProcedure } from '../trpc'
+import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 
 import { getManyProducts, getProductById } from '../trpcFunctions/productsQueries'
-import { addProduct, editProduct } from '../trpcFunctions/productsMutations'
+import {
+    addProduct,
+    deleteAllProducts,
+    editProduct,
+    toggleProductToWishes,
+} from '../trpcFunctions/productsMutations'
 import {
     addProductValidationSchema,
     editProductValidationSchema,
@@ -20,27 +25,28 @@ export const productsRouter = createTRPCRouter({
                 sortBy: sortProductsSchema.optional(),
             }),
         )
-        .query(async (cfg) => {
-            return await getManyProducts(cfg)
+        .query(async ({ ctx, input }) => {
+            return await getManyProducts({ ctx, input })
         }),
-    // put
-    addProduct: adminProcedure.input(addProductValidationSchema).mutation(async (cfg) => {
-        return await addProduct(cfg)
-    }),
-    editProduct: adminProcedure.input(editProductValidationSchema).mutation(async (cfg) => {
-        return await editProduct(cfg)
-    }),
+    // create
+    addProduct: adminProcedure
+        .input(addProductValidationSchema)
+        .mutation(async ({ ctx, input }) => {
+            return await addProduct({ ctx, input })
+        }),
+    // update
+    editProduct: adminProcedure
+        .input(editProductValidationSchema)
+        .mutation(async ({ ctx, input }) => {
+            return await editProduct({ ctx, input })
+        }),
+    toggleProductToWishes: protectedProcedure
+        .input(z.object({ productId: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            return await toggleProductToWishes({ ctx, input })
+        }),
     // delete
-    deleteAllProducts: adminProcedure.mutation(async ({ ctx }) => {
-        try {
-            await ctx.prisma.productFilter.deleteMany()
-            await ctx.prisma.productFilterValue.deleteMany()
-            await ctx.prisma.productCharacteristic.deleteMany()
-            await ctx.prisma.productReview.deleteMany()
-            return await ctx.prisma.product.deleteMany()
-        } catch (e) {
-            console.log(`ERROR! can't delete products!`, e)
-            throw e
-        }
+    deleteAllProducts: adminProcedure.mutation(async () => {
+        return await deleteAllProducts()
     }),
 })

@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
+import type { User } from '@prisma/client'
 import type { ProductCategory, ProductFilter } from '@prisma/client'
-import type {} from '~/modules/shared/lib/validationSchemas'
 import { prisma } from '~/server/db'
 import type { TRPCContext } from '../apiTypes/sharedTypes'
 import type { AddProductInput, EditProductInput } from '~/modules/widgets/ProductForm'
@@ -15,7 +15,7 @@ export const addProduct = async ({ ctx, input }: AddProductProps) => {
         const { categories, characteristics, filters, ...rest } = input
         const filtersIds: { id: string }[] | undefined =
             filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
-        return await ctx.prisma.product.create({
+        return await prisma.product.create({
             data: {
                 ...rest,
                 categories: categories && { connect: categories.map((name) => ({ name })) },
@@ -47,7 +47,7 @@ export const editProduct = async ({ ctx, input }: EditProductProps) => {
     const { id, categories, characteristics, filters, ...rest } = input
     try {
         // delete old relations
-        const productData = await ctx.prisma.product.findFirst({
+        const productData = await prisma.product.findFirst({
             where: {
                 id,
             },
@@ -61,7 +61,7 @@ export const editProduct = async ({ ctx, input }: EditProductProps) => {
         // edit product
         const filtersIds: { id: string }[] | undefined =
             filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
-        return await ctx.prisma.product.update({
+        return await prisma.product.update({
             where: {
                 id,
             },
@@ -83,6 +83,79 @@ export const editProduct = async ({ ctx, input }: EditProductProps) => {
                 throw `this ${e.meta.target} has been already taken!`
             }
         }
+        throw e
+    }
+}
+
+export interface ProductToWishesProps {
+    ctx: TRPCContext
+    input: {
+        productId: string
+    }
+}
+
+export const toggleProductToWishes = async ({ ctx, input }: ProductToWishesProps) => {
+    try {
+        const { productId } = input
+        const userId = ctx.session?.user.id
+
+        const product = await prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+            select: {
+                wishedBy: {
+                    where: {
+                        id: userId,
+                    },
+                },
+            },
+        })
+
+        if (!product?.wishedBy) return
+
+        const procedure =
+            product.wishedBy.length === 0
+                ? {
+                      connect: {
+                          id: ctx.session?.user.id,
+                      },
+                  }
+                : {
+                      disconnect: {
+                          id: ctx.session?.user.id,
+                      },
+                  }
+
+        await prisma.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                wishedBy: procedure,
+            },
+        })
+
+        // increment popularity by 1 for adding to wishes, decrement by 1 for deleting
+        await changeProductPopularity({
+            amountToChange: product.wishedBy.length === 0 ? 1 : -1,
+            productId,
+        })
+    } catch (e) {
+        console.log(`ERROR! can't add to wishes!`, e)
+        throw e
+    }
+}
+
+export const deleteAllProducts = async () => {
+    try {
+        await prisma.productFilter.deleteMany()
+        await prisma.productFilterValue.deleteMany()
+        await prisma.productCharacteristic.deleteMany()
+        await prisma.productReview.deleteMany()
+        return await prisma.product.deleteMany()
+    } catch (e) {
+        console.log(`ERROR! can't delete products!`, e)
         throw e
     }
 }
@@ -119,7 +192,34 @@ async function createProductFilters(filters: CreateProductFiltersProps) {
     return await Promise.all(promises)
 }
 
-// delete
+interface changeProductPopularityProps {
+    productId: string
+    amountToChange: number
+}
+
+async function changeProductPopularity({
+    productId,
+    amountToChange,
+}: changeProductPopularityProps) {
+    const procedure =
+        amountToChange > 0 ? { increment: amountToChange } : { decrement: Math.abs(amountToChange) }
+
+    try {
+        await prisma.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                popularity: procedure,
+            },
+        })
+    } catch (e) {
+        console.log(`ERROR! can't change ProductPopularity!`, e)
+        throw e
+    }
+}
+
+// delete helpers
 
 interface deleteProductRelationsProps {
     productId: string

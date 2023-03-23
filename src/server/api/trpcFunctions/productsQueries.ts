@@ -18,6 +18,7 @@ export const getProductById = publicProcedure.input(z.string()).query(async ({ i
                         values: true,
                     },
                 },
+                wishedBy: true,
             },
         })
     } catch (e) {

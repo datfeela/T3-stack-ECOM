@@ -7,12 +7,6 @@ type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 
 export function mapProductDataFromApi(productData: ProductData) {
     const {
-        // unneeded here
-        id,
-        popularity,
-        rating,
-        ratedByCount,
-        //
         filters,
         coverImagePath,
         miniatureImagePath,
@@ -20,7 +14,11 @@ export function mapProductDataFromApi(productData: ProductData) {
         categories,
         characteristics,
         releaseDate,
-        ...rest
+        desc,
+        name,
+        price,
+        priceWithoutDiscount,
+        ytTrailerPath,
     } = productData
 
     const filtersToFormik = {} as ProductFiltersFormik
@@ -39,7 +37,11 @@ export function mapProductDataFromApi(productData: ProductData) {
     const parsedReleaseDate = mapDateFromApi(releaseDate)
 
     return {
-        ...rest,
+        desc,
+        name,
+        price,
+        priceWithoutDiscount,
+        ytTrailerPath,
         categories: categoriesToFormik,
         filters: filtersToFormik,
         characteristics: characteriscticsToFormik,
