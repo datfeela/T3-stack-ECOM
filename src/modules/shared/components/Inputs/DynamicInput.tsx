@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import s from './Input.module.scss'
 import { FieldArray } from 'formik'
-import type { DynamicInputProps } from './InputInterface'
+import type { DynamicInputProps } from './InputTypes'
 import { Input } from './Input'
 
 export const DynamicInput: React.FC<DynamicInputProps> = ({

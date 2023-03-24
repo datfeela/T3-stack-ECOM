@@ -1,6 +1,6 @@
 import type { FormikErrors, FormikTouched } from 'formik'
 import { Input } from '~/modules/shared/components/Inputs/Input'
-import type { InputProps } from '~/modules/shared/components/Inputs/InputInterface'
+import type { InputProps } from '~/modules/shared/components/Inputs/InputTypes'
 
 interface MainInputsValues {
     name: string

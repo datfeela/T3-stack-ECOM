@@ -3,7 +3,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { adminLoginSchema } from '~/modules/entities/admin'
 import type { AdminInput } from '~/modules/entities/admin'
-import { InputProps } from '~/modules/shared/components/Inputs/InputInterface'
+import { InputProps } from '~/modules/shared/components/Inputs/InputTypes'
 import { Input } from '~/modules/shared/components/Inputs/Input'
 
 interface AdminLoginProps {

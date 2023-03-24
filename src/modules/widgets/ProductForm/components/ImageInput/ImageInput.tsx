@@ -2,7 +2,7 @@ import s from './ImageInput.module.scss'
 import Image from 'next/image'
 import React, { useRef } from 'react'
 import type { MouseEvent } from 'react'
-import { ButtonDefault } from '~/modules/shared/components/Buttons/Buttons'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 
 interface ImageInputProps {
     title: string
@@ -21,7 +21,9 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
 
     const inputRef = useRef(null) as React.RefObject<HTMLInputElement> | null
 
-    const deleteImage = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    const deleteImage = (e: MouseEvent<HTMLButtonElement>) => {
+        console.log(e.currentTarget.value)
+
         e.preventDefault()
         const input = inputRef?.current as HTMLInputElement
         input.value = ''
@@ -41,7 +43,7 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                         <Image src={imgSrc} alt='' fill style={{ objectFit: 'contain' }} />
                         <div className={s.popup + ' ' + s.popup_hidden}>
                             <ButtonDefault element='span'>Change image</ButtonDefault>
-                            <ButtonDefault handleClick={deleteImage} type='button'>
+                            <ButtonDefault onClick={deleteImage} type='button'>
                                 Delete image
                             </ButtonDefault>
                         </div>

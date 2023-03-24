@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Field } from 'formik'
 import s from './Input.module.scss'
-import type { InputProps } from './InputInterface'
+import type { InputProps } from './InputTypes'
 
 export const Input: React.FC<InputProps> = ({
     name,
