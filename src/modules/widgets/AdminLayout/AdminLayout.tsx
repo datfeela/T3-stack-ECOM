@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { deleteAdminCookie } from '~/modules/entities/admin'
-import { ButtonDefault } from '~/modules/shared/components/Buttons/Buttons'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import s from './AdminLayout.module.scss'
 
 interface Props {
@@ -64,7 +64,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
                 <nav>
                     <ul className={s.nav}>{linkEls}</ul>
                 </nav>
-                <ButtonDefault handleClick={logOut} color='red' fontW='700'>
+                <ButtonDefault onClick={logOut} color='red' fontW='700'>
                     LOG OUT
                 </ButtonDefault>
             </div>

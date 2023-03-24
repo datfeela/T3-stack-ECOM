@@ -1,4 +1,4 @@
-import { ButtonDefault } from '~/modules/shared/components/Buttons/Buttons'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { CircleLoader } from '~/modules/shared/components/Loaders/Loaders'
 import s from './SubmitButton.module.scss'
 
@@ -13,6 +13,7 @@ const SubmitButton = ({ isSubmitting, isError, children }: SubmitButtonProps) =>
         <ButtonDefault
             isError={isError}
             isSubmitting={isSubmitting}
+            disabled={isError || isSubmitting ? true : false}
             withIcon={true}
             Icon={<CircleLoader />}
             shouldIconDisplay={isSubmitting}

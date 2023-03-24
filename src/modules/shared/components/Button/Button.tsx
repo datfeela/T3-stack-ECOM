@@ -1,36 +1,40 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import s from './Buttons.module.scss'
+import s from './Button.module.scss'
+import type { ComponentProps, ElementType } from 'react'
 
-interface ButtonPropsBase extends React.HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps<El extends ElementType = ElementType> {
     children: React.ReactNode
-    handleClick?: (e: any) => void
     isSubmitting?: boolean
     isError?: boolean
-    element?: 'span'
+    element?: El
     // visual customization
     color?: 'yellow' | 'red' | 'blue' | 'purple'
     size?: 'default' | 'wide'
     fontW?: '400' | '500' | '700'
-    // HTMLButtonElement props
-    type?: 'button' | 'reset' | 'submit'
 }
 
-interface ButtonWithoutIconProps extends ButtonPropsBase {
+interface ButtonWithoutIconProps<El extends ElementType> extends ButtonProps<El> {
     withIcon?: false
     Icon?: undefined
     shouldIconDisplay?: undefined
 }
 
-interface ButtonWithIconProps extends ButtonPropsBase {
+interface ButtonWithIconProps<El extends ElementType> extends ButtonProps<El> {
     withIcon: true
     Icon: React.ReactNode
     shouldIconDisplay: boolean
 }
 
-export type ButtonDefaultProps = ButtonWithoutIconProps | ButtonWithIconProps
+type ButtonDefaultProps<El extends ElementType> =
+    | ButtonWithoutIconProps<El>
+    | ButtonWithIconProps<El>
 
-export const ButtonDefault = ({
-    handleClick,
+export type ButtonPropsWithBase<El extends ElementType> = ButtonDefaultProps<El> &
+    Omit<ComponentProps<El>, keyof ButtonProps>
+
+const defaultElement = 'button'
+
+export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     isSubmitting,
     isError,
     children,
@@ -42,7 +46,8 @@ export const ButtonDefault = ({
     shouldIconDisplay,
     element,
     ...props
-}: ButtonDefaultProps) => {
+}: ButtonPropsWithBase<El>) => {
+    const TagName = element || defaultElement
     let clName = `${s.button}`
 
     isError && (clName += ' ' + s.button_error)
@@ -77,24 +82,10 @@ export const ButtonDefault = ({
             break
     }
 
-    if (element === 'span') {
-        return (
-            <span onClick={handleClick} {...props} className={clName}>
-                {children}
-                {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
-            </span>
-        )
-    }
-
     return (
-        <button
-            onClick={handleClick}
-            {...props}
-            className={clName}
-            disabled={isError || isSubmitting ? true : false}
-        >
+        <TagName {...props} className={clName}>
             {children}
             {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
-        </button>
+        </TagName>
     )
 }
