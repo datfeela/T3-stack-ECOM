@@ -1,6 +1,4 @@
 import s from './AdminProducts.module.scss'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useState } from 'react'
 
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
@@ -8,14 +6,20 @@ import { api } from '~/modules/shared/api/apiTRPC'
 import { Sort } from './components/Sort/Sort'
 import { Search } from './components/Search/Search'
 import { Product } from './components/Product/Product'
+import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 
 export const AdminProducts = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const [sortBy, setSortBy] = useState({ name: 'name', value: 'asc' } as ProductSortBy)
 
+    const { value: debouncedSearchQuery, isDebouncing } = useDebouncedValue<string>(
+        searchQuery,
+        250,
+    )
+
     const productsData = api.products.getManyProducts.useQuery({
         quantity: 10,
-        searchQuery: searchQuery,
+        searchQuery: debouncedSearchQuery,
         sortBy,
     })
 
@@ -23,7 +27,7 @@ export const AdminProducts = () => {
 
     return (
         <div className={s.wrap}>
-            <Search handleChange={setSearchQuery} />
+            <Search handleChange={setSearchQuery} isLoading={isDebouncing} />
             <Sort setSortBy={setSortBy} />
             <div className={s.productsWrap}>{products}</div>
         </div>
