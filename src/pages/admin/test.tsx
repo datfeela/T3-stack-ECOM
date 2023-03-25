@@ -5,6 +5,8 @@ import { AdminLayout } from '~/modules/widgets/AdminLayout'
 import { env } from '~/env.mjs'
 import { api } from '~/modules/shared/api/apiTRPC'
 import type { AddProductInput } from '~/modules/widgets/ProductForm'
+import { ProductToWishes } from '~/modules/features/ProductToWishes'
+import { useUserWishes } from '~/modules/entities/user/hooks/useUserWishes'
 
 const Test: NextPage = () => {
     const apiContext = api.useContext()
@@ -65,7 +67,7 @@ const Test: NextPage = () => {
     const productData: AddProductInput = {
         name: 'Igora goda',
         desc: 'igora tak horosha! ou mein got...',
-        price: '100',
+        price: 100,
         coverImagePath: env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH + '5zYCHu9AfRjDTDRTrwtRY.png',
         categories: ['RPG', 'FPS'],
         characteristics: [
@@ -78,6 +80,27 @@ const Test: NextPage = () => {
         ],
         releaseDate: new Date(),
     }
+
+    let isProductInWishes = false
+
+    const wishedProducts = useUserWishes()
+    const gottenProduct = api.products.getProductById.useQuery('clfjdffah001aes243q9je0fz')
+
+    if (wishedProducts) {
+        const product = wishedProducts.find((item) => {
+            return item.id === gottenProduct.data?.id
+        })
+        console.log('product', product)
+
+        if (product) isProductInWishes = true
+    }
+
+    console.log('wishedProducts', wishedProducts)
+    console.log('isProductInWishes', isProductInWishes)
+
+    //
+
+    const addReview = api.products.addReviewToProduct.useMutation()
 
     return (
         <>
@@ -123,6 +146,26 @@ const Test: NextPage = () => {
                     >
                         DELETE PRODUCTS
                     </div>
+                    {gottenProduct.data ? (
+                        <ProductToWishes
+                            productId={gottenProduct.data.id}
+                            isActive={isProductInWishes}
+                        />
+                    ) : null}
+
+                    <div
+                        onClick={() => {
+                            if (gottenProduct.data && typeof gottenProduct.data.id === 'string')
+                                addReview.mutate({
+                                    productId: gottenProduct.data?.id,
+                                    rating: 4,
+                                    message: 'nisouu2',
+                                })
+                        }}
+                    >
+                        add review
+                    </div>
+
                     <div>SERVER ERROR?: {serverError}</div>
                 </main>
             </AdminLayout>

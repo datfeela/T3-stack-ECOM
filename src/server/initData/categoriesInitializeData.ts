@@ -16,6 +16,10 @@ export const filtersToInit = [
         options: [],
     },
     {
+        name: 'developer',
+        options: [],
+    },
+    {
         name: 'tags',
         options: [],
     },
