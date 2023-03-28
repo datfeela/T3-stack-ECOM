@@ -8,6 +8,7 @@ export const filterNameEnum = z.nativeEnum({
     platforms: 'platforms',
     publisher: 'publisher',
     features: 'features',
+    developer: 'developer',
 } as const)
 
 export const filtersSchema = z.array(

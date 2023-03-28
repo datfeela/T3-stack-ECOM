@@ -12,7 +12,16 @@ export const addProduct = adminProcedure
     .input(addProductValidationSchema)
     .mutation(async ({ input }) => {
         try {
-            const { categories, characteristics, filters, ...rest } = input
+            const {
+                categories,
+                characteristics,
+                filters,
+                detailPageImages,
+                originalGameId,
+                systemRequirementsMinimal,
+                systemRequirementsRecommended,
+                ...rest
+            } = input
             const filtersIds: { id: string }[] | undefined =
                 filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
             return await prisma.product.create({
@@ -24,6 +33,22 @@ export const addProduct = adminProcedure
                     },
                     filters: filtersIds && {
                         connect: filtersIds,
+                    },
+                    detailPageImages: {
+                        create: detailPageImages,
+                    },
+                    originalGame: originalGameId
+                        ? {
+                              connect: {
+                                  id: originalGameId,
+                              },
+                          }
+                        : undefined,
+                    systemRequirementsMinimal: {
+                        create: systemRequirementsMinimal,
+                    },
+                    systemRequirementsRecommended: {
+                        create: systemRequirementsRecommended,
                     },
                 },
             })
@@ -41,7 +66,15 @@ export const addProduct = adminProcedure
 export const editProduct = adminProcedure
     .input(editProductValidationSchema)
     .mutation(async ({ input }) => {
-        const { id, categories, characteristics, filters, ...rest } = input
+        const {
+            id,
+            categories,
+            characteristics,
+            filters,
+            detailPageImages,
+            systemRequirements,
+            ...rest
+        } = input
         try {
             // delete old relations
             const productData = await prisma.product.findFirst({

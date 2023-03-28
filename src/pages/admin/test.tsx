@@ -2,11 +2,99 @@ import { type NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
-import { env } from '~/env.mjs'
 import { api } from '~/modules/shared/api/apiTRPC'
-import type { AddProductInput } from '~/modules/widgets/ProductForm'
 import { ProductToWishes } from '~/modules/features/ProductToWishes'
 import { useUserWishes } from '~/modules/entities/user/hooks/useUserWishes'
+import type { AddProductInput } from '~/modules/widgets/ProductForm'
+
+const systemReqMinimal = {
+    operatingSystem:
+        'Windows 8.1, Windows 8, Windows 7 Service Pack 1, Windows Vista Service Pack 2 (64-bit)',
+    cpu: 'Intel Core 2 Quad Q6600 at 2.4 GHz or AMD Phenom 9850 at 2.5 GHz',
+    memory: '4 GB RAM',
+    freeSpace: '65 GB of free space',
+    gpu: 'DirectX 10-compatible GPU: GeForce 9800GT 1GB or ATI Radeon HD 4870 1GB',
+    soundHardware: 'DirectX 10 compatible sound card',
+}
+
+const systemReqRec = {
+    operatingSystem: 'Windows 8.1, Windows 8, Windows 7 (SP1) (64-bit)',
+    cpu: 'Intel Core i5 3470 @ 3.2 GHz / AMD X8 FX-8350 @ 4.0 GHz',
+    memory: '8 GB RAM',
+    freeSpace: '65 GB of free space',
+    gpu: 'NVIDIA GTX 660, 2GB / AMD HD7870 2GB',
+    soundHardware: 'DirectX 10 compatible sound card',
+}
+
+const productData: AddProductInput = {
+    id: 'clfqpu0z200duess0znddvkqf',
+    name: 'The Elder Scrolls V: Skyrim',
+    desc: 'igora tak horosha! ou mein got...',
+    price: 100,
+    quantityInStock: 500,
+    categories: ['RPG', 'FPS'],
+    characteristics: [
+        { name: 'char1', value: 'value1' },
+        { name: 'char2', value: 'value2' },
+    ],
+    filters: [
+        { name: 'gamemodes', values: ['singleplayer'] },
+        { name: 'publisher', values: ['Bethesda Softworks'] },
+        { name: 'developer', values: ['Bethesda Game Studios', 'Iron Galaxy Studios'] },
+    ],
+    releaseDate: new Date(),
+    ytTrailerPath: 'yt.com',
+    detailPageImages: [],
+    systemRequirementsMinimal: systemReqMinimal,
+    systemRequirementsRecommended: systemReqRec,
+}
+
+const otherProductsData: AddProductInput[] = [
+    {
+        name: 'The Elder Scrolls V: Skyrim Special Edition',
+        desc: 'igora tak horosha! ou mein got...',
+        price: 100,
+        quantityInStock: 500,
+        categories: ['RPG', 'FPS'],
+        characteristics: [
+            { name: 'char1', value: 'value1' },
+            { name: 'char2', value: 'value2' },
+        ],
+        filters: [
+            { name: 'gamemodes', values: ['singleplayer'] },
+            { name: 'publisher', values: ['Bethesda Softworks'] },
+            { name: 'developer', values: ['Bethesda Game Studios', 'Iron Galaxy Studios'] },
+        ],
+        releaseDate: new Date(),
+        ytTrailerPath: 'yt.com',
+        detailPageImages: [],
+        systemRequirementsMinimal: systemReqMinimal,
+        systemRequirementsRecommended: systemReqRec,
+        originalGameId: 'clfqpu0z200duess0znddvkqf',
+    },
+    {
+        name: 'The Elder Scrolls V: Skyrim Legendary Edition',
+        desc: 'igora tak horosha! ou mein got...',
+        price: 100,
+        quantityInStock: 500,
+        categories: ['RPG', 'FPS'],
+        characteristics: [
+            { name: 'char1', value: 'value1' },
+            { name: 'char2', value: 'value2' },
+        ],
+        filters: [
+            { name: 'gamemodes', values: ['singleplayer'] },
+            { name: 'publisher', values: ['Bethesda Softworks'] },
+            { name: 'developer', values: ['Bethesda Game Studios', 'Iron Galaxy Studios'] },
+        ],
+        releaseDate: new Date(),
+        ytTrailerPath: 'yt.com',
+        detailPageImages: [],
+        systemRequirementsMinimal: systemReqMinimal,
+        systemRequirementsRecommended: systemReqRec,
+        originalGameId: 'clfqpu0z200duess0znddvkqf',
+    },
+]
 
 const Test: NextPage = () => {
     const apiContext = api.useContext()
@@ -64,23 +152,6 @@ const Test: NextPage = () => {
         },
     })
 
-    const productData: AddProductInput = {
-        name: 'Igora goda',
-        desc: 'igora tak horosha! ou mein got...',
-        price: 100,
-        coverImagePath: env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH + '5zYCHu9AfRjDTDRTrwtRY.png',
-        categories: ['RPG', 'FPS'],
-        characteristics: [
-            { name: 'char1', value: 'value1' },
-            { name: 'char2', value: 'value2' },
-        ],
-        filters: [
-            { name: 'gamemodes', values: ['singleplayer'] },
-            { name: 'publisher', values: ['BGPR'] },
-        ],
-        releaseDate: new Date(),
-    }
-
     let isProductInWishes = false
 
     const wishedProducts = useUserWishes()
@@ -111,13 +182,13 @@ const Test: NextPage = () => {
             <AdminLayout>
                 <main>
                     <div>admin secret test</div>
-                    <div
+                    {/* <div
                         onClick={() => {
                             console.log(categories.data)
                         }}
                     >
                         LOG CATEGORIES
-                    </div>
+                    </div> */}
                     <div
                         onClick={() => {
                             init.mutate()
@@ -139,6 +210,16 @@ const Test: NextPage = () => {
                     >
                         ADD PRODUCT
                     </div>
+                    <div
+                        onClick={() => {
+                            otherProductsData.forEach((product) => {
+                                addProduct.mutate(product)
+                            })
+                        }}
+                    >
+                        ADD RELATED PRODUCTS
+                    </div>
+
                     <div
                         onClick={() => {
                             deleteProducts.mutate()

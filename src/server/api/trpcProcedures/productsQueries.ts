@@ -14,12 +14,17 @@ export const getProductById = publicProcedure.input(z.string()).query(async ({ i
             include: {
                 categories: true,
                 characteristics: true,
+                detailPageImages: true,
                 filters: {
                     include: {
                         values: true,
                     },
                 },
                 wishedBy: true,
+                originalGame: true,
+                relatedGames: true,
+                systemRequirementsMinimal: true,
+                systemRequirementsRecommended: true,
             },
         })
     } catch (e) {
@@ -51,6 +56,9 @@ export const getManyProducts = publicProcedure
 
         try {
             return await ctx.prisma.product.findMany({
+                include: {
+                    categories: true,
+                },
                 take: quantity,
                 orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
                 where: {

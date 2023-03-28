@@ -20,3 +20,12 @@ export interface ProductFormProps {
     isEditForm?: boolean
     isSubmitting: boolean
 }
+
+export interface SystemRequirementsFields {
+    soundHardware?: string | undefined
+    operatingSystem: string
+    cpu: string
+    gpu: string
+    memory: string
+    freeSpace: string
+}

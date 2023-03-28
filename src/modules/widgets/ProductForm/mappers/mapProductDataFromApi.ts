@@ -9,8 +9,8 @@ export function mapProductDataFromApi(productData: ProductData) {
     const {
         filters,
         coverImagePath,
-        miniatureImagePath,
-        verticalOrientImagePath,
+        horizontalImagePath,
+        verticalImagePath,
         categories,
         characteristics,
         releaseDate,
@@ -18,7 +18,13 @@ export function mapProductDataFromApi(productData: ProductData) {
         name,
         price,
         priceWithoutDiscount,
+        quantityInStock,
         ytTrailerPath,
+        ytGameplayTrailerPath,
+        detailPageImages,
+        originalGameId,
+        systemRequirementsMinimal,
+        systemRequirementsRecommended,
     } = productData
 
     const filtersToFormik = {} as ProductFiltersFormik
@@ -34,20 +40,32 @@ export function mapProductDataFromApi(productData: ProductData) {
         value,
     }))
 
+    const detailPageImagesMapped = detailPageImages.map((image) => image.value)
+
     const parsedReleaseDate = mapDateFromApi(releaseDate)
+
+    const priceStr = String(price)
+    const priceWithoutDiscountStr = priceWithoutDiscount ? String(priceWithoutDiscount) : null
+    const quantityInStockStr = String(quantityInStock)
 
     return {
         desc,
         name,
-        price,
-        priceWithoutDiscount,
+        price: priceStr,
+        priceWithoutDiscount: priceWithoutDiscountStr,
+        quantityInStock: quantityInStockStr,
         ytTrailerPath,
+        ytGameplayTrailerPath,
         categories: categoriesToFormik,
         filters: filtersToFormik,
         characteristics: characteriscticsToFormik,
         coverImage: coverImagePath,
-        miniatureImage: miniatureImagePath,
-        verticalOrientImage: verticalOrientImagePath,
+        horizontalImage: horizontalImagePath,
+        verticalImage: verticalImagePath,
+        detailPageImages: detailPageImagesMapped,
         releaseDate: parsedReleaseDate,
+        originalGameId,
+        systemRequirementsMinimal,
+        systemRequirementsRecommended,
     }
 }

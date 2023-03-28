@@ -10,17 +10,24 @@ interface SubmitButtonProps {
 
 const SubmitButton = ({ isSubmitting, isError, children }: SubmitButtonProps) => {
     return (
-        <ButtonDefault
-            isError={isError}
-            isSubmitting={isSubmitting}
-            disabled={isError || isSubmitting ? true : false}
-            withIcon={true}
-            Icon={<CircleLoader />}
-            shouldIconDisplay={isSubmitting}
-            type='submit'
-        >
-            {children}
-        </ButtonDefault>
+        <>
+            <ButtonDefault
+                isError={isError}
+                isSubmitting={isSubmitting}
+                disabled={isSubmitting}
+                withIcon={true}
+                Icon={<CircleLoader />}
+                shouldIconDisplay={isSubmitting}
+                type='submit'
+            >
+                {children}
+            </ButtonDefault>
+            {isError ? (
+                <div className={s.error}>
+                    Some fields are not filled in or filled in incorrectly
+                </div>
+            ) : null}
+        </>
     )
 }
 

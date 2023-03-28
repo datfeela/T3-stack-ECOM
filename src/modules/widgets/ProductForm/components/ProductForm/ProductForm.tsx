@@ -14,8 +14,9 @@ import { CategoriesInput } from '../CategoriesInput/CategoriesInput'
 import { FiltersCheckboxes } from '../FiltersCheckboxes/FiltersCheckboxes'
 import SubmitButton from '../SubmitButton/SubmitButton'
 import { formikAddProductValidationSchema } from '../../lib/validationSchemas'
+import { OriginalGameInput } from '../OriginalGameInput/OriginalGameInput'
+import { SystemRequirementsInputs } from '../SystemRequirementsInputs/SystemRequirementsInputs'
 
-//! todo: set is uploading?
 // if editing existing - add product id in props
 // add custom hook that gets product data via id, if hook returns data - replace initial values
 // formsubmit should also go through props
@@ -26,6 +27,8 @@ export const ProductForm = ({
     isEditForm,
     isSubmitting,
 }: ProductFormProps) => {
+    // console.log(initialValues)
+
     // data for categories chekbox inputs initialize
     const categoriesData = api.categories.getAllCategories.useQuery(undefined, {
         refetchOnWindowFocus: false,
@@ -41,9 +44,11 @@ export const ProductForm = ({
         name: initialValues?.name || '',
         price: initialValues?.price || '',
         priceWithoutDiscount: initialValues?.priceWithoutDiscount || '',
+        quantityInStock: initialValues?.quantityInStock || '',
         releaseDate: initialValues?.releaseDate || '2000-01-01',
         desc: initialValues?.desc || '',
         ytTrailerPath: initialValues?.ytTrailerPath || '',
+        ytGameplayTrailerPath: initialValues?.ytGameplayTrailerPath || '',
         characteristics:
             initialValues?.characteristics || ([] as { name: string; value: string }[]),
         filters: {
@@ -52,17 +57,36 @@ export const ProductForm = ({
             features: initialValues?.filters?.features || [],
             tags: initialValues?.filters?.tags || ([] as string[]),
             publisher: initialValues?.filters?.publisher || ([] as string[]),
+            developer: initialValues?.filters?.developer || ([] as string[]),
         } as {
             [key in FilterName]: string[]
         },
+        originalGameId: initialValues?.originalGameId || '',
         coverImage:
             (initialValues?.coverImage as string) || (undefined as undefined | string | File),
-        verticalOrientImage:
-            (initialValues?.verticalOrientImage as string) ||
-            (undefined as undefined | string | File),
-        miniatureImage:
-            (initialValues?.miniatureImage as string) || (undefined as undefined | string | File),
+        verticalImage:
+            (initialValues?.verticalImage as string) || (undefined as undefined | string | File),
+        horizontalImage:
+            (initialValues?.horizontalImage as string) || (undefined as undefined | string | File),
+        detailPageImages:
+            (initialValues?.detailPageImages as string[]) || ([] as string[] | File[]),
         categories: initialValues?.categories || ([] as string[]),
+        systemRequirementsMinimal: initialValues?.systemRequirementsMinimal || {
+            operatingSystem: '',
+            cpu: '',
+            gpu: '',
+            memory: '',
+            freeSpace: '',
+            soundHardware: '',
+        },
+        systemRequirementsRecommended: initialValues?.systemRequirementsRecommended || {
+            operatingSystem: '',
+            cpu: '',
+            gpu: '',
+            memory: '',
+            freeSpace: '',
+            soundHardware: '',
+        },
     }
 
     // submit
@@ -70,9 +94,10 @@ export const ProductForm = ({
     return (
         <Formik
             enableReinitialize
+            validateOnBlur
             initialValues={initialFormValues}
             validationSchema={toFormikValidationSchema(formikAddProductValidationSchema)}
-            onSubmit={(values, { setFieldError }) => {
+            onSubmit={(values) => {
                 for (const keyAny in values) {
                     const key = keyAny as keyof typeof values
                     let value = values[key]
@@ -80,75 +105,112 @@ export const ProductForm = ({
                         value = value.trim()
                     }
                     // todo: replace w/ validation schema on
-                    if (
-                        key === 'price' ||
-                        (key === 'priceWithoutDiscount' &&
-                            typeof value === 'string' &&
-                            value?.length !== 0)
-                    ) {
-                        if (Number.isNaN(Number(value as string))) {
-                            setFieldError(key, 'price should be numbers only')
-                            return
-                        }
-                        if (Number(value as string) <= 0) {
-                            setFieldError(key, `price can't be less, than 0`)
-                            return
-                        }
-                    }
                 }
-
                 submitForm(values)
             }}
         >
-            {({ errors, touched, initialValues, setFieldValue, values }) => {
-                console.log(values, errors)
+            {({ errors, touched, setFieldValue, values }) => {
+                // console.log(values, errors)
 
-                const { name, price, desc, priceWithoutDiscount, ytTrailerPath, releaseDate } =
-                    values
+                const {
+                    name,
+                    price,
+                    quantityInStock,
+                    desc,
+                    priceWithoutDiscount,
+                    ytTrailerPath,
+                    ytGameplayTrailerPath,
+                    releaseDate,
+                    systemRequirementsMinimal,
+                    systemRequirementsRecommended,
+                } = values
 
                 const isAnyErrors = serverError || Object.keys(errors).length !== 0
 
                 const mainFields = {
                     name,
+                    quantityInStock,
                     price,
                     priceWithoutDiscount,
-                    desc,
-                    ytTrailerPath,
                     releaseDate,
+                    ytTrailerPath,
+                    ytGameplayTrailerPath,
+                    desc,
                 }
                 const categoriesNames = categoriesData?.map((category) => category.name)
                 const checkboxFiltersData = filtersData?.filter(({ options }) => {
                     return options.length > 0
                 })
 
+                const detailPageImagesElements = [] as JSX.Element[]
+
+                for (let i = 0; i < 6; i++) {
+                    detailPageImagesElements.push(
+                        <ImageInput
+                            key={`detailImgInput${i}`}
+                            name={`detailPageImages[${i}]`}
+                            title={`image ${i + 1}`}
+                            value={values.detailPageImages[i]}
+                            error={errors.detailPageImages && errors.detailPageImages[i]}
+                            onChangeHandler={setFieldValue}
+                        />,
+                    )
+                }
+
                 return (
                     <Form>
                         <div>
                             <h2>Main data</h2>
                             <MainInputs mainFields={mainFields} errors={errors} touched={touched} />
+                            <DynamicInput
+                                title='features (will be displayed after product description)'
+                                key='characteristics'
+                                name='characteristics'
+                                fields={values.characteristics}
+                                newFieldKeys={['name', 'value']}
+                                errors={errors.characteristics}
+                                touched={touched.characteristics}
+                            />
+                            <h2>System requirements (minimal)</h2>
+                            <SystemRequirementsInputs
+                                name='systemRequirementsMinimal'
+                                fields={systemRequirementsMinimal}
+                                errors={errors.systemRequirementsMinimal}
+                                touched={touched.systemRequirementsMinimal}
+                            />
+                            <h2>System requirements (recommended)</h2>
+                            <SystemRequirementsInputs
+                                name='systemRequirementsRecommended'
+                                fields={systemRequirementsRecommended}
+                                errors={errors.systemRequirementsRecommended}
+                                touched={touched.systemRequirementsRecommended}
+                            />
+                            <h2>Images</h2>
                             <div className={s.imgInputs}>
                                 <ImageInput
                                     name='coverImage'
-                                    title='Cover image'
+                                    title='background image for game page'
                                     value={values.coverImage}
                                     error={errors.coverImage}
                                     onChangeHandler={setFieldValue}
                                 />
                                 <ImageInput
-                                    name='verticalOrientImage'
+                                    name='verticalImage'
                                     title='Vertical oriented image'
-                                    value={values.verticalOrientImage}
-                                    error={errors.verticalOrientImage}
+                                    value={values.verticalImage}
+                                    error={errors.verticalImage}
                                     onChangeHandler={setFieldValue}
                                 />
                                 <ImageInput
-                                    name='miniatureImage'
-                                    title='miniature'
-                                    value={values.miniatureImage}
-                                    error={errors.miniatureImage}
+                                    name='horizontalImage'
+                                    title='horizontal oriented image'
+                                    value={values.horizontalImage}
+                                    error={errors.horizontalImage}
                                     onChangeHandler={setFieldValue}
                                 />
                             </div>
+                            <h2>Detailed page images</h2>
+                            <div className={s.imgInputs}>{detailPageImagesElements}</div>
                             <h2>Filter data</h2>
                             <DynamicInput
                                 title='publisher'
@@ -158,17 +220,16 @@ export const ProductForm = ({
                                 errors={errors.filters?.publisher}
                                 touched={touched.filters?.publisher}
                             />
+                            <DynamicInput
+                                title='developer'
+                                key='developer'
+                                name='filters.developer'
+                                fields={values.filters.developer}
+                                errors={errors.filters?.developer}
+                                touched={touched.filters?.developer}
+                            />
                             <CategoriesInput categoriesNames={categoriesNames} />
                             <FiltersCheckboxes filtersData={checkboxFiltersData} />
-                            <DynamicInput
-                                title='characteristics'
-                                key='characteristics'
-                                name='characteristics'
-                                fields={values.characteristics}
-                                newFieldKeys={['name', 'value']}
-                                errors={errors.characteristics}
-                                touched={touched.characteristics}
-                            />
                             <DynamicInput
                                 title='tags'
                                 key='tags'
@@ -176,6 +237,12 @@ export const ProductForm = ({
                                 fields={values.filters.tags}
                                 errors={errors.filters?.tags}
                                 touched={touched.filters?.tags}
+                            />
+                            <h2>Original game</h2>
+                            <OriginalGameInput
+                                name='originalGameId'
+                                value={values.originalGameId}
+                                setFieldValue={setFieldValue}
                             />
                         </div>
                         {serverError ? <div>ERROR! {serverError}</div> : null}
