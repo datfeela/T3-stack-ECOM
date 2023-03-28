@@ -34,7 +34,7 @@ const systemRequirements = z
         gpu: z.string(),
         memory: z.string(),
         freeSpace: z.string(),
-        soundHardware: z.string().optional(),
+        soundHardware: z.string().nullable().optional(),
     })
     .optional()
 
@@ -49,7 +49,7 @@ export const formikFiltersSchema = z.object({
 
 const addProductSharedFields = z.object({
     name: z.string(),
-    desc: z.string().optional().nullable(),
+    desc: z.string().nullable().optional(),
     ytTrailerPath: z.string(),
     ytGameplayTrailerPath: z.string().nullable().optional(),
     categories: z.array(z.string()).optional(),
@@ -61,7 +61,7 @@ const addProductSharedFields = z.object({
             }),
         )
         .optional(),
-    originalGameId: z.string().optional(),
+    originalGameId: z.string().nullable().optional(),
     systemRequirementsMinimal: systemRequirements,
     systemRequirementsRecommended: systemRequirements,
 })
@@ -125,9 +125,9 @@ export const addProductValidationSchema = addProductSharedFields.extend({
     price: z.number(),
     priceWithoutDiscount: z.number().nullable().optional(),
     quantityInStock: z.number(),
-    coverImagePath: z.string().optional(),
-    verticalImagePath: z.string().optional(),
-    horizontalImagePath: z.string().optional(),
+    coverImagePath: z.string().nullable().optional(),
+    verticalImagePath: z.string().nullable().optional(),
+    horizontalImagePath: z.string().nullable().optional(),
     detailPageImages: z.array(z.object({ value: z.string() })),
     filters: filtersSchema.optional(),
     releaseDate: z.date(),

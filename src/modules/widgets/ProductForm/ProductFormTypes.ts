@@ -22,7 +22,7 @@ export interface ProductFormProps {
 }
 
 export interface SystemRequirementsFields {
-    soundHardware?: string | undefined
+    soundHardware?: string | null | undefined
     operatingSystem: string
     cpu: string
     gpu: string
