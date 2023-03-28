@@ -100,10 +100,11 @@
 
     &_multifield {
         display: flex;
-        gap: 30px;
+        flex-direction: column;
 
         .inputWrap {
             flex-grow: 1;
+            height: fit-content;
         }
     }
 

@@ -35,5 +35,6 @@ export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 
 export interface BasicInputProps extends InputProps {
+    value: string
     changeHandler: (input: string) => void
 }
