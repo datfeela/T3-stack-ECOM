@@ -6,8 +6,10 @@ interface MainInputsValues {
     name: string
     price: string
     priceWithoutDiscount: string
+    quantityInStock: string
     desc: string
     ytTrailerPath: string
+    ytGameplayTrailerPath: string
     releaseDate: string
 }
 
@@ -35,27 +37,38 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
 
         switch (inputName) {
             case 'name':
-
+                props.title = 'Name (required)'
+                break
+            case 'price':
+                props.title = 'price (required)'
+                props.placeholder = '1999'
+                props.inputMode = 'numeric'
+                break
+            case 'quantityInStock':
+                props.inputMode = 'numeric'
+                props.title = 'Quantity in stock (required)'
+                break
+            case 'desc':
+                props.type = 'textarea'
+                props.rows = '4'
+                props.title = 'description'
+                break
+            case 'priceWithoutDiscount':
+                props.inputMode = 'numeric'
+                props.placeholder = '1999'
+                break
+            case 'ytTrailerPath':
+                props.title = 'Youtube trailer link (required)'
+                break
+            case 'ytGameplayTrailerPath':
+                props.title = 'Youtube gameplay trailer link'
+                break
+            case 'releaseDate':
+                props.title = 'Release date (required)'
+                props.type = 'date'
+                break
             default:
                 break
-        }
-
-        if (inputName === 'desc') {
-            props.type = 'textarea'
-            props.rows = '4'
-            props.title = 'description'
-        }
-
-        if (inputName === 'price') {
-            props.inputMode = 'numeric'
-        }
-
-        if (inputName === 'ytTrailerPath') {
-            props.title = 'Youtube trailer link'
-        }
-
-        if (inputName === 'releaseDate') {
-            props.type = 'date'
         }
 
         return <Input key={`addProductInput${inputName}`} {...props} />
