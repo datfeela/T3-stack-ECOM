@@ -3,14 +3,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import s from './Product.module.scss'
 
-export const Product = ({ id, name, price, priceWithoutDiscount, coverImagePath }: ProductT) => {
+export const Product = ({ id, name, price, priceWithoutDiscount, verticalImagePath }: ProductT) => {
     return (
         <div key={id} className={s.wrap}>
-            {coverImagePath ? (
+            {verticalImagePath ? (
                 <Link href={`/admin/products/edit/${id}`}>
                     <div className={s.image}>
                         <Image
-                            src={coverImagePath}
+                            src={verticalImagePath}
                             alt={name}
                             fill
                             style={{ objectFit: 'contain' }}

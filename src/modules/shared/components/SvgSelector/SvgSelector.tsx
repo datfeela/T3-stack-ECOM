@@ -1,12 +1,6 @@
-type SvgSelectorIds = 'warning'
+type SvgSelectorIds = 'warning' | 'close'
 
-export const SvgSelector = ({
-    id,
-    className,
-}: {
-    id: SvgSelectorIds
-    className: string | undefined
-}) => {
+export const SvgSelector = ({ id, className }: { id: SvgSelectorIds; className?: string }) => {
     switch (id) {
         case 'warning':
             return (
@@ -14,6 +8,22 @@ export const SvgSelector = ({
                     <g fillRule='evenodd'>
                         <path d='M0 0h28v28H0z' fill='none'></path>
                         <path d='M3 14C3 7.928 7.928 3 14 3s11 4.928 11 11-4.928 11-11 11S3 20.072 3 14zm11-9.2c-5.078 0-9.2 4.122-9.2 9.2 0 5.078 4.122 9.2 9.2 9.2 5.078 0 9.2-4.122 9.2-9.2 0-5.078-4.122-9.2-9.2-9.2zm-1 9.7v-5a1 1 0 012 0v5a1 1 0 01-2 0zm-.25 3.75A1.25 1.25 0 1114 19.5c-.69 0-1.25-.56-1.25-1.25z'></path>
+                    </g>
+                </svg>
+            )
+        case 'close':
+            return (
+                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
+                    <g data-name='Layer 2'>
+                        <g data-name='close'>
+                            <rect
+                                width='24'
+                                height='24'
+                                transform='rotate(180 12 12)'
+                                opacity='0'
+                            />
+                            <path d='M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z' />
+                        </g>
                     </g>
                 </svg>
             )
@@ -157,17 +167,6 @@ export const SvgSelector = ({
         //                     d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
         // c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z"
         //                 />
-        //             </g>
-        //         </svg>
-        //     );
-        // case "close":
-        //     return (
-        //         <svg className={props.className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        //             <g data-name="Layer 2">
-        //                 <g data-name="close">
-        //                     <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0" />
-        //                     <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
-        //                 </g>
         //             </g>
         //         </svg>
         //     );

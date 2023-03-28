@@ -4,9 +4,9 @@ import { useState } from 'react'
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
 import { api } from '~/modules/shared/api/apiTRPC'
 import { Sort } from './components/Sort/Sort'
-import { Search } from './components/Search/Search'
 import { Product } from './components/Product/Product'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
+import { Search } from '~/modules/shared/components/Search/Search'
 
 export const AdminProducts = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -27,7 +27,12 @@ export const AdminProducts = () => {
 
     return (
         <div className={s.wrap}>
-            <Search handleChange={setSearchQuery} isLoading={isDebouncing} />
+            <Search
+                value={searchQuery}
+                inputName='products-search'
+                handleChange={setSearchQuery}
+                isLoading={isDebouncing}
+            />
             <Sort setSortBy={setSortBy} />
             <div className={s.productsWrap}>{products}</div>
         </div>
