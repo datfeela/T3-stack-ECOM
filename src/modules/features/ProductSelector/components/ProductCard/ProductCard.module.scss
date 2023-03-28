@@ -1,0 +1,33 @@
+.wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px auto;
+    grid-gap: 20px;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid transparent;
+
+    &_selected {
+        cursor: auto;
+
+        input {
+            cursor: auto;
+        }
+    }
+
+    &_active {
+        border: 1px solid #710fad;
+        background: rgba($color: #710fad, $alpha: 0.15);
+        backdrop-filter: blur(2px);
+    }
+
+    input {
+        cursor: pointer;
+    }
+}
+
+.image {
+    width: 200px;
+    height: 120px;
+    position: relative;
+}
