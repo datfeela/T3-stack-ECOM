@@ -11,6 +11,12 @@
     font-size: 18px;
     font-family: 'Orbitron';
 
+    &_small {
+        max-width: 160px;
+        height: 53px;
+        font-size: 15px;
+    }
+
     &_error {
         border-color: red;
     }

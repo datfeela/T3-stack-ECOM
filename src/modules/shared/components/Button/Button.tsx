@@ -9,7 +9,7 @@ interface ButtonProps<El extends ElementType = ElementType> {
     element?: El
     // visual customization
     color?: 'yellow' | 'red' | 'blue' | 'purple'
-    size?: 'default' | 'wide'
+    size?: 'default' | 'wide' | 'small'
     fontW?: '400' | '500' | '700'
 }
 
@@ -54,6 +54,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     isSubmitting && (clName += ' ' + s.button_submitting)
     withIcon && (clName += ' ' + s.button_withIcon)
     size === 'wide' && (clName += ' ' + s.button_wide)
+    size === 'small' && (clName += ' ' + s.button_small)
     !shouldIconDisplay && (clName += ' ' + s.button_withIcon_hidden)
 
     switch (color) {
