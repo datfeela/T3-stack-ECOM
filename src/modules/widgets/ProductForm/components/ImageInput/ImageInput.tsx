@@ -5,7 +5,7 @@ import type { MouseEvent } from 'react'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 
 interface ImageInputProps {
-    title: string
+    title?: string
     name: string
     value: string | File | undefined
     error: string | undefined
@@ -31,8 +31,7 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
     }
 
     return (
-        <div>
-            <div>{title}</div>
+        <div className={s.wrap}>
             <label
                 className={`${s.label} ${imgSrc ? ' ' + s.label_withImg : ''}`}
                 id={`${name}_image_label`}
@@ -41,21 +40,39 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                 {imgSrc ? (
                     <>
                         <Image src={imgSrc} alt='' fill style={{ objectFit: 'contain' }} />
-                        <div className={s.popup + ' ' + s.popup_hidden}>
-                            <ButtonDefault element='span'>Change image</ButtonDefault>
-                            <ButtonDefault onClick={deleteImage} type='button'>
+                        {/* <div className={s.popup + ' ' + s.popup_hidden}>
+                            <ButtonDefault size='small' element='span'>
+                                Change image
+                            </ButtonDefault>
+                            <ButtonDefault size='small' onClick={deleteImage} type='button'>
                                 Delete image
                             </ButtonDefault>
-                        </div>
+                        </div> */}
                     </>
                 ) : (
                     <div className={s.popup}>
-                        <ButtonDefault type='button' element='span'>
-                            Add Image
-                        </ButtonDefault>
+                        <button type='button'>+</button>
                     </div>
                 )}
             </label>
+            <span className={s.title}>{title || ''}</span>
+            {imgSrc ? (
+                <div className={s.buttonsWrap}>
+                    <label htmlFor={`${name}_image_input`}>
+                        <ButtonDefault size='small'>Change image</ButtonDefault>
+                    </label>
+                    <ButtonDefault size='small' onClick={deleteImage} type='button'>
+                        Delete image
+                    </ButtonDefault>
+                </div>
+            ) : (
+                <div className={s.buttonsWrap}>
+                    <span></span>
+                    <label htmlFor={`${name}_image_input`}>
+                        <ButtonDefault size='small'>Add Image</ButtonDefault>
+                    </label>
+                </div>
+            )}
             <input
                 ref={inputRef}
                 className={s.input}
@@ -70,7 +87,6 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                     onChangeHandler(name, img)
                 }}
             />
-
             {error && typeof error === 'string' && <div>{error}</div>}
         </div>
     )
