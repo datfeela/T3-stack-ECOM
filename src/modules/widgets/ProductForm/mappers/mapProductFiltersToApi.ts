@@ -1,7 +1,6 @@
-import type { FilterName } from '~/server/api/apiTypes/productsRouterTypes'
-import type { ProductFiltersFormik } from '../ProductFormTypes'
+import type { FilterName, ProductFiltersClient } from '~/modules/shared/types/productTypes'
 
-export function mapFiltersToApi(filters: ProductFiltersFormik) {
+export function mapFiltersToApi(filters: ProductFiltersClient) {
     return Object.entries(filters).map((entry) => {
         const name = entry[0] as FilterName
         const values = entry[1]

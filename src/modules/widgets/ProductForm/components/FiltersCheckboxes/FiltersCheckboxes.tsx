@@ -1,4 +1,3 @@
-import { Field } from 'formik'
 import { Input } from '~/modules/shared/components/Inputs/Input'
 import type { FilterResponse } from '~/server/api/apiTypes/productsRouterTypes'
 import s from './FiltersCheckboxes.module.scss'

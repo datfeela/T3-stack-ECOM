@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { filtersSchema } from '~/modules/shared/lib/validationSchemas'
+import { clientFiltersSchema, filtersSchema } from '~/modules/shared/lib/validationSchemas'
 
 // image
 const mByte = 1024 * 1024
@@ -38,15 +38,6 @@ const systemRequirements = z
     })
     .optional()
 
-export const formikFiltersSchema = z.object({
-    gamemodes: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    platforms: z.array(z.string()).optional(),
-    publisher: z.array(z.string()).optional(),
-    developer: z.array(z.string()).optional(),
-    features: z.array(z.string()).optional(),
-})
-
 const addProductSharedFields = z.object({
     name: z.string(),
     desc: z.string().nullable().optional(),
@@ -81,7 +72,7 @@ export const formikAddProductValidationSchema = addProductSharedFields
             validateImage(val as File | undefined, ctx)
         }),
         detailPageImages: z.any(),
-        filters: formikFiltersSchema.optional(),
+        filters: clientFiltersSchema.optional(),
         releaseDate: z.string(),
     })
     .superRefine(({ price, priceWithoutDiscount, quantityInStock }, ctx) => {

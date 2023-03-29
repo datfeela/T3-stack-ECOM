@@ -1,6 +1,5 @@
-import type { FilterName } from '~/server/api/apiTypes/productsRouterTypes'
+import { mapProductFiltersFromApi } from './../../../shared/mappers/mapProductFiltersFromApi'
 import type { AppRouterOutput } from '~/server/api/root'
-import type { ProductFiltersFormik } from '../ProductFormTypes'
 import { mapDateFromApi } from './mapDateFromApi'
 
 type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
@@ -27,12 +26,7 @@ export function mapProductDataFromApi(productData: ProductData) {
         systemRequirementsRecommended,
     } = productData
 
-    const filtersToFormik = {} as ProductFiltersFormik
-
-    filters.forEach(({ name, values }) => {
-        const nameTyped = name as FilterName
-        filtersToFormik[nameTyped] = values.map((value) => value.value)
-    })
+    const filtersToFormik = mapProductFiltersFromApi(filters)
 
     const categoriesToFormik = categories.map(({ name }) => name)
     const characteriscticsToFormik = characteristics.map(({ name, value }) => ({

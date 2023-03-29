@@ -5,11 +5,11 @@ export const filtersToInit = [
     },
     {
         name: 'platforms',
-        options: ['windows', 'mac', 'linux', 'android', 'iOS'],
+        options: ['ps', 'xbpx', 'windows'],
     },
     {
         name: 'features',
-        options: ['achievements', 'virtual reality', 'DLC', 'collectibles'],
+        options: ['achievements', 'virtual reality', 'DLC', 'collectibles', 'gamepad support'],
     },
     {
         name: 'publisher',
@@ -25,4 +25,17 @@ export const filtersToInit = [
     },
 ]
 
-export const categoriesToInit = ['RPG', 'FPS', 'RT Strategy']
+export const categoriesToInit = [
+    'RPG',
+    'turn-based RPG',
+    'action',
+    'adventure',
+    'action-adventure',
+    'FPS',
+    'simulator',
+    'indie',
+    'sport',
+    'casual',
+    'RT Strategy',
+    'turn-based strategy',
+]

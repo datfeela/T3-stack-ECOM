@@ -18,6 +18,15 @@ export const filtersSchema = z.array(
     }),
 )
 
+export const clientFiltersSchema = z.object({
+    gamemodes: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+    platforms: z.array(z.string()).optional(),
+    publisher: z.array(z.string()).optional(),
+    developer: z.array(z.string()).optional(),
+    features: z.array(z.string()).optional(),
+})
+
 // product sort
 
 export const NamesToSortProductsEnum = z.nativeEnum({
