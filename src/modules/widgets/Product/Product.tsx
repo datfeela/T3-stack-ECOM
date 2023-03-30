@@ -1,9 +1,12 @@
 import { useRouter } from 'next/router'
 import { api } from '~/modules/shared/api/apiTRPC'
 import Head from 'next/head'
-import s from './.module.scss'
-import Image from 'next/image'
+import s from './Product.module.scss'
 import { Header } from './components/Header/Header'
+import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
+import { mapProductFiltersFromApi } from '~/modules/shared/mappers/mapProductFiltersFromApi'
+import { mapCategoriesFromApi } from './mappers/mapCategoriesFromApi'
+import { mapImagesFromApi } from './mappers/mapImagesFromApi'
 
 export const Product = () => {
     const router = useRouter()
@@ -17,16 +20,92 @@ export const Product = () => {
         refetchOnWindowFocus: false,
     }).data
 
-    if (!productData) return null
+    if (!productData) return <LoaderFullScreen type='dots' />
 
-    const { name, price, priceWithoutDiscount } = productData
+    // extract data to props
+
+    const {
+        // shared
+        id,
+        filters,
+        // header
+        name,
+        price,
+        priceWithoutDiscount,
+        ytTrailerPath,
+        ytGameplayTrailerPath,
+        coverImagePath,
+        detailPageImages,
+        categories,
+        releaseDate,
+        // description
+        desc,
+        characteristics,
+        // system req
+        systemRequirementsMinimal,
+        systemRequirementsRecommended,
+        // reviews
+        ratedByCount,
+        rating,
+        // related
+        originalGame,
+        relatedGames,
+    } = productData
+
+    const categoriesMapped = mapCategoriesFromApi(categories)
+    const detailPageImagesMapped = mapImagesFromApi(detailPageImages)
+    const { tags, ...restFilters } = mapProductFiltersFromApi(filters)
+
+    const headerProps = {
+        title: name,
+        price,
+        priceWithoutDiscount,
+        ytTrailerPath,
+        ytGameplayTrailerPath,
+        coverImagePath,
+        detailImages: detailPageImagesMapped,
+        categories: categoriesMapped,
+        releaseDate,
+        filters: restFilters,
+    }
+
+    const descriptionProps = {
+        desc,
+        characteristics,
+    }
+
+    const systemReqProps = {
+        systemRequirementsMinimal,
+        systemRequirementsRecommended,
+    }
+
+    const tagsProps = {
+        tags,
+    }
+
+    const reviewsProps = {
+        ratedByCount,
+        rating,
+    }
+
+    const relatedGamesProps = {
+        originalGame,
+        relatedGames,
+    }
 
     return (
         <>
             <Head>
                 <title>Buy {productData.name}</title>
             </Head>
-            {/* <Header title={name} price={price} /> */}
+            <Header {...headerProps} />
+            <div className={s.descriptionRow}>
+                {/* <Description {...descriptionProps} /> */}
+                {/* switch w/ system req and tags */}
+            </div>
+            {/* <Reviews {...reviewsProps} /> */}
+            {/* <RelatedGames {...relatedGamesProps} /> */}
+            {/* <RecommendedGames/> */}
         </>
     )
 }

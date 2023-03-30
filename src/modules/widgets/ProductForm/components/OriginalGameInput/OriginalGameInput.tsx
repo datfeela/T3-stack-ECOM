@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { ProductSelector } from '~/modules/features/ProductSelector'
 
 export interface OriginalGameInputProps {

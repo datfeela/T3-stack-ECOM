@@ -9,7 +9,9 @@ const Home: NextPage = () => {
                 <title></title>
                 <meta name='description' content='' />
             </Head>
-            <main></main>
+            <main>
+                <Link href='/game/clftdy1uf005mes0gixxf91c2'>Skyrim spec</Link>
+            </main>
         </>
     )
 }

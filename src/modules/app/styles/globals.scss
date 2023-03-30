@@ -1,3 +1,5 @@
+@import '/src/modules/shared/styles/var.scss';
+
 // reset
 *,
 *:before,
@@ -38,6 +40,7 @@ body {
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     font-family: 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
+    overflow-x: hidden;
 }
 
 input,
@@ -98,14 +101,14 @@ h6 {
 }
 
 main {
-    background: #0f172a;
+    background: $background;
     min-height: 100vh;
     padding: 0 20px;
 }
 
 .wrap {
-    max-width: 1260px;
-    padding: 20px 30px;
+    max-width: $appMaxWidth;
+    padding: 0px 30px 85px 30px;
     margin: 0 auto;
 }
 
@@ -122,4 +125,11 @@ h2 {
 h3 {
     font-size: 24px;
     margin-bottom: 15px;
+}
+
+// noscroll for popup
+body.no-scroll {
+    height: 100vh;
+    overflow-y: hidden;
+    padding-right: 16px;
 }

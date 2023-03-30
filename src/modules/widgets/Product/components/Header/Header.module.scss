@@ -1,0 +1,10 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+    grid-gap: 32px;
+}

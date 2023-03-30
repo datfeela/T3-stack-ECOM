@@ -1,5 +1,5 @@
 import s from './ProductSelector.module.scss'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'

@@ -1,0 +1,84 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.sliderWrap {
+    position: relative;
+}
+
+.slider {
+    margin-bottom: 17px;
+
+    &_popup {
+        margin-bottom: 0;
+
+        .slide {
+            border-radius: 0;
+        }
+    }
+}
+
+.slide {
+    cursor: pointer;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.thumbs {
+}
+
+.thumb {
+    cursor: pointer;
+    position: relative;
+    aspect-ratio: 16 / 9 !important;
+
+    &_active {
+        border: 1px solid $blueLight;
+    }
+}
+
+.nav {
+    position: absolute;
+    z-index: 0;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    gap: 6px;
+    z-index: 1;
+
+    &_popup {
+        bottom: 0;
+        right: calc(-20px - $sliderBtnSize);
+        top: calc(50% - $sliderBtnSize / 2);
+        width: calc(100% + $sliderBtnSize * 2 + 40px);
+        height: $sliderBtnSize;
+        visibility: hidden;
+
+        @media all and (max-width: 1660px) {
+            right: 0;
+            width: 100%;
+        }
+
+        justify-content: space-between;
+    }
+}
+
+.popup {
+    max-width: $popupMaxWidth;
+    max-height: $popupMaxHeight;
+    margin: 0 auto;
+    // width: calc(100vw - 100px);
+    aspect-ratio: 16 / 9;
+    position: relative;
+}
+
+// unique service classNames for swiper to correctly initialize
+.btnPrev,
+.btnNext,
+.btnPrev_2,
+.btnNext_2 {
+    display: block;
+}

@@ -1,0 +1,65 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrapFixed {
+    position: fixed;
+    z-index: 15;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+    background: rgba($color: #1e1e1e, $alpha: 0.7);
+
+    &_visible {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.wrapRelative {
+    position: relative;
+    max-height: $popupMaxHeight;
+    max-width: $popupMaxWidth;
+    width: calc(100% - 16px);
+    right: 8px;
+    margin-top: 30px;
+
+    &_wide {
+        max-height: 100vh;
+        margin-top: 0;
+
+        .icon {
+            top: 0;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(2px);
+        }
+    }
+}
+
+.icon {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 0;
+    top: -40px;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 20;
+
+    &:hover {
+        svg {
+            fill: #fff;
+        }
+    }
+
+    svg {
+        fill: #d9d9d9;
+    }
+}

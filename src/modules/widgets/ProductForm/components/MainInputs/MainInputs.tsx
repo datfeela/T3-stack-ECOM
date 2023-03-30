@@ -58,10 +58,14 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
                 props.placeholder = '1999'
                 break
             case 'ytTrailerPath':
-                props.title = 'Youtube trailer link (required)'
+                props.title = 'Youtube trailer id'
+                props.placeholder =
+                    'dQw4w9WgXcQ for "https://www.youtube.com/watch?v=dQw4w9WgXcQ" link'
                 break
             case 'ytGameplayTrailerPath':
-                props.title = 'Youtube gameplay trailer link'
+                props.title = 'Youtube gameplay trailer id'
+                props.placeholder =
+                    'dQw4w9WgXcQ for "https://www.youtube.com/watch?v=dQw4w9WgXcQ" link'
                 break
             case 'releaseDate':
                 props.title = 'Release date (required)'

@@ -1,0 +1,40 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.btn {
+    width: $sliderBtnSize;
+    height: $sliderBtnSize;
+    background: rgba($color: #fff, $alpha: 0.2);
+    border: rgba($color: #fff, $alpha: 0.45);
+    backdrop-filter: blur(2px);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 5;
+    visibility: visible;
+
+    &:not(:disabled):hover {
+        svg {
+            fill: $blueLight;
+        }
+    }
+
+    &:disabled {
+        cursor: default;
+        svg {
+            opacity: 0.5;
+        }
+    }
+
+    &_prev {
+        transform: rotateY(180deg);
+    }
+    &_next {
+        position: relative;
+    }
+
+    svg {
+        fill: #fff;
+    }
+}
