@@ -38,6 +38,8 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
         switch (inputName) {
             case 'name':
                 props.title = 'Name (required)'
+                props.type = 'textarea'
+                props.rows = '3'
                 break
             case 'price':
                 props.title = 'price (required)'
