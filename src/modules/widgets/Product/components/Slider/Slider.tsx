@@ -4,7 +4,6 @@ import SwiperCore, { Autoplay, Navigation, Thumbs, Controller } from 'swiper'
 import 'swiper/css'
 import { useEffect, useState } from 'react'
 import { Video } from '~/modules/shared/components/Video/Video'
-import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 import { SliderButton } from '~/modules/shared/components/SliderButton/SliderButton'
 import { usePopup } from '~/modules/shared/hooks/usePopup'
 import { Popup } from '~/modules/shared/components/Popup/Popup'
@@ -54,7 +53,7 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                 </SwiperSlide>,
             )
             popupSliderElements.push(
-                <SwiperSlide onClick={activatePopup} className={s.slide} key={`${src}_${id}`}>
+                <SwiperSlide className={s.slide} key={`${src}_${id}`}>
                     <Video id={src} isActive={activeSlideId === id && isPopupActive} />
                 </SwiperSlide>,
             )
@@ -83,11 +82,7 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                 </SwiperSlide>,
             )
             popupSliderElements.push(
-                <SwiperSlide
-                    onClick={activatePopup}
-                    className={s.slide}
-                    key={`${src}_${idWithVideos}`}
-                >
+                <SwiperSlide className={s.slide} key={`${src}_${idWithVideos}`}>
                     <ImageFill src={src} objectFit='cover' orientation='16/9' />
                 </SwiperSlide>,
             )
@@ -101,6 +96,10 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
         if (!isPopupActive && autoplay && !autoplay.running) autoplay?.start()
     }, [isPopupActive, firstSwiper?.autoplay])
 
+    useEffect(() => {
+        secondSwiper?.slideTo(activeSlideId)
+    }, [activeSlideId])
+
     // render
 
     return (
@@ -113,7 +112,6 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                         thumbs={{
                             swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
                             slideThumbActiveClass: s.thumb_active,
-                            multipleActiveThumbs: true,
                         }}
                         navigation={{
                             nextEl: `.${s.btnNext}`,
@@ -133,10 +131,10 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                         }}
                         // controller
                         onSwiper={setFirstSwiper}
-                        controller={{
-                            control:
-                                secondSwiper && !secondSwiper.destroyed ? secondSwiper : undefined,
-                        }}
+                        // controller={{
+                        //     control:
+                        //         secondSwiper && !secondSwiper.destroyed ? secondSwiper : undefined,
+                        // }}
                     >
                         {mainSliderEls}
                     </Swiper>
@@ -168,6 +166,7 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                                     prevEl: `.${s.btnPrev_2}`,
                                 }}
                                 // loop
+
                                 slidesPerView={1}
                                 spaceBetween={50}
                                 speed={1500}
@@ -176,12 +175,12 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                                 }}
                                 // controller
                                 onSwiper={setSecondSwiper}
-                                controller={{
-                                    control:
-                                        firstSwiper && !firstSwiper.destroyed
-                                            ? firstSwiper
-                                            : undefined,
-                                }}
+                                // controller={{
+                                //     control:
+                                //         firstSwiper && !firstSwiper.destroyed
+                                //             ? firstSwiper
+                                //             : undefined,
+                                // }}
                             >
                                 {popupSliderElements}
                             </Swiper>

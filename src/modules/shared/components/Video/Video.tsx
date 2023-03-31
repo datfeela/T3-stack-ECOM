@@ -34,6 +34,7 @@ export const Video = ({ id, isActive = false, autoplay = false }: VideoProps) =>
                     objectFit='cover'
                     orientation='16/9'
                     src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
+                    srcRes={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
                 />
             </div>
             {isVideoRendered ? (
