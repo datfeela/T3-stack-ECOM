@@ -12,6 +12,7 @@ export interface HeaderProps {
     ytTrailerPath: string
     ytGameplayTrailerPath: string | undefined | null
     coverImagePath: string | undefined | null
+    horizontalImagePath: string | undefined | null
     detailImages: string[]
     categories: string[]
     releaseDate: Date
@@ -25,6 +26,7 @@ export const Header = ({
     ytTrailerPath,
     ytGameplayTrailerPath,
     coverImagePath,
+    horizontalImagePath,
     detailImages,
     categories,
     releaseDate,
@@ -37,7 +39,11 @@ export const Header = ({
     return (
         <div className={s.wrap}>
             <div className={s.content + ' wrap'}>
-                <Slider imagesSrc={detailImages} videosSrc={videosSrc} />
+                <Slider
+                    imagesSrc={detailImages}
+                    videosSrc={videosSrc}
+                    horizontalImage={horizontalImagePath}
+                />
                 <div>
                     <h1>{title}</h1>
                 </div>

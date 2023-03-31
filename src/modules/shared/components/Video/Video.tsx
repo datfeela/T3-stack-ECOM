@@ -6,9 +6,10 @@ export interface VideoProps {
     id: string
     isActive?: boolean
     autoplay?: boolean
+    resCoverSrc?: string
 }
 
-export const Video = ({ id, isActive = false, autoplay = false }: VideoProps) => {
+export const Video = ({ id, isActive = false, autoplay = false, resCoverSrc }: VideoProps) => {
     const [isVideoActive, setIsVideoActive] = useState(isActive)
     const [isVideoRendered, setIsVideoRendered] = useState(true)
 
@@ -34,7 +35,7 @@ export const Video = ({ id, isActive = false, autoplay = false }: VideoProps) =>
                     objectFit='cover'
                     orientation='16/9'
                     src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
-                    srcRes={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+                    srcRes={resCoverSrc}
                 />
             </div>
             {isVideoRendered ? (

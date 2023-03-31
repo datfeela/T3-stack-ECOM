@@ -8,15 +8,17 @@ import { SliderButton } from '~/modules/shared/components/SliderButton/SliderBut
 import { usePopup } from '~/modules/shared/hooks/usePopup'
 import { Popup } from '~/modules/shared/components/Popup/Popup'
 import { ImageFill } from '~/modules/shared/components/Image/Image'
+import { WithVideoCoverIcon } from '~/modules/shared/components/WithVideoCoverIcon/WithVideoCoverIcon'
 
 export interface SliderProps {
     imagesSrc?: string[]
     videosSrc?: string[]
+    horizontalImage?: string | null
 }
 
 SwiperCore.use([Autoplay])
 
-export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
+export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) => {
     const [firstSwiper, setFirstSwiper] = useState(null as null | SwiperCore)
     const [secondSwiper, setSecondSwiper] = useState(null as null | SwiperCore)
     const [thumbsSwiper, setThumbsSwiper] = useState(null as null | SwiperCore)
@@ -28,16 +30,31 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
     const thumbsSliderEls: JSX.Element[] = []
     const popupSliderElements: JSX.Element[] = []
 
+    useEffect(() => {
+        const autoplay = firstSwiper?.autoplay
+
+        if (isPopupActive && autoplay?.running) autoplay.stop()
+        if (!isPopupActive && autoplay && !autoplay.running) autoplay?.start()
+    }, [isPopupActive, firstSwiper?.autoplay])
+
+    useEffect(() => {
+        secondSwiper?.slideTo(activeSlideId)
+    }, [activeSlideId])
+
+    // render
+
     if (videosSrc) {
         videosSrc.forEach((src, id) => {
             mainSliderEls.push(
                 <SwiperSlide onClick={activatePopup} className={s.slide} key={`${src}_${id}`}>
-                    <ImageFill
-                        src={`https://img.youtube.com/vi/${src}/maxresdefault.jpg`}
-                        srcRes={`https://img.youtube.com/vi/${src}/hqdefault.jpg`}
-                        objectFit='cover'
-                        orientation='16/9'
-                    />
+                    <WithVideoCoverIcon>
+                        <ImageFill
+                            src={`https://img.youtube.com/vi/${src}/maxresdefault.jpg`}
+                            srcRes={horizontalImage || undefined}
+                            objectFit='cover'
+                            orientation='16/9'
+                        />
+                    </WithVideoCoverIcon>
                 </SwiperSlide>,
             )
             thumbsSliderEls.push(
@@ -45,16 +62,22 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                     className={`${s.thumb} ${activeSlideId === id ? s.thumb_active : ''}`}
                     key={`${src}_${id}`}
                 >
-                    <ImageFill
-                        src={`https://img.youtube.com/vi/${src}/mqdefault.jpg`}
-                        objectFit='cover'
-                        orientation='16/9'
-                    />
+                    <WithVideoCoverIcon>
+                        <ImageFill
+                            src={`https://img.youtube.com/vi/${src}/mqdefault.jpg`}
+                            objectFit='cover'
+                            orientation='16/9'
+                        />
+                    </WithVideoCoverIcon>
                 </SwiperSlide>,
             )
             popupSliderElements.push(
                 <SwiperSlide className={s.slide} key={`${src}_${id}`}>
-                    <Video id={src} isActive={activeSlideId === id && isPopupActive} />
+                    <Video
+                        id={src}
+                        isActive={activeSlideId === id && isPopupActive}
+                        resCoverSrc={horizontalImage || undefined}
+                    />
                 </SwiperSlide>,
             )
         })
@@ -89,19 +112,6 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
         })
     }
 
-    useEffect(() => {
-        const autoplay = firstSwiper?.autoplay
-
-        if (isPopupActive && autoplay?.running) autoplay.stop()
-        if (!isPopupActive && autoplay && !autoplay.running) autoplay?.start()
-    }, [isPopupActive, firstSwiper?.autoplay])
-
-    useEffect(() => {
-        secondSwiper?.slideTo(activeSlideId)
-    }, [activeSlideId])
-
-    // render
-
     return (
         <div className={s.wrap}>
             <>
@@ -117,24 +127,18 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                             nextEl: `.${s.btnNext}`,
                             prevEl: `.${s.btnPrev}`,
                         }}
-                        // loop
                         slidesPerView={1}
                         spaceBetween={50}
                         speed={1000}
                         autoplay={{
-                            delay: 4000,
+                            delay: 6000,
                             disableOnInteraction: true,
                             pauseOnMouseEnter: true,
                         }}
                         onSlideChange={({ realIndex }) => {
                             setActiveSlideId(realIndex)
                         }}
-                        // controller
                         onSwiper={setFirstSwiper}
-                        // controller={{
-                        //     control:
-                        //         secondSwiper && !secondSwiper.destroyed ? secondSwiper : undefined,
-                        // }}
                     >
                         {mainSliderEls}
                     </Swiper>
@@ -165,22 +169,13 @@ export const Slider = ({ imagesSrc, videosSrc }: SliderProps) => {
                                     nextEl: `.${s.btnNext_2}`,
                                     prevEl: `.${s.btnPrev_2}`,
                                 }}
-                                // loop
-
                                 slidesPerView={1}
                                 spaceBetween={50}
                                 speed={1500}
                                 onSlideChange={({ realIndex }) => {
                                     setActiveSlideId(realIndex)
                                 }}
-                                // controller
                                 onSwiper={setSecondSwiper}
-                                // controller={{
-                                //     control:
-                                //         firstSwiper && !firstSwiper.destroyed
-                                //             ? firstSwiper
-                                //             : undefined,
-                                // }}
                             >
                                 {popupSliderElements}
                             </Swiper>
