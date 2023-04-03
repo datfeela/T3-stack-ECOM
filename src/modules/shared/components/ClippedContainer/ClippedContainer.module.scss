@@ -1,0 +1,67 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.clip {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    &_heightFit {
+        height: fit-content;
+    }
+
+    &_widthFit {
+        width: fit-content;
+    }
+
+    .border {
+        position: absolute;
+        border-color: $purple;
+        border-style: solid;
+        border-top-width: 2px;
+    }
+
+    .figure {
+        height: 100%;
+        border-color: $purple;
+        border-style: solid;
+        border-width: 2px;
+        background: rgba($color: $purple, $alpha: 0.15);
+    }
+
+    .content {
+        height: 100%;
+    }
+
+    &_yellow {
+        .border {
+            border-color: $yellow;
+        }
+
+        .figure {
+            border-color: $yellow;
+            background: rgba($color: $yellow, $alpha: 0.15);
+        }
+    }
+
+    &_red {
+        .border {
+            border-color: $red;
+        }
+
+        .figure {
+            border-color: $red;
+            background: rgba($color: $red, $alpha: 0.15);
+        }
+    }
+
+    &_blue {
+        .border {
+            border-color: $blueLight;
+        }
+
+        .figure {
+            border-color: $blueLight;
+            background: rgba($color: $blueLight, $alpha: 0.15);
+        }
+    }
+}
