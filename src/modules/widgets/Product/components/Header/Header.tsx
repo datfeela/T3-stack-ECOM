@@ -1,10 +1,8 @@
-import Image from 'next/image'
 import { ImageFill } from '~/modules/shared/components/Image/Image'
-import { Video } from '~/modules/shared/components/Video/Video'
-import type { ProductFiltersClient } from '~/modules/shared/types/productTypes'
+import type { Properties as TProperties } from '../../types/types'
+import { Properties } from '../Properties/Properties'
 import { Slider } from '../Slider/Slider'
 import s from './Header.module.scss'
-
 export interface HeaderProps {
     title: string
     price: number
@@ -14,9 +12,6 @@ export interface HeaderProps {
     coverImagePath: string | undefined | null
     horizontalImagePath: string | undefined | null
     detailImages: string[]
-    categories: string[]
-    releaseDate: Date
-    filters: Omit<ProductFiltersClient, 'tags'>
 }
 
 export const Header = ({
@@ -28,9 +23,6 @@ export const Header = ({
     coverImagePath,
     horizontalImagePath,
     detailImages,
-    categories,
-    releaseDate,
-    filters,
 }: HeaderProps) => {
     const videosSrc: string[] = []
     ytTrailerPath && videosSrc.push(ytTrailerPath)
@@ -38,6 +30,12 @@ export const Header = ({
 
     return (
         <div className={s.wrap}>
+            <div className={s.bgWrap}>
+                <div className={s.bg}>
+                    {coverImagePath ? <ImageFill src={coverImagePath} /> : null}
+                </div>
+                {/* TODO: !PLACEHOLDER BG */}
+            </div>
             <div className={s.content + ' wrap'}>
                 <Slider
                     imagesSrc={detailImages}
@@ -45,7 +43,11 @@ export const Header = ({
                     horizontalImage={horizontalImagePath}
                 />
                 <div>
-                    <h1>{title}</h1>
+                    <div className={s.wrap}>
+                        <h1 className={s.title}>{title}</h1>
+                        <div className={s.priceBlock}></div>
+                        {/* {price && priceWithoutDiscount ? <Discount /> : <div/>} */}
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,12 +5,19 @@ export interface ImageFillProps {
     src: string
     srcRes?: string
     alt?: string
-    orientation: '16/9' | '16/10' | '4/5'
-    objectFit: 'cover' | 'contain'
+    orientation?: '16/9' | '16/10' | '4/5' | '21/9' | 'unset'
+    objectFit?: 'cover' | 'contain'
     sizes?: string
 }
 
-export const ImageFill = ({ src, srcRes, alt, objectFit, orientation, sizes }: ImageFillProps) => {
+export const ImageFill = ({
+    src,
+    srcRes,
+    alt,
+    objectFit = 'cover',
+    orientation = 'unset',
+    sizes,
+}: ImageFillProps) => {
     const [isError, setIsError] = useState(false)
 
     return (
@@ -19,6 +26,7 @@ export const ImageFill = ({ src, srcRes, alt, objectFit, orientation, sizes }: I
                 position: 'relative',
                 aspectRatio: orientation,
                 margin: '0 auto',
+                height: orientation === 'unset' ? '100%' : 'auto',
             }}
         >
             {!isError ? (

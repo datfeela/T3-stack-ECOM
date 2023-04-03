@@ -1,10 +1,14 @@
 import type { NextPage } from 'next'
+import type { GetServerSideProps } from 'next'
+import { prisma } from '~/server/db'
+import { Product } from '~/modules/widgets/Product'
+import { Breadcrumbs } from '~/modules/features/Breadcrumbs'
 
 const ProductPage: NextPage = () => {
     return (
         <>
             <main>
-                <div style={{ padding: '15px 0 40px 0' }}>breadcrumbs</div>
+                <Breadcrumbs />
                 <Product />
                 {/* reviews */}
             </main>
@@ -13,10 +17,6 @@ const ProductPage: NextPage = () => {
 }
 
 export default ProductPage
-
-import type { GetServerSideProps } from 'next'
-import { prisma } from '~/server/db'
-import { Product } from '~/modules/widgets/Product'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     if (!params?.pid || typeof params.pid !== 'string')

@@ -1,0 +1,15 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.filter {
+    &__title {
+        font-weight: 700;
+    }
+
+    &__value {
+    }
+}

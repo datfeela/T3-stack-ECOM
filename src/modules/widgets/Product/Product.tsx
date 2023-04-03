@@ -7,6 +7,9 @@ import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
 import { mapProductFiltersFromApi } from '~/modules/shared/mappers/mapProductFiltersFromApi'
 import { mapCategoriesFromApi } from './mappers/mapCategoriesFromApi'
 import { mapImagesFromApi } from './mappers/mapImagesFromApi'
+import { mapDataFromApi } from './mappers/mapDataFromApi'
+import { Properties } from './components/Properties/Properties'
+import { Description } from './components/Description/Description'
 
 export const Product = () => {
     const router = useRouter()
@@ -27,7 +30,6 @@ export const Product = () => {
     const {
         // shared
         id,
-        filters,
         // header
         name,
         price,
@@ -36,12 +38,13 @@ export const Product = () => {
         ytGameplayTrailerPath,
         coverImagePath,
         horizontalImagePath,
-        detailPageImages,
-        categories,
-        releaseDate,
+        detailImages,
+        properties,
         // description
         desc,
         characteristics,
+        features,
+        tags,
         // system req
         systemRequirementsMinimal,
         systemRequirementsRecommended,
@@ -51,11 +54,7 @@ export const Product = () => {
         // related
         originalGame,
         relatedGames,
-    } = productData
-
-    const categoriesMapped = mapCategoriesFromApi(categories)
-    const detailPageImagesMapped = mapImagesFromApi(detailPageImages)
-    const { tags, ...restFilters } = mapProductFiltersFromApi(filters)
+    } = mapDataFromApi(productData)
 
     const headerProps = {
         title: name,
@@ -65,10 +64,7 @@ export const Product = () => {
         ytGameplayTrailerPath,
         coverImagePath,
         horizontalImagePath,
-        detailImages: detailPageImagesMapped,
-        categories: categoriesMapped,
-        releaseDate,
-        filters: restFilters,
+        detailImages,
     }
 
     const descriptionProps = {
@@ -82,6 +78,7 @@ export const Product = () => {
     }
 
     const tagsProps = {
+        features,
         tags,
     }
 
@@ -101,10 +98,14 @@ export const Product = () => {
                 <title>Buy {productData.name}</title>
             </Head>
             <Header {...headerProps} />
-            <div className={s.descriptionRow}>
-                {/* <Description {...descriptionProps} /> */}
-                {/* switch w/ system req and tags */}
+            <div className='wrap'>
+                <h2 className={s.title}>About the game</h2>
+                <div className={s.descriptionRow}>
+                    <Description {...descriptionProps} />
+                    <Properties {...properties} />
+                </div>
             </div>
+            {/* switch w/ system req and tags */}
             {/* <Reviews {...reviewsProps} /> */}
             {/* <RelatedGames {...relatedGamesProps} /> */}
             {/* <RecommendedGames/> */}

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
+import type { DefaultColor } from '../../types/types'
 import s from './Button.module.scss'
 import type { ComponentProps, ElementType } from 'react'
 
@@ -8,7 +9,7 @@ interface ButtonProps<El extends ElementType = ElementType> {
     isError?: boolean
     element?: El
     // visual customization
-    color?: 'yellow' | 'red' | 'blue' | 'purple'
+    color?: DefaultColor
     size?: 'default' | 'wide' | 'small'
     fontW?: '400' | '500' | '700'
 }
