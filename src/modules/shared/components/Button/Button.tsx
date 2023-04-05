@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import type { DefaultColor } from '../../types/types'
+import { ClippedContainer } from '../ClippedContainer/ClippedContainer'
+import { SvgSelector } from '../SvgSelector/SvgSelector'
 import s from './Button.module.scss'
 import type { ComponentProps, ElementType } from 'react'
 
@@ -10,8 +12,12 @@ interface ButtonProps<El extends ElementType = ElementType> {
     element?: El
     // visual customization
     color?: DefaultColor
-    size?: 'default' | 'wide' | 'small'
-    fontW?: '400' | '500' | '700'
+    width?: 'sm' | 'default' | 'wide'
+    height?: 'sm' | 'default'
+    fontW?: '400' | '500' | '600' | '700'
+    fontSize?: 'default' | 'lg'
+    withDecorative?: boolean
+    isGlitching?: boolean
 }
 
 interface ButtonWithoutIconProps<El extends ElementType> extends ButtonProps<El> {
@@ -41,23 +47,25 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     children,
     withIcon,
     Icon,
-    color,
-    fontW,
-    size,
+    color = 'yellow',
+    fontSize,
+    fontW = '600',
+    width,
+    height,
     shouldIconDisplay,
     element,
+    withDecorative,
+    isGlitching = true,
     ...props
 }: ButtonPropsWithBase<El>) => {
     const TagName = element || defaultElement
     let clName = `${s.button}`
 
+    // utility
     isError && (clName += ' ' + s.button_error)
     isSubmitting && (clName += ' ' + s.button_submitting)
-    withIcon && (clName += ' ' + s.button_withIcon)
-    size === 'wide' && (clName += ' ' + s.button_wide)
-    size === 'small' && (clName += ' ' + s.button_small)
-    !shouldIconDisplay && (clName += ' ' + s.button_withIcon_hidden)
 
+    // color & sizes
     switch (color) {
         case 'red':
             clName += ' ' + s.button_red
@@ -65,17 +73,19 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
         case 'blue':
             clName += ' ' + s.button_blue
             break
-        case 'yellow':
-            clName += ' ' + s.button_yellow
-            break
-        default:
+        case 'purple':
             clName += ' ' + s.button_purple
             break
+        default:
+            clName += ' ' + s.button_yellow
+            break
     }
-
     switch (fontW) {
         case '500':
             clName += ' ' + s.font_500
+            break
+        case '600':
+            clName += ' ' + s.font_600
             break
         case '700':
             clName += ' ' + s.font_700
@@ -83,11 +93,51 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
         default:
             break
     }
+    width === 'wide' && (clName += ' ' + s.button_wide)
+    width === 'sm' && (clName += ' ' + s.button_small)
+    height === 'sm' && (clName += ' ' + s.button_lowHeight)
+    fontSize === 'lg' && (clName += ' ' + s.button_fontLg)
+
+    // display change
+    withIcon && (clName += ' ' + s.button_withIcon)
+    !shouldIconDisplay && (clName += ' ' + s.button_withIcon_hidden)
+    withDecorative && (clName += ' ' + s.button_withDecorative)
 
     return (
-        <TagName {...props} className={clName}>
-            {children}
-            {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
-        </TagName>
+        <div className={s.wrap}>
+            <ClippedContainer
+                width='fit'
+                clipSize='sm'
+                corners={{
+                    topRight: withDecorative ? false : true,
+                    botLeft: true,
+                }}
+                borders={false}
+            >
+                <TagName {...props} className={clName}>
+                    {children}
+                    {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
+                    {withDecorative ? (
+                        <div className={s.iconDecorative}>
+                            <SvgSelector id='buttonDecorative' />
+                        </div>
+                    ) : null}
+                </TagName>
+            </ClippedContainer>
+            {/* shadow */}
+            {isGlitching ? (
+                <div className={s.shadow}>
+                    <TagName {...props} className={`${clName} ${s.buttonGlitch}`}>
+                        {children}
+                        {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
+                        {withDecorative ? (
+                            <div className={s.iconDecorative}>
+                                <SvgSelector id='buttonDecorative' />
+                            </div>
+                        ) : null}
+                    </TagName>
+                </div>
+            ) : null}
+        </div>
     )
 }
