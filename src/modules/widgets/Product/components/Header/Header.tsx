@@ -1,9 +1,11 @@
 import { ImageFill } from '~/modules/shared/components/Image/Image'
-import type { Properties as TProperties } from '../../types/types'
-import { Properties } from '../Properties/Properties'
 import { Slider } from '../Slider/Slider'
 import s from './Header.module.scss'
+import { Discount } from '~/modules/shared/components/Discount/Discount'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
+import { Favorites } from '~/modules/features/Favorites'
 export interface HeaderProps {
+    id: string
     title: string
     price: number
     priceWithoutDiscount: number | undefined | null
@@ -15,6 +17,7 @@ export interface HeaderProps {
 }
 
 export const Header = ({
+    id,
     title,
     price,
     priceWithoutDiscount,
@@ -34,6 +37,7 @@ export const Header = ({
                 <div className={s.bg}>
                     {coverImagePath ? <ImageFill src={coverImagePath} /> : null}
                 </div>
+                <div className={s.bgShadow}></div>
                 {/* TODO: !PLACEHOLDER BG */}
             </div>
             <div className={s.content + ' wrap'}>
@@ -42,11 +46,31 @@ export const Header = ({
                     videosSrc={videosSrc}
                     horizontalImage={horizontalImagePath}
                 />
-                <div>
-                    <div className={s.wrap}>
-                        <h1 className={s.title}>{title}</h1>
-                        <div className={s.priceBlock}></div>
-                        {/* {price && priceWithoutDiscount ? <Discount /> : <div/>} */}
+                <div className={s.info}>
+                    <h1 className={s.title}>{title}</h1>
+                    <div className={s.priceBlock}>
+                        <div className={s.priceRow}>
+                            <div className={s.price}>{price} y.e</div>
+                            {priceWithoutDiscount ? (
+                                <>
+                                    <div className={`${s.price} ${s.price_discount}`}>
+                                        {priceWithoutDiscount} y.e
+                                    </div>
+                                    <Discount
+                                        price={price}
+                                        priceWithoutDiscount={priceWithoutDiscount}
+                                    />
+                                </>
+                            ) : (
+                                <div />
+                            )}
+                        </div>
+                        <div className={s.buyRow}>
+                            <ButtonDefault fontSize='lg'>
+                                <span>Buy now</span>
+                            </ButtonDefault>
+                            <Favorites id={id} withBg={true} />
+                        </div>
                     </div>
                 </div>
             </div>

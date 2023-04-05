@@ -11,6 +11,7 @@ export interface ClippedContainerProps {
     color?: DefaultColor
     children: React.ReactNode
     corners?: { [key in Corner]?: boolean }
+    borders?: boolean
 }
 
 export const ClippedContainer = ({
@@ -20,6 +21,7 @@ export const ClippedContainer = ({
     height = 'fit',
     corners = { botRight: true },
     children,
+    borders = true,
 }: ClippedContainerProps) => {
     let containerCName = s.clip
 
@@ -39,6 +41,8 @@ export const ClippedContainer = ({
 
     if (width === 'fit') containerCName += ` ${s.clip_widthFit}`
     if (height === 'fit') containerCName += ` ${s.clip_heightFit}`
+
+    if (!borders) containerCName += ` ${s.clip_noBorder}`
 
     //clip formula
     let size = '1rem'
@@ -73,63 +77,65 @@ export const ClippedContainer = ({
                     className={s.content}
                     style={{
                         clipPath: clipPathFigure,
-                        padding: `calc(${size} / 3) calc(${size} / 2)`,
+                        padding: borders ? `calc(${size} / 3) calc(${size} / 2)` : '0',
                     }}
                 >
                     {children}
                 </div>
             </div>
             {/* borders render */}
-            {Object.entries(corners).map(([key, value]) => {
-                if (!value) return
-                const corner = key as Corner
+            {borders
+                ? Object.entries(corners).map(([key, value]) => {
+                      if (!value) return
+                      const corner = key as Corner
 
-                const borderSize = `calc(${size} * 1.414)`
-                const borderOffset = `calc(1.5px + ${size} * 1.414 / -2)`
+                      const borderSize = `calc(${size} * 1.414)`
+                      const borderOffset = `calc(1.5px + ${size} * 1.414 / -2)`
 
-                let borderStyle = {} as CSSProperties
+                      let borderStyle = {} as CSSProperties
 
-                switch (corner) {
-                    case 'topLeft':
-                        borderStyle = {
-                            top: borderOffset,
-                            left: borderOffset,
-                            transform: 'rotate(135deg)',
-                        }
-                        break
-                    case 'topRight':
-                        borderStyle = {
-                            top: borderOffset,
-                            right: borderOffset,
-                            transform: 'rotate(-135deg)',
-                        }
-                        break
-                    case 'botRight':
-                        borderStyle = {
-                            bottom: borderOffset,
-                            right: borderOffset,
-                            transform: 'rotate(-45deg)',
-                        }
-                        break
-                    case 'botLeft':
-                        borderStyle = {
-                            bottom: borderOffset,
-                            left: borderOffset,
-                            transform: ' rotate(45deg)',
-                        }
-                        break
-                    default:
-                        break
-                }
+                      switch (corner) {
+                          case 'topLeft':
+                              borderStyle = {
+                                  top: borderOffset,
+                                  left: borderOffset,
+                                  transform: 'rotate(135deg)',
+                              }
+                              break
+                          case 'topRight':
+                              borderStyle = {
+                                  top: borderOffset,
+                                  right: borderOffset,
+                                  transform: 'rotate(-135deg)',
+                              }
+                              break
+                          case 'botRight':
+                              borderStyle = {
+                                  bottom: borderOffset,
+                                  right: borderOffset,
+                                  transform: 'rotate(-45deg)',
+                              }
+                              break
+                          case 'botLeft':
+                              borderStyle = {
+                                  bottom: borderOffset,
+                                  left: borderOffset,
+                                  transform: ' rotate(45deg)',
+                              }
+                              break
+                          default:
+                              break
+                      }
 
-                return (
-                    <div
-                        key={corner}
-                        style={{ ...borderStyle, width: borderSize, height: borderSize }}
-                        className={s.border}
-                    ></div>
-                )
-            })}
+                      return (
+                          <div
+                              key={corner}
+                              style={{ ...borderStyle, width: borderSize, height: borderSize }}
+                              className={s.border}
+                          ></div>
+                      )
+                  })
+                : null}
             {/* borders render end*/}
         </div>
     )

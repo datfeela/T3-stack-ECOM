@@ -4,9 +4,6 @@ import Head from 'next/head'
 import s from './Product.module.scss'
 import { Header } from './components/Header/Header'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
-import { mapProductFiltersFromApi } from '~/modules/shared/mappers/mapProductFiltersFromApi'
-import { mapCategoriesFromApi } from './mappers/mapCategoriesFromApi'
-import { mapImagesFromApi } from './mappers/mapImagesFromApi'
 import { mapDataFromApi } from './mappers/mapDataFromApi'
 import { Properties } from './components/Properties/Properties'
 import { Description } from './components/Description/Description'
@@ -57,6 +54,7 @@ export const Product = () => {
     } = mapDataFromApi(productData)
 
     const headerProps = {
+        id,
         title: name,
         price,
         priceWithoutDiscount,

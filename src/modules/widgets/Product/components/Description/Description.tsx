@@ -17,11 +17,11 @@ export const Description = ({ desc, characteristics: chars }: DescriptionProps) 
                 <div className={`${s.wrap} ${isExpanded ? s.wrap_expanded : ''}`}>
                     <div className={s.title}>Game overview</div>
                     <div className={s.text}>{desc}</div>
-                    {chars.map(({ name, value }) => (
-                        <>
+                    {chars.map(({ name, value }, id) => (
+                        <div key={id}>
                             <div className={s.title}>{name}</div>
                             <div className={s.text}>{value}</div>
-                        </>
+                        </div>
                     ))}
                     <div className={s.expandBtnWrap}>
                         <div

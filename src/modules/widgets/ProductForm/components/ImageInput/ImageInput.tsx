@@ -40,14 +40,6 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                 {imgSrc ? (
                     <>
                         <Image src={imgSrc} alt='' fill style={{ objectFit: 'contain' }} />
-                        {/* <div className={s.popup + ' ' + s.popup_hidden}>
-                            <ButtonDefault size='small' element='span'>
-                                Change image
-                            </ButtonDefault>
-                            <ButtonDefault size='small' onClick={deleteImage} type='button'>
-                                Delete image
-                            </ButtonDefault>
-                        </div> */}
                     </>
                 ) : (
                     <div className={s.popup}>
@@ -59,9 +51,9 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
             {imgSrc ? (
                 <div className={s.buttonsWrap}>
                     <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault size='small'>Change image</ButtonDefault>
+                        <ButtonDefault width='sm'>Change image</ButtonDefault>
                     </label>
-                    <ButtonDefault size='small' onClick={deleteImage} type='button'>
+                    <ButtonDefault width='sm' onClick={deleteImage} type='button'>
                         Delete image
                     </ButtonDefault>
                 </div>
@@ -69,7 +61,7 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                 <div className={s.buttonsWrap}>
                     <span></span>
                     <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault size='small'>Add Image</ButtonDefault>
+                        <ButtonDefault width='sm'>Add Image</ButtonDefault>
                     </label>
                 </div>
             )}

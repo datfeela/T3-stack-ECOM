@@ -13,23 +13,11 @@
         width: fit-content;
     }
 
-    .border {
-        position: absolute;
-        border-color: $purple;
-        border-style: solid;
-        border-top-width: 2px;
-    }
-
-    .figure {
-        height: 100%;
-        border-color: $purple;
-        border-style: solid;
-        border-width: 2px;
-        background: rgba($color: $purple, $alpha: 0.15);
-    }
-
-    .content {
-        height: 100%;
+    &_noBorder {
+        .figure {
+            background: unset;
+            border: unset;
+        }
     }
 
     &_yellow {
@@ -64,4 +52,23 @@
             background: rgba($color: $blueLight, $alpha: 0.15);
         }
     }
+}
+
+.border {
+    position: absolute;
+    border-color: $purple;
+    border-style: solid;
+    border-top-width: 2px;
+}
+
+.figure {
+    height: 100%;
+    border-color: $purple;
+    border-style: solid;
+    border-width: 2px;
+    background: rgba($color: $purple, $alpha: 0.15);
+}
+
+.content {
+    height: 100%;
 }
