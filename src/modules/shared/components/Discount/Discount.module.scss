@@ -1,0 +1,22 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.discount {
+    width: 70px;
+    height: 42px;
+    background: $red;
+    border-radius: 23px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Orbitron';
+    font-size: 16px;
+    line-height: 125%;
+
+    &_sm {
+        width: 63px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
