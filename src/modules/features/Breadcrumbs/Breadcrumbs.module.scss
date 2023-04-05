@@ -2,8 +2,44 @@
 
 .wrap {
     height: $breadcrumbsHeight;
-    padding: 15px 0 40px;
+    padding-top: 15px;
+    padding-bottom: 40px;
     line-height: 128%;
     position: relative;
     z-index: 1;
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.link {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &_active {
+        cursor: default;
+        span {
+            color: #fff !important;
+        }
+    }
+
+    &:hover {
+        span {
+            color: #fff;
+        }
+    }
+
+    span {
+        font-family: 'Orbitron';
+        font-size: 14px;
+        line-height: 18px;
+        text-transform: capitalize;
+        color: rgba($color: #fff, $alpha: 0.7);
+    }
+
+    svg {
+        margin-top: 2px;
+    }
 }
