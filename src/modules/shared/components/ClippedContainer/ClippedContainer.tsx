@@ -12,6 +12,7 @@ export interface ClippedContainerProps {
     children: React.ReactNode
     corners?: { [key in Corner]?: boolean }
     borders?: boolean
+    withPadding?: boolean
 }
 
 export const ClippedContainer = ({
@@ -22,6 +23,7 @@ export const ClippedContainer = ({
     corners = { botRight: true },
     children,
     borders = true,
+    withPadding = false,
 }: ClippedContainerProps) => {
     let containerCName = s.clip
 
@@ -77,7 +79,8 @@ export const ClippedContainer = ({
                     className={s.content}
                     style={{
                         clipPath: clipPathFigure,
-                        padding: borders ? `calc(${size} / 3) calc(${size} / 2)` : '0',
+                        padding:
+                            withPadding && borders ? `calc(${size} / 3) calc(${size} / 2)` : '0',
                     }}
                 >
                     {children}

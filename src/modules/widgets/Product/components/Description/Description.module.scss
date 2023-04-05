@@ -5,23 +5,87 @@
     height: 0px;
     overflow: hidden;
     position: relative;
+    padding: $mdContainerPadding;
 
     &_expanded {
         height: auto;
+        padding-bottom: calc(1.5rem + 44px);
+
+        &::after {
+            display: none;
+        }
     }
+
+    &_noOverflow {
+        &::after {
+            display: none;
+        }
+    }
+
+    &::after {
+        content: '';
+        width: calc(100% + 2rem);
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: -1rem;
+        background: linear-gradient(180deg, rgba(43, 39, 50, 0) 32.53%, #25212a 100%);
+        pointer-events: none;
+    }
+}
+
+.title {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 125%;
+
+    margin-bottom: 10px;
+}
+
+.characteristic {
+    &:last-child {
+        .text {
+            margin: 0;
+        }
+    }
+}
+
+.subtitle {
+    font-weight: 500;
+    font-size: 20px;
+
+    margin-bottom: 10px;
+}
+
+.text {
+    margin-bottom: 20px;
 }
 
 .expandBtnWrap {
     position: absolute;
     bottom: 0;
     width: 100%;
+    visibility: hidden;
 }
 
 .expandBtn {
+    visibility: visible;
     cursor: pointer;
-    width: fit-content;
-    margin: 0 auto;
-    padding: 10px;
-    border: 1px solid #fff;
-    background: #000;
+
+    width: 62%;
+    height: 44px;
+    margin: 0 auto 16px auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba($color: $purple, $alpha: 0.4);
+    border: 0.5px solid $purple;
+    backdrop-filter: blur(2px);
+    border-radius: 15px;
+
+    font-family: 'Orbitron';
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
 }
