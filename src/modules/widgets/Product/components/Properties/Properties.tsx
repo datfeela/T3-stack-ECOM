@@ -1,17 +1,27 @@
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
-import type { Properties as TProperties } from '../../types/types'
+import type { Platform, Properties as TProperties } from '../../types/types'
 import s from './Properties.module.scss'
+import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 
 export const Properties = (props: TProperties) => {
-    const els = Object.entries(props).map(([name, value], id) => {
-        const valueTyped = value as string | string[] | undefined
+    const { categories, releaseDate, developer, publisher, gamemodes, platforms } = props
 
-        return <Property key={id} name={name} value={valueTyped} />
+    const els = Object.entries({
+        developer,
+        publisher,
+        gamemodes,
+        platforms,
+    }).map(([name, value], id) => {
+        return <Property key={id} name={name} value={value} />
     })
 
     return (
         <ClippedContainer clipSize='md'>
-            <div className={s.filters}>{els}</div>
+            <div className={s.filters}>
+                <Property name='genre' value={categories} />
+                <Property name='release' value={releaseDate} />
+                {els}
+            </div>
         </ClippedContainer>
     )
 }
@@ -25,17 +35,31 @@ const Property = ({ name, value }: PropertyProps) => {
     return (
         <div className={s.filter}>
             <span className={s.filter__title}>{name}: </span>
-            <span className={s.filter__value}>
-                {typeof value === 'object'
-                    ? value.map((text, valueId) => (
-                          <span key={valueId}>
-                              {valueId > 0 ? ', ' : ''}
-                              {text}
-                          </span>
-                      ))
-                    : null}
+            <div className={s.filter__value}>
+                {typeof value === 'object' ? (
+                    name === 'platforms' ? (
+                        <div className={s.icons}>
+                            {value.map((text, valueId) => {
+                                return (
+                                    <div key={valueId} className={s.icon}>
+                                        <SvgSelector id={text as Platform} />
+                                    </div>
+                                )
+                            })}{' '}
+                        </div>
+                    ) : (
+                        value.map((text, valueId) => {
+                            return (
+                                <span key={valueId}>
+                                    {valueId > 0 ? ', ' : ''}
+                                    {text}
+                                </span>
+                            )
+                        })
+                    )
+                ) : null}
                 {typeof value === 'string' ? value : null}
-            </span>
+            </div>
         </div>
     )
 }

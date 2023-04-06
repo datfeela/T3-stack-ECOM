@@ -1,9 +1,9 @@
-import { ProductCharacteristic } from '@prisma/client'
+import type { ProductCharacteristic } from '@prisma/client'
 import s from './Description.module.scss'
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { isWrapHigherThanChildrenElements } from '~/modules/shared/lib/isWrapHigherThanChildrenElements'
-import debounce from 'lodash.debounce'
+import { useRef, useState } from 'react'
+
+import { useIsWrapHigherThanContent } from '../../hooks/useIsWrapHigherThanContent'
 
 export interface DescriptionProps {
     desc: string | null
@@ -12,31 +12,9 @@ export interface DescriptionProps {
 
 export const Description = ({ desc, characteristics: chars }: DescriptionProps) => {
     const [isExpanded, setIsExpanded] = useState(false)
-    const [isWrapHigherThanContent, setIsWrapHigherThanContent] = useState(false)
-
     const wrapperRef = useRef<HTMLDivElement>(null)
 
-    const updateIsWrapHigherThanContent = () => {
-        if (!wrapperRef.current) return
-
-        const isWrapHigher = isWrapHigherThanChildrenElements({
-            wrapEl: wrapperRef.current,
-            children: wrapperRef.current?.children,
-        })
-
-        setIsWrapHigherThanContent(isWrapHigher)
-    }
-
-    useLayoutEffect(() => {
-        updateIsWrapHigherThanContent()
-
-        const debouncedUpdater = debounce(updateIsWrapHigherThanContent, 350)
-
-        window.addEventListener('resize', debouncedUpdater)
-        return () => {
-            window.removeEventListener('resize', debouncedUpdater)
-        }
-    })
+    const isWrapHigherThanContent = useIsWrapHigherThanContent(wrapperRef)
 
     return (
         <>

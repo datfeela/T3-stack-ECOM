@@ -4,6 +4,7 @@ import { mapProductFiltersFromApi } from '~/modules/shared/mappers/mapProductFil
 import { mapCategoriesFromApi } from './mapCategoriesFromApi'
 import { mapImagesFromApi } from './mapImagesFromApi'
 import { parseDateToString } from '~/modules/shared/lib/parseDateToString'
+import { Platform } from '../types/types'
 
 export const mapDataFromApi = (
     props: NonNullable<AppRouterOutput['products']['getProductById']>,
@@ -12,7 +13,7 @@ export const mapDataFromApi = (
 
     const categoriesMapped = mapCategoriesFromApi(categories)
     const detailPageImagesMapped = mapImagesFromApi(detailPageImages)
-    const { tags, features, ...restFilters } = mapProductFiltersFromApi(filters)
+    const { tags, features, platforms, ...restFilters } = mapProductFiltersFromApi(filters)
 
     const releaseDateParsed = parseDateToString(releaseDate)
 
@@ -22,6 +23,7 @@ export const mapDataFromApi = (
         properties: {
             releaseDate: releaseDateParsed,
             categories: categoriesMapped,
+            platforms: platforms as Platform[],
             ...restFilters,
         },
         tags,
