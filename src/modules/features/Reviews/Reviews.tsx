@@ -18,6 +18,8 @@ export const Reviews = ({ negativeScoresCount, positiveScoresCount, productId }:
 
     const [taken, setTaken] = useState(0)
 
+    const addReview = api.products.addReviewToProduct.useMutation()
+
     const reviews = api.products.getProductReviewsById.useQuery({
         id: productId,
         quantity: 4,
@@ -76,22 +78,19 @@ export const Reviews = ({ negativeScoresCount, positiveScoresCount, productId }:
                 }}
             >
                 do weird things
-            </button>
-        </div>
-    )
-}
-
-{
-    /* <button
+            </button>{' '}
+            <button
                 onClick={() => {
                     addReview.mutate({
                         productId,
-                        rating: 7,
+                        rating: 1,
                         message:
                             'Lorem ipsum dolor sit amet consectetur. Dignissim lacus imperdiet rhoncus consectetur tortor tincidunt vel lacinia. Mauris posuere mi mi eget pellentesque iaculis. Duis adipiscing mollis at tellus ultrices diam at. Integer quisque id dolor ultrices egestas turpis netus molestie blandit. Suspendisse mollis porta tincidunt in. Porttitor vel viverra ut nisl scelerisque elements, Lorem ipsum dolor sit amet consectetur. Dignissim lacus imperdiet rhoncus consectetur tortor tincidunt vel lacinia. Mauris posuere mi mi eget pellentesque iaculis. Duis adipiscing mollis at tellus ultrices diam at. Integer quisque id dolor ultrices egestas turpis netus molestie blandit. Suspendisse mollis',
                     })
                 }}
             >
                 add review
-            </button> */
+            </button>
+        </div>
+    )
 }
