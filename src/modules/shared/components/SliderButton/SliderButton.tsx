@@ -9,7 +9,7 @@ export interface SliderButtonProps {
 export const SliderButton = ({ type, ClName }: SliderButtonProps) => {
     return (
         <button className={`${ClName} ${s.btn} ${type === 'prev' ? s.btn_prev : ''}`}>
-            <SvgSelector id='arrowSlider' />
+            <SvgSelector id='arrowDefault' />
         </button>
     )
 }

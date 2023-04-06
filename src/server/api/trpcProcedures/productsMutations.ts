@@ -161,7 +161,7 @@ export const addReviewToProduct = protectedProcedure
     .input(
         z.object({
             productId: z.string(),
-            rating: z.number().min(1).max(5),
+            rating: z.number().min(0).max(1),
             message: z.string().optional(),
         }),
     )
@@ -181,11 +181,11 @@ export const addReviewToProduct = protectedProcedure
                         message,
                     },
                 },
-                rating: {
+                positiveScoresCount: {
                     increment: rating,
                 },
-                ratedByCount: {
-                    increment: 1,
+                negativeScoresCount: {
+                    increment: rating === 0 ? 1 : 0,
                 },
             },
         })

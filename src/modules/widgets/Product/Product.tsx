@@ -7,6 +7,7 @@ import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
 import { mapDataFromApi } from './mappers/mapDataFromApi'
 import { Properties } from './components/Properties/Properties'
 import { Description } from './components/Description/Description'
+import { Reviews } from '~/modules/features/Reviews'
 
 export const Product = () => {
     const router = useRouter()
@@ -46,8 +47,8 @@ export const Product = () => {
         systemRequirementsMinimal,
         systemRequirementsRecommended,
         // reviews
-        ratedByCount,
-        rating,
+        negativeScoresCount,
+        positiveScoresCount,
         // related
         originalGame,
         relatedGames,
@@ -81,8 +82,9 @@ export const Product = () => {
     }
 
     const reviewsProps = {
-        ratedByCount,
-        rating,
+        productId: id,
+        negativeScoresCount,
+        positiveScoresCount,
     }
 
     const relatedGamesProps = {
@@ -104,7 +106,7 @@ export const Product = () => {
                 </div>
             </div>
             {/* switch w/ system req and tags */}
-            {/* <Reviews {...reviewsProps} /> */}
+            <Reviews {...reviewsProps} />
             {/* <RelatedGames {...relatedGamesProps} /> */}
             {/* <RecommendedGames/> */}
         </>

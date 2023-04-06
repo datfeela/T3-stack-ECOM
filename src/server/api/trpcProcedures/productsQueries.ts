@@ -79,3 +79,30 @@ export const getManyProducts = publicProcedure
             throw e
         }
     })
+
+export const getProductReviewsById = publicProcedure
+    .input(
+        z.object({ id: z.string(), quantity: z.number(), quantityToSkip: z.number().optional() }),
+    )
+    .query(async ({ input }) => {
+        const { id, quantity, quantityToSkip } = input
+
+        try {
+            return await prisma.productReview.findMany({
+                where: {
+                    productId: id,
+                },
+                include: {
+                    User: true,
+                },
+                take: quantity,
+                skip: quantityToSkip || 0,
+                orderBy: {
+                    date: 'desc',
+                },
+            })
+        } catch (e) {
+            console.log(`ERROR! can't get reviews!`, e)
+            throw e
+        }
+    })

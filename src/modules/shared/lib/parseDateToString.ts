@@ -48,5 +48,5 @@ export const parseDateToString = (date: Date) => {
     let day = `${date.getDate()}`
     if (day.length === 1) day = `0${day}`
 
-    return `${month} ${day} ${year}`
+    return `${month} ${day}, ${year}`
 }

@@ -111,8 +111,8 @@ model Product {
     productSystemRequirementsRecommendedId String                    @unique
     // !
     // non-editable in admin
-    rating                                 Int                       @default(0)
-    ratedByCount                           Int                       @default(0)
+    positiveScoresCount                    Int                       @default(0)
+    negativeScoresCount                    Int                       @default(0)
     popularity                             Int                       @default(0)
     wishedBy                               User[]
     // !
@@ -148,6 +148,7 @@ model ProductReview {
     id        String   @id @unique @default(cuid())
     rating    Int
     message   String?
+    date      DateTime @default(now())
     Product   Product? @relation(fields: [productId], references: [id])
     productId String?
     User      User?    @relation(fields: [userId], references: [id])
