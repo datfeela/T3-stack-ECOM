@@ -12,7 +12,7 @@ export type ReadFile = (
 export const readFile: ReadFile = (req, saveLocally, pathToSave) => {
     const options: formidable.Options = {}
     if (saveLocally && pathToSave) {
-        options.uploadDir = path.join(process.cwd(), pathToSave)
+        options.uploadDir = pathToSave
         options.filename = (name, ext, part, form) => {
             let fileType = '.unknown'
             if (part.mimetype) fileType = '.' + path.basename(part.mimetype)

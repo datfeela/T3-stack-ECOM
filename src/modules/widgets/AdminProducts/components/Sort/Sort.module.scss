@@ -1,0 +1,11 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn {
+    font-family: 'Tomorrow';
+}

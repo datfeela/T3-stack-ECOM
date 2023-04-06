@@ -1,45 +1,32 @@
-import type { FilterName } from '~/server/api/apiTypes/productsRouterTypes'
+import { mapProductFiltersFromApi } from './../../../shared/mappers/mapProductFiltersFromApi'
 import type { AppRouterOutput } from '~/server/api/root'
-import type { ProductFiltersFormik } from '../ProductFormTypes'
 import { mapDateFromApi } from './mapDateFromApi'
-
-// interface MapProductDataFromApiProps {
-// productData: Product & {
-//     filters: (ProductFilter & {
-//         values: ProductFilterValue[]
-//     })[]
-//     categories: ProductCategory[]
-//     characteristics: ProductCharacteristic[]
-// }
-//     productData: ProductData
-// }
 
 type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 
 export function mapProductDataFromApi(productData: ProductData) {
     const {
-        // unneeded to edit
-        id,
-        popularity,
-        rating,
-        ratedByCount,
-        //
         filters,
         coverImagePath,
-        miniatureImagePath,
-        verticalOrientImagePath,
+        horizontalImagePath,
+        verticalImagePath,
         categories,
         characteristics,
         releaseDate,
-        ...rest
+        desc,
+        name,
+        price,
+        priceWithoutDiscount,
+        quantityInStock,
+        ytTrailerPath,
+        ytGameplayTrailerPath,
+        detailPageImages,
+        originalGameId,
+        systemRequirementsMinimal,
+        systemRequirementsRecommended,
     } = productData
 
-    const filtersToFormik = {} as ProductFiltersFormik
-
-    filters.forEach(({ name, values }) => {
-        const nameTyped = name as FilterName
-        filtersToFormik[nameTyped] = values.map((value) => value.value)
-    })
+    const filtersToFormik = mapProductFiltersFromApi(filters)
 
     const categoriesToFormik = categories.map(({ name }) => name)
     const characteriscticsToFormik = characteristics.map(({ name, value }) => ({
@@ -47,16 +34,32 @@ export function mapProductDataFromApi(productData: ProductData) {
         value,
     }))
 
+    const detailPageImagesMapped = detailPageImages.map((image) => image.value)
+
     const parsedReleaseDate = mapDateFromApi(releaseDate)
 
+    const priceStr = String(price)
+    const priceWithoutDiscountStr = priceWithoutDiscount ? String(priceWithoutDiscount) : null
+    const quantityInStockStr = String(quantityInStock)
+
     return {
-        ...rest,
+        desc,
+        name,
+        price: priceStr,
+        priceWithoutDiscount: priceWithoutDiscountStr,
+        quantityInStock: quantityInStockStr,
+        ytTrailerPath,
+        ytGameplayTrailerPath,
         categories: categoriesToFormik,
         filters: filtersToFormik,
         characteristics: characteriscticsToFormik,
         coverImage: coverImagePath,
-        miniatureImage: miniatureImagePath,
-        verticalOrientImage: verticalOrientImagePath,
+        horizontalImage: horizontalImagePath,
+        verticalImage: verticalImagePath,
+        detailPageImages: detailPageImagesMapped,
         releaseDate: parsedReleaseDate,
+        originalGameId,
+        systemRequirementsMinimal,
+        systemRequirementsRecommended,
     }
 }

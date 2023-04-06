@@ -1,0 +1,64 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left {
+    }
+}
+
+.title {
+    margin-bottom: 5px;
+}
+
+.rating {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    &__icon {
+        height: 17px;
+        width: 17px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &_reversed {
+            transform: rotateZ(180deg);
+        }
+    }
+
+    span {
+        font-weight: 300;
+    }
+}
+
+.expandBtn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &__icon {
+        width: 18px;
+        height: 18px;
+
+        svg {
+            height: 100%;
+            width: 100%;
+            fill: #fff;
+        }
+    }
+    span {
+        font-family: Orbitron;
+        text-transform: uppercase;
+    }
+}
+
+.reviews {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}

@@ -3,8 +3,9 @@ import fs from 'fs/promises'
 import { env } from '~/env.mjs'
 import type formidable from 'formidable'
 import { readFile } from '~/server/helpers/readFile'
+import path from 'path'
 
-const imgPath = `/public/${env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH}`
+const imgPath = path.join(process.cwd(), '/public', env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH)
 
 export const config = {
     api: {

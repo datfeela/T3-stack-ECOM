@@ -42,14 +42,15 @@ model Session {
 }
 
 model User {
-    id            String          @id @default(cuid())
-    name          String?
-    email         String?         @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    reviews       ProductReview[]
+    id             String          @id @default(cuid())
+    name           String?
+    email          String?         @unique
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    reviews        ProductReview[]
+    wishedProducts Product[]
 }
 
 model VerificationToken {
@@ -84,26 +85,38 @@ model CategoryFilterOption {
 }
 
 model Product {
-    id                      String                  @id @unique @default(cuid())
-    name                    String
-    price                   String
-    priceWithoutDiscount    String?
-    //!
-    releaseDate             DateTime                @default(now())
-    rating                  Int                     @default(0)
-    ratedByCount            Int                     @default(0)
-    popularity              Int                     @default(0)
+    id                                     String                    @id @unique @default(cuid())
+    name                                   String
+    price                                  Int
+    priceWithoutDiscount                   Int?
+    desc                                   String?
+    quantityInStock                        Int                       @default(0)
+    releaseDate                            DateTime                  @default(now())
+    ytTrailerPath                          String                    @default("http://www.youtube.com/embed/")
+    ytGameplayTrailerPath                  String?
+    coverImagePath                         String?
+    verticalImagePath                      String?
+    horizontalImagePath                    String?
+    detailPageImages                       ProductImagePath[]
+    categories                             ProductCategory[]
+    filters                                ProductFilter[]
+    characteristics                        ProductCharacteristic[]
     // !
-    desc                    String?
-    ytTrailerPath           String?
-    coverImagePath          String?
-    verticalOrientImagePath String?
-    miniatureImagePath      String?
-    categories              ProductCategory[]
-    filters                 ProductFilter[]
-    characteristics         ProductCharacteristic[]
+    originalGameId                         String?
+    originalGame                           Product?                  @relation("OriginalRelatedGames", fields: [originalGameId], references: [id])
+    relatedGames                           Product[]                 @relation("OriginalRelatedGames")
+    systemRequirementsMinimal              ProductSystemRequirements @relation("SystemRequirementsMinimal", fields: [productSystemRequirementsMinimalId], references: [id])
+    systemRequirementsRecommended          ProductSystemRequirements @relation("SystemRequirementsRecommended", fields: [productSystemRequirementsRecommendedId], references: [id])
+    productSystemRequirementsMinimalId     String                    @unique
+    productSystemRequirementsRecommendedId String                    @unique
     // !
-    reviews                 ProductReview[]
+    // non-editable in admin
+    positiveScoresCount                    Int                       @default(0)
+    negativeScoresCount                    Int                       @default(0)
+    popularity                             Int                       @default(0)
+    wishedBy                               User[]
+    // !
+    reviews                                ProductReview[]
 }
 
 // custom product characteristics which aren't involved in sorting
@@ -135,8 +148,30 @@ model ProductReview {
     id        String   @id @unique @default(cuid())
     rating    Int
     message   String?
+    date      DateTime @default(now())
     Product   Product? @relation(fields: [productId], references: [id])
     productId String?
     User      User?    @relation(fields: [userId], references: [id])
     userId    String?
+}
+
+// other product only models
+model ProductSystemRequirements {
+    id                   String   @id @unique @default(cuid())
+    operatingSystem      String
+    cpu                  String
+    gpu                  String
+    memory               String
+    freeSpace            String
+    soundHardware        String?
+    ProductMinimal       Product? @relation("SystemRequirementsMinimal")
+    ProductRecommended   Product? @relation("SystemRequirementsRecommended")
+    ProductRecommendedId String?  @unique
+}
+
+model ProductImagePath {
+    id        String   @id @unique @default(cuid())
+    value     String
+    Product   Product? @relation(fields: [productId], references: [id])
+    productId String?
 }

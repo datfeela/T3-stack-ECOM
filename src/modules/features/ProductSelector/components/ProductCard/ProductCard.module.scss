@@ -1,0 +1,35 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px auto;
+    grid-gap: 20px;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid transparent;
+
+    &_selected {
+        cursor: auto;
+
+        input {
+            cursor: auto;
+        }
+    }
+
+    &_active {
+        border: 1px solid $purple;
+        background: rgba($color: $purple, $alpha: 0.15);
+        backdrop-filter: blur(2px);
+    }
+
+    input {
+        cursor: pointer;
+    }
+}
+
+.image {
+    width: 200px;
+    height: 120px;
+    position: relative;
+}

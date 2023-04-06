@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { deleteAdminCookie } from '~/modules/entities/admin'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import s from './AdminLayout.module.scss'
 
 interface Props {
@@ -16,9 +17,9 @@ interface LinkObject {
 export const AdminLayout: React.FC<Props> = ({ children }) => {
     const router = useRouter()
 
-    const logOut = () => {
+    const logOut = async () => {
         deleteAdminCookie()
-        router.push('/admin/auth')
+        await router.push('/admin/auth')
     }
 
     function createNavLinks() {
@@ -28,6 +29,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
             { name: 'Main', href: '/admin' },
             { name: 'Products', href: '/admin/products', sublinks: linksProducts },
             { name: 'Settings', href: '/admin/settings' },
+            { name: 'Magic page', href: '/admin/test' },
         ]
 
         const linkEls = linksMain.map((link) => {
@@ -46,7 +48,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
             return (
                 <li key={href} className={liClass}>
                     <Link href={href}>{name}</Link>
-                    <ul style={{ marginLeft: '15px' }}>{sublinksElements}</ul>
+                    <ul className={s.list}>{sublinksElements}</ul>
                 </li>
             )
         }
@@ -57,14 +59,16 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
     const linkEls = createNavLinks()
 
     return (
-        <div className={s.wrap + ' adminLayout'}>
+        <div className={s.wrap}>
             <div className={s.sidebar}>
                 <nav>
                     <ul className={s.nav}>{linkEls}</ul>
                 </nav>
-                <button onClick={logOut}>LOG OUT</button>
+                <ButtonDefault onClick={logOut} color='red' fontW='700'>
+                    LOG OUT
+                </ButtonDefault>
             </div>
-            <div className={s.conent}>{children}</div>
+            <div className={s.content}>{children}</div>
         </div>
     )
 }

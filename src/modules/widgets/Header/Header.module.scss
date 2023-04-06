@@ -1,0 +1,19 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.header {
+    background: $headerBg;
+    display: grid;
+    grid-template-columns: 1fr 350px 1fr;
+}
+
+.logo {
+    font-size: 64px;
+    line-height: 125%;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+}

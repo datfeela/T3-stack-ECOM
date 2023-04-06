@@ -1,26 +1,29 @@
 import s from './ImageInput.module.scss'
 import Image from 'next/image'
-import { MouseEvent, useRef } from 'react'
+import React, { useRef } from 'react'
+import type { MouseEvent } from 'react'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 
 interface ImageInputProps {
-    title: string
+    title?: string
     name: string
     value: string | File | undefined
     error: string | undefined
     onChangeHandler: (field: string, value: any) => void
 }
 
-export const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputProps) => {
+const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputProps) => {
     const imgSrc = value
         ? typeof value === 'string'
             ? value
-            : // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-              URL.createObjectURL(value)
+            : URL.createObjectURL(value)
         : undefined
 
     const inputRef = useRef(null) as React.RefObject<HTMLInputElement> | null
 
-    const deleteImage = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    const deleteImage = (e: MouseEvent<HTMLButtonElement>) => {
+        console.log(e.currentTarget.value)
+
         e.preventDefault()
         const input = inputRef?.current as HTMLInputElement
         input.value = ''
@@ -28,8 +31,7 @@ export const ImageInput = ({ title, name, value, error, onChangeHandler }: Image
     }
 
     return (
-        <div>
-            <div>{title}</div>
+        <div className={s.wrap}>
             <label
                 className={`${s.label} ${imgSrc ? ' ' + s.label_withImg : ''}`}
                 id={`${name}_image_label`}
@@ -38,19 +40,31 @@ export const ImageInput = ({ title, name, value, error, onChangeHandler }: Image
                 {imgSrc ? (
                     <>
                         <Image src={imgSrc} alt='' fill style={{ objectFit: 'contain' }} />
-                        <div className={s.popup + ' ' + s.popup_hidden}>
-                            <span className={s.popup__btn}>Change image</span>
-                            <button onClick={deleteImage} type='button' className={s.popup__btn}>
-                                Delete image
-                            </button>
-                        </div>
                     </>
                 ) : (
                     <div className={s.popup}>
-                        <span className={s.popup__btn}>Add image</span>
+                        <button type='button'>+</button>
                     </div>
                 )}
             </label>
+            <span className={s.title}>{title || ''}</span>
+            {imgSrc ? (
+                <div className={s.buttonsWrap}>
+                    <label htmlFor={`${name}_image_input`}>
+                        <ButtonDefault width='sm'>Change image</ButtonDefault>
+                    </label>
+                    <ButtonDefault width='sm' onClick={deleteImage} type='button'>
+                        Delete image
+                    </ButtonDefault>
+                </div>
+            ) : (
+                <div className={s.buttonsWrap}>
+                    <span></span>
+                    <label htmlFor={`${name}_image_input`}>
+                        <ButtonDefault width='sm'>Add Image</ButtonDefault>
+                    </label>
+                </div>
+            )}
             <input
                 ref={inputRef}
                 className={s.input}
@@ -65,10 +79,9 @@ export const ImageInput = ({ title, name, value, error, onChangeHandler }: Image
                     onChangeHandler(name, img)
                 }}
             />
-
             {error && typeof error === 'string' && <div>{error}</div>}
         </div>
     )
 }
 
-// setImagePreviewSrc(URL.createObjectURL(img))
+export default React.memo(ImageInput)

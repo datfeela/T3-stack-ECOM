@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import s from './Input.module.scss'
-import type { BasicInputProps } from './InputInterface'
+import type { BasicInputProps } from './InputTypes'
 
 export const BasicInput: React.FC<BasicInputProps> = ({
     name,

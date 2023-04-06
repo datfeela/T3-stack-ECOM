@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Field } from 'formik'
 import s from './Input.module.scss'
-import type { InputProps } from './InputInterface'
+import type { InputProps } from './InputTypes'
 
 export const Input: React.FC<InputProps> = ({
     name,
@@ -10,6 +10,7 @@ export const Input: React.FC<InputProps> = ({
     extraClassName,
     touched,
     type,
+    value,
     ...props
 }) => {
     let inputClassname = s.input
@@ -21,10 +22,10 @@ export const Input: React.FC<InputProps> = ({
 
     if (type === 'checkbox') {
         return (
-            <div className={s.checkboxWrap}>
-                <Field name={name} className={s.checkbox} type={type} {...props} />
-                <span>{props.placeholder}</span>
-            </div>
+            <label className={s.checkboxWrap}>
+                <Field type='checkbox' name={name} value={value} />
+                {title || name}
+            </label>
         )
     }
 

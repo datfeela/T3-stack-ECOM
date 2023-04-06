@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
+import { WithLoader } from '~/modules/shared/components/WithLoader/WithLoader'
 import { mapProductDataFromApi } from '../../mappers/mapProductDataFromApi'
 import { mapProductDataToApi } from '../../mappers/mapProductDataToApi'
 import type { SubmitFormProps } from '../../ProductFormTypes'
@@ -12,6 +13,7 @@ export const EditForm = () => {
 
     const [serverError, setServerError] = useState('')
     const [serverSuccess, setServerSuccess] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
         if (addSuccess === 'true') setServerSuccess('Product added succesfully!')
@@ -28,35 +30,55 @@ export const EditForm = () => {
     const initialValues = product.data ? mapProductDataFromApi(product.data) : undefined
 
     // submit
+    const apiContext = api.useContext()
+
     const editProduct = api.products.editProduct.useMutation({
+        onMutate: async () => {
+            await apiContext.products.getProductById.cancel()
+            const optimisticUpdate = apiContext.products.getProductById.getData()
+
+            if (optimisticUpdate) {
+                apiContext.products.getProductById.setData(productId, optimisticUpdate)
+            }
+        },
+        onSettled: () => {
+            setIsSubmitting(false)
+        },
         onError: (e) => {
             setServerSuccess('')
             setServerError(e.message)
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            await apiContext.products.getProductById.invalidate()
             setServerSuccess('Product edited successfully!')
         },
     })
 
     const handleFormSubmit = async (props: SubmitFormProps) => {
-        const newProductValues = await mapProductDataToApi(props)
-        editProduct.mutate({ ...newProductValues, id: productId })
+        try {
+            setIsSubmitting(true)
+            setServerSuccess('')
+            const newProductValues = await mapProductDataToApi(props)
+            editProduct.mutate({ ...newProductValues, id: productId })
+        } catch (e) {
+            setIsSubmitting(false)
+            throw e
+        }
     }
 
     return (
         <>
             <h1>Edit product</h1>
             {serverSuccess ? <div>REFACTOR ME PLS: {serverSuccess}</div> : null}
-            {product.data ? (
+            <WithLoader loaderType='dots' conditionToShowLoader={!product.data}>
                 <ProductForm
+                    isSubmitting={isSubmitting}
                     submitForm={handleFormSubmit}
                     serverError={serverError}
                     initialValues={initialValues}
                     isEditForm={true}
                 />
-            ) : (
-                <div>loading...</div>
-            )}
+            </WithLoader>
         </>
     )
 }

@@ -1,22 +1,32 @@
-$background: #262626;
+// color schema
+$background: #25212b;
 $fontColor: #fff;
-$fontColorDark: #18181b;
+$headerBg: #1d1a21;
 
-$black: rgb(20, 20, 20);
+$grey: #ffffff80;
 
-$grey: #71717a;
+$blueLight: #00e4f2;
+// $blue: #0ea5e9;
+$blueDark: #0c4a6e;
 
-$blue300: #93c5fd;
-$blue500: #0ea5e9;
-$blue900: #0c4a6e;
+$red: #ff003c;
+$yellow: #f8ef00;
+$purple: #710fad;
 
-$red500: #f43f5e;
+// sizes
 
 $loginWarningiconSize: 28px;
 
-// $appMaxWidth: 1185px;
-// $centerAreaWidth: 700px;
-// $sideAreaWidth: 265px;
+$appMaxWidth: 1300px;
+
+$popupMaxHeight: calc(100vh - 30px);
+$popupMaxWidth: 1500px;
+
+$sliderBtnSize: 38px;
+$breadcrumbsHeight: 75px;
+
+$mdContainerPadding: 1.5rem 1rem;
+$smContainerPadding: 1rem;
 
 // $blocksMargin: 15px;
 // $headerHeight: 50px;

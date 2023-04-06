@@ -1,0 +1,1 @@
+export { ProductToWishes } from './ProductToWishes'

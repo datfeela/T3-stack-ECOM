@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import s from './Input.module.scss'
 import { FieldArray } from 'formik'
-import type { DynamicInputProps } from './InputInterface'
+import type { DynamicInputProps } from './InputTypes'
 import { Input } from './Input'
 
 export const DynamicInput: React.FC<DynamicInputProps> = ({
@@ -50,11 +50,25 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
                                         <div className={s.inputEditable__wrap}>
                                             <div className={s.input_multifield}>
                                                 {Object.keys(field).map((key, idChild) => {
+                                                    const keyTyped = key as keyof typeof field
+
+                                                    if (keyTyped === 'value') {
+                                                        return (
+                                                            <Input
+                                                                key={`complex_input_${idChild}`}
+                                                                type={'textarea'}
+                                                                rows={'4'}
+                                                                name={`${name}[${id}].${keyTyped}`}
+                                                                placeholder={keyTyped}
+                                                            />
+                                                        )
+                                                    }
+
                                                     return (
                                                         <Input
                                                             key={`complex_input_${idChild}`}
-                                                            name={`${name}[${id}].${key}`}
-                                                            placeholder={key}
+                                                            name={`${name}[${id}].${keyTyped}`}
+                                                            placeholder={keyTyped}
                                                         />
                                                     )
                                                 })}

@@ -1,0 +1,23 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    position: relative;
+}
+
+.cover {
+    cursor: pointer;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: none;
+
+    &_active {
+        display: block;
+    }
+}

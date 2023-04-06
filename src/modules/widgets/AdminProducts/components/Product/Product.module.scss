@@ -1,0 +1,14 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    height: 120px;
+    display: grid;
+    align-items: center;
+    grid-gap: 25px;
+    grid-template-columns: 100px repeat(4, 1fr);
+}
+
+.image {
+    position: relative;
+    height: 100px;
+}

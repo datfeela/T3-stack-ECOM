@@ -1,0 +1,12 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.descriptionRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+}
+
+.title {
+    line-height: 45px;
+    margin-bottom: 32px;
+}

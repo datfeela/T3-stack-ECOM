@@ -1,0 +1,37 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: $mdContainerPadding;
+}
+
+.filter {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    grid-gap: 10px;
+
+    &__title {
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    &__value {
+        text-transform: capitalize;
+    }
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    height: 30px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
