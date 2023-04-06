@@ -3,7 +3,7 @@ import { type Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 
 import '~/modules/app/styles/globals.scss'
-import { useIsAdmin } from '~/modules/app'
+import { GlobalContextProvider, useIsAdmin } from '~/modules/app'
 import { api } from '~/modules/shared/api/apiTRPC'
 import { Header } from '~/modules/widgets/Header'
 
@@ -16,8 +16,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
     return (
         <>
             <SessionProvider session={session}>
-                {!isAdminPage ? <Header /> : null}
-                <Component {...pageProps} />
+                <GlobalContextProvider>
+                    {!isAdminPage ? <Header /> : null}
+                    <Component {...pageProps} />
+                </GlobalContextProvider>
             </SessionProvider>
         </>
     )

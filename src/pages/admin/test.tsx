@@ -6,6 +6,7 @@ import { api } from '~/modules/shared/api/apiTRPC'
 import { ProductToWishes } from '~/modules/features/ProductToWishes'
 import { useUserWishes } from '~/modules/entities/user/hooks/useUserWishes'
 import type { AddProductInput } from '~/modules/widgets/ProductForm'
+import type { FilterName } from '~/modules/shared/types/productTypes'
 
 const systemReqMinimal = {
     operatingSystem:
@@ -26,25 +27,46 @@ const systemReqRec = {
     soundHardware: 'DirectX 10 compatible sound card',
 }
 
+const description =
+    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum, beatae consectetur. Nulla, vero! Est nostrum modi minus, perferendis sit amet maxime voluptas soluta ex officiis necessitatibus facilis voluptates error! Aut impedit dolorum sit ex facere fugiat accusamus, sequi in consequuntur placeat porro blanditiis perspiciatis ad animi suscipit laboriosam ipsa vel necessitatibus aliquid hic, iusto similique molestiae doloremque! Nobis optio, possimus nostrum atque beatae iure accusamus provident. Quidem, vel quaerat! Soluta rerum maxime nihil aliquam suscipit quaerat, corrupti reprehenderit perspiciatis consectetur error sint nesciunt omnis deserunt dolores fugit. Commodi, maiores velit sequi voluptate, quibusdam delectus nam illo modi, labore soluta quae.'
+
+const chars = [
+    { name: 'subtitle 1', value: description },
+    { name: 'subtitle 2', value: description },
+]
+
+const filtersInit = [
+    { name: 'features', values: ['achievements', 'gamepad support'] },
+    { name: 'platforms', values: ['ps', 'windows'] },
+    { name: 'gamemodes', values: ['singleplayer'] },
+] as { name: FilterName; values: string[] }[]
+
 const productData: AddProductInput = {
     id: 'clfqpu0z200duess0znddvkqf',
     name: 'The Elder Scrolls V: Skyrim',
-    desc: 'igora tak horosha! ou mein got...',
+    desc: description,
     price: 100,
     quantityInStock: 500,
     categories: ['RPG', 'FPS'],
-    characteristics: [
-        { name: 'char1', value: 'value1' },
-        { name: 'char2', value: 'value2' },
-    ],
+    characteristics: chars,
     filters: [
-        { name: 'gamemodes', values: ['singleplayer'] },
+        ...filtersInit,
         { name: 'publisher', values: ['Bethesda Softworks'] },
         { name: 'developer', values: ['Bethesda Game Studios', 'Iron Galaxy Studios'] },
     ],
     releaseDate: new Date(),
-    ytTrailerPath: 'yt.com',
-    detailPageImages: [],
+    ytTrailerPath: 'JSRtYpNRoN0',
+    ytGameplayTrailerPath: 'PjqsYzBrP-M',
+    coverImagePath: '/images/product/skyrim_cover.jpg',
+    horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+    detailPageImages: [
+        { value: '/images/product/skyrim1.jpg' },
+        { value: '/images/product/skyrim2.jpg' },
+        { value: '/images/product/skyrim3.jpg' },
+        { value: '/images/product/skyrim4.jpg' },
+        { value: '/images/product/skyrim5.jpeg' },
+        { value: '/images/product/skyrim6.jpeg' },
+    ],
     systemRequirementsMinimal: systemReqMinimal,
     systemRequirementsRecommended: systemReqRec,
 }
@@ -52,21 +74,19 @@ const productData: AddProductInput = {
 const otherProductsData: AddProductInput[] = [
     {
         name: 'The Elder Scrolls V: Skyrim Special Edition',
-        desc: 'igora tak horosha! ou mein got...',
+        desc: description,
         price: 100,
         quantityInStock: 500,
         categories: ['RPG', 'FPS'],
-        characteristics: [
-            { name: 'char1', value: 'value1' },
-            { name: 'char2', value: 'value2' },
-        ],
+        characteristics: chars,
         filters: [
-            { name: 'gamemodes', values: ['singleplayer'] },
+            ...filtersInit,
             { name: 'publisher', values: ['Bethesda Softworks'] },
             { name: 'developer', values: ['Bethesda Game Studios', 'Iron Galaxy Studios'] },
         ],
         releaseDate: new Date(),
-        ytTrailerPath: 'yt.com',
+        ytTrailerPath: 'lTjRZ__-278',
+        ytGameplayTrailerPath: 'PjqsYzBrP-M',
         coverImagePath: '/images/product/skyrim_cover.jpg',
         horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
         detailPageImages: [
@@ -83,25 +103,149 @@ const otherProductsData: AddProductInput[] = [
     },
     {
         name: 'The Elder Scrolls V: Skyrim Legendary Edition',
-        desc: 'igora tak horosha! ou mein got...',
+        desc: description,
         price: 100,
         quantityInStock: 500,
         categories: ['RPG', 'FPS'],
-        characteristics: [
-            { name: 'char1', value: 'value1' },
-            { name: 'char2', value: 'value2' },
-        ],
+        characteristics: chars,
         filters: [
-            { name: 'gamemodes', values: ['singleplayer'] },
+            ...filtersInit,
             { name: 'publisher', values: ['Bethesda Softworks'] },
             { name: 'developer', values: ['Bethesda Game Studios', 'Iron Galaxy Studios'] },
         ],
         releaseDate: new Date(),
-        ytTrailerPath: 'yt.com',
-        detailPageImages: [],
+        ytTrailerPath: 'JSRtYpNRoN0',
+        ytGameplayTrailerPath: 'PjqsYzBrP-M',
+        coverImagePath: '/images/product/skyrim_cover.jpg',
+        horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+        detailPageImages: [
+            { value: '/images/product/skyrim1.jpg' },
+            { value: '/images/product/skyrim2.jpg' },
+            { value: '/images/product/skyrim3.jpg' },
+            { value: '/images/product/skyrim4.jpg' },
+            { value: '/images/product/skyrim5.jpeg' },
+            { value: '/images/product/skyrim6.jpeg' },
+        ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
         originalGameId: 'clfqpu0z200duess0znddvkqf',
+    },
+    {
+        name: 'Elden Ring',
+        desc: description,
+        price: 100,
+        quantityInStock: 0,
+        categories: ['RPG'],
+        characteristics: chars,
+        filters: [
+            ...filtersInit,
+            { name: 'publisher', values: ['Bandai Namco Entertainment'] },
+            { name: 'developer', values: ['FromSoftware'] },
+        ],
+        releaseDate: new Date('2017-01-26'),
+        ytTrailerPath: 'K_03kFqWfqs',
+        ytGameplayTrailerPath: 'E3Huy2cdih0',
+        coverImagePath: '/images/product/elden_ring_cover.jpg',
+        horizontalImagePath: '/images/product/elden_ring_horizontal.webp',
+        verticalImagePath: '/images/product/elden_ring_vertical.webp',
+        detailPageImages: [
+            { value: '/images/product/elden_ring_1.jpg' },
+            { value: '/images/product/elden_ring_2.jpg' },
+            { value: '/images/product/elden_ring_3.jpg' },
+            { value: '/images/product/elden_ring_4.webp' },
+            { value: '/images/product/elden_ring_5.jpg' },
+            { value: '/images/product/elden_ring_6.jpg' },
+        ],
+        systemRequirementsMinimal: systemReqMinimal,
+        systemRequirementsRecommended: systemReqRec,
+    },
+    {
+        name: 'Starfield',
+        desc: description,
+        price: 100,
+        quantityInStock: 500,
+        categories: ['RPG'],
+        characteristics: chars,
+        filters: [
+            ...filtersInit,
+            { name: 'publisher', values: ['Bethesda Softworks'] },
+            { name: 'developer', values: ['Bethesda Game Studios'] },
+        ],
+        releaseDate: new Date('2023-07-01'),
+        ytTrailerPath: 'pYqyVpCV-3c',
+        ytGameplayTrailerPath: 'zmb2FJGvnAw',
+        coverImagePath: '/images/product/starfield_cover.jpg',
+        horizontalImagePath: '/images/product/starfield_horizontal.webp',
+        verticalImagePath: '/images/product/starfield_vertical.jpg',
+        detailPageImages: [
+            { value: '/images/product/starfield_1.jpg' },
+            { value: '/images/product/starfield_2.jpeg' },
+            { value: '/images/product/starfield_3.jpeg' },
+            { value: '/images/product/starfield_4.jpg' },
+            { value: '/images/product/starfield_5.jpeg' },
+        ],
+        systemRequirementsMinimal: systemReqMinimal,
+        systemRequirementsRecommended: systemReqRec,
+    },
+    {
+        name: 'The Last of Us Part II',
+        desc: description,
+        price: 100,
+        quantityInStock: 500,
+        categories: ['survival horror', 'stealth', 'action'],
+        characteristics: chars,
+        filters: [
+            { name: 'features', values: ['achievements', 'gamepad support'] },
+            { name: 'platforms', values: ['ps'] },
+            { name: 'gamemodes', values: ['singleplayer'] },
+            { name: 'publisher', values: ['Sony Interactive Entertainment'] },
+            { name: 'developer', values: ['Naughty Dog'] },
+        ],
+        releaseDate: new Date('2020-06-23'),
+        ytTrailerPath: 'vhII1qlcZ4E',
+        ytGameplayTrailerPath: 'btmN-bWwv0A',
+        coverImagePath: '/images/product/tlou2_cover.jpg',
+        horizontalImagePath: '/images/product/tlou2_horizontal.jpg',
+        verticalImagePath: '/images/product/tlou2_vertical.jpg',
+        detailPageImages: [
+            { value: '/images/product/tlou2_1.jpg' },
+            { value: '/images/product/tlou2_2.jpg' },
+            { value: '/images/product/tlou2_3.jpg' },
+            { value: '/images/product/tlou2_4.jpg' },
+            { value: '/images/product/tlou2_5.jpeg' },
+            { value: '/images/product/tlou2_6.jpeg' },
+        ],
+        systemRequirementsMinimal: systemReqMinimal,
+        systemRequirementsRecommended: systemReqRec,
+    },
+    {
+        name: 'The Witcher 3: Wild Hunt',
+        desc: description,
+        price: 100,
+        quantityInStock: 500,
+        categories: ['RPG'],
+        characteristics: chars,
+        filters: [
+            ...filtersInit,
+            { name: 'publisher', values: ['CD Projekt RED'] },
+            { name: 'developer', values: ['CD Projekt RED'] },
+        ],
+        releaseDate: new Date('2015-08-22'),
+        ytTrailerPath: '53MyR_Z3i1w',
+        ytGameplayTrailerPath: 'YdHc3JZixRY',
+        coverImagePath: '/images/product/witcher3_cover.jpg',
+        horizontalImagePath: '/images/product/witcher3_horizontal.jpg',
+        verticalImagePath: '/images/product/witcher3_vertical.jpg',
+        detailPageImages: [
+            { value: '/images/product/witcher3_1.jpg' },
+            { value: '/images/product/witcher3_2.jpg' },
+            { value: '/images/product/witcher3_3.jpg' },
+            { value: '/images/product/witcher3_4.jpg' },
+            { value: '/images/product/witcher3_5.jpg' },
+            { value: '/images/product/witcher3_6.jpg' },
+        ],
+        systemRequirementsMinimal: systemReqMinimal,
+        systemRequirementsRecommended: systemReqRec,
     },
 ]
 

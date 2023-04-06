@@ -5,7 +5,7 @@ export const filtersToInit = [
     },
     {
         name: 'platforms',
-        options: ['ps', 'xbpx', 'windows'],
+        options: ['ps', 'xbox', 'windows'],
     },
     {
         name: 'features',
@@ -29,6 +29,9 @@ export const categoriesToInit = [
     'RPG',
     'turn-based RPG',
     'action',
+    'survival',
+    'survival horror',
+    'stealth',
     'adventure',
     'action-adventure',
     'FPS',
