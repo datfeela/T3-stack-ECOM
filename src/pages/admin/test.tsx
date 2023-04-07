@@ -57,15 +57,29 @@ const productData: AddProductInput = {
     releaseDate: new Date(),
     ytTrailerPath: 'JSRtYpNRoN0',
     ytGameplayTrailerPath: 'PjqsYzBrP-M',
-    coverImagePath: '/images/product/skyrim_cover.jpg',
-    horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+    coverImagePath:
+        'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_cover.jpg',
+    horizontalImagePath:
+        'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_horizontal.jpg',
     detailPageImages: [
-        { value: '/images/product/skyrim1.jpg' },
-        { value: '/images/product/skyrim2.jpg' },
-        { value: '/images/product/skyrim3.jpg' },
-        { value: '/images/product/skyrim4.jpg' },
-        { value: '/images/product/skyrim5.jpeg' },
-        { value: '/images/product/skyrim6.jpeg' },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim1.jpg',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim2.jpg',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim3.jpg',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim4.jpg',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim5.jpeg',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim6.jpeg',
+        },
     ],
     systemRequirementsMinimal: systemReqMinimal,
     systemRequirementsRecommended: systemReqRec,
@@ -87,15 +101,29 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date(),
         ytTrailerPath: 'lTjRZ__-278',
         ytGameplayTrailerPath: 'PjqsYzBrP-M',
-        coverImagePath: '/images/product/skyrim_cover.jpg',
-        horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_cover.jpg',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_horizontal.jpg',
         detailPageImages: [
-            { value: '/images/product/skyrim1.jpg' },
-            { value: '/images/product/skyrim2.jpg' },
-            { value: '/images/product/skyrim3.jpg' },
-            { value: '/images/product/skyrim4.jpg' },
-            { value: '/images/product/skyrim5.jpeg' },
-            { value: '/images/product/skyrim6.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim1.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim2.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim3.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim4.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim5.jpeg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim6.jpeg',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -116,15 +144,29 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date(),
         ytTrailerPath: 'JSRtYpNRoN0',
         ytGameplayTrailerPath: 'PjqsYzBrP-M',
-        coverImagePath: '/images/product/skyrim_cover.jpg',
-        horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_cover.jpg',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_horizontal.jpg',
         detailPageImages: [
-            { value: '/images/product/skyrim1.jpg' },
-            { value: '/images/product/skyrim2.jpg' },
-            { value: '/images/product/skyrim3.jpg' },
-            { value: '/images/product/skyrim4.jpg' },
-            { value: '/images/product/skyrim5.jpeg' },
-            { value: '/images/product/skyrim6.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim1.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim2.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim3.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim4.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim5.jpeg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim6.jpeg',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -145,16 +187,31 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2017-01-26'),
         ytTrailerPath: 'K_03kFqWfqs',
         ytGameplayTrailerPath: 'E3Huy2cdih0',
-        coverImagePath: '/images/product/elden_ring_cover.jpg',
-        horizontalImagePath: '/images/product/elden_ring_horizontal.webp',
-        verticalImagePath: '/images/product/elden_ring_vertical.webp',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_cover.jpg',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_horizontal.webp',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_vertical.webp',
         detailPageImages: [
-            { value: '/images/product/elden_ring_1.jpg' },
-            { value: '/images/product/elden_ring_2.jpg' },
-            { value: '/images/product/elden_ring_3.jpg' },
-            { value: '/images/product/elden_ring_4.webp' },
-            { value: '/images/product/elden_ring_5.jpg' },
-            { value: '/images/product/elden_ring_6.jpg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_1.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_2.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_3.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_5.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_6.jpg',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -174,15 +231,28 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2023-07-01'),
         ytTrailerPath: 'pYqyVpCV-3c',
         ytGameplayTrailerPath: 'zmb2FJGvnAw',
-        coverImagePath: '/images/product/starfield_cover.jpg',
-        horizontalImagePath: '/images/product/starfield_horizontal.webp',
-        verticalImagePath: '/images/product/starfield_vertical.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_cover.jpg',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_horizontal.webp',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_vertical.jpg',
         detailPageImages: [
-            { value: '/images/product/starfield_1.jpg' },
-            { value: '/images/product/starfield_2.jpeg' },
-            { value: '/images/product/starfield_3.jpeg' },
-            { value: '/images/product/starfield_4.jpg' },
-            { value: '/images/product/starfield_5.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_1.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_2.jpeg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_3.jpeg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_4.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_5.jpeg',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -204,16 +274,31 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2020-06-23'),
         ytTrailerPath: 'vhII1qlcZ4E',
         ytGameplayTrailerPath: 'btmN-bWwv0A',
-        coverImagePath: '/images/product/tlou2_cover.jpg',
-        horizontalImagePath: '/images/product/tlou2_horizontal.jpg',
-        verticalImagePath: '/images/product/tlou2_vertical.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_cover.jpg',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_horizontal.jpg',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_vertical.jpg',
         detailPageImages: [
-            { value: '/images/product/tlou2_1.jpg' },
-            { value: '/images/product/tlou2_2.jpg' },
-            { value: '/images/product/tlou2_3.jpg' },
-            { value: '/images/product/tlou2_4.jpg' },
-            { value: '/images/product/tlou2_5.jpeg' },
-            { value: '/images/product/tlou2_6.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_1.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_2.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_3.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_4.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_5.jpeg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_6.jpeg',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -233,16 +318,31 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2015-08-22'),
         ytTrailerPath: '53MyR_Z3i1w',
         ytGameplayTrailerPath: 'YdHc3JZixRY',
-        coverImagePath: '/images/product/witcher3_cover.jpg',
-        horizontalImagePath: '/images/product/witcher3_horizontal.jpg',
-        verticalImagePath: '/images/product/witcher3_vertical.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_cover.jpg',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_horizontal.jpg',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_vertical.jpg',
         detailPageImages: [
-            { value: '/images/product/witcher3_1.jpg' },
-            { value: '/images/product/witcher3_2.jpg' },
-            { value: '/images/product/witcher3_3.jpg' },
-            { value: '/images/product/witcher3_4.jpg' },
-            { value: '/images/product/witcher3_5.jpg' },
-            { value: '/images/product/witcher3_6.jpg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_1.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_2.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_3.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_4.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_5.jpg',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_6.jpg',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
