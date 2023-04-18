@@ -1,14 +1,11 @@
-import type { AppRouterOutput } from '~/server/api/root'
-
 import { mapProductFiltersFromApi } from '~/modules/shared/mappers/mapProductFiltersFromApi'
 import { mapCategoriesFromApi } from './mapCategoriesFromApi'
 import { mapImagesFromApi } from './mapImagesFromApi'
 import { parseDateToString } from '~/modules/shared/lib/parseDateToString'
-import { Platform } from '../types/types'
+import type { Platform } from '../types/types'
+import type { ProductPageProps } from '~/modules/entities/product'
 
-export const mapDataFromApi = (
-    props: NonNullable<AppRouterOutput['products']['getProductById']>,
-) => {
+export const mapDataFromApi = (props: ProductPageProps) => {
     const { categories, detailPageImages, filters, releaseDate, ...rest } = props
 
     const categoriesMapped = mapCategoriesFromApi(categories)

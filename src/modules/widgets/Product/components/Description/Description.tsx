@@ -25,7 +25,7 @@ export const Description = ({ desc, characteristics: chars }: DescriptionProps) 
                         isWrapHigherThanContent ? s.wrap_noOverflow : ''
                     }`}
                 >
-                    <div className={s.title}>Game overview</div>
+                    <h3 className={s.title}>Game overview</h3>
                     <div className={s.text}>{desc}</div>
                     {chars.map(({ name, value }, id) => (
                         <div className={s.characteristic} key={id}>

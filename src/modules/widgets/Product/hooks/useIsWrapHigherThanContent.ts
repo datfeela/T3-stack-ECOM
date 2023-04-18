@@ -1,8 +1,10 @@
 import debounce from 'lodash.debounce'
-import { type RefObject, useLayoutEffect, useState } from 'react'
+import { type RefObject, useState } from 'react'
+import { useIsomorphicLayoutEffect } from '~/modules/shared/hooks/useIsomorphicLayoutEffect'
 import { isWrapHigherThanChildrenElements } from '~/modules/shared/lib/isWrapHigherThanChildrenElements'
 
 export const useIsWrapHigherThanContent = (wrapperRef: RefObject<HTMLElement>) => {
+    const useEffect = useIsomorphicLayoutEffect()
     const [isWrapHigherThanContent, setIsWrapHigherThanContent] = useState(false)
 
     const updateIsWrapHigherThanContent = () => {
@@ -16,7 +18,7 @@ export const useIsWrapHigherThanContent = (wrapperRef: RefObject<HTMLElement>) =
         setIsWrapHigherThanContent(isWrapHigher)
     }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         updateIsWrapHigherThanContent()
 
         const debouncedUpdater = debounce(updateIsWrapHigherThanContent, 350)

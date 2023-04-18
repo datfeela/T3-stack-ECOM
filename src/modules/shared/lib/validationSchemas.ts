@@ -43,3 +43,14 @@ export const sortProductsSchema = z.object({
     name: NamesToSortProductsEnum,
     value: ValuesToSortProductsEnum,
 })
+
+// addReview
+
+export const addReviewValidationSchema = z.object({
+    productId: z.string(),
+    rating: z.number().min(0).max(1),
+    message: z
+        .string()
+        .max(1500, { message: 'Message must be 1500 or fewer characters long' })
+        .optional(),
+})

@@ -3,28 +3,16 @@ import { api } from '~/modules/shared/api/apiTRPC'
 import Head from 'next/head'
 import s from './Product.module.scss'
 import { Header } from './components/Header/Header'
-import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
 import { mapDataFromApi } from './mappers/mapDataFromApi'
 import { Properties } from './components/Properties/Properties'
 import { Description } from './components/Description/Description'
 import { Reviews } from '~/modules/features/Reviews'
+import type { ProductPageProps } from '~/modules/entities/product'
+import { SystemRequirements } from './components/SystemRequirements/SystemRequirements'
+import { Tags } from './components/Tags/Tags'
+import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 
-export const Product = () => {
-    const router = useRouter()
-    const { pid } = router.query
-
-    if (pid && typeof pid !== 'string') return null
-
-    const productId = typeof pid === 'string' ? pid : '0'
-
-    const productData = api.products.getProductById.useQuery(productId, {
-        refetchOnWindowFocus: false,
-    }).data
-
-    if (!productData) return <LoaderFullScreen type='dots' />
-
-    // extract data to props
-
+export const Product = ({ productData }: { productData: ProductPageProps }) => {
     const {
         // shared
         id,
@@ -49,10 +37,13 @@ export const Product = () => {
         // reviews
         negativeScoresCount,
         positiveScoresCount,
-        // related
-        originalGame,
-        relatedGames,
     } = mapDataFromApi(productData)
+
+    console.log(productData)
+
+    const matchMedia = useMatchMedia()
+    const router = useRouter()
+    const commentsReviewMode = Boolean(router.query.reviewsMode)
 
     const headerProps = {
         id,
@@ -83,32 +74,72 @@ export const Product = () => {
 
     const reviewsProps = {
         productId: id,
+        productName: name,
         negativeScoresCount,
         positiveScoresCount,
+        expandedMode: commentsReviewMode,
+        activeCommentId:
+            typeof router.query.activeComment === 'string' ? router.query.activeComment : undefined,
     }
 
     const relatedGamesProps = {
-        originalGame,
-        relatedGames,
+        productId: id,
     }
+
+    console.log(tagsProps)
 
     return (
         <>
             <Head>
-                <title>Buy {productData.name}</title>
+                <title>
+                    {!commentsReviewMode
+                        ? `Buy ${productData.name}`
+                        : `${productData.name} | Reviews`}
+                </title>
             </Head>
             <Header {...headerProps} />
-            <div className='wrap'>
-                <h2 className={s.title}>About the game</h2>
-                <div className={s.descriptionRow}>
-                    <Description {...descriptionProps} />
-                    <Properties {...properties} />
-                </div>
-            </div>
-            {/* switch w/ system req and tags */}
-            <Reviews {...reviewsProps} />
-            {/* <RelatedGames {...relatedGamesProps} /> */}
-            {/* <RecommendedGames/> */}
+            {!commentsReviewMode ? (
+                <>
+                    <div className='wrap'>
+                        <h2 className={s.title}>About the game</h2>
+                        <div className={`${s.gridRow} ${s.descRow}`}>
+                            <Description {...descriptionProps} />
+                            <Properties {...properties} />
+                        </div>
+                    </div>
+                    <div className='wrap'>
+                        {matchMedia && (matchMedia.isMore1200 || matchMedia.isMore1440) ? (
+                            <>
+                                <div className={`${s.gridRow} ${s.sysReqRow}`}>
+                                    <h2 className={s.title}>System requirements</h2>
+                                    <h2 className={s.title}>Features</h2>
+                                </div>
+                                <div className={`${s.gridRow} ${s.sysReqRow}`}>
+                                    <SystemRequirements {...systemReqProps} />
+                                    <Tags {...tagsProps} />
+                                </div>
+                            </>
+                        ) : (
+                            <div className={`${s.gridRow} ${s.sysReqRow}`}>
+                                <div>
+                                    <h2 className={s.title}>System requirements</h2>
+                                    <SystemRequirements {...systemReqProps} />
+                                </div>
+                                <div>
+                                    <h2 className={s.title}>Features</h2>
+                                    <Tags {...tagsProps} />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <Reviews {...reviewsProps} />
+                    {/* <RelatedGames {...relatedGamesProps} /> */}
+                    {/* <RecommendedGames/> */}
+                </>
+            ) : (
+                <Reviews {...reviewsProps} />
+            )}
         </>
     )
 }

@@ -1,0 +1,92 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+
+    @media all and (max-width: 1300px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.gridPlaceholder {
+    @media all and (max-width: 1300px) {
+        display: none;
+    }
+}
+
+.wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+
+    @media all and (max-width: 768px) {
+        display: block;
+    }
+}
+
+.requirements {
+    padding: $mdContainerPadding;
+
+    &__title {
+        margin-bottom: 30px;
+        width: 100%;
+        max-width: 300px;
+        height: 44px;
+        background: rgba(113, 15, 173, 0.5);
+        border: 0.5px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(2px);
+        border-radius: 15px;
+
+        text-transform: capitalize;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media all and (max-width: 540px) {
+            max-width: 100%;
+        }
+
+        &_dark {
+            background: rgba(43, 39, 50, 0.4);
+        }
+    }
+
+    &__elements {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        @media all and (max-width: 960px) {
+            gap: 20px;
+        }
+
+        @media all and (max-width: 768px) {
+            gap: 15px;
+        }
+    }
+}
+
+.filter {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-gap: 15px;
+
+    word-break: break-word;
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+        grid-template-columns: 80px 1fr;
+    }
+
+    &__title {
+        font-weight: 700;
+        text-transform: capitalize;
+        color: $blueLight;
+    }
+
+    &__value {
+        text-transform: capitalize;
+    }
+}

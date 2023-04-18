@@ -2,6 +2,7 @@ import type { Product as ProductT } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import s from './Product.module.scss'
+import ImageFill from '~/modules/shared/components/Image/Image'
 
 export const Product = ({
     id,
@@ -15,11 +16,18 @@ export const Product = ({
             {horizontalImagePath ? (
                 <Link href={`/admin/products/edit/${id}`}>
                     <div className={s.image}>
-                        <Image
+                        {/* <Image
                             src={horizontalImagePath}
                             alt={name}
                             fill
                             style={{ objectFit: 'contain' }}
+                            sizes='100px'
+                        /> */}
+                        <ImageFill
+                            src={horizontalImagePath}
+                            alt={name}
+                            objectFit='contain'
+                            sizes='100px'
                         />
                     </div>
                 </Link>

@@ -3,6 +3,7 @@
 .wrap {
     max-width: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 .sliderWrap {
@@ -19,16 +20,43 @@
             border-radius: 0;
         }
     }
+
+    @media all and (max-width: 480px) {
+        margin-bottom: 0;
+    }
 }
 
 .slide {
     cursor: pointer;
     border-radius: 25px;
     overflow: hidden;
+
+    @media all and (max-width: 1200px) {
+        border-radius: 20px;
+    }
+
+    @media all and (max-width: 960px) {
+        border-radius: 15px;
+    }
+
+    @media all and (max-width: 768px) {
+        border-radius: 10px;
+    }
+
+    @media all and (max-width: 480px) {
+        border-radius: 0px;
+    }
 }
 
 .thumbs {
     padding-right: 1px !important;
+
+    @media all and (max-width: 480px) {
+        position: absolute !important;
+        bottom: 10px;
+        left: 15px;
+        width: calc(100% - 30px);
+    }
 }
 
 .thumb {
@@ -37,9 +65,44 @@
     cursor: pointer;
     position: relative;
     aspect-ratio: 16 / 9 !important;
+    max-width: 160px;
 
     &_active {
         border: 1px solid $blueLight;
+    }
+
+    @media all and (max-width: 960px) {
+        border-radius: 5px;
+    }
+
+    @media all and (max-width: 480px) {
+        max-height: 18px;
+        width: auto !important;
+        flex-grow: 1;
+        border-radius: 0;
+
+        &::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+        }
+
+        &_active {
+            border: none;
+
+            &::after {
+                background: $blueLight;
+            }
+        }
+
+        div,
+        img {
+            display: none;
+        }
     }
 }
 
@@ -52,6 +115,10 @@
     gap: 6px;
     z-index: 1;
 
+    @media all and (max-width: 960px) {
+        display: none;
+    }
+
     &_popup {
         bottom: 0;
         right: calc(-20px - $sliderBtnSize);
@@ -63,6 +130,10 @@
         @media all and (max-width: 1660px) {
             right: 0;
             width: 100%;
+        }
+
+        @media all and (max-width: 960px) {
+            display: flex;
         }
 
         justify-content: space-between;

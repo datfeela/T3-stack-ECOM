@@ -3,13 +3,17 @@ import type { GetServerSideProps } from 'next'
 import { prisma } from '~/server/db'
 import { Product } from '~/modules/widgets/Product'
 import { Breadcrumbs } from '~/modules/features/Breadcrumbs'
+import type { ProductPagePropsSerialized } from '~/modules/entities/product'
 
-const ProductPage = ({ productName }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const ProductPage = ({ product }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const { name } = product
+    const releaseDate = new Date(JSON.parse(product.releaseDate) as string)
+
     return (
         <>
             <main>
-                <Breadcrumbs pidName={productName} />
-                <Product />
+                <Breadcrumbs pidName={name} />
+                <Product productData={{ ...product, releaseDate }} />
                 {/* reviews */}
             </main>
         </>
@@ -19,7 +23,7 @@ const ProductPage = ({ productName }: InferGetServerSidePropsType<typeof getServ
 export default ProductPage
 
 export const getServerSideProps: GetServerSideProps<{
-    productName: string
+    product: ProductPagePropsSerialized
 }> = async ({ params }) => {
     if (!params?.pid || typeof params.pid !== 'string')
         return {
@@ -30,6 +34,19 @@ export const getServerSideProps: GetServerSideProps<{
         where: {
             id: typeof params?.pid === 'string' ? params.pid : '',
         },
+        include: {
+            categories: true,
+            characteristics: true,
+            detailPageImages: true,
+            filters: {
+                include: {
+                    values: true,
+                },
+            },
+            wishedBy: true,
+            systemRequirementsMinimal: true,
+            systemRequirementsRecommended: true,
+        },
     })
 
     if (!product)
@@ -37,5 +54,5 @@ export const getServerSideProps: GetServerSideProps<{
             notFound: true,
         }
 
-    return { props: { productName: product?.name } }
+    return { props: { product: { ...product, releaseDate: JSON.stringify(product.releaseDate) } } }
 }

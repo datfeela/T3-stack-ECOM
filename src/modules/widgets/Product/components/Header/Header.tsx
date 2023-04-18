@@ -1,9 +1,10 @@
-import { ImageFill } from '~/modules/shared/components/Image/Image'
+import ImageFill from '~/modules/shared/components/Image/Image'
 import { Slider } from '../Slider/Slider'
 import s from './Header.module.scss'
 import { Discount } from '~/modules/shared/components/Discount/Discount'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { Favorites } from '~/modules/features/Favorites'
+import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 export interface HeaderProps {
     id: string
     title: string
@@ -31,11 +32,13 @@ export const Header = ({
     ytTrailerPath && videosSrc.push(ytTrailerPath)
     ytGameplayTrailerPath && videosSrc.push(ytGameplayTrailerPath)
 
+    const matchMedia = useMatchMedia()
+
     return (
         <div className={s.wrap}>
             <div className={s.bgWrap}>
                 <div className={s.bg}>
-                    {coverImagePath ? <ImageFill src={coverImagePath} /> : null}
+                    {coverImagePath ? <ImageFill priority={true} src={coverImagePath} /> : null}
                 </div>
                 <div className={s.bgShadow}></div>
                 {/* TODO: !PLACEHOLDER BG */}
@@ -46,16 +49,18 @@ export const Header = ({
                     videosSrc={videosSrc}
                     horizontalImage={horizontalImagePath}
                 />
-                <div className={s.info}>
+                <div className={`${s.info}`}>
                     <h1 className={s.title}>{title}</h1>
                     <div className={s.priceBlock}>
                         <div className={s.priceRow}>
                             <div className={s.price}>{price} y.e</div>
                             {priceWithoutDiscount ? (
                                 <>
-                                    <div className={`${s.price} ${s.price_discount}`}>
-                                        {priceWithoutDiscount} y.e
-                                    </div>
+                                    {!matchMedia || (matchMedia && !matchMedia?.isMore480) ? (
+                                        <div className={`${s.price} ${s.price_discount}`}>
+                                            {priceWithoutDiscount} y.e
+                                        </div>
+                                    ) : null}
                                     <Discount
                                         price={price}
                                         priceWithoutDiscount={priceWithoutDiscount}
@@ -65,8 +70,32 @@ export const Header = ({
                                 <div />
                             )}
                         </div>
+                        <div className={`${s.priceRow} ${s.priceRow_mobile}`}>
+                            {priceWithoutDiscount ? (
+                                <Discount
+                                    price={price}
+                                    priceWithoutDiscount={priceWithoutDiscount}
+                                    view='square'
+                                />
+                            ) : null}
+                            <div className={s.priceContainerMobile}>
+                                <div className={s.price}>{price} y.e</div>
+                                {priceWithoutDiscount ? (
+                                    <div className={`${s.price} ${s.price_discount}`}>
+                                        {priceWithoutDiscount} y.e
+                                    </div>
+                                ) : null}
+                            </div>
+                        </div>
+                        {matchMedia?.isMore480 && priceWithoutDiscount ? (
+                            <div className={s.priceRow}>
+                                <div className={`${s.price} ${s.price_discount}`}>
+                                    {priceWithoutDiscount} y.e
+                                </div>
+                            </div>
+                        ) : null}
                         <div className={s.buyRow}>
-                            <ButtonDefault fontSize='lg'>
+                            <ButtonDefault fontSize='md'>
                                 <span>Buy now</span>
                             </ButtonDefault>
                             <Favorites id={id} withBg={true} />

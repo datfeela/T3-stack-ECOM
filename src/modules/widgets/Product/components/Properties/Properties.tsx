@@ -51,7 +51,7 @@ const Property = ({ name, value }: PropertyProps) => {
                         value.map((text, valueId) => {
                             return (
                                 <span key={valueId}>
-                                    {valueId > 0 ? ', ' : ''}
+                                    {valueId > 0 ? `${name === 'genre' ? ' / ' : ', '}` : ''}
                                     {text}
                                 </span>
                             )
