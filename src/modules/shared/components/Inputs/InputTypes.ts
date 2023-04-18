@@ -1,4 +1,5 @@
 import type { FormikErrors, FormikTouched } from 'formik'
+import type { DefaultColor } from '../../types/types'
 
 export interface DynamicInputProps {
     title?: string
@@ -32,6 +33,8 @@ export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
     rows?: string
     isUserField?: boolean
     value?: string | boolean
+    color?: Exclude<DefaultColor, 'red'>
+    radioOptions?: string[]
 }
 
 export interface BasicInputProps extends InputProps {
