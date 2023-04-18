@@ -1,15 +1,17 @@
 @import '/src/modules/shared/styles/var.scss';
 
 .button {
-    width: 200px;
-    max-width: 200px;
+    min-width: 200px;
+    width: fit-content;
+    max-width: 270px;
     height: 58px;
-    padding: 15px;
+    padding: 15px 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
     background: $purple;
+    color: #fff;
 
     clip-path: polygon(
         0 0,
@@ -31,7 +33,29 @@
         line-height: 150%;
         letter-spacing: 0.2em;
         text-transform: uppercase;
-        color: #000;
+        color: #fff;
+    }
+
+    @media all and (max-width: 1200px) {
+        height: 46px;
+        min-width: 152px;
+    }
+
+    @media all and (max-width: 768px) {
+        height: 32px;
+        min-width: 120px;
+        padding: 10px 15px;
+
+        clip-path: polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            calc(100% - 0.7rem) 100%,
+            calc(100% - 0.7rem) calc(100% - 3px),
+            calc(100% - 1.8rem) calc(100% - 3px),
+            calc(100% - 1.8rem) 100%,
+            0 100%
+        );
     }
 
     // modifiers
@@ -59,20 +83,41 @@
     // colors
     &_yellow {
         background: $yellow;
+        color: #000;
+
+        * {
+            color: #000;
+        }
+    }
+
+    &_blue {
+        background: $blueLight;
+        color: #000;
+
+        * {
+            color: #000;
+        }
     }
 
     &_red {
         background: $red;
     }
 
-    &_blue {
-        background: $blueLight;
-    }
-
     // sizes
 
+    &_lgHeight {
+        @media all and (max-width: 1200px) {
+            height: 50px;
+            min-width: 152px;
+        }
+
+        @media all and (max-width: 768px) {
+            height: 40px;
+        }
+    }
+
     &_small {
-        max-width: 160px;
+        max-width: 200px;
         height: 53px;
 
         * {
@@ -82,7 +127,29 @@
 
     &_fontLg {
         * {
+            font-size: 24px;
+
+            @media all and (max-width: 1200px) {
+                font-size: 18px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 16px;
+            }
+        }
+    }
+
+    &_fontMd {
+        * {
             font-size: 20px;
+
+            @media all and (max-width: 1200px) {
+                font-size: 16px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 14px;
+            }
         }
     }
 
@@ -150,6 +217,12 @@ $slice-5: inset(80% -6px 5% 0);
     clip-path: $slice-0;
     text-shadow: -3px -3px 0px $red, 3px 3px 0px $blueLight;
     background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $yellow 5%);
+
+    &.button {
+        &_purple {
+            background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $purple 5%);
+        }
+    }
 }
 
 @keyframes glitch {

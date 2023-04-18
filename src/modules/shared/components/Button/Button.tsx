@@ -13,9 +13,9 @@ interface ButtonProps<El extends ElementType = ElementType> {
     // visual customization
     color?: DefaultColor
     width?: 'sm' | 'default' | 'wide'
-    height?: 'sm' | 'default'
+    height?: 'sm' | 'default' | 'lg'
     fontW?: '400' | '500' | '600' | '700'
-    fontSize?: 'default' | 'lg'
+    fontSize?: 'default' | 'md' | 'lg'
     withDecorative?: boolean
     isGlitching?: boolean
 }
@@ -96,6 +96,8 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     width === 'wide' && (clName += ' ' + s.button_wide)
     width === 'sm' && (clName += ' ' + s.button_small)
     height === 'sm' && (clName += ' ' + s.button_lowHeight)
+    height === 'lg' && (clName += ' ' + s.button_lgHeight)
+    fontSize === 'md' && (clName += ' ' + s.button_fontMd)
     fontSize === 'lg' && (clName += ' ' + s.button_fontLg)
 
     // display change
@@ -115,7 +117,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
                 borders={false}
             >
                 <TagName {...props} className={clName}>
-                    {children}
+                    <span>{children}</span>
                     {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
                     {withDecorative ? (
                         <div className={s.iconDecorative}>
@@ -128,7 +130,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
             {isGlitching ? (
                 <div className={s.shadow}>
                     <TagName {...props} className={`${clName} ${s.buttonGlitch}`}>
-                        {children}
+                        <span>{children}</span>
                         {shouldIconDisplay ? <div className={s.iconWrap}>{Icon}</div> : null}
                         {withDecorative ? (
                             <div className={s.iconDecorative}>
