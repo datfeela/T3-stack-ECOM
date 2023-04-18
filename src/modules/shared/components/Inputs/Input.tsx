@@ -11,6 +11,8 @@ export const Input: React.FC<InputProps> = ({
     touched,
     type,
     value,
+    color,
+    radioOptions,
     ...props
 }) => {
     let inputClassname = s.input
@@ -18,6 +20,18 @@ export const Input: React.FC<InputProps> = ({
     inputClassname += type === 'date' ? ' ' + s.date : ''
     inputClassname += touched ? ' ' + s.input_touched : ''
     inputClassname += errors ? ' ' + s.input_error : ''
+
+    switch (color) {
+        case 'purple':
+            inputClassname += ' ' + s.input_purple
+            break
+        case 'yellow':
+            inputClassname += ' ' + s.input_yellow
+            break
+        default:
+            break
+    }
+
     inputClassname += extraClassName ? ' ' + extraClassName : ''
 
     if (type === 'checkbox') {
@@ -26,6 +40,20 @@ export const Input: React.FC<InputProps> = ({
                 <Field type='checkbox' name={name} value={value} />
                 {title || name}
             </label>
+        )
+    }
+
+    if (type === 'radio') {
+        if (!radioOptions) return null
+        return (
+            <div role='group'>
+                {radioOptions.map((value, id) => (
+                    <label key={id} className={s.checkboxWrap}>
+                        <Field type='radio' name={name} value={value} />
+                        {value}
+                    </label>
+                ))}
+            </div>
         )
     }
 
