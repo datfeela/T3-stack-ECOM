@@ -1,9 +1,13 @@
 import debounce from 'lodash.debounce'
-import { useLayoutEffect, useState } from 'react'
+import { useState } from 'react'
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
 export const useWindowSize = () => {
+    const useEffect = useIsomorphicLayoutEffect()
+
     const [size, setSize] = useState({ width: 0, height: 0 })
-    useLayoutEffect(() => {
+
+    useEffect(() => {
         const updateSize = debounce(() => {
             setSize({ width: window.innerWidth, height: window.innerHeight })
         }, 150)
