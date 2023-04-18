@@ -1,0 +1,13 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.addReviewButton {
+    margin-bottom: 20px;
+
+    &_hidden {
+        display: none;
+    }
+
+    &_noMargin {
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,152 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+
+    &_expandedMode {
+        margin-bottom: 25px;
+        display: block;
+
+        .rating {
+            font-family: Orbitron;
+
+            margin-top: 25px;
+            width: 171px;
+            height: 171px;
+            border-radius: 50%;
+            border: 5px solid $blueLight;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            &__icon {
+                display: none;
+            }
+
+            &__number {
+                font-size: 36px;
+
+                @media all and (max-width: 768px) {
+                    font-size: 26px;
+                }
+            }
+
+            &__text {
+                @media all and (max-width: 768px) {
+                    font-size: 14px;
+                }
+            }
+
+            @media all and (max-width: 768px) {
+                width: 146px;
+                height: 146px;
+                margin-top: 15px;
+            }
+        }
+
+        .header__bottom {
+            height: 58px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+
+            @media all and (max-width: 1200px) {
+                height: 50px;
+            }
+
+            @media all and (max-width: 768px) {
+                height: 40px;
+            }
+
+            @media all and (max-width: 480px) {
+                align-items: center;
+            }
+        }
+
+        .reviewsCount {
+            font-family: 'Orbitron';
+            font-size: 20px;
+
+            @media all and (max-width: 1200px) {
+                font-size: 18px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 16px;
+            }
+        }
+
+        .expandBtn {
+            display: none;
+        }
+    }
+
+    &_withAddForm {
+        margin-bottom: 0;
+    }
+}
+
+.title {
+    margin-bottom: 0;
+}
+
+.rating {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    &__icon {
+        height: 17px;
+        width: 17px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &_reversed {
+            transform: rotateZ(180deg);
+        }
+
+        svg {
+            fill: #fff;
+        }
+    }
+
+    span {
+        font-weight: 300;
+    }
+}
+
+.expandBtn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &__icon {
+        width: 18px;
+        height: 18px;
+
+        svg {
+            height: 100%;
+            width: 100%;
+            fill: #fff;
+        }
+    }
+    span {
+        font-family: Orbitron;
+        text-transform: uppercase;
+    }
+}
+
+.addReviewButton {
+    &_hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
