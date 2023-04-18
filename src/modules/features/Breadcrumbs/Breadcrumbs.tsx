@@ -12,7 +12,7 @@ export const Breadcrumbs = ({ pidName }: BreadcrumbsProps) => {
 
     let currentPath = ''
 
-    const paths = router.pathname.split('/').map((path) => {
+    let paths = router.pathname.split('/').map((path) => {
         if (path === '') return { name: 'Main', link: '/' }
 
         currentPath += `/${path}`
@@ -22,9 +22,12 @@ export const Breadcrumbs = ({ pidName }: BreadcrumbsProps) => {
         //
 
         // change pid for name via props
-        if (path === '[pid]') return { name: pidName, link: currentPath }
+        if (path === '[pid]')
+            return { name: pidName, link: currentPath.replace('[pid]', router.query.pid as string) }
         return { name: path, link: currentPath }
     })
+
+    router.query.reviewsMode && paths.push({ name: 'reviews', link: '' })
 
     return (
         <div className={`${s.wrap} wrap`}>
