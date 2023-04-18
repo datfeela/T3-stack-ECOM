@@ -89,6 +89,7 @@ model Product {
     name                                   String
     price                                  Int
     priceWithoutDiscount                   Int?
+    productType                            String                    @default("game")
     desc                                   String?
     quantityInStock                        Int                       @default(0)
     releaseDate                            DateTime                  @default(now())
