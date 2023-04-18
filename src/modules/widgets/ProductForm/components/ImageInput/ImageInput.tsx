@@ -22,8 +22,6 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
     const inputRef = useRef(null) as React.RefObject<HTMLInputElement> | null
 
     const deleteImage = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log(e.currentTarget.value)
-
         e.preventDefault()
         const input = inputRef?.current as HTMLInputElement
         input.value = ''
@@ -51,9 +49,16 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
             {imgSrc ? (
                 <div className={s.buttonsWrap}>
                     <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault width='sm'>Change image</ButtonDefault>
+                        <ButtonDefault isGlitching={false} element='span' width='sm'>
+                            Change image
+                        </ButtonDefault>
                     </label>
-                    <ButtonDefault width='sm' onClick={deleteImage} type='button'>
+                    <ButtonDefault
+                        isGlitching={false}
+                        width='sm'
+                        onClick={deleteImage}
+                        type='button'
+                    >
                         Delete image
                     </ButtonDefault>
                 </div>
@@ -61,7 +66,9 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                 <div className={s.buttonsWrap}>
                     <span></span>
                     <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault width='sm'>Add Image</ButtonDefault>
+                        <ButtonDefault isGlitching={false} element='span' width='sm'>
+                            Add Image
+                        </ButtonDefault>
                     </label>
                 </div>
             )}

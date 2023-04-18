@@ -4,6 +4,7 @@ import type {
     addProductValidationSchema,
     editProductValidationSchema,
     formikAddProductValidationSchema,
+    productType,
 } from './lib/validationSchemas'
 
 export type ProductFiltersToApi = z.infer<typeof filtersSchema>
@@ -11,6 +12,7 @@ export type SubmitFormProps = z.infer<typeof formikAddProductValidationSchema>
 
 export type AddProductProps = z.infer<typeof addProductValidationSchema>
 export type EditProductProps = z.infer<typeof editProductValidationSchema>
+export type ProductType = z.infer<typeof productType>
 
 export interface ProductFormProps {
     submitForm: (props: SubmitFormProps) => void

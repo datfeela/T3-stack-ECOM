@@ -38,6 +38,8 @@ const systemRequirements = z
     })
     .optional()
 
+export const productType = z.enum(['game', 'DLC', 'edition']).optional()
+
 const addProductSharedFields = z.object({
     name: z.string(),
     desc: z.string().nullable().optional(),
@@ -55,6 +57,7 @@ const addProductSharedFields = z.object({
     originalGameId: z.string().nullable().optional(),
     systemRequirementsMinimal: systemRequirements,
     systemRequirementsRecommended: systemRequirements,
+    productType,
 })
 
 export const formikAddProductValidationSchema = addProductSharedFields
@@ -91,11 +94,11 @@ export const formikAddProductValidationSchema = addProductSharedFields
                 })
                 return
             }
-            if (Number(value) <= 0) {
+            if (Number(value) < 0) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     path: [key],
-                    message: `value can't be less, than 1`,
+                    message: `value can't be less, than 0`,
                 })
                 return
             }
@@ -154,17 +157,12 @@ export const editProductValidationSchema = z
                 }),
             )
             .optional(),
+
         filters: filtersSchema.optional(),
-        systemRequirements: z
-            .object({
-                operatingSystem: z.string().optional(),
-                cpu: z.string().optional(),
-                gpu: z.string().optional(),
-                memory: z.string().optional(),
-                freeSpace: z.string().optional(),
-                soundHardware: z.string().optional(),
-            })
-            .optional(),
+        systemRequirementsMinimal: systemRequirements.optional(),
+        systemRequirementsRecommended: systemRequirements.optional(),
+        originalGameId: z.string().nullable().optional(),
+        productType,
     })
     .superRefine(({ price, priceWithoutDiscount, quantityInStock }, ctx) => {
         Object.entries({

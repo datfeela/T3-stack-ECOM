@@ -7,6 +7,7 @@ import {
 } from '~/modules/widgets/ProductForm'
 import { adminProcedure, protectedProcedure } from '../trpc'
 import { z } from 'zod'
+import { addReviewValidationSchema } from '../../../modules/shared/lib/validationSchemas'
 
 export const addProduct = adminProcedure
     .input(addProductValidationSchema)
@@ -24,6 +25,7 @@ export const addProduct = adminProcedure
             } = input
             const filtersIds: { id: string }[] | undefined =
                 filters && (await createProductFilters(filters)).map(({ id }) => ({ id }))
+
             return await prisma.product.create({
                 data: {
                     ...rest,
@@ -72,7 +74,9 @@ export const editProduct = adminProcedure
             characteristics,
             filters,
             detailPageImages,
-            systemRequirements,
+            systemRequirementsMinimal,
+            systemRequirementsRecommended,
+            originalGameId,
             ...rest
         } = input
         try {
@@ -84,6 +88,7 @@ export const editProduct = adminProcedure
                 select: {
                     filters: true,
                     categories: true,
+                    originalGameId: true,
                 },
             })
 
@@ -103,6 +108,22 @@ export const editProduct = adminProcedure
                     },
                     filters: filtersIds && {
                         connect: filtersIds,
+                    },
+                    detailPageImages: {
+                        create: detailPageImages,
+                    },
+                    originalGame: originalGameId
+                        ? {
+                              connect: {
+                                  id: originalGameId,
+                              },
+                          }
+                        : undefined,
+                    systemRequirementsMinimal: {
+                        create: systemRequirementsMinimal,
+                    },
+                    systemRequirementsRecommended: {
+                        create: systemRequirementsRecommended,
                     },
                 },
             })
@@ -158,13 +179,7 @@ export const toggleProductToWishes = protectedProcedure
     })
 
 export const addReviewToProduct = protectedProcedure
-    .input(
-        z.object({
-            productId: z.string(),
-            rating: z.number().min(0).max(1),
-            message: z.string().optional(),
-        }),
-    )
+    .input(addReviewValidationSchema)
     .mutation(async ({ ctx, input }) => {
         const { productId, rating, message } = input
         const userId = ctx.session.user.id
@@ -270,12 +285,13 @@ interface deleteProductRelationsProps {
     data: {
         filters: ProductFilter[]
         categories: ProductCategory[]
+        originalGameId: string | null
     } | null
 }
 
 async function deleteProductRelations({ productId, data }: deleteProductRelationsProps) {
     if (!data) return
-    const { filters, categories } = data
+    const { filters, categories, originalGameId } = data
 
     for (let index = 0; index < filters.length; index++) {
         const filter = filters[index]
@@ -284,14 +300,34 @@ async function deleteProductRelations({ productId, data }: deleteProductRelation
         await deleteProductFilter({ filterId: filter.id, productId })
     }
 
+    await prisma.product.update({
+        where: {
+            id: productId,
+        },
+        data: {
+            filters: {
+                deleteMany: {},
+            },
+            characteristics: {
+                deleteMany: {},
+            },
+            detailPageImages: {
+                deleteMany: {},
+            },
+            originalGame: originalGameId
+                ? {
+                      disconnect: true,
+                  }
+                : undefined,
+        },
+    })
+
     for (let index = 0; index < categories.length; index++) {
         const category = categories[index]
         if (!category) continue
 
         await disconnectProductFromCategory({ categoryId: category.id, productId })
     }
-
-    await deleteProductCharacteristics(productId)
 }
 
 interface DeleteProductFilterProps {
@@ -372,20 +408,23 @@ async function disconnectProductFromCategory({
     }
 }
 
-async function deleteProductCharacteristics(productId: string) {
-    try {
-        await prisma.product.update({
-            where: {
-                id: productId,
-            },
-            data: {
-                characteristics: {
-                    deleteMany: {},
-                },
-            },
-        })
-    } catch (e) {
-        console.log(`ERROR! can't delete product characteristics!`, e)
-        throw e
-    }
-}
+// async function deleteProductCharacteristics(productId: string) {
+//     try {
+//         await prisma.product.update({
+//             where: {
+//                 id: productId,
+//             },
+//             data: {
+//                 characteristics: {
+//                     deleteMany: {},
+//                 },
+//                 filters: {
+//                     deleteMany: {},
+//                 },
+//             },
+//         })
+//     } catch (e) {
+//         console.log(`ERROR! can't delete product characteristics!`, e)
+//         throw e
+//     }
+// }

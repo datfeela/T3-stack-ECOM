@@ -1,6 +1,8 @@
 import { mapProductFiltersFromApi } from './../../../shared/mappers/mapProductFiltersFromApi'
 import type { AppRouterOutput } from '~/server/api/root'
 import { mapDateFromApi } from './mapDateFromApi'
+import { mapSystemReqFromApi } from './mapSystemReqFromApi'
+import { ProductType } from '../ProductFormTypes'
 
 type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 
@@ -24,6 +26,7 @@ export function mapProductDataFromApi(productData: ProductData) {
         originalGameId,
         systemRequirementsMinimal,
         systemRequirementsRecommended,
+        productType,
     } = productData
 
     const filtersToFormik = mapProductFiltersFromApi(filters)
@@ -34,6 +37,10 @@ export function mapProductDataFromApi(productData: ProductData) {
         value,
     }))
 
+    const systemRequirementsMinimalMapped = mapSystemReqFromApi(systemRequirementsMinimal)
+
+    const systemRequirementsRecommendedMapped = mapSystemReqFromApi(systemRequirementsRecommended)
+
     const detailPageImagesMapped = detailPageImages.map((image) => image.value)
 
     const parsedReleaseDate = mapDateFromApi(releaseDate)
@@ -41,6 +48,8 @@ export function mapProductDataFromApi(productData: ProductData) {
     const priceStr = String(price)
     const priceWithoutDiscountStr = priceWithoutDiscount ? String(priceWithoutDiscount) : null
     const quantityInStockStr = String(quantityInStock)
+
+    const productTypeTyped = productType as ProductType
 
     return {
         desc,
@@ -59,7 +68,8 @@ export function mapProductDataFromApi(productData: ProductData) {
         detailPageImages: detailPageImagesMapped,
         releaseDate: parsedReleaseDate,
         originalGameId,
-        systemRequirementsMinimal,
-        systemRequirementsRecommended,
+        systemRequirementsMinimal: systemRequirementsMinimalMapped,
+        systemRequirementsRecommended: systemRequirementsRecommendedMapped,
+        productType: productTypeTyped,
     }
 }

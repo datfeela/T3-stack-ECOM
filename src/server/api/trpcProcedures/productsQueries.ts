@@ -82,25 +82,68 @@ export const getManyProducts = publicProcedure
 
 export const getProductReviewsById = publicProcedure
     .input(
-        z.object({ id: z.string(), quantity: z.number(), quantityToSkip: z.number().optional() }),
+        z.object({
+            id: z.string(),
+            quantity: z.number(),
+            // quantityToSkip: z.number().optional(),
+            cursor: z.string().nullish(),
+        }),
     )
     .query(async ({ input }) => {
-        const { id, quantity, quantityToSkip } = input
+        const { id, quantity, cursor } = input
 
         try {
-            return await prisma.productReview.findMany({
+            const items = await prisma.productReview.findMany({
                 where: {
                     productId: id,
                 },
                 include: {
                     User: true,
                 },
-                take: quantity,
-                skip: quantityToSkip || 0,
+                take: quantity + 1,
+                // skip: quantityToSkip || 0,
+                cursor: cursor ? { id: cursor } : undefined,
                 orderBy: {
                     date: 'desc',
                 },
             })
+
+            let nextCursor: typeof cursor | undefined = undefined
+            if (items.length > quantity) {
+                const nextItem = items.pop()
+                nextCursor = nextItem!.id
+            }
+            return {
+                items,
+                nextCursor,
+            }
+        } catch (e) {
+            console.log(`ERROR! can't get reviews!`, e)
+            throw e
+        }
+    })
+
+export const getProductReviewsStats = publicProcedure
+    .input(
+        z.object({
+            id: z.string(),
+        }),
+    )
+    .query(async ({ input }) => {
+        const { id } = input
+
+        try {
+            const data = await prisma.product.findUnique({
+                where: {
+                    id,
+                },
+                select: {
+                    negativeScoresCount: true,
+                    positiveScoresCount: true,
+                },
+            })
+
+            return data
         } catch (e) {
             console.log(`ERROR! can't get reviews!`, e)
             throw e

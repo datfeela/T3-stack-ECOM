@@ -4,7 +4,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { api } from '~/modules/shared/api/apiTRPC'
 import type { FilterResponse } from '~/server/api/apiTypes/productsRouterTypes'
-import type { ProductFormProps } from '../../ProductFormTypes'
+import type { ProductFormProps, ProductType } from '../../ProductFormTypes'
 
 import { DynamicInput } from '~/modules/shared/components/Inputs/DynamicInput'
 
@@ -17,6 +17,7 @@ import { formikAddProductValidationSchema } from '../../lib/validationSchemas'
 import { OriginalGameInput } from '../OriginalGameInput/OriginalGameInput'
 import { SystemRequirementsInputs } from '../SystemRequirementsInputs/SystemRequirementsInputs'
 import type { FilterName } from '~/modules/shared/types/productTypes'
+import { Input } from '~/modules/shared/components/Inputs/Input'
 
 // if editing existing - add product id in props
 // add custom hook that gets product data via id, if hook returns data - replace initial values
@@ -88,6 +89,7 @@ export const ProductForm = ({
             freeSpace: '',
             soundHardware: '',
         },
+        productType: initialValues?.productType || ('game' as ProductType),
     }
 
     // submit
@@ -239,6 +241,15 @@ export const ProductForm = ({
                                 errors={errors.filters?.tags}
                                 touched={touched.filters?.tags}
                             />
+                            <h2 style={{ marginBottom: '10px' }}>Product Type</h2>
+                            <div style={{ marginBottom: '15px' }}>
+                                <Input
+                                    name='productType'
+                                    type='radio'
+                                    radioOptions={['DLC', 'game', 'edition']}
+                                    title={'Product Type'}
+                                />
+                            </div>
                             <h2>Original game</h2>
                             <OriginalGameInput
                                 name='originalGameId'

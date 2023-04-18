@@ -5,8 +5,10 @@ export const handleImgUpload = async (image: string | File | undefined) => {
     let coverImgName = typeof image === 'string' ? image : ''
 
     if (typeof image === 'object') {
-        const res = await uploadImage(image)
-        if (res) coverImgName = env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH + res.newFilename
+        const { data, error } = await uploadImage(image)
+
+        if (error) throw new Error(`something went wrong, can't upload image, error: ${error}`)
+        if (data) coverImgName = env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH + data.path
     }
 
     return coverImgName
