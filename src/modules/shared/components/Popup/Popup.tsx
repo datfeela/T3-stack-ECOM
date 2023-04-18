@@ -1,4 +1,4 @@
-import { type MouseEvent, useRef, useLayoutEffect, useState } from 'react'
+import { type MouseEvent, useRef, useEffect, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
 import s from './Popup.module.scss'
@@ -9,19 +9,19 @@ export interface PopupProps {
     children: React.ReactNode
 }
 
-export const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) => {
+const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) => {
     const closeBtnRef = useRef<HTMLDivElement>(null)
 
     // if screen is wider, than 18 / 10, layout changes
     const { height, width } = useWindowSize()
     const [isWideScreen, setIsWideScreen] = useState(width / height > 2)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (isPopupActive && width / height > 1.8) setIsWideScreen(true)
         else setIsWideScreen(false)
     }, [height, width, isPopupActive])
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!document) return
         const bodyRef = document.body
 
@@ -55,3 +55,5 @@ export const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) 
         </div>
     )
 }
+
+export default Popup
