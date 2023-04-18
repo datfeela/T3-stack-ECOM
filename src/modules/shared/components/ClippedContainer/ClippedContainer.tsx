@@ -1,6 +1,7 @@
-import type { CSSProperties } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import type { DefaultColor } from '../../types/types'
 import s from './ClippedContainer.module.scss'
+import { useMatchMedia } from '../../hooks/useMatchMedia'
 
 type Corner = 'topLeft' | 'topRight' | 'botRight' | 'botLeft'
 
@@ -9,6 +10,7 @@ export interface ClippedContainerProps {
     height?: 'full' | 'fit'
     clipSize?: 'sm' | 'md' | 'lg'
     color?: DefaultColor
+    borderColor?: DefaultColor
     children: React.ReactNode
     corners?: { [key in Corner]?: boolean }
     borders?: boolean
@@ -17,6 +19,7 @@ export interface ClippedContainerProps {
 
 export const ClippedContainer = ({
     color = 'purple',
+    borderColor = 'purple',
     clipSize = 'sm',
     width = 'full',
     height = 'fit',
@@ -41,15 +44,44 @@ export const ClippedContainer = ({
             break
     }
 
+    switch (borderColor) {
+        case 'blue':
+            containerCName += ` ${s.clip_borderBlue}`
+            break
+        case 'red':
+            containerCName += ` ${s.clip_borderRed}`
+            break
+        case 'yellow':
+            containerCName += ` ${s.clip_borderYellow}`
+            break
+        default:
+            break
+    }
+
     if (width === 'fit') containerCName += ` ${s.clip_widthFit}`
     if (height === 'fit') containerCName += ` ${s.clip_heightFit}`
 
     if (!borders) containerCName += ` ${s.clip_noBorder}`
 
+    const matchMedia = useMatchMedia()
+
+    const getCurrentClipSize = () => {
+        let size = 1
+        if (clipSize === 'md') size = 2
+        if (clipSize === 'lg') size = 3
+
+        if (matchMedia?.isLess480 || matchMedia?.isMore480) size = size * 0.5
+        if (matchMedia?.isMore768 || matchMedia?.isMore960) size = size * 0.75
+
+        return `${size}rem`
+    }
+
     //clip formula
-    let size = '1rem'
-    if (clipSize === 'md') size = '2rem'
-    if (clipSize === 'lg') size = '3rem'
+    let [size, setSize] = useState(getCurrentClipSize())
+
+    useEffect(() => {
+        setSize(getCurrentClipSize())
+    }, [matchMedia])
 
     const topLeftStart = corners.topLeft ? `${size} 0,` : '0 0,'
     const topRight = corners.topRight ? `calc(100% - ${size}) 0, 100% ${size},` : '100% 0,'

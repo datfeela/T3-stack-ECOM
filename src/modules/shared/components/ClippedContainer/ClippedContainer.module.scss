@@ -20,6 +20,8 @@
         }
     }
 
+    // colors
+
     &_yellow {
         .border {
             border-color: $yellow;
@@ -50,6 +52,36 @@
         .figure {
             border-color: $blueLight;
             background: rgba($color: $blueLight, $alpha: 0.15);
+        }
+    }
+
+    &_borderYellow {
+        .border {
+            border-color: $yellow;
+        }
+
+        .figure {
+            border-color: $yellow;
+        }
+    }
+
+    &_borderRed {
+        .border {
+            border-color: $red;
+        }
+
+        .figure {
+            border-color: $red;
+        }
+    }
+
+    &_borderBlue {
+        .border {
+            border-color: $blueLight;
+        }
+
+        .figure {
+            border-color: $blueLight;
         }
     }
 }
