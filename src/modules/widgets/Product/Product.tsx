@@ -11,6 +11,7 @@ import type { ProductPageProps } from '~/modules/entities/product'
 import { SystemRequirements } from './components/SystemRequirements/SystemRequirements'
 import { Tags } from './components/Tags/Tags'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
+import { RecommendedGames } from './components/RecommendedGames/RecommendedGames'
 
 export const Product = ({ productData }: { productData: ProductPageProps }) => {
     const {
@@ -131,7 +132,7 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
 
                     <Reviews {...reviewsProps} />
                     {/* <RelatedGames {...relatedGamesProps} /> */}
-                    {/* <RecommendedGames/> */}
+                    <RecommendedGames {...relatedGamesProps} />
                 </>
             ) : (
                 <Reviews {...reviewsProps} />

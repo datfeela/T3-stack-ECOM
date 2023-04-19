@@ -1,9 +1,11 @@
-import { getProductReviewsById } from './../trpcProcedures/productsQueries'
 import { createTRPCRouter } from '../trpc'
 
 import {
-    getManyProducts,
     getProductById,
+    getProductMainDataByIdProcedure as getProductMainDataById,
+    getManyProducts,
+    getRecommendedProductsForProduct,
+    getProductReviewsById,
     getProductReviewsStats,
 } from '../trpcProcedures/productsQueries'
 import {
@@ -17,7 +19,9 @@ import {
 export const productsRouter = createTRPCRouter({
     // get
     getProductById,
+    getProductMainDataById,
     getManyProducts,
+    getRecommendedProductsForProduct,
     getProductReviewsById,
     getProductReviewsStats,
     // create

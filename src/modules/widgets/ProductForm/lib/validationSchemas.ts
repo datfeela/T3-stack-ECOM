@@ -38,7 +38,7 @@ const systemRequirements = z
     })
     .optional()
 
-export const productType = z.enum(['game', 'DLC', 'edition']).optional()
+export const productType = z.enum(['game', 'DLC', 'edition'])
 
 const addProductSharedFields = z.object({
     name: z.string(),
@@ -162,7 +162,7 @@ export const editProductValidationSchema = z
         systemRequirementsMinimal: systemRequirements.optional(),
         systemRequirementsRecommended: systemRequirements.optional(),
         originalGameId: z.string().nullable().optional(),
-        productType,
+        productType: productType.optional(),
     })
     .superRefine(({ price, priceWithoutDiscount, quantityInStock }, ctx) => {
         Object.entries({
