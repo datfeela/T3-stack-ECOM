@@ -1,18 +1,13 @@
 @import '/src/modules/shared/styles/var.scss';
 
 .wrap {
-    @media all and (min-width: 481px) and (max-width: 1200px) {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: 30px;
-    }
 }
 
 .wrapInner {
     padding: 1.5rem 1rem;
 
-    @media all and (max-width: 768px) {
-        padding: 0.5rem 1rem;
+    @media all and (max-width: 1200px) {
+        padding: 0.75rem 1rem;
     }
 }
 
@@ -36,12 +31,26 @@
     display: grid;
     grid-auto-flow: row;
     grid-gap: 10px;
+
+    @media all and (max-width: 1200px) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px 15px;
+    }
+
+    @media all and (max-width: 480px) {
+        flex-direction: column;
+    }
 }
 
 .item {
     display: flex;
     align-items: center;
     gap: 12px;
+
+    @media all and (max-width: 1200px) {
+        gap: 7px;
+    }
 
     span {
         height: 7px;

@@ -39,8 +39,6 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
         positiveScoresCount,
     } = mapDataFromApi(productData)
 
-    console.log(productData)
-
     const matchMedia = useMatchMedia()
     const router = useRouter()
     const commentsReviewMode = Boolean(router.query.reviewsMode)
@@ -85,8 +83,6 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
     const relatedGamesProps = {
         productId: id,
     }
-
-    console.log(tagsProps)
 
     return (
         <>
