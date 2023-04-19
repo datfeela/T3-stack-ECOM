@@ -7,7 +7,7 @@ import { Video } from '~/modules/shared/components/Video/Video'
 import { SliderButton } from '~/modules/shared/components/SliderButton/SliderButton'
 import { usePopup } from '~/modules/shared/hooks/usePopup'
 import ImageFill from '~/modules/shared/components/Image/Image'
-import { WithVideoCoverIcon } from '~/modules/shared/components/WithVideoCoverIcon/WithVideoCoverIcon'
+import { WithVideoCoverIcon } from '~/modules/shared/components/WrapWithCoverIcon/WrapWithVideoCoverIcon'
 
 // dynamic import
 import dynamic from 'next/dynamic'

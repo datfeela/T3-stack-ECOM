@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
-import { WithLoader } from '~/modules/shared/components/WithLoader/WithLoader'
+import { WithLoader } from '~/modules/shared/components/WrapWithLoader/WrapWithLoader'
 import { mapProductDataFromApi } from '../../mappers/mapProductDataFromApi'
 import { mapProductDataToApi } from '../../mappers/mapProductDataToApi'
 import type { SubmitFormProps } from '../../ProductFormTypes'

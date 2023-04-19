@@ -1,5 +1,5 @@
 import { SvgSelector } from '../SvgSelector/SvgSelector'
-import s from './WithVideoCoverIcon.module.scss'
+import s from './WrapWithVideoCoverIcon.module.scss'
 
 export const WithVideoCoverIcon = ({ children }: { children: React.ReactNode }) => {
     return (
