@@ -129,7 +129,6 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
                             </div>
                         )}
                     </div>
-
                     <Reviews {...reviewsProps} />
                     {/* <RelatedGames {...relatedGamesProps} /> */}
                     <RecommendedGames {...relatedGamesProps} />

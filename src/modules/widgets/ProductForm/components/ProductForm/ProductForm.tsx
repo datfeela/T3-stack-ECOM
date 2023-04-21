@@ -4,7 +4,7 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { api } from '~/modules/shared/api/apiTRPC'
 import type { FilterResponse } from '~/server/api/apiTypes/productsRouterTypes'
-import type { ProductFormProps, ProductType } from '../../ProductFormTypes'
+import type { ProductFormProps } from '../../ProductFormTypes'
 
 import { DynamicInput } from '~/modules/shared/components/Inputs/DynamicInput'
 
@@ -16,7 +16,7 @@ import SubmitButton from '../SubmitButton/SubmitButton'
 import { formikAddProductValidationSchema } from '../../lib/validationSchemas'
 import { OriginalGameInput } from '../OriginalGameInput/OriginalGameInput'
 import { SystemRequirementsInputs } from '../SystemRequirementsInputs/SystemRequirementsInputs'
-import type { FilterName } from '~/modules/shared/types/productTypes'
+import type { FilterName, ProductType } from '~/modules/shared/types/productTypes'
 import { Input } from '~/modules/shared/components/Inputs/Input'
 
 // if editing existing - add product id in props

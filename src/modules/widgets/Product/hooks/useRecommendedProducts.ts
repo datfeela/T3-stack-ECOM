@@ -1,6 +1,6 @@
 import type { Product as ProductWithoutImages, ProductImagePath } from '@prisma/client'
 import { api } from '~/modules/shared/api/apiTRPC'
-import { ProductType } from '../../ProductForm/ProductFormTypes'
+import { ProductType } from '~/modules/shared/types/productTypes'
 
 type Product = ProductWithoutImages & {
     detailPageImages: ProductImagePath[]

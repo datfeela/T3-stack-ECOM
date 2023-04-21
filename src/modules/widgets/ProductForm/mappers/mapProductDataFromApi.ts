@@ -2,7 +2,7 @@ import { mapProductFiltersFromApi } from './../../../shared/mappers/mapProductFi
 import type { AppRouterOutput } from '~/server/api/root'
 import { mapDateFromApi } from './mapDateFromApi'
 import { mapSystemReqFromApi } from './mapSystemReqFromApi'
-import { ProductType } from '../ProductFormTypes'
+import type { ProductType } from '~/modules/shared/types/productTypes'
 
 type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 

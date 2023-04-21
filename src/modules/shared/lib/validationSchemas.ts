@@ -27,6 +27,8 @@ export const clientFiltersSchema = z.object({
     features: z.array(z.string()).optional(),
 })
 
+export const productType = z.enum(['game', 'DLC', 'edition'])
+
 // product sort
 
 export const NamesToSortProductsEnum = z.nativeEnum({

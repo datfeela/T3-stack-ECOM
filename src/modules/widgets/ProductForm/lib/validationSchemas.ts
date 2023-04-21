@@ -1,3 +1,4 @@
+import { productType } from '~/modules/shared/lib/validationSchemas'
 import { z } from 'zod'
 import { clientFiltersSchema, filtersSchema } from '~/modules/shared/lib/validationSchemas'
 
@@ -37,8 +38,6 @@ const systemRequirements = z
         soundHardware: z.string().nullable().optional(),
     })
     .optional()
-
-export const productType = z.enum(['game', 'DLC', 'edition'])
 
 const addProductSharedFields = z.object({
     name: z.string(),
