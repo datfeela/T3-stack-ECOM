@@ -185,6 +185,20 @@ h3 {
     }
 }
 
+@media all and (max-width: 480px) {
+    h1 {
+        font-size: 19px;
+    }
+
+    h2 {
+        font-size: 17px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+}
+
 // noscroll for popup
 body.no-scroll {
     height: 100vh;
