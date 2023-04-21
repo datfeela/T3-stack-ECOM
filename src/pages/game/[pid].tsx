@@ -46,6 +46,11 @@ export const getServerSideProps: GetServerSideProps<{
             wishedBy: true,
             systemRequirementsMinimal: true,
             systemRequirementsRecommended: true,
+            relatedGames: {
+                select: {
+                    id: true,
+                },
+            },
         },
     })
 

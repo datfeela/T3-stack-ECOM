@@ -1,6 +1,6 @@
 import type { Product as ProductWithoutImages, ProductImagePath } from '@prisma/client'
 import { api } from '~/modules/shared/api/apiTRPC'
-import { ProductType } from '~/modules/shared/types/productTypes'
+import type { ProductType } from '~/modules/shared/types/productTypes'
 
 type Product = ProductWithoutImages & {
     detailPageImages: ProductImagePath[]
@@ -9,7 +9,7 @@ type Product = ProductWithoutImages & {
 export const useRecommendedProducts = (productId: string) => {
     const { data } = api.products.getRecommendedProductsForProduct.useQuery({
         productId,
-        quantity: 10,
+        quantity: 9,
     })
 
     if (!data) return [] as ReturnType<typeof mapProducts>
@@ -52,13 +52,15 @@ const mapProducts = ({ publisherRelatedProducts, categoriesRelatedProducts }: Ma
     })
 
     return productsSorted.map(
-        ({ id, name, price, priceWithoutDiscount, productType, horizontalImagePath }) => ({
-            id,
-            name,
-            price,
-            priceWithoutDiscount,
-            productType: productType as ProductType,
-            imgPath: horizontalImagePath,
-        }),
+        ({ id, name, price, priceWithoutDiscount, productType, horizontalImagePath }) => {
+            return {
+                id,
+                name,
+                price,
+                priceWithoutDiscount,
+                productType: productType as ProductType,
+                imgPath: horizontalImagePath,
+            }
+        },
     )
 }

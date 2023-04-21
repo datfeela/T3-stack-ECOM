@@ -15,6 +15,7 @@ export interface ClippedContainerProps {
     corners?: { [key in Corner]?: boolean }
     borders?: boolean
     withPadding?: boolean
+    background?: boolean
 }
 
 export const ClippedContainer = ({
@@ -27,6 +28,7 @@ export const ClippedContainer = ({
     children,
     borders = true,
     withPadding = false,
+    background = true,
 }: ClippedContainerProps) => {
     let containerCName = s.clip
 
@@ -102,7 +104,7 @@ export const ClippedContainer = ({
     return (
         <div className={containerCName}>
             <div
-                className={s.figure}
+                className={`${s.figure} ${!background ? s.figure_noBg : ''}`}
                 style={{
                     clipPath: clipPathFigure,
                 }}

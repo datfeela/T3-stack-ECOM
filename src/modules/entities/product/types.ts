@@ -19,6 +19,11 @@ export interface ProductPageProps extends ProductT {
     wishedBy: User[]
     systemRequirementsMinimal: ProductSystemRequirements
     systemRequirementsRecommended: ProductSystemRequirements
+    relatedGames:
+        | {
+              id: string
+          }[]
+        | undefined
 }
 
 export interface ProductPagePropsSerialized extends Omit<ProductPageProps, 'releaseDate'> {

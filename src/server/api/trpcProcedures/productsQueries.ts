@@ -4,6 +4,7 @@ import { prisma } from '~/server/db'
 import { publicProcedure } from '../trpc'
 import { z } from 'zod'
 import { sortProductsSchema } from '~/modules/shared/lib/validationSchemas'
+import { Prisma, Product, ProductCategory, ProductImagePath } from '@prisma/client'
 
 export const getProductById = publicProcedure.input(z.string()).query(async ({ input }) => {
     try {
@@ -208,6 +209,77 @@ export const getRecommendedProductsForProduct = publicProcedure
                 categoriesRelatedProducts: categoriesRelatedProductsFiltered,
                 publisherRelatedProducts,
             }
+        } catch (e) {
+            console.log(`ERROR! can't get categories!`, e)
+            throw e
+        }
+    })
+
+export const getRelatedProducts = publicProcedure
+    .input(
+        z.object({
+            productId: z.string(),
+            originalGameId: z.string().nullable(),
+            relatedGamesIds: z.array(z.string()).optional(),
+        }),
+    )
+    .query(async ({ ctx, input }) => {
+        const { productId, originalGameId, relatedGamesIds } = input
+
+        try {
+            let productsToReturn = [] as (Product & {
+                detailPageImages: ProductImagePath[]
+            })[]
+
+            if (originalGameId) {
+                const originalProduct = await prisma.product.findUnique({
+                    where: {
+                        id: originalGameId,
+                    },
+                    include: {
+                        detailPageImages: true,
+                        relatedGames: {
+                            include: {
+                                detailPageImages: true,
+                            },
+                        },
+                    },
+                })
+
+                if (originalProduct) {
+                    const { relatedGames, ...rest } = originalProduct
+
+                    productsToReturn.push({ ...rest })
+                    productsToReturn.push(...relatedGames.filter((el) => el.id !== productId))
+                }
+            }
+
+            if (relatedGamesIds) {
+                const productsPromises = [] as Prisma.Prisma__ProductClient<Product | null, null>[]
+
+                relatedGamesIds.forEach((id) => {
+                    const productPromise = prisma.product.findUnique({
+                        where: {
+                            id,
+                        },
+                        include: {
+                            detailPageImages: true,
+                        },
+                    })
+
+                    productsPromises.push(productPromise)
+                })
+
+                const products = (await Promise.all(productsPromises)).filter(
+                    (el) => el !== null,
+                ) as (Product & {
+                    detailPageImages: ProductImagePath[]
+                })[]
+
+                productsToReturn.push(...products)
+            }
+
+            return productsToReturn
         } catch (e) {
             console.log(`ERROR! can't get categories!`, e)
             throw e

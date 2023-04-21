@@ -28,8 +28,18 @@
 
     &_sm {
         width: 63px;
-        height: 36px;
+        height: 32px;
         font-size: 14px;
+
+        @media all and (max-width: 1200px) {
+            height: 26px;
+            font-size: 14px;
+        }
+
+        @media all and (max-width: 768px) {
+            width: fit-content;
+            height: 22px;
+        }
     }
 
     &_square {

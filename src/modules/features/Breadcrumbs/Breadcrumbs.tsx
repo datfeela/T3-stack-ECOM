@@ -27,7 +27,8 @@ export const Breadcrumbs = ({ pidName }: BreadcrumbsProps) => {
         return { name: path, link: currentPath }
     })
 
-    router.query.reviewsMode && paths.push({ name: 'reviews', link: '' })
+    router.query.reviewsMode && paths.push({ name: 'Reviews', link: '' })
+    router.query.recommendedGamesMode && paths.push({ name: 'Recommended games', link: '' })
 
     return (
         <div className={`${s.wrap} wrap`}>

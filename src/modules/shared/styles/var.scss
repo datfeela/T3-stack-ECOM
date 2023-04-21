@@ -3,7 +3,10 @@ $background: #25212b;
 $fontColor: #fff;
 $headerBg: #1d1a21;
 
-$grey: #ffffff80;
+$grey: rgba(
+    $color: #fff,
+    $alpha: 0.5,
+);
 
 $blueLight: #00e4f2;
 // $blue: #0ea5e9;

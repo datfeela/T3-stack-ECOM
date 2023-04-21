@@ -1,0 +1,35 @@
+.slide {
+    height: auto;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    @media all and (max-width: 600px) {
+        gap: 12px;
+    }
+}
+
+.btn {
+    margin-top: 38px;
+
+    @media all and (max-width: 1200px) {
+        margin-top: 25px;
+    }
+
+    @media all and (max-width: 600px) {
+        margin-top: 15px;
+    }
+
+    &_prev {
+        position: relative;
+    }
+    &_next {
+        position: relative;
+    }
+    &_hidden {
+        display: none !important;
+    }
+}

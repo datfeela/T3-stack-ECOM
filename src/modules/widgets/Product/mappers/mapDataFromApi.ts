@@ -6,13 +6,15 @@ import type { Platform } from '../types/types'
 import type { ProductPageProps } from '~/modules/entities/product'
 
 export const mapDataFromApi = (props: ProductPageProps) => {
-    const { categories, detailPageImages, filters, releaseDate, ...rest } = props
+    const { categories, detailPageImages, filters, releaseDate, relatedGames, ...rest } = props
 
     const categoriesMapped = mapCategoriesFromApi(categories)
     const detailPageImagesMapped = mapImagesFromApi(detailPageImages)
     const { tags, features, platforms, ...restFilters } = mapProductFiltersFromApi(filters)
 
     const releaseDateParsed = parseDateToString(releaseDate)
+
+    console.log(relatedGames)
 
     return {
         detailImages: detailPageImagesMapped,
@@ -26,6 +28,7 @@ export const mapDataFromApi = (props: ProductPageProps) => {
         tags,
         features,
         releaseDate: releaseDateParsed,
+        relatedGamesIds: relatedGames?.map(({ id }) => id),
         ...rest,
     }
 }

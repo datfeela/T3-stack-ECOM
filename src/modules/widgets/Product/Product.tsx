@@ -12,6 +12,7 @@ import { SystemRequirements } from './components/SystemRequirements/SystemRequir
 import { Tags } from './components/Tags/Tags'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 import { RecommendedGames } from './components/RecommendedGames/RecommendedGames'
+import { RelatedGames } from './components/RelatedGames/RelatedGames'
 
 export const Product = ({ productData }: { productData: ProductPageProps }) => {
     const {
@@ -38,11 +39,15 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
         // reviews
         negativeScoresCount,
         positiveScoresCount,
+        // relatedGames
+        originalGameId,
+        relatedGamesIds,
     } = mapDataFromApi(productData)
 
     const matchMedia = useMatchMedia()
     const router = useRouter()
     const commentsReviewMode = Boolean(router.query.reviewsMode)
+    const recommendedGamesMode = Boolean(router.query.recommendedGamesMode)
 
     const headerProps = {
         id,
@@ -83,6 +88,14 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
 
     const relatedGamesProps = {
         productId: id,
+        originalGameId,
+        relatedGamesIds,
+    }
+
+    const recommendedGamesProps = {
+        productId: id,
+        expandedMode: recommendedGamesMode,
+        productName: name,
     }
 
     return (
@@ -95,7 +108,7 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
                 </title>
             </Head>
             <Header {...headerProps} />
-            {!commentsReviewMode ? (
+            {!commentsReviewMode && !recommendedGamesMode ? (
                 <>
                     <div className='wrap'>
                         <h2 className={s.title}>About the game</h2>
@@ -130,12 +143,14 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
                         )}
                     </div>
                     <Reviews {...reviewsProps} />
-                    {/* <RelatedGames {...relatedGamesProps} /> */}
-                    <RecommendedGames {...relatedGamesProps} />
+                    <RelatedGames {...relatedGamesProps} />
+                    <RecommendedGames {...recommendedGamesProps} />
                 </>
-            ) : (
-                <Reviews {...reviewsProps} />
-            )}
+            ) : null}
+            {!commentsReviewMode && recommendedGamesMode ? (
+                <RecommendedGames {...recommendedGamesProps} />
+            ) : null}
+            {commentsReviewMode && !recommendedGamesMode ? <Reviews {...reviewsProps} /> : null}
         </>
     )
 }

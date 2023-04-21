@@ -179,7 +179,7 @@
     &_discount {
         font-size: 26px;
         text-decoration-line: line-through;
-        color: rgba($color: #fff, $alpha: 0.5);
+        color: $grey;
     }
 
     @media all and (max-width: 1200px) {

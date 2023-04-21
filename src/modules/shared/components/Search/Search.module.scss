@@ -17,6 +17,12 @@
     right: 0;
     top: calc(50% - 10px);
 
+    &:hover {
+        svg {
+            fill: #fff;
+        }
+    }
+
     svg {
         fill: $grey;
     }

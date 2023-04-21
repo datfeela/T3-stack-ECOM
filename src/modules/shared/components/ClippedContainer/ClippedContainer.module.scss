@@ -99,6 +99,10 @@
     border-style: solid;
     border-width: 2px;
     background: rgba($color: $purple, $alpha: 0.15);
+
+    &_noBg {
+        background: transparent !important;
+    }
 }
 
 .content {

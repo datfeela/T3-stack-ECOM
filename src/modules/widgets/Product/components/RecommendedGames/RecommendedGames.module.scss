@@ -1,4 +1,80 @@
 @import '/src/modules/shared/styles/var.scss';
 
-.wrap {
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.expandBtn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &__icon {
+        width: 18px;
+        height: 18px;
+
+        svg {
+            height: 100%;
+            width: 100%;
+            fill: #fff;
+        }
+    }
+    span {
+        font-family: Orbitron;
+        text-transform: uppercase;
+    }
+}
+
+.slide {
+    height: auto;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    @media all and (max-width: 600px) {
+        gap: 12px;
+    }
+}
+
+.btn {
+    margin-top: 38px;
+
+    @media all and (max-width: 1200px) {
+        margin-top: 25px;
+    }
+
+    @media all and (max-width: 600px) {
+        margin-top: 15px;
+    }
+
+    &_prev {
+        position: relative;
+    }
+    &_next {
+        position: relative;
+    }
+    &_hidden {
+        display: none !important;
+    }
+}
+
+.productsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: 20px;
+
+    @media all and (max-width: 1200px) {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    @media all and (max-width: 600px) {
+        grid-template-columns: 1fr;
+    }
 }

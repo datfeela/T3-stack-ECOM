@@ -135,16 +135,24 @@
 
 .btnToReview {
     position: absolute;
-    bottom: 22px;
+    bottom: 12px;
     right: 22px;
 
     height: 34px;
     width: 34px;
     padding: 8px;
 
+    &:hover {
+        svg {
+            fill: $blueLight;
+            transform: translateX(3px);
+        }
+    }
+
     svg {
         height: 100%;
         width: 100%;
         fill: #fff;
+        transition: 0.3s;
     }
 }
