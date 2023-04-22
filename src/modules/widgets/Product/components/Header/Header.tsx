@@ -5,6 +5,7 @@ import { Discount } from '~/modules/shared/components/Discount/Discount'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { Favorites } from '~/modules/features/Favorites'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
+import { BuyButton } from '~/modules/features/BuyButton'
 export interface HeaderProps {
     id: string
     title: string
@@ -95,9 +96,7 @@ export const Header = ({
                             </div>
                         ) : null}
                         <div className={s.buyRow}>
-                            <ButtonDefault fontSize='md'>
-                                <span>Buy now</span>
-                            </ButtonDefault>
+                            <BuyButton productId={id} />
                             <Favorites id={id} withBg={true} />
                         </div>
                     </div>

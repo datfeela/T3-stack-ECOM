@@ -1,5 +1,6 @@
-import { Auth } from './Auth/Auth'
+import { Auth } from './Components/Auth/Auth'
 import s from './Header.module.scss'
+import { Cart } from './Components/Cart/Cart'
 
 export const Header: React.FC = () => {
     return (
@@ -11,7 +12,7 @@ export const Header: React.FC = () => {
             <div className={s.right}>
                 <div>search feature</div>
                 <Auth />
-                <div>basket feature</div>
+                <Cart />
             </div>
         </header>
     )

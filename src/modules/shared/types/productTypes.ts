@@ -8,5 +8,6 @@ export type ProductFiltersFromApi = typeof productFromApi.filters
 
 export type ProductFiltersClient = z.infer<typeof clientFiltersSchema>
 
+export type Platform = 'ps' | 'xbox' | 'windows'
 export type FilterName = z.infer<typeof filterNameEnum>
 export type ProductType = z.infer<typeof productType>

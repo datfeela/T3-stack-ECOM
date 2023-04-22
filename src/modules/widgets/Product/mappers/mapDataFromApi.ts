@@ -2,8 +2,8 @@ import { mapProductFiltersFromApi } from '~/modules/shared/mappers/mapProductFil
 import { mapCategoriesFromApi } from './mapCategoriesFromApi'
 import { mapImagesFromApi } from './mapImagesFromApi'
 import { parseDateToString } from '~/modules/shared/lib/parseDateToString'
-import type { Platform } from '../types/types'
 import type { ProductPageProps } from '~/modules/entities/product'
+import type { Platform } from '~/modules/shared/types/productTypes'
 
 export const mapDataFromApi = (props: ProductPageProps) => {
     const { categories, detailPageImages, filters, releaseDate, relatedGames, ...rest } = props
@@ -13,8 +13,6 @@ export const mapDataFromApi = (props: ProductPageProps) => {
     const { tags, features, platforms, ...restFilters } = mapProductFiltersFromApi(filters)
 
     const releaseDateParsed = parseDateToString(releaseDate)
-
-    console.log(relatedGames)
 
     return {
         detailImages: detailPageImagesMapped,
