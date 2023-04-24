@@ -4,7 +4,7 @@ import { prisma } from '~/server/db'
 import { publicProcedure } from '../trpc'
 import { z } from 'zod'
 import { sortProductsSchema } from '~/modules/shared/lib/validationSchemas'
-import { Prisma, Product, ProductCategory, ProductImagePath } from '@prisma/client'
+import { Prisma, Product, ProductCategory, ProductImagePath, User } from '@prisma/client'
 
 export const getProductById = publicProcedure.input(z.string()).query(async ({ input }) => {
     try {
@@ -38,15 +38,7 @@ export const getProductMainDataByIdProcedure = publicProcedure
     .input(z.string())
     .query(async ({ input }) => {
         try {
-            return await prisma.product.findUnique({
-                where: {
-                    id: input,
-                },
-                include: {
-                    detailPageImages: true,
-                    wishedBy: true,
-                },
-            })
+            return await _getProductMainData(input)
         } catch (e) {
             console.log(`ERROR! can't get categories!`, e)
             throw e
@@ -286,6 +278,38 @@ export const getRelatedProducts = publicProcedure
         }
     })
 
+export const getManyProductsByIds = publicProcedure
+    .input(z.array(z.string()))
+    .query(async ({ input: productsIds }) => {
+        const productsPromises = [] as Promise<
+            | (Product & {
+                  detailPageImages: ProductImagePath[]
+                  wishedBy: User[]
+              })
+            | null
+        >[]
+
+        try {
+            productsIds.forEach((id) => {
+                const promise = _getProductMainData(id)
+                productsPromises.push(promise)
+            })
+
+            const products = await Promise.all(productsPromises)
+            const productsFiltered = products.filter((product) => !!product) as (Product & {
+                detailPageImages: ProductImagePath[]
+                wishedBy: User[]
+            })[]
+
+            return productsFiltered
+        } catch (e) {
+            console.log(`ERROR! can't get categories!`, e)
+            throw e
+        }
+    })
+
+// reviews
+
 export const getProductReviewsById = publicProcedure
     .input(
         z.object({
@@ -355,3 +379,17 @@ export const getProductReviewsStats = publicProcedure
             throw e
         }
     })
+
+// helpers
+
+async function _getProductMainData(productId: string) {
+    return await prisma.product.findUnique({
+        where: {
+            id: productId,
+        },
+        include: {
+            detailPageImages: true,
+            wishedBy: true,
+        },
+    })
+}
