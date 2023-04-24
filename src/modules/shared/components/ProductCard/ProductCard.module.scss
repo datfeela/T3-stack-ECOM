@@ -72,6 +72,14 @@
             justify-content: space-between;
         }
 
+        .priceRow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding-right: 0.5rem;
+        }
+
         .price {
             font-size: 16px;
 
@@ -99,14 +107,6 @@
 .name {
     font-family: 'Orbitron';
     font-weight: 600;
-}
-
-.priceRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding-right: 0.5rem;
 }
 
 .priceBlock {
