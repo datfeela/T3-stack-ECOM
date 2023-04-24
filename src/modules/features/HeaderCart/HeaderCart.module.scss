@@ -1,0 +1,107 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    position: relative;
+    height: 100%;
+
+    &_active {
+        border: 2px solid #710fad;
+        border-bottom: unset;
+        padding-bottom: 2px;
+        background: rgba(113, 15, 173, 0.15);
+
+        .header {
+            padding: 1.5rem 1rem;
+        }
+
+        .popup {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.header {
+    display: block;
+    height: 100%;
+    padding: 25px 18px;
+
+    display: flex;
+    align-items: center;
+}
+
+.popup {
+    opacity: 0;
+    visibility: hidden;
+
+    position: absolute;
+    top: 100%;
+    right: -200px;
+
+    width: 600px;
+
+    &__header {
+        padding: 1.5rem 1.25rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        border-bottom: 2px solid $purple;
+
+        * {
+            font-family: Orbitron;
+            text-transform: uppercase;
+
+            @media all and (max-width: 480px) {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &__content {
+        padding: 0.5rem;
+    }
+
+    @media all and (max-width: 1700px) {
+        right: -100px;
+    }
+
+    @media all and (max-width: 1500px) {
+        right: -2px;
+    }
+}
+
+.toCartButton {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &:hover {
+        * {
+            color: $blueLight;
+        }
+
+        .toCartButton__icon {
+            svg {
+                fill: $blueLight;
+            }
+        }
+    }
+
+    &__icon {
+        width: 18px;
+        height: 18px;
+
+        @media all and (max-width: 480px) {
+            width: 14px;
+            height: 14px;
+        }
+
+        svg {
+            height: 100%;
+            width: 100%;
+            fill: #fff;
+        }
+    }
+}

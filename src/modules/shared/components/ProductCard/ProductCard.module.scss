@@ -57,6 +57,37 @@
             }
         }
     }
+
+    &_cartHeader {
+        padding: 1rem 0.75rem;
+
+        display: grid;
+        grid-template-columns: 75px 1fr;
+        grid-gap: 20px;
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .price {
+            font-size: 16px;
+
+            @media all and (max-width: 768px) {
+                font-size: 15px;
+            }
+        }
+
+        .priceWithoutDiscount {
+            font-size: 16px;
+
+            @media all and (max-width: 768px) {
+                font-size: 15px;
+            }
+        }
+    }
 }
 
 .imageLink {
@@ -68,6 +99,14 @@
 .name {
     font-family: 'Orbitron';
     font-weight: 600;
+}
+
+.priceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-right: 0.5rem;
 }
 
 .priceBlock {
@@ -136,5 +175,24 @@
         width: 100%;
         fill: #fff;
         transition: 0.3s;
+    }
+}
+
+.closeBtnSm {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    height: 24px;
+    width: 24px;
+
+    &:hover {
+        svg {
+            fill: rgba($color: $blueLight, $alpha: 1);
+        }
+    }
+
+    svg {
+        fill: rgba($color: #fff, $alpha: 0.5);
     }
 }

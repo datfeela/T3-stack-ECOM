@@ -6,6 +6,9 @@ import { ImagePlaceholder } from '../ImagePlaceholder/ImagePlaceholder'
 import { Discount } from '../Discount/Discount'
 import { ClippedContainer } from '../ClippedContainer/ClippedContainer'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
+import { ProductQuantityController } from '../ProductQuantityController/ProductQuantityController'
+import { useGlobalContext } from '../../hooks/useGlobalContext'
+import { GlobalReducerActionKind } from '~/modules/app'
 
 interface ProductCardBaseProps {
     id: string
@@ -14,10 +17,11 @@ interface ProductCardBaseProps {
     priceWithoutDiscount: number | null
     productType: ProductType
     imgPath: string | null
-    linkBasePathName: string
-    view: 'default' | 'horizontal' | 'vertical' | 'cart' | 'admin' | 'comingSoon'
+    linkBasePathName?: string
+    view: 'default' | 'horizontal' | 'vertical' | 'cart' | 'cartHeader' | 'admin' | 'comingSoon'
     size?: 'default' | 'lg'
     imageSizes: string
+    quantityInCart?: number
 }
 
 interface ProductCardWithPopupProps extends ProductCardBaseProps {
@@ -45,6 +49,7 @@ export const ProductCard = ({
     linkBasePathName,
     size = 'default',
     imageSizes,
+    quantityInCart,
 }: ProductCardProps) => {
     let wrapCN = s.wrap
 
@@ -59,6 +64,9 @@ export const ProductCard = ({
             break
         case 'cart':
             break
+        case 'cartHeader':
+            wrapCN += ` ${s.wrap_cartHeader}`
+            break
         case 'admin':
             break
         case 'comingSoon':
@@ -67,7 +75,9 @@ export const ProductCard = ({
             break
     }
 
-    const href = `${linkBasePathName}/${id}`
+    const href = linkBasePathName ? `${linkBasePathName}/${id}` : undefined
+
+    const { dispatch } = useGlobalContext()
 
     return (
         <ClippedContainer
@@ -75,39 +85,102 @@ export const ProductCard = ({
             height='full'
             borderColor={view === 'comingSoon' ? 'yellow' : 'purple'}
             background={view === 'horizontal' || view === 'cart' ? true : false}
+            borders={view !== 'cartHeader'}
         >
             <div className={wrapCN}>
-                <Link className={s.imageLink} href={href}>
-                    {imgPath ? (
-                        <Image src={imgPath} sizes={imageSizes} orientation='16/9' alt={name} />
-                    ) : (
-                        <ImagePlaceholder />
-                    )}
-                </Link>
-                <div className={s.info}>
-                    <Link href={href} className={s.name}>
-                        {name}
+                {href ? (
+                    <Link className={s.imageLink} href={href}>
+                        {imgPath ? (
+                            <Image
+                                src={imgPath}
+                                sizes={imageSizes}
+                                orientation={
+                                    view === 'cart' || view === 'cartHeader' ? '3/4' : '16/9'
+                                }
+                                alt={name}
+                            />
+                        ) : (
+                            <ImagePlaceholder />
+                        )}
                     </Link>
-                    <div className={s.priceBlock}>
-                        <div className={s.price}>{price} y.e</div>
-                        {priceWithoutDiscount ? (
-                            <>
-                                <div className={s.priceWithoutDiscount}>
-                                    {priceWithoutDiscount} y.e
-                                </div>
-                                <Discount
-                                    price={price}
-                                    priceWithoutDiscount={priceWithoutDiscount}
-                                    size='sm'
-                                />
-                            </>
+                ) : (
+                    <>
+                        {imgPath ? (
+                            <Image
+                                src={imgPath}
+                                sizes={imageSizes}
+                                orientation={
+                                    view === 'cart' || view === 'cartHeader' ? '3/4' : '16/9'
+                                }
+                                alt={name}
+                            />
+                        ) : (
+                            <ImagePlaceholder />
+                        )}
+                    </>
+                )}
+                <div className={s.info}>
+                    {href ? (
+                        <Link href={href} className={s.name}>
+                            {name}
+                        </Link>
+                    ) : (
+                        <span className={s.name}>{name}</span>
+                    )}
+                    <div className={s.priceRow}>
+                        <div className={s.priceBlock}>
+                            <div className={s.price}>{price} y.e</div>
+                            {priceWithoutDiscount ? (
+                                <>
+                                    <div className={s.priceWithoutDiscount}>
+                                        {priceWithoutDiscount} y.e
+                                    </div>
+                                    <Discount
+                                        price={price}
+                                        priceWithoutDiscount={priceWithoutDiscount}
+                                        size={view !== 'cartHeader' ? 'sm' : 'xs'}
+                                    />
+                                </>
+                            ) : null}
+                        </div>
+                        {view === 'cartHeader' && typeof quantityInCart === 'number' ? (
+                            <ProductQuantityController
+                                currentQuantity={quantityInCart}
+                                size='sm'
+                                onIncrement={() => {
+                                    dispatch({
+                                        type: GlobalReducerActionKind.INCREMENT_PRODUCT_QUANTITY,
+                                        productId: id,
+                                    })
+                                }}
+                                onDecrement={() => {
+                                    dispatch({
+                                        type: GlobalReducerActionKind.DECREMENT_PRODUCT_QUANTITY,
+                                        productId: id,
+                                    })
+                                }}
+                            />
                         ) : null}
                     </div>
                 </div>
-                {view === 'horizontal' ? (
+                {view === 'horizontal' && href ? (
                     <Link href={href} className={s.toProductBtn}>
                         <SvgSelector id='arrowDefault' />
                     </Link>
+                ) : null}
+                {view === 'cartHeader' ? (
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            dispatch({
+                                type: GlobalReducerActionKind.DELETE_PRODUCT,
+                                productId: id,
+                            })
+                        }}
+                        className={s.closeBtnSm}
+                    >
+                        <SvgSelector id='close' />
+                    </button>
                 ) : null}
             </div>
         </ClippedContainer>
