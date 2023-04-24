@@ -1,0 +1,90 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: flex;
+    height: 33px;
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 100%;
+        width: 40px;
+        border-top: 1px solid $purple;
+        border-bottom: 1px solid $purple;
+
+        font-family: 'Orbitron';
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 125%;
+
+        @media all and (max-width: 1200px) {
+            font-size: 18px;
+        }
+
+        @media all and (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+
+    &_sm {
+        height: 26px;
+
+        span {
+            width: 32px;
+            font-size: 16px;
+
+            @media all and (max-width: 768px) {
+                font-size: 15px;
+            }
+        }
+
+        .button {
+            width: 24px;
+
+            &::before,
+            &::after {
+                height: 2px;
+                width: 12px;
+
+                position: absolute;
+                top: 12px;
+                left: 6px;
+            }
+        }
+    }
+}
+
+.button {
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 30px;
+    border: 1px solid $purple;
+
+    &::before,
+    &::after {
+        content: '';
+        height: 2px;
+        width: 16px;
+        background: #fff;
+
+        position: absolute;
+        top: 15px;
+        left: 7px;
+    }
+
+    &:hover {
+        &::before,
+        &::after {
+            background: $blueLight;
+        }
+    }
+
+    &_increment {
+        &::after {
+            transform: rotate(90deg);
+        }
+    }
+}
