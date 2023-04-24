@@ -5,7 +5,7 @@ export interface ImageFillProps {
     src: string | StaticImageData
     srcRes?: string
     alt?: string
-    orientation?: '16/9' | '16/10' | '4/5' | '21/9' | 'unset'
+    orientation?: '16/9' | '16/10' | '4/5' | '21/9' | '3/4' | 'unset'
     objectFit?: 'cover' | 'contain'
     sizes?: string
     priority?: boolean
@@ -26,6 +26,7 @@ const ImageFill = ({
         <div
             style={{
                 position: 'relative',
+                width: '100%',
                 aspectRatio: orientation,
                 margin: '0 auto',
                 height: orientation === 'unset' ? '100%' : 'auto',

@@ -20,6 +20,14 @@
         }
     }
 
+    &_backdrop {
+        backdrop-filter: blur(5px);
+
+        .figure {
+            background: rgba($color: $headerBg, $alpha: 0.6);
+        }
+    }
+
     // colors
 
     &_yellow {

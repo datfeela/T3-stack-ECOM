@@ -16,6 +16,7 @@ export interface ClippedContainerProps {
     borders?: boolean
     withPadding?: boolean
     background?: boolean
+    backdropFilter?: boolean
 }
 
 export const ClippedContainer = ({
@@ -29,6 +30,7 @@ export const ClippedContainer = ({
     borders = true,
     withPadding = false,
     background = true,
+    backdropFilter = false,
 }: ClippedContainerProps) => {
     let containerCName = s.clip
 
@@ -64,6 +66,7 @@ export const ClippedContainer = ({
     if (height === 'fit') containerCName += ` ${s.clip_heightFit}`
 
     if (!borders) containerCName += ` ${s.clip_noBorder}`
+    if (backdropFilter) containerCName += ` ${s.clip_backdrop}`
 
     const matchMedia = useMatchMedia()
 
