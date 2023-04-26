@@ -1,7 +1,6 @@
-import { MouseEvent, useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import s from './HeaderCart.module.scss'
 import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
-import { GlobalReducerActionKind } from '~/modules/app'
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
 
 import { useInitializeCart } from './hooks/useInitializeCart'
@@ -16,6 +15,8 @@ export const HeaderCart = () => {
     const { state } = useGlobalContext()
     const { isCartActive, setIsCartActive } = useCartPopup({ containerClassName: `.${s.wrap}` })
 
+    console.log(state)
+
     useInitializeCart()
 
     useEffect(() => {
@@ -26,7 +27,9 @@ export const HeaderCart = () => {
     const productsIds = Object.keys(state.products)
 
     const productsData = api.products.getManyProductsByIds
-        .useQuery(productsIds)
+        .useQuery(productsIds, {
+            keepPreviousData: true,
+        })
         .data?.map((el) => ({ ...el, quantityInCart: state.products[el.id] })) as
         | ProductWithQuantity[]
         | undefined
@@ -40,9 +43,12 @@ export const HeaderCart = () => {
                     if (state.totalQuantity === 0) return
                     setIsCartActive(!isCartActive)
                 }}
-                className={s.header}
+                className={`${s.header} ${state.totalQuantity > 0 ? s.header_active : ''}`}
             >
-                cart
+                <div className={`${s.header__icon} ${isCartActive ? s.header__icon_active : ''}`}>
+                    <SvgSelector id='cart' />
+                    {state.totalQuantity > 0 ? <span>{state.totalQuantity}</span> : null}
+                </div>
             </div>
             {state.totalQuantity > 0 ? (
                 <div className={s.popup}>
