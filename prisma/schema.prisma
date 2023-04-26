@@ -118,6 +118,9 @@ model Product {
     wishedBy                               User[]
     // !
     reviews                                ProductReview[]
+    // admin groups
+    mainPageProductsGroupId                String?
+    mainPageProductsGroup                  MainPageProducts?         @relation(fields: [mainPageProductsGroupId], references: [id])
 }
 
 // custom product characteristics which aren't involved in sorting
@@ -175,4 +178,11 @@ model ProductImagePath {
     value     String
     Product   Product? @relation(fields: [productId], references: [id])
     productId String?
+}
+
+// admin content models
+
+model MainPageProducts {
+    id       String    @id @unique @default(cuid())
+    products Product[]
 }
