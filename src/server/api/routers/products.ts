@@ -11,6 +11,7 @@ import {
     getManyProductsByIds,
     getRelatedProducts,
     getRecommendedProductsForProduct,
+    getMainPageProducts,
 } from '../trpcProcedures/productsQueries'
 import {
     addProduct,
@@ -18,6 +19,7 @@ import {
     editProduct,
     toggleProductToWishes,
     addReviewToProduct,
+    updateMainPageProducts,
 } from '../trpcProcedures/productsMutations'
 
 export const productsRouter = createTRPCRouter({
@@ -30,12 +32,14 @@ export const productsRouter = createTRPCRouter({
     getRecommendedProductsForProduct,
     getProductReviewsById,
     getProductReviewsStats,
+    getMainPageProducts,
     // create
     addProduct,
     // update
     editProduct,
     toggleProductToWishes,
     addReviewToProduct,
+    updateMainPageProducts,
     // delete
     deleteAllProducts,
 })

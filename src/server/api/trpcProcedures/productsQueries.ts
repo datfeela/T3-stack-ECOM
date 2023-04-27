@@ -308,6 +308,9 @@ export const getManyProductsByIds = publicProcedure
         }
     })
 
+export const getMainPageProducts = publicProcedure.query(async () => {
+    return getMainPageProducts_server()
+})
 // reviews
 
 export const getProductReviewsById = publicProcedure
@@ -392,4 +395,22 @@ async function _getProductMainData(productId: string) {
             wishedBy: true,
         },
     })
+}
+
+export async function getMainPageProducts_server() {
+    const products = await prisma.mainPageProduct.findMany({
+        take: 10,
+        orderBy: {
+            sortNum: 'asc',
+        },
+        include: {
+            product: {
+                include: {
+                    detailPageImages: true,
+                },
+            },
+        },
+    })
+
+    return products
 }

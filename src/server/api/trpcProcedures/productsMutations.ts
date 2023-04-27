@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { MainPageProduct, Prisma } from '@prisma/client'
 import type { ProductCategory, ProductFilter } from '@prisma/client'
 import { prisma } from '~/server/db'
 import {
@@ -204,6 +204,24 @@ export const addReviewToProduct = protectedProcedure
                 },
             },
         })
+    })
+
+export const updateMainPageProducts = adminProcedure
+    .input(z.array(z.object({ id: z.string(), sortNum: z.number() })))
+    .mutation(async ({ input: products }) => {
+        try {
+            await prisma.mainPageProduct.deleteMany()
+
+            return await prisma.mainPageProduct.createMany({
+                data: products.map(({ id, sortNum }) => ({
+                    sortNum,
+                    productId: id,
+                })),
+            })
+        } catch (e) {
+            console.log(`ERROR! can't update mainPageProducts!`, e)
+            throw e
+        }
     })
 
 export const deleteAllProducts = adminProcedure.mutation(async () => {
