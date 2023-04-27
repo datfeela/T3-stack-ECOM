@@ -1,12 +1,15 @@
 import { Cart } from '~/modules/features/HeaderCart'
 import { Auth } from './Components/Auth/Auth'
 import s from './Header.module.scss'
+import Link from 'next/link'
 
 export const Header: React.FC = () => {
     return (
         <div className={s.wrap}>
             <header className={s.header}>
-                <div>nu tut menu</div>
+                <div>
+                    <Link href='/catalog'>Catalog</Link>
+                </div>
                 <div>
                     <span className={s.logo}>nu tut logo</span>
                 </div>
