@@ -1,0 +1,19 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.selectedProductsHeader {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px 52px 55px;
+    grid-gap: 10px;
+    padding: 10px;
+
+    span {
+        text-transform: capitalize;
+    }
+}
+
+.productsWrap {
+    padding: 10px 0;
+    border-bottom: 1px solid $grey;
+    border-top: 1px solid $grey;
+    margin-bottom: 20px;
+}

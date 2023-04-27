@@ -1,0 +1,62 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px auto;
+    grid-gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+
+    &_selected {
+        cursor: auto;
+
+        input {
+            cursor: auto;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 2px 5px;
+        }
+    }
+
+    &_withSort {
+        grid-template-columns: 80px 1fr 200px 52px 55px;
+    }
+
+    &_active {
+        border: 1px solid $purple;
+        background: rgba($color: $purple, $alpha: 0.15);
+        backdrop-filter: blur(2px);
+    }
+
+    input {
+        cursor: pointer;
+    }
+}
+
+.image {
+    width: 80px;
+    aspect-ratio: 16/9;
+    position: relative;
+}
+
+.deleteBtn {
+    height: 30px;
+    width: 30px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        svg {
+            fill: $blueLight;
+        }
+    }
+
+    svg {
+        height: 24px;
+        width: 24px;
+        fill: #fff;
+    }
+}
