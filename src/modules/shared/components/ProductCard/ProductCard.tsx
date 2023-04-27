@@ -18,7 +18,7 @@ interface ProductCardBaseProps {
     productType: ProductType
     imgPath: string | null
     linkBasePathName?: string
-    view: 'default' | 'horizontal' | 'vertical' | 'cart' | 'cartHeader' | 'admin' | 'comingSoon'
+    view: 'default' | 'horizontal' | 'vertical' | 'cart' | 'cartHeader' | 'comingSoon'
     size?: 'default' | 'lg'
     imageSizes: string
     quantityInCart?: number
@@ -66,8 +66,6 @@ export const ProductCard = ({
             break
         case 'cartHeader':
             wrapCN += ` ${s.wrap_cartHeader}`
-            break
-        case 'admin':
             break
         case 'comingSoon':
             break

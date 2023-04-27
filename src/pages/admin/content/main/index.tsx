@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
+import { AdminMainPageProducts } from '~/modules/widgets/AdminMainPageProducts'
 
 const Admin: NextPage = () => {
     return (
@@ -11,7 +12,7 @@ const Admin: NextPage = () => {
             </Head>
             <AdminLayout>
                 <main>
-                    <div>admin secret page</div>
+                    <AdminMainPageProducts />
                 </main>
             </AdminLayout>
         </>

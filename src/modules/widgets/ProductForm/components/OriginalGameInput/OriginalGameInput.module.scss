@@ -1,0 +1,8 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.selectedProduct {
+    border: 1px solid $grey;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}

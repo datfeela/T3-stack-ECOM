@@ -5,18 +5,18 @@ import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
 import { ProductCard } from './components/ProductCard/ProductCard'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
+import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
 
 export interface ProductSelectorProps {
-    selectedId: string
+    selectedIds: string[]
     handleChange: (value: string) => void
 }
 
-export const ProductSelector = ({ selectedId, handleChange }: ProductSelectorProps) => {
+export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorProps) => {
     const [searchQuery, setSearchQuery] = useState('')
 
     const handleProductSelect = (id: string) => {
-        if (id === selectedId) handleChange('')
-        else handleChange(id)
+        handleChange(id)
     }
 
     const { value: debouncedSearchQuery, isDebouncing } = useDebouncedValue<string>(
@@ -30,18 +30,17 @@ export const ProductSelector = ({ selectedId, handleChange }: ProductSelectorPro
     })
 
     const products = data?.map(({ id, name, price, horizontalImagePath }) => (
-        <ProductCard
+        <AdminProductCard
             key={id}
             id={id}
-            selectedProductId={selectedId}
             name={name}
             price={price}
             imgSrc={horizontalImagePath}
+            isWithSelect={true}
+            isSelected={!!selectedIds.find((el) => el === id)}
             handleClick={handleProductSelect}
         />
     ))
-
-    const selectedProduct = api.products.getProductById.useQuery(selectedId).data
 
     const areProductsFound = products && products.length > 0 ? true : false
     const isNothingFound =
@@ -49,27 +48,12 @@ export const ProductSelector = ({ selectedId, handleChange }: ProductSelectorPro
 
     return (
         <div className={s.wrap}>
-            {selectedProduct ? (
-                <div className={s.selectedProduct}>
-                    <span>Selected product: </span>
-                    <ProductCard
-                        imgSrc={selectedProduct.horizontalImagePath}
-                        name={selectedProduct.name}
-                        price={selectedProduct.price}
-                        key={selectedProduct.id}
-                    />
-                </div>
-            ) : null}
-            <span>
-                If this product is anothers game DLC / Edition, you can select original game below
-            </span>
             <Search
                 inputName='products-search'
                 value={searchQuery}
                 handleChange={setSearchQuery}
                 isLoading={isDebouncing || isLoading}
             />
-
             <div className={`${s.productsWrap}`}>
                 {areProductsFound ? <> {products} </> : null}
                 {isLoading ? <LoaderFullScreen type='dots' /> : null}

@@ -24,10 +24,16 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
 
     function createNavLinks() {
         const linksProducts: LinkObject[] = [{ name: 'Add product', href: '/admin/products/add' }]
+        const linksContent: LinkObject[] = [{ name: 'Main page', href: '/admin/content/main' }]
 
         const linksMain: LinkObject[] = [
             { name: 'Main', href: '/admin' },
             { name: 'Products', href: '/admin/products', sublinks: linksProducts },
+            {
+                name: 'Content',
+                href: '/admin/content',
+                sublinks: linksContent,
+            },
             { name: 'Settings', href: '/admin/settings' },
             { name: 'Magic page', href: '/admin/test' },
         ]
