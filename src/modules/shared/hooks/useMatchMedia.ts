@@ -48,7 +48,7 @@ export const useMatchMedia = () => {
         }
     }, [])
 
-    if (typeofWindow === 'undefined') return
+    if (typeofWindow === 'undefined' || values.length < 2) return
 
     return ['isLess480', 'isMore480', 'isMore768', 'isMore960', 'isMore1200', 'isMore1440'].reduce(
         (acc, item, id) => ({ ...acc, [item]: values[id] }),

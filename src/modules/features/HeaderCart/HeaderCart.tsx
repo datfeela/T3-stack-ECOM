@@ -15,8 +15,6 @@ export const HeaderCart = () => {
     const { state } = useGlobalContext()
     const { isCartActive, setIsCartActive } = useCartPopup({ containerClassName: `.${s.wrap}` })
 
-    console.log(state)
-
     useInitializeCart()
 
     useEffect(() => {

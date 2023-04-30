@@ -1,6 +1,10 @@
 import type { z } from 'zod'
 import type { AppRouterOutput } from '~/server/api/root'
-import type { clientFiltersSchema, filterNameEnum, productType } from '../lib/validationSchemas'
+import type {
+    clientFiltersSchema,
+    filterNameEnum,
+    productType,
+} from '~/modules/shared/lib/validationSchemas'
 
 type ProductFromApiT = AppRouterOutput['products']['getProductById']
 const productFromApi = {} as NonNullable<ProductFromApiT>

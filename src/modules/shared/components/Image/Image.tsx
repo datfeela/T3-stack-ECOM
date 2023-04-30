@@ -27,6 +27,7 @@ const ImageFill = ({
             style={{
                 position: 'relative',
                 width: '100%',
+                maxHeight: '100%',
                 aspectRatio: orientation,
                 margin: '0 auto',
                 height: orientation === 'unset' ? '100%' : 'auto',

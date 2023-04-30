@@ -1,4 +1,6 @@
 import type {
+    MainPageProduct,
+    Product,
     ProductCategory,
     ProductCharacteristic,
     ProductFilter,
@@ -29,3 +31,24 @@ export interface ProductPageProps extends ProductT {
 export interface ProductPagePropsSerialized extends Omit<ProductPageProps, 'releaseDate'> {
     releaseDate: string
 }
+
+// main page product
+
+export type MainPageProductFromApi = MainPageProduct & {
+    product: Product & {
+        detailPageImages: ProductImagePath[]
+    }
+}
+
+export type MainPageProductFromApiSerialized = MainPageProduct & {
+    product: Omit<Product, 'releaseDate'> & {
+        detailPageImages: ProductImagePath[]
+        releaseDate: string
+    }
+}
+
+export type MainPageProps = MainPageProductFromApi[]
+
+export type MainPagePropsSerialized = MainPageProductFromApiSerialized[]
+
+//
