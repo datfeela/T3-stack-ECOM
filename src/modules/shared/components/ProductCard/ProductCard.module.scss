@@ -1,4 +1,5 @@
 @import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .wrap {
     position: relative;
@@ -85,19 +86,11 @@
         }
 
         .price {
-            font-size: 16px;
-
-            @media all and (max-width: 768px) {
-                font-size: 15px;
-            }
+            @include price-main-sm;
         }
 
         .priceWithoutDiscount {
-            font-size: 16px;
-
-            @media all and (max-width: 768px) {
-                font-size: 15px;
-            }
+            @include price-discount-sm;
         }
     }
 }
@@ -120,34 +113,11 @@
 }
 
 .price {
-    font-family: 'Orbitron';
-    font-weight: 500;
-    font-size: 20px;
-    color: $blueLight;
-
-    @media all and (max-width: 1200px) {
-        font-size: 18px;
-    }
-
-    @media all and (max-width: 768px) {
-        font-size: 16px;
-    }
+    @include price-main-md;
 }
 
 .priceWithoutDiscount {
-    font-family: 'Orbitron';
-    font-weight: 500;
-    font-size: 20px;
-    color: $grey;
-    text-decoration: line-through;
-
-    @media all and (max-width: 1200px) {
-        font-size: 18px;
-    }
-
-    @media all and (max-width: 768px) {
-        font-size: 16px;
-    }
+    @include price-discount-md;
 }
 
 .toProductBtn {

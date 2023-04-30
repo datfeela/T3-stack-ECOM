@@ -1,0 +1,118 @@
+// price
+
+@mixin price-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+@mixin price-main {
+    font-family: 'Orbitron';
+    font-weight: 500;
+    line-height: 125%;
+}
+
+@mixin price-main-lg {
+    @include price-main;
+
+    font-size: 32px;
+    color: $blueLight;
+
+    @media all and (max-width: 1200px) {
+        font-size: 24px;
+
+        &_discount {
+            font-size: 22px;
+        }
+    }
+
+    @media all and (max-width: 960px) {
+        font-size: 20px;
+
+        &_discount {
+            font-size: 18px;
+        }
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 18px;
+
+        &_discount {
+            font-size: 17px;
+        }
+    }
+}
+
+@mixin price-discount-lg {
+    @include price-main;
+
+    font-size: 26px;
+    text-decoration-line: line-through;
+    color: $grey;
+
+    @media all and (max-width: 1200px) {
+        font-size: 22px;
+    }
+
+    @media all and (max-width: 960px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 17px;
+    }
+}
+
+@mixin price-main-md {
+    @include price-main;
+
+    color: $blueLight;
+    font-size: 20px;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 16px;
+    }
+}
+
+@mixin price-discount-md {
+    @include price-main;
+
+    text-decoration-line: line-through;
+    color: $grey;
+    font-size: 20px;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 16px;
+    }
+}
+
+@mixin price-main-sm {
+    @include price-main;
+
+    color: $blueLight;
+    font-size: 16px;
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+    }
+}
+
+@mixin price-discount-sm {
+    @include price-main;
+
+    text-decoration-line: line-through;
+    color: $grey;
+    font-size: 16px;
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+    }
+}
