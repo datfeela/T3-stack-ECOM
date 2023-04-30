@@ -1,0 +1,112 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    position: relative;
+}
+
+.nav {
+    position: absolute;
+    z-index: 1;
+    top: calc(50% - 20px);
+    left: 100px;
+    width: calc(100% - 200px);
+    visibility: hidden;
+
+    display: flex;
+    justify-content: space-between;
+
+    @media all and (max-width: 1440px) {
+        width: calc(100% - 50px);
+        left: 25px;
+    }
+
+    @media all and (max-width: 1050px) {
+        display: none;
+    }
+}
+
+.btnPrev,
+.btnNext {
+    visibility: visible;
+}
+
+.paginationWrap {
+    position: absolute;
+    left: 0;
+    bottom: 23px;
+    width: 100%;
+    z-index: 1;
+
+    @media all and (max-width: 768px) {
+        display: none !important;
+    }
+}
+
+.pagination {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: calc($appMaxWidth + 30px * 2);
+    max-width: 1360px;
+    padding: 0px 30px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 90px 1fr;
+    align-items: center;
+
+    &__value {
+        font-family: 'Orbitron';
+        font-size: 20px;
+        text-align: center;
+    }
+
+    div {
+        height: 1px;
+        background: #ffffff;
+    }
+}
+
+.thumbs {
+    position: absolute !important;
+    bottom: 20px;
+    left: 15px;
+    width: calc(100% - 30px);
+
+    @media all and (min-width: 769px) {
+        display: none !important;
+    }
+
+    @media all and (max-width: 420px) {
+        bottom: 5px;
+    }
+}
+
+.thumb {
+    cursor: pointer;
+    position: relative;
+    height: 18px !important;
+    width: auto !important;
+    flex-grow: 1;
+
+    @media all and (max-width: 420px) {
+        height: 10px;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.5);
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+    }
+
+    &_active {
+        &::after {
+            background: $blueLight;
+        }
+    }
+}

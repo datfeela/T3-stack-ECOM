@@ -1,0 +1,256 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+$blockHeight: 650px;
+$blockHeight1250: 450px;
+$blockHeight900: 370px;
+$blockMinHeight600: 220px;
+
+.wrap {
+    display: grid;
+    grid-template-columns: 3.7fr 2fr;
+    align-items: center;
+    min-height: $blockHeight;
+
+    @media all and (min-width: 901px) and (max-width: 1250px) {
+        min-height: $blockHeight1250;
+        grid-template-columns: 3.2fr 2fr;
+    }
+
+    @media all and (max-width: 900px) {
+        min-height: $blockHeight900;
+    }
+
+    @media all and (max-width: 600px) {
+        display: block;
+        position: relative;
+        min-height: $blockMinHeight600;
+    }
+}
+
+.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+        37.85% 129.16% at 31.32% 55.73%,
+        rgba(37, 33, 43, 0) 0%,
+        rgba(37, 33, 43, 0) 43.3%,
+        #1d1a21 91.67%
+    );
+
+    @media all and (min-width: 901px) and (max-width: 1250px) {
+        background: radial-gradient(
+            33.85% 129.16% at 28.32% 55.73%,
+            rgba(37, 33, 43, 0) 0%,
+            rgba(37, 33, 43, 0) 43.3%,
+            #1d1a21 91.67%
+        );
+    }
+
+    @media all and (max-width: 600px) {
+        background: radial-gradient(
+                97.09% 331.34% at -0.52% 50.11%,
+                rgba(37, 33, 43, 0) 0%,
+                rgba(37, 33, 43, 0) 49.93%,
+                #1d1a21 100%
+            ),
+            rgba(38, 56, 76, 0.35);
+    }
+}
+
+.image {
+    width: calc(100% + 50px);
+    max-height: $blockHeight;
+    height: 100%;
+
+    @media all and (max-width: 1250px) {
+        max-height: $blockHeight1250;
+    }
+
+    @media all and (max-width: 900px) {
+        max-height: $blockHeight900;
+    }
+
+    @media all and (max-width: 600px) {
+        width: 100%;
+        max-height: unset;
+        min-height: $blockMinHeight600;
+        aspect-ratio: 16 / 9 !important;
+    }
+
+    img {
+        pointer-events: none;
+    }
+}
+
+.info {
+    position: relative;
+    z-index: 2;
+    max-width: 350px;
+
+    @media all and (max-width: 1250px) {
+        max-width: calc(100% - 80px);
+    }
+
+    @media all and (max-width: 1050px) {
+        max-width: 100%;
+        padding-right: 10px;
+    }
+
+    @media all and (max-width: 600px) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 30px 20px;
+        height: 100%;
+    }
+
+    @media all and (max-width: 480px) {
+        padding: 5px 10px;
+    }
+}
+
+.releaseStatus {
+    padding: 7px 15px;
+    background: $red;
+    border-radius: 23px;
+    margin-bottom: 10px;
+    width: fit-content;
+
+    font-size: 15px;
+    font-family: 'Orbitron';
+    text-transform: capitalize;
+
+    @media all and (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media all and (max-width: 600px) {
+        padding: 2px 7px;
+        margin-bottom: 5px;
+    }
+
+    @media all and (max-width: 480px) {
+        margin-bottom: 2px;
+    }
+}
+
+.name {
+    font-family: 'Orbitron';
+    font-weight: 700;
+    margin-bottom: 10px;
+
+    @media all and (max-width: 600px) {
+        font-size: 24px !important;
+        margin-bottom: 5px;
+    }
+
+    @media all and (max-width: 480px) {
+        font-size: 20px !important;
+        margin-bottom: 2px;
+    }
+}
+
+.desc {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    margin-bottom: 25px;
+
+    font-size: 18px;
+    line-height: 150%;
+
+    @media all and (max-width: 1250px) {
+        font-size: 16px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    @media all and (max-width: 600px) {
+        -webkit-line-clamp: 3;
+    }
+
+    @media all and (max-width: 480px) {
+        margin-bottom: 5px;
+    }
+}
+
+.priceBlock {
+    margin-bottom: 25px;
+
+    @media all and (max-width: 600px) {
+        margin-bottom: 10px;
+    }
+}
+
+.priceRow {
+    @include price-row;
+}
+
+.price {
+    @include price-main-lg;
+}
+
+.priceWithoutDiscount {
+    @include price-discount-lg;
+
+    &_desktop {
+        @media all and (max-width: 600px) {
+            display: none;
+        }
+    }
+
+    &_mobile {
+        display: none;
+
+        @media all and (max-width: 600px) {
+            display: block;
+        }
+    }
+}
+
+.link {
+    &__text {
+        display: none;
+    }
+
+    @media all and (max-width: 1250px) {
+        display: none;
+    }
+
+    @media all and (max-width: 600px) {
+        display: block;
+        position: absolute;
+        bottom: 35px;
+        width: 100%;
+        right: 25px;
+
+        &__btn {
+            display: none;
+        }
+
+        &__text {
+            display: block;
+
+            text-align: right;
+            font-family: 'Orbitron';
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+    }
+
+    @media all and (max-width: 420px) {
+        bottom: 25px;
+        right: 15px;
+    }
+}

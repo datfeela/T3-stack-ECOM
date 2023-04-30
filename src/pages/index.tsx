@@ -1,30 +1,44 @@
-import { type NextPage } from 'next'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
-import { api } from '~/modules/shared/api/apiTRPC'
+import type { MainPagePropsSerialized } from '~/modules/entities/product'
+import { MainSlider } from '~/modules/widgets/MainSlider'
+import { getMainPageProducts_server } from '~/server/api/trpcProcedures/productsQueries'
 
-const Home: NextPage = () => {
-    const allProducts = api.products.getManyProducts.useQuery({ quantity: 10 }).data
+const Home = ({ sliderProductsData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const productsDataMapped = sliderProductsData.map((data) => ({
+        ...data,
+        product: {
+            ...data.product,
+            releaseDate: new Date(JSON.parse(data.product.releaseDate) as string),
+        },
+    }))
 
     return (
         <>
             <Head>
-                <title></title>
+                <title>Title</title>
                 <meta name='description' content='' />
             </Head>
             <main>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    {allProducts
-                        ? allProducts.map(({ name, id }) => (
-                              <Link key={id} href={`/game/${id}`}>
-                                  {name}
-                              </Link>
-                          ))
-                        : null}
-                </div>
+                <MainSlider productsData={productsDataMapped} />
             </main>
         </>
     )
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps<{
+    sliderProductsData: MainPagePropsSerialized
+}> = async () => {
+    const sliderProductsData = await getMainPageProducts_server()
+
+    return {
+        props: {
+            sliderProductsData: sliderProductsData.map((data) => ({
+                ...data,
+                product: { ...data.product, releaseDate: JSON.stringify(data.product.releaseDate) },
+            })),
+        },
+    }
+}
