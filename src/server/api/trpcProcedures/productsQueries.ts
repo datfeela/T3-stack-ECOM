@@ -1,10 +1,8 @@
-import type { ProductSortBy } from '../apiTypes/productsRouterTypes'
-import type { TRPCContext } from '../apiTypes/sharedTypes'
 import { prisma } from '~/server/db'
 import { publicProcedure } from '../trpc'
 import { z } from 'zod'
 import { sortProductsSchema } from '~/modules/shared/lib/validationSchemas'
-import { Prisma, Product, ProductCategory, ProductImagePath, User } from '@prisma/client'
+import type { Prisma, Product, ProductImagePath, User } from '@prisma/client'
 
 export const getProductById = publicProcedure.input(z.string()).query(async ({ input }) => {
     try {
@@ -66,11 +64,11 @@ export const getManyProducts = publicProcedure
                 orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
                 where: {
                     OR: [
-                        { name: { contains: query } },
+                        { name: { contains: query, mode: 'insensitive' } },
                         {
                             categories: {
                                 some: {
-                                    name: { contains: query },
+                                    name: { contains: query, mode: 'insensitive' },
                                 },
                             },
                         },
@@ -136,6 +134,7 @@ export const getRecommendedProductsForProduct = publicProcedure
                                               some: {
                                                   value: {
                                                       equals: publisher,
+                                                      mode: 'insensitive',
                                                   },
                                               },
                                           },
@@ -169,6 +168,7 @@ export const getRecommendedProductsForProduct = publicProcedure
                                   some: {
                                       name: {
                                           equals: catName,
+                                          mode: 'insensitive',
                                       },
                                   },
                               },
