@@ -18,10 +18,9 @@ import { OriginalGameInput } from '../OriginalGameInput/OriginalGameInput'
 import { SystemRequirementsInputs } from '../SystemRequirementsInputs/SystemRequirementsInputs'
 import type { FilterName, ProductType } from '~/modules/shared/types/productTypes'
 import { Input } from '~/modules/shared/components/Inputs/Input'
+import { useCategoriesData } from '~/modules/shared/hooks/api/useCategoriesData'
+import { useFiltersData } from '~/modules/shared/hooks/api/useFiltersData'
 
-// if editing existing - add product id in props
-// add custom hook that gets product data via id, if hook returns data - replace initial values
-// formsubmit should also go through props
 export const ProductForm = ({
     initialValues,
     serverError,
@@ -32,14 +31,10 @@ export const ProductForm = ({
     // console.log(initialValues)
 
     // data for categories chekbox inputs initialize
-    const categoriesData = api.categories.getAllCategories.useQuery(undefined, {
-        refetchOnWindowFocus: false,
-    }).data
+    const categoriesData = useCategoriesData({ refetchOnWindowFocus: false })
 
-    // data for filters chekbox inputs initialize
-    const filtersData = api.categories.getAllCategoryFilters.useQuery(undefined, {
-        refetchOnWindowFocus: false,
-    }).data as FilterResponse[] | undefined
+    // data for filters checkbox inputs initialize
+    const filtersData = useFiltersData({ refetchOnWindowFocus: false })
 
     // initial form values
     const initialFormValues = {

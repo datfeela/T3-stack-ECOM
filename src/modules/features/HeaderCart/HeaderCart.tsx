@@ -5,11 +5,10 @@ import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/C
 
 import { useInitializeCart } from './hooks/useInitializeCart'
 import { useCartPopup } from './hooks/useCartPopup'
-import { api } from '~/modules/shared/api/apiTRPC'
-import type { ProductWithQuantity } from './types/types'
 import { Product } from './components/Product/Product'
 import Link from 'next/link'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
+import { useProductsData } from './hooks/useProductsData'
 
 export const HeaderCart = () => {
     const { state } = useGlobalContext()
@@ -21,17 +20,7 @@ export const HeaderCart = () => {
         if (state.totalQuantity === 0 && !!isCartActive) setIsCartActive(false)
     }, [state.totalQuantity])
 
-    // ! map data from api ?
-    const productsIds = Object.keys(state.products)
-
-    const productsData = api.products.getManyProductsByIds
-        .useQuery(productsIds, {
-            keepPreviousData: true,
-        })
-        .data?.map((el) => ({ ...el, quantityInCart: state.products[el.id] })) as
-        | ProductWithQuantity[]
-        | undefined
-
+    const productsData = useProductsData(state.products)
     const productsEls = productsData?.map((el) => <Product key={el.id} {...el} />)
 
     return (
@@ -68,14 +57,6 @@ export const HeaderCart = () => {
                     </ClippedContainer>
                 </div>
             ) : null}
-            {/* <button
-                type='button'
-                onClick={() => {
-                    dispatch({ type: GlobalReducerActionKind.DELETE_ALL_PRODUCTS })
-                }}
-            >
-                delete all
-            </button> */}
         </div>
     )
 }

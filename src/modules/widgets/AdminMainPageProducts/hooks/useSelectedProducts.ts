@@ -1,9 +1,13 @@
 import { type ChangeEvent, useEffect, useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
+import type { SelectedProduct } from '../types/types'
 
 export const useSelectedProducts = () => {
     // get initial
-    const currentSelectedProducts = api.products.getMainPageProducts.useQuery().data
+    const currentSelectedProducts = api.products.getMainPageProducts.useQuery(undefined, {
+        keepPreviousData: true,
+        refetchOnWindowFocus: false,
+    }).data
 
     // ids w/ sort
     const [selectedValues, setSelectedValues] = useState(
@@ -44,7 +48,7 @@ export const useSelectedProducts = () => {
         selectedProductsData?.map((product) => ({
             ...product,
             sortNum: selectedValues.find((el) => el.id === product.id)?.sortNum || 0,
-        })),
+        })) as SelectedProduct[] | undefined,
     )
 
     useEffect(() => {

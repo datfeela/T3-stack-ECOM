@@ -1,5 +1,4 @@
-import { ProductReview, User } from '@prisma/client'
-import { useEffect, useState } from 'react'
+import type { ProductReview, User } from '@prisma/client'
 import { api } from '~/modules/shared/api/apiTRPC'
 
 interface Props {

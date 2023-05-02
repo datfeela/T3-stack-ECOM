@@ -2,16 +2,13 @@ import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { adminLoginSchema } from '~/modules/entities/admin'
-import type { AdminInput } from '~/modules/entities/admin'
-import { InputProps } from '~/modules/shared/components/Inputs/InputTypes'
+import type { InputProps } from '~/modules/shared/components/Inputs/InputTypes'
 import { Input } from '~/modules/shared/components/Inputs/Input'
+import { useAdminLogIn } from './hooks/useAdminLogIn'
 
-interface AdminLoginProps {
-    submitForm: (values: AdminInput) => void
-    loginError?: string
-}
+export const AdminLogin: React.FC = () => {
+    const { handleLogin, loginError } = useAdminLogIn()
 
-export const AdminLogin: React.FC<AdminLoginProps> = ({ submitForm, loginError }) => {
     return (
         <div>
             <h1>Log in</h1>
@@ -29,7 +26,7 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ submitForm, loginError }
                             value = value.trim()
                         }
                     }
-                    submitForm(values)
+                    handleLogin(values)
                 }}
                 validateOnBlur
             >

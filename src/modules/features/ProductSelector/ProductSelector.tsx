@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
-import { ProductCard } from './components/ProductCard/ProductCard'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
 import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
+import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
 
 export interface ProductSelectorProps {
     selectedIds: string[]
@@ -24,9 +24,9 @@ export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorPr
         250,
     )
 
-    const { data, isLoading } = api.products.getManyProducts.useQuery({
-        quantity: 10,
+    const { data, isLoading } = useManyProductsData({
         searchQuery: debouncedSearchQuery,
+        quantity: 10,
     })
 
     const products = data?.map(({ id, name, price, horizontalImagePath }) => (

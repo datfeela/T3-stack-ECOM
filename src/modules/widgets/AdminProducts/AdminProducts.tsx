@@ -2,11 +2,11 @@ import s from './AdminProducts.module.scss'
 import { useState } from 'react'
 
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
-import { api } from '~/modules/shared/api/apiTRPC'
 import { Sort } from './components/Sort/Sort'
 import { Product } from './components/Product/Product'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
+import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
 
 export const AdminProducts = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -17,13 +17,13 @@ export const AdminProducts = () => {
         250,
     )
 
-    const productsData = api.products.getManyProducts.useQuery({
+    const { data: productsData } = useManyProductsData({
         quantity: 10,
         searchQuery: debouncedSearchQuery,
         sortBy,
     })
 
-    const products = productsData.data?.map((product) => <Product key={product.id} {...product} />)
+    const products = productsData?.map((product) => <Product key={product.id} {...product} />)
 
     return (
         <div className={s.wrap}>

@@ -2,6 +2,7 @@ import { ProductSelector } from '~/modules/features/ProductSelector'
 import { api } from '~/modules/shared/api/apiTRPC'
 import s from './OriginalGameInput.module.scss'
 import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
+import { useSelectedOriginalGame } from '../../hooks/useSelectedOriginalGame'
 
 export interface OriginalGameInputProps {
     name: string
@@ -10,9 +11,7 @@ export interface OriginalGameInputProps {
 }
 
 export const OriginalGameInput = ({ name, value, setFieldValue }: OriginalGameInputProps) => {
-    const selectedProduct = api.products.getProductById.useQuery(value, {
-        keepPreviousData: true,
-    }).data
+    const selectedProduct = useSelectedOriginalGame(value)
 
     const handleSelectedGameChange = (id: string) => {
         setFieldValue(name, id)

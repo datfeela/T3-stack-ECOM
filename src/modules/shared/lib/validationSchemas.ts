@@ -34,6 +34,7 @@ export const productType = z.enum(['game', 'DLC', 'edition'])
 export const NamesToSortProductsEnum = z.nativeEnum({
     price: 'price',
     name: 'name',
+    popularity: 'popularity',
 } as const)
 
 export const ValuesToSortProductsEnum = z.nativeEnum({

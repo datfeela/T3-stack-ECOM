@@ -1,9 +1,7 @@
-import { api } from '~/modules/shared/api/apiTRPC'
 import s from './Favorites.module.scss'
-import { useSession } from 'next-auth/react'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
-import { useEffect, useState } from 'react'
-import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
+import { useFavorites } from './hooks/useFavorites'
+import { useUserId } from '~/modules/shared/hooks/useUserId'
 
 export interface FavoritesProps {
     id: string
@@ -11,42 +9,13 @@ export interface FavoritesProps {
 }
 
 export const Favorites = ({ id, withBg = false }: FavoritesProps) => {
-    // todo: refactor to react context???
-    const session = useSession()
-    const userId = session.data?.user.id
+    const userId = useUserId()
 
-    const apiContext = api.useContext()
-    const userFavorites = api.user.getUserWishes.useQuery(userId || '').data
-    const wishedProduct = userFavorites?.wishedProducts.find((product) => product.id === id)
-
-    const [isPending, setIsPending] = useState(false)
-
-    const toggleFavorites = api.products.toggleProductToWishes.useMutation({
-        onMutate: async () => {
-            setIsPending(true)
-            await apiContext.user.getUserWishes.cancel()
-            const optimisticUpdate = apiContext.user.getUserWishes.getData()
-
-            if (optimisticUpdate) {
-                apiContext.user.getUserWishes.setData(id, optimisticUpdate)
-            }
-        },
-        onSuccess: async () => {
-            await apiContext.user.getUserWishes.invalidate()
-        },
-        onSettled: () => {
-            setIsPending(false)
-        },
-    })
-
-    const handleClick = () => {
-        if (isPending) return
-        toggleFavorites.mutate({ action: wishedProduct ? 'delete' : 'add', productId: id })
-    }
-
-    // useEffect(() => {
-    //     setIsFavorited(wishedProduct ? true : false)
-    // }, [wishedProduct])
+    const {
+        isPending,
+        wishedProduct,
+        handleClick: handleButtonClick,
+    } = useFavorites({ productId: id, userId })
 
     if (!userId) return null
 
@@ -54,9 +23,7 @@ export const Favorites = ({ id, withBg = false }: FavoritesProps) => {
         <button
             type='button'
             className={`${s.wrap} ${withBg ? s.wrap_bg : ''} ${isPending ? s.wrap_disabled : ''}`}
-            onClick={() => {
-                handleClick()
-            }}
+            onClick={handleButtonClick}
         >
             {(wishedProduct && !isPending) || (!wishedProduct && isPending) ? (
                 <SvgSelector id='favoritesActive' />

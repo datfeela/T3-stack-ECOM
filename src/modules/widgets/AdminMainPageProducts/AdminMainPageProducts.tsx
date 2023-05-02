@@ -3,56 +3,14 @@ import s from './AdminMainPageProducts.module.scss'
 import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
 import { useSelectedProducts } from './hooks/useSelectedProducts'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
-import { api } from '~/modules/shared/api/apiTRPC'
-import { useState } from 'react'
 import { WithLoader } from '~/modules/shared/components/WrapWithLoader/WrapWithLoader'
 import { CircleLoader } from '~/modules/shared/components/Loaders/Loaders'
+import { useUpdateProducts } from './hooks/useUpdateProducts'
 
 export const AdminMainPageProducts = () => {
     const { selectedProducts, handleSelectedGamesChange, changeProductSort } = useSelectedProducts()
-
-    // useUpdateProducts
-    const [serverError, setServerError] = useState('')
-    const [serverSuccess, setServerSuccess] = useState('')
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-    const apiContext = api.useContext()
-
-    const updateProducts = api.products.updateMainPageProducts.useMutation({
-        onMutate: async () => {
-            await apiContext.products.getMainPageProducts.cancel()
-            const optimisticUpdate = apiContext.products.getMainPageProducts.getData()
-
-            if (optimisticUpdate) {
-                apiContext.products.getMainPageProducts.setData(undefined, optimisticUpdate)
-            }
-        },
-        onSettled: () => {
-            setIsSubmitting(false)
-        },
-        onError: (e) => {
-            setServerSuccess('')
-            setServerError(e.message)
-        },
-        onSuccess: async () => {
-            await apiContext.products.getMainPageProducts.invalidate()
-            setServerSuccess('Products edited successfully!')
-        },
-    })
-
-    const handleSave = () => {
-        const productsIds = selectedProducts?.map(({ id, sortNum }) => ({ id, sortNum }))
-        if (!productsIds) return
-        try {
-            setIsSubmitting(true)
-            setServerSuccess('')
-            updateProducts.mutate(productsIds)
-        } catch (e) {
-            setIsSubmitting(false)
-            throw e
-        }
-    }
-    //
+    const { serverError, serverSuccess, isSubmitting, handleSave } =
+        useUpdateProducts(selectedProducts)
 
     return (
         <div>

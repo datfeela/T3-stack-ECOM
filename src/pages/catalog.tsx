@@ -1,10 +1,10 @@
 import { type NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { api } from '~/modules/shared/api/apiTRPC'
+import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
 
 const Catalog: NextPage = () => {
-    const allProducts = api.products.getManyProducts.useQuery({ quantity: 10 }).data
+    const { data } = useManyProductsData({ quantity: 10 })
 
     return (
         <>
@@ -14,8 +14,8 @@ const Catalog: NextPage = () => {
             </Head>
             <main>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    {allProducts
-                        ? allProducts.map(({ name, id }) => (
+                    {data
+                        ? data.map(({ name, id }) => (
                               <Link key={id} href={`/game/${id}`}>
                                   {name}
                               </Link>

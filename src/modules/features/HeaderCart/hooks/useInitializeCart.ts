@@ -3,7 +3,7 @@ import { GlobalReducerActionKind } from '~/modules/app'
 import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 
 export const useInitializeCart = () => {
-    const { state, dispatch } = useGlobalContext()
+    const { dispatch } = useGlobalContext()
 
     useEffect(() => {
         const localStorageCartData = localStorage.getItem('cart')
