@@ -1,8 +1,9 @@
 import { prisma } from '~/server/db'
 import { publicProcedure } from '../trpc'
 import { z } from 'zod'
-import { sortProductsSchema } from '~/modules/shared/lib/validationSchemas'
+import { getManyProductsInputSchema } from '~/modules/shared/lib/validationSchemas'
 import type { Prisma, Product, ProductImagePath, User } from '@prisma/client'
+import type { GetManyProductsInput } from '~/modules/shared/types/productTypes'
 
 export const getProductById = publicProcedure.input(z.string()).query(async ({ input }) => {
     try {
@@ -44,37 +45,13 @@ export const getProductMainDataByIdProcedure = publicProcedure
     })
 
 export const getManyProducts = publicProcedure
-    .input(
-        z.object({
-            quantity: z.number(),
-            searchQuery: z.string().optional(),
-            sortBy: sortProductsSchema.optional(),
-        }),
-    )
+    .input(getManyProductsInputSchema)
     .query(async ({ ctx, input }) => {
         const { quantity, searchQuery, sortBy } = input
         const query = searchQuery ? searchQuery : ''
 
         try {
-            return await ctx.prisma.product.findMany({
-                include: {
-                    categories: true,
-                },
-                take: quantity,
-                orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
-                where: {
-                    OR: [
-                        { name: { contains: query, mode: 'insensitive' } },
-                        {
-                            categories: {
-                                some: {
-                                    name: { contains: query, mode: 'insensitive' },
-                                },
-                            },
-                        },
-                    ],
-                },
-            })
+            return await getManyProducts_server({ quantity, sortBy, searchQuery: query })
         } catch (e) {
             console.log(`ERROR! can't get categories!`, e)
             throw e
@@ -393,6 +370,32 @@ async function _getProductMainData(productId: string) {
         include: {
             detailPageImages: true,
             wishedBy: true,
+        },
+    })
+}
+
+export async function getManyProducts_server({
+    quantity,
+    searchQuery,
+    sortBy,
+}: GetManyProductsInput) {
+    return await prisma.product.findMany({
+        include: {
+            categories: true,
+        },
+        take: quantity,
+        orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
+        where: {
+            OR: [
+                { name: { contains: searchQuery, mode: 'insensitive' } },
+                {
+                    categories: {
+                        some: {
+                            name: { contains: searchQuery, mode: 'insensitive' },
+                        },
+                    },
+                },
+            ],
         },
     })
 }

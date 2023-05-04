@@ -57,3 +57,9 @@ export const addReviewValidationSchema = z.object({
         .max(1500, { message: 'Message must be 1500 or fewer characters long' })
         .optional(),
 })
+
+export const getManyProductsInputSchema = z.object({
+    quantity: z.number(),
+    searchQuery: z.string().optional(),
+    sortBy: sortProductsSchema.optional(),
+})
