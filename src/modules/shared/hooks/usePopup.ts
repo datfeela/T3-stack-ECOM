@@ -11,5 +11,5 @@ export const usePopup = () => {
         setIsPopupActive(false)
     }
 
-    return [isPopupActive, activatePopup, deactivatePopup] as const
+    return { isPopupActive, activatePopup, deactivatePopup } as const
 }

@@ -3,6 +3,10 @@
 
 .wrap {
     position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     &_default {
         .info {
@@ -74,10 +78,7 @@
         }
 
         .priceRow {
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-
             padding-right: 0.5rem;
         }
 
@@ -93,9 +94,189 @@
             @include price-discount-sm;
         }
     }
+
+    &_popular {
+        @media all and (max-width: 1200px) {
+            display: grid;
+            grid-template-columns: 4fr 5fr;
+        }
+
+        @media all and (max-width: 900px) {
+            grid-template-columns: 3.6fr 5fr;
+        }
+
+        .bottom {
+            background: rgba($color: $purple, $alpha: 0.15);
+            backdrop-filter: 2px;
+        }
+
+        .info {
+            height: 100%;
+            padding: 5px 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            @media all and (max-width: 768px) {
+                justify-content: space-between;
+                padding: 12px 10px;
+            }
+        }
+
+        .name {
+            font-size: 16px;
+            line-height: 150%;
+
+            @media all and (max-width: 1200px) {
+                font-size: 15px;
+                min-height: 45px;
+            }
+
+            @media all and (min-width: 768px) and (max-width: 850px) {
+                white-space: normal;
+            }
+        }
+
+        .priceBlock {
+            padding: 2px 1rem 2px 0;
+            justify-content: space-between;
+
+            @media all and (max-width: 1200px) {
+                padding-right: 5px;
+            }
+        }
+
+        .priceBlockInner {
+            @media all and (min-width: 768px) and (max-width: 850px) {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+
+        .price {
+            @include price-main-sm;
+        }
+
+        .priceWithoutDiscount {
+            @include price-discount-sm;
+        }
+
+        .discount {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+        }
+
+        .popup {
+            @media all and (max-width: 1200px) {
+                display: none;
+            }
+
+            .priceBlockInner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+        }
+    }
+
+    &_defaultLg {
+        .bottom {
+            padding: 15px 35px 20px 7px;
+            background: rgba($color: $purple, $alpha: 0.15);
+            backdrop-filter: 2px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            @media all and (max-width: 1350px) {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 15px 7px;
+            }
+        }
+
+        .info {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            @media all and (max-width: 1350px) {
+                height: auto;
+                margin-bottom: 25px;
+                gap: 15px;
+            }
+        }
+
+        .name {
+            font-size: 24px;
+            font-weight: 600;
+
+            @media all and (min-width: 961px) and (max-width: 1350px) {
+                white-space: unset;
+            }
+
+            @media all and (max-width: 960px) {
+                font-size: 20px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 18px;
+            }
+        }
+
+        .priceBlock {
+            @media all and (max-width: 768px) {
+                padding: 5px 12px;
+            }
+        }
+
+        .toProductBtn_lg {
+            @media all and (max-width: 1350px) {
+                width: 100%;
+            }
+
+            & > div {
+                margin: 0 auto;
+            }
+        }
+
+        .discount {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .fav {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .popup {
+            padding: 15px 30px;
+
+            @media all and (max-width: 1200px) {
+                display: none;
+            }
+
+            .name {
+                margin-bottom: 10px;
+            }
+
+            .desc {
+                -webkit-line-clamp: 10;
+            }
+        }
+    }
 }
 
 .imageLink {
+}
+
+.bottom {
+    flex-grow: 1;
 }
 
 .info {
@@ -104,12 +285,19 @@
 .name {
     font-family: 'Orbitron';
     font-weight: 600;
+    white-space: pre-wrap;
+}
+
+.priceRow {
+    @include price-row;
 }
 
 .priceBlock {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    @include price-row;
+}
+
+.priceBlockInner {
+    @include price-row;
 }
 
 .price {
@@ -152,6 +340,13 @@
     }
 }
 
+.fav {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 3;
+}
+
 .closeBtnSm {
     position: absolute;
     top: 1rem;
@@ -168,5 +363,53 @@
 
     svg {
         fill: rgba($color: #fff, $alpha: 0.5);
+    }
+}
+
+.popup {
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba($color: $headerBg, $alpha: 0.8);
+    backdrop-filter: blur(2px);
+    padding: 10px 20px;
+
+    .name {
+        padding: 0 0 10px 25px;
+    }
+
+    .desc {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        margin-bottom: 10px;
+    }
+
+    &__closeBtn {
+        cursor: pointer;
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        height: 30px;
+        width: 30px;
+
+        svg {
+            fill: $grey;
+        }
+    }
+
+    .priceBlock {
+        align-items: start;
+        justify-content: start;
+    }
+
+    .priceBlockInner {
+        width: auto;
+    }
+
+    .discount {
+        position: static;
     }
 }

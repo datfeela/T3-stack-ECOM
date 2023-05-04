@@ -14,9 +14,7 @@ export const useCartPopup = ({ containerClassName }: UseCartPopupProps) => {
     const handleClick = (e: globalThis.MouseEvent) => {
         if (!(e.target instanceof HTMLElement)) return
 
-        if (!e.target.closest(containerClassName)) {
-            console.log(e.target)
-
+        if (!e.target.closest(containerClassName) && isCartActive) {
             deactivatePopup()
         }
     }

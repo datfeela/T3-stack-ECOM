@@ -1,12 +1,14 @@
 import NextImage, { type StaticImageData } from 'next/image'
 import React, { useState } from 'react'
+import type { ImageOrientation } from '../../types/types'
 
 export interface ImageFillProps {
     src: string | StaticImageData
     srcRes?: string
     alt?: string
-    orientation?: '16/9' | '16/10' | '4/5' | '21/9' | '3/4' | 'unset'
+    orientation?: ImageOrientation
     objectFit?: 'cover' | 'contain'
+    objectPosition?: string
     sizes?: string
     priority?: boolean
 }
@@ -16,6 +18,7 @@ const ImageFill = ({
     srcRes,
     alt,
     objectFit = 'cover',
+    objectPosition,
     orientation = 'unset',
     sizes,
     priority = false,
@@ -40,7 +43,7 @@ const ImageFill = ({
                     placeholder='blur'
                     blurDataURL={typeof src === 'string' ? src : undefined}
                     fill
-                    style={{ objectFit }}
+                    style={{ objectFit, objectPosition }}
                     sizes={sizes}
                     onError={() => {
                         setIsError(true)
