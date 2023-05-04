@@ -4,6 +4,11 @@ export type {
     ProductPagePropsSerialized,
     // main page
     MainPageProductFromApi,
-    MainPageProps,
-    MainPagePropsSerialized,
+    MainPageSliderProps,
+    MainPageSliderPropsSerialized,
+    // popular products
+    PopularProductFromApi,
+    PopularProductFromApiSerialized,
+    PopularProductsData,
+    PopularProductsDataSerialized,
 } from './types'

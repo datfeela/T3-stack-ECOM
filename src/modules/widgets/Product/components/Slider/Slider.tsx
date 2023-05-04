@@ -31,7 +31,7 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
     const [thumbsSwiper, setThumbsSwiper] = useState(null as null | SwiperCore)
 
     const [activeSlideId, setActiveSlideId] = useState(0)
-    const [isPopupActive, activatePopup, deactivatePopup] = usePopup()
+    const { isPopupActive, activatePopup, deactivatePopup } = usePopup()
 
     const mainSliderEls: JSX.Element[] = []
     const thumbsSliderEls: JSX.Element[] = []

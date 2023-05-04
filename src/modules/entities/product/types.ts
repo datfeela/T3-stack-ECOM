@@ -47,8 +47,21 @@ export type MainPageProductFromApiSerialized = MainPageProduct & {
     }
 }
 
-export type MainPageProps = MainPageProductFromApi[]
+export type MainPageSliderProps = MainPageProductFromApi[]
 
-export type MainPagePropsSerialized = MainPageProductFromApiSerialized[]
+export type MainPageSliderPropsSerialized = MainPageProductFromApiSerialized[]
 
-//
+// popular products
+
+export type PopularProductFromApi = Product & {
+    categories: ProductCategory[]
+}
+
+export type PopularProductFromApiSerialized = Omit<Product, 'releaseDate'> & {
+    categories: ProductCategory[]
+    releaseDate: string
+}
+
+export type PopularProductsData = PopularProductFromApi[]
+
+export type PopularProductsDataSerialized = PopularProductFromApiSerialized[]

@@ -132,7 +132,7 @@
 }
 
 .priceRow {
-    @include price-row;
+    @include price-row-align-bot;
 
     &_mobile {
         display: none;

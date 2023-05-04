@@ -6,12 +6,12 @@ import SwiperCore, { Autoplay, Navigation, Pagination, Thumbs } from 'swiper'
 import { Slide } from './components/Slide/Slide'
 import { SliderButton } from '~/modules/shared/components/SliderButton/SliderButton'
 import 'swiper/css'
-import type { MainPageProps } from '~/modules/entities/product'
+import type { MainPageSliderProps } from '~/modules/entities/product'
 import { useState } from 'react'
 
 SwiperCore.use([Autoplay])
 
-export const MainSlider = ({ productsData }: { productsData: MainPageProps }) => {
+export const MainSlider = ({ productsData }: { productsData: MainPageSliderProps }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null as null | SwiperCore)
     const [activeSlideId, setActiveSlideId] = useState(0)
 

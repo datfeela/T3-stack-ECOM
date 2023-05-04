@@ -193,7 +193,7 @@ $blockMinHeight600: 220px;
 }
 
 .priceRow {
-    @include price-row;
+    @include price-row-align-bot;
 }
 
 .price {
