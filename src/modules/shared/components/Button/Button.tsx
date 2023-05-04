@@ -95,7 +95,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     }
     width === 'wide' && (clName += ' ' + s.button_wide)
     width === 'sm' && (clName += ' ' + s.button_small)
-    height === 'sm' && (clName += ' ' + s.button_lowHeight)
+    height === 'sm' && (clName += ' ' + s.button_smHeight)
     height === 'lg' && (clName += ' ' + s.button_lgHeight)
     fontSize === 'md' && (clName += ' ' + s.button_fontMd)
     fontSize === 'lg' && (clName += ' ' + s.button_fontLg)

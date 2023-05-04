@@ -116,6 +116,15 @@
         }
     }
 
+    &_smHeight {
+        height: 46px;
+
+        @media all and (max-width: 1200px) {
+            height: 42px;
+            min-width: 152px;
+        }
+    }
+
     &_small {
         max-width: 200px;
         height: 53px;

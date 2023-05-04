@@ -1,9 +1,23 @@
 // price
 
 @mixin price-row {
+    width: 100%;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 14px;
+
+    @media all and (max-width: 768px) {
+        gap: 11px;
+    }
+
+    @media all and (max-width: 480px) {
+        gap: 7px;
+    }
+}
+
+@mixin price-row-align-bot {
+    @include price-row;
+    align-items: flex-end;
 }
 
 @mixin price-main {
@@ -76,6 +90,10 @@
     @media all and (max-width: 768px) {
         font-size: 16px;
     }
+
+    @media all and (max-width: 480px) {
+        font-size: 15px;
+    }
 }
 
 @mixin price-discount-md {
@@ -91,6 +109,10 @@
 
     @media all and (max-width: 768px) {
         font-size: 16px;
+    }
+
+    @media all and (max-width: 480px) {
+        font-size: 15px;
     }
 }
 
