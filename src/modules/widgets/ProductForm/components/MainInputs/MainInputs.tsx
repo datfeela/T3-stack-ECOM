@@ -43,7 +43,7 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
                 break
             case 'price':
                 props.title = 'price (required)'
-                props.placeholder = '1999'
+                props.placeholder = '0'
                 props.inputMode = 'numeric'
                 break
             case 'quantityInStock':
@@ -57,7 +57,7 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
                 break
             case 'priceWithoutDiscount':
                 props.inputMode = 'numeric'
-                props.placeholder = '1999'
+                props.placeholder = '0'
                 break
             case 'ytTrailerPath':
                 props.title = 'Youtube trailer id'
