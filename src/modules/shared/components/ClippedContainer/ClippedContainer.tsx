@@ -129,8 +129,8 @@ export const ClippedContainer = ({
                       if (!value) return
                       const corner = key as Corner
 
-                      const borderSize = `calc(${size} * 1.414)`
-                      const borderOffset = `calc(1.5px + ${size} * 1.414 / -2)`
+                      const borderSize = `calc(${size} * 1.4)`
+                      const borderOffset = `calc(1.4px + ${size} * 1.4 / -2)`
 
                       let borderStyle = {} as CSSProperties
 
