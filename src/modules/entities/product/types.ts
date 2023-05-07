@@ -32,36 +32,26 @@ export interface ProductPagePropsSerialized extends Omit<ProductPageProps, 'rele
     releaseDate: string
 }
 
-// main page product
-
-export type MainPageProductFromApi = MainPageProduct & {
-    product: Product & {
-        detailPageImages: ProductImagePath[]
-    }
-}
-
-export type MainPageProductFromApiSerialized = MainPageProduct & {
-    product: Omit<Product, 'releaseDate'> & {
-        detailPageImages: ProductImagePath[]
-        releaseDate: string
-    }
-}
-
-export type MainPageSliderProps = MainPageProductFromApi[]
-
-export type MainPageSliderPropsSerialized = MainPageProductFromApiSerialized[]
-
-// popular products
-
-export type PopularProductFromApi = Product & {
-    categories: ProductCategory[]
-}
-
-export type PopularProductFromApiSerialized = Omit<Product, 'releaseDate'> & {
-    categories: ProductCategory[]
+export type ProductSerialized<T> = Omit<T, 'releaseDate'> & {
     releaseDate: string
 }
 
-export type PopularProductsData = PopularProductFromApi[]
+// main page product
 
-export type PopularProductsDataSerialized = PopularProductFromApiSerialized[]
+export type MainPageProductBase = Product & {
+    detailPageImages: ProductImagePath[]
+}
+
+export type MainPageProductFromApi = MainPageProduct & { product: MainPageProductBase }
+
+export type MainPageProductFromApiSerialized = MainPageProduct & {
+    product: ProductSerialized<MainPageProductBase>
+}
+
+// popular products
+
+export type ProductFromApiDefault = Product & {
+    categories: ProductCategory[]
+}
+
+export type ProductFromApiDefaultSerialized = ProductSerialized<ProductFromApiDefault>

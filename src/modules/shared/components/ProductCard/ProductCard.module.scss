@@ -63,6 +63,26 @@
         }
     }
 
+    &_vertical {
+        .priceRow {
+            display: none;
+        }
+
+        .name {
+            display: none;
+        }
+
+        .date {
+            display: block;
+            padding: 15px 20px 20px 20px;
+            text-align: center;
+
+            font-family: 'Orbitron';
+            font-weight: 500;
+            line-height: 150%;
+        }
+    }
+
     &_cartHeader {
         padding: 1rem 0.75rem;
 
@@ -376,15 +396,16 @@
     padding: 10px 20px;
 
     .name {
+        display: block;
         padding: 0 0 10px 25px;
     }
 
     .desc {
         overflow: hidden;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-        margin-bottom: 10px;
+        margin-bottom: 4px;
     }
 
     &__closeBtn {
@@ -411,5 +432,22 @@
 
     .discount {
         position: static;
+    }
+
+    .categories {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+
+        &__item {
+            padding: 5px 7px;
+            background: rgba($color: $purple, $alpha: 0.7);
+            border-radius: 23px;
+
+            font-family: 'Orbitron';
+            font-size: 12px;
+            line-height: 120%;
+        }
     }
 }

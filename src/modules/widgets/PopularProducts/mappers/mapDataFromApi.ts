@@ -1,7 +1,7 @@
-import type { PopularProductsData } from '~/modules/entities/product'
-import { ProductType } from '~/modules/shared/types/productTypes'
+import type { ProductFromApiDefault } from '~/modules/entities/product'
+import type { ProductType } from '~/modules/shared/types/productTypes'
 
-export const mapDataFromApi = (products: PopularProductsData) => {
+export const mapDataFromApi = (products: ProductFromApiDefault[]) => {
     return products.map(
         ({
             id,

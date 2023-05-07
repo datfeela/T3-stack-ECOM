@@ -1,0 +1,39 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    position: relative;
+}
+
+.wrapInner {
+    position: relative;
+    z-index: 1;
+}
+
+.bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+
+    @media all and (max-width: 480px) {
+        display: none;
+    }
+}
+
+.slide {
+    height: auto !important;
+}
+
+.nav {
+    @include slider-nav-default;
+
+    &_disabled {
+        display: none;
+    }
+}
+
+.btn {
+    @include slider-btn-default;
+}

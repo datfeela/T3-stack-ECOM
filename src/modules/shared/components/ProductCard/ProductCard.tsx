@@ -9,34 +9,29 @@ import { SvgSelector } from '../SvgSelector/SvgSelector'
 import { ProductQuantityController } from '../ProductQuantityController/ProductQuantityController'
 import { useGlobalContext } from '../../hooks/useGlobalContext'
 import { GlobalReducerActionKind } from '~/modules/app'
-import type { ImageOrientation } from '../../types/types'
+import type { DefaultColor, ImageOrientation } from '../../types/types'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { ButtonDefault } from '../Button/Button'
 import { Favorites } from '~/modules/features/Favorites'
-import { useRef, useState } from 'react'
 import { usePopup } from '../../hooks/usePopup'
+import { parseDateToString } from '../../lib/parseDateToString'
 
 interface ProductCardBaseProps {
     id: string
     name: string
     price: number
     priceWithoutDiscount: number | null
-    productType: ProductType
     imgPath: string | null
-    linkBasePathName?: string
-    view:
-        | 'default'
-        | 'defaultLg'
-        | 'horizontal'
-        | 'vertical'
-        | 'cart'
-        | 'cartHeader'
-        | 'comingSoon'
-        | 'popular'
-    size?: 'default' | 'lg'
     imageSizes: string
+    view: 'default' | 'defaultLg' | 'horizontal' | 'vertical' | 'cart' | 'cartHeader' | 'popular'
+    borderColor?: DefaultColor
+    size?: 'default' | 'lg'
+    productType?: ProductType
+    linkBasePathName?: string
     // only for cartHeader view
     quantityInCart?: number
+    // only for vertical view
+    releaseDate?: Date
 }
 
 interface ProductCardWithPopupProps extends ProductCardBaseProps {
@@ -61,10 +56,12 @@ export const ProductCard = ({
     productType,
     imgPath,
     view,
+    borderColor,
     linkBasePathName,
     size = 'default',
     imageSizes,
     quantityInCart,
+    releaseDate,
 }: ProductCardProps) => {
     const matchMedia = useMatchMedia()
     const { dispatch } = useGlobalContext()
@@ -87,15 +84,16 @@ export const ProductCard = ({
             wrapCN += ` ${s.wrap_horizontal}`
             break
         case 'vertical':
+            wrapCN += ` ${s.wrap_vertical}`
+            imageOrientation = '4/5'
             break
         case 'cart':
+            wrapCN += ` ${s.wrap_cart}`
             imageOrientation = '3/4'
             break
         case 'cartHeader':
             wrapCN += ` ${s.wrap_cartHeader}`
             imageOrientation = '3/4'
-            break
-        case 'comingSoon':
             break
         case 'popular':
             wrapCN += ` ${s.wrap_popular}`
@@ -110,22 +108,28 @@ export const ProductCard = ({
         <ClippedContainer
             clipSize={view === 'defaultLg' ? 'lg' : 'md'}
             height='full'
-            borderColor={view === 'comingSoon' ? 'yellow' : 'purple'}
+            borderColor={borderColor || 'purple'}
             background={view === 'horizontal' || view === 'cart' ? true : false}
             borders={view !== 'cartHeader'}
         >
             <div className={wrapCN}>
                 {href && view !== 'defaultLg' && view !== 'popular' ? (
-                    <Link className={s.imageLink} href={href}>
+                    <Link
+                        className={s.imageLink}
+                        href={href}
+                        style={{ aspectRatio: imageOrientation }}
+                    >
                         {imgPath ? (
                             <Image
-                                src={imgPath}
+                                src={imgPath || ''}
                                 sizes={imageSizes}
                                 orientation={imageOrientation}
                                 alt={name}
                             />
                         ) : (
-                            <ImagePlaceholder />
+                            <>
+                                <ImagePlaceholder />
+                            </>
                         )}
                     </Link>
                 ) : null}
@@ -223,6 +227,11 @@ export const ProductCard = ({
                                 />
                             ) : null}
                         </div>
+                        {view === 'vertical' && releaseDate ? (
+                            <Link href={href || ''} className={s.date}>
+                                {parseDateToString(releaseDate)}
+                            </Link>
+                        ) : null}
                     </div>
                     {view === 'defaultLg' && href ? (
                         <Link className={s.toProductBtn_lg} href={href}>
@@ -239,8 +248,23 @@ export const ProductCard = ({
                 </div>
                 {isPopupActive && (view === 'defaultLg' || view === 'popular') ? (
                     <div className={s.popup}>
-                        <div className={s.name}>{name}</div>
+                        {href ? (
+                            <Link href={href} className={s.name}>
+                                {name}
+                            </Link>
+                        ) : (
+                            <div className={s.name}>{name}</div>
+                        )}
                         <div className={s.desc}>{desc}</div>
+                        {categories ? (
+                            <div className={s.categories}>
+                                {categories.map((name, id) => (
+                                    <div className={s.categories__item} key={id}>
+                                        {name}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : null}
                         <div className={s.priceRow}>
                             <div className={s.priceBlock}>
                                 <div className={s.priceBlockInner}>

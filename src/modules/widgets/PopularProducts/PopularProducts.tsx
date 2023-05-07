@@ -1,4 +1,4 @@
-import type { PopularProductsData } from '~/modules/entities/product'
+import type { ProductFromApiDefault } from '~/modules/entities/product'
 import s from './PopularProducts.module.scss'
 import { mapDataFromApi } from './mappers/mapDataFromApi'
 import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
@@ -10,7 +10,7 @@ import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector
 import { TitleDecorative } from '~/modules/shared/components/TitleDecorative/TitleDecorative'
 
 interface PopularProductsProps {
-    productsData: PopularProductsData
+    productsData: ProductFromApiDefault[]
 }
 
 export const PopularProducts = ({ productsData }: PopularProductsProps) => {

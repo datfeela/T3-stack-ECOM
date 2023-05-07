@@ -35,6 +35,7 @@ export const NamesToSortProductsEnum = z.nativeEnum({
     price: 'price',
     name: 'name',
     popularity: 'popularity',
+    releaseDate: 'releaseDate',
 } as const)
 
 export const ValuesToSortProductsEnum = z.nativeEnum({
@@ -62,4 +63,6 @@ export const getManyProductsInputSchema = z.object({
     quantity: z.number(),
     searchQuery: z.string().optional(),
     sortBy: sortProductsSchema.optional(),
+    comingSoon: z.boolean().optional(),
+    onSale: z.boolean().optional(),
 })

@@ -1,11 +1,15 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import type {
-    MainPageSliderPropsSerialized,
-    PopularProductsDataSerialized,
-} from '~/modules/entities/product'
+    MainPageProductFromApiSerialized,
+    ProductFromApiDefaultSerialized,
+} from '~/modules/entities/product/types'
+import { mapSerializedProductFromApi } from '~/modules/shared/mappers/mapSerializedProductFromApi'
+import { mapUnserializedProductFromApi } from '~/modules/shared/mappers/mapUnserializedProductFromApi'
+import { ComingSoonProducts } from '~/modules/widgets/ComingSoonProducts'
 import { MainSlider } from '~/modules/widgets/MainSlider'
 import { PopularProducts } from '~/modules/widgets/PopularProducts'
+import { ProductsOnSale } from '~/modules/widgets/ProductsOnSale'
 import {
     getMainPageProducts_server,
     getManyProducts_server,
@@ -14,19 +18,23 @@ import {
 const Home = ({
     sliderProductsData,
     popularProductsData,
+    comingSoonProductsData,
+    productsOnSaleData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const productsDataMapped = sliderProductsData.map((data) => ({
         ...data,
-        product: {
-            ...data.product,
-            releaseDate: new Date(JSON.parse(data.product.releaseDate) as string),
-        },
+        product: mapSerializedProductFromApi(data.product),
     }))
 
-    const popularProductsDataMapped = popularProductsData.map((product) => ({
-        ...product,
-        releaseDate: new Date(JSON.parse(product.releaseDate) as string),
-    }))
+    const popularProductsDataMapped = popularProductsData.map((product) =>
+        mapSerializedProductFromApi(product),
+    )
+    const comingSoonProductsDataMapped = comingSoonProductsData.map((product) =>
+        mapSerializedProductFromApi(product),
+    )
+    const productsOnSaleDataMapped = productsOnSaleData.map((product) =>
+        mapSerializedProductFromApi(product),
+    )
 
     return (
         <>
@@ -37,6 +45,12 @@ const Home = ({
             <main>
                 <MainSlider productsData={productsDataMapped} />
                 <PopularProducts productsData={popularProductsDataMapped} />
+                {comingSoonProductsDataMapped.length > 0 ? (
+                    <ComingSoonProducts productsData={comingSoonProductsDataMapped} />
+                ) : null}
+                {productsOnSaleDataMapped.length > 0 ? (
+                    <ProductsOnSale productsData={productsOnSaleDataMapped} />
+                ) : null}
             </main>
         </>
     )
@@ -45,30 +59,50 @@ const Home = ({
 export default Home
 
 export const getServerSideProps: GetServerSideProps<{
-    sliderProductsData: MainPageSliderPropsSerialized
-    popularProductsData: PopularProductsDataSerialized
+    sliderProductsData: MainPageProductFromApiSerialized[]
+    popularProductsData: ProductFromApiDefaultSerialized[]
+    comingSoonProductsData: ProductFromApiDefaultSerialized[]
+    productsOnSaleData: ProductFromApiDefaultSerialized[]
 }> = async () => {
     const sliderProductsDataPromise = getMainPageProducts_server()
     const popularProductsDataPromise = getManyProducts_server({
         quantity: 5,
         sortBy: { name: 'popularity', value: 'desc' },
     })
+    const comingSoonProductsPromise = getManyProducts_server({
+        quantity: 10,
+        sortBy: { name: 'releaseDate', value: 'asc' },
+        comingSoon: true,
+    })
+    const productsOnSalePromise = getManyProducts_server({
+        quantity: 6,
+        sortBy: { name: 'popularity', value: 'desc' },
+        onSale: true,
+    })
 
-    const [sliderProductsData, popularProductsData] = await Promise.all([
-        sliderProductsDataPromise,
-        popularProductsDataPromise,
-    ])
+    const [sliderProductsData, popularProductsData, comingSoonProductsData, productsOnSaleData] =
+        await Promise.all([
+            sliderProductsDataPromise,
+            popularProductsDataPromise,
+            comingSoonProductsPromise,
+            productsOnSalePromise,
+        ])
 
     return {
         props: {
             sliderProductsData: sliderProductsData.map((data) => ({
                 ...data,
-                product: { ...data.product, releaseDate: JSON.stringify(data.product.releaseDate) },
+                product: mapUnserializedProductFromApi(data.product),
             })),
-            popularProductsData: popularProductsData.map((product) => ({
-                ...product,
-                releaseDate: JSON.stringify(product.releaseDate),
-            })),
+            popularProductsData: popularProductsData.map((product) =>
+                mapUnserializedProductFromApi(product),
+            ),
+            comingSoonProductsData: comingSoonProductsData.map((product) =>
+                mapUnserializedProductFromApi(product),
+            ),
+            productsOnSaleData: productsOnSaleData.map((product) =>
+                mapUnserializedProductFromApi(product),
+            ),
         },
     }
 }

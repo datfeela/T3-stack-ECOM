@@ -47,11 +47,17 @@ export const getProductMainDataByIdProcedure = publicProcedure
 export const getManyProducts = publicProcedure
     .input(getManyProductsInputSchema)
     .query(async ({ ctx, input }) => {
-        const { quantity, searchQuery, sortBy } = input
+        const { quantity, searchQuery, sortBy, comingSoon, onSale } = input
         const query = searchQuery ? searchQuery : ''
 
         try {
-            return await getManyProducts_server({ quantity, sortBy, searchQuery: query })
+            return await getManyProducts_server({
+                quantity,
+                sortBy,
+                searchQuery: query,
+                comingSoon,
+                onSale,
+            })
         } catch (e) {
             console.log(`ERROR! can't get categories!`, e)
             throw e
@@ -378,6 +384,8 @@ export async function getManyProducts_server({
     quantity,
     searchQuery,
     sortBy,
+    comingSoon,
+    onSale,
 }: GetManyProductsInput) {
     return await prisma.product.findMany({
         include: {
@@ -386,14 +394,32 @@ export async function getManyProducts_server({
         take: quantity,
         orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
         where: {
-            OR: [
-                { name: { contains: searchQuery, mode: 'insensitive' } },
+            OR: searchQuery
+                ? [
+                      { name: { contains: searchQuery, mode: 'insensitive' } },
+                      {
+                          categories: {
+                              some: {
+                                  name: { contains: searchQuery, mode: 'insensitive' },
+                              },
+                          },
+                      },
+                  ]
+                : undefined,
+            AND: [
                 {
-                    categories: {
-                        some: {
-                            name: { contains: searchQuery, mode: 'insensitive' },
-                        },
-                    },
+                    releaseDate: comingSoon
+                        ? {
+                              gte: new Date(),
+                          }
+                        : undefined,
+                },
+                {
+                    priceWithoutDiscount: onSale
+                        ? {
+                              gt: 0,
+                          }
+                        : undefined,
                 },
             ],
         },
