@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useEffect, useReducer } from 'react'
+import { createContext, useReducer } from 'react'
 import type { ContextProps, GlobalReducerAction, GlobalState } from '../types/storeTypes'
 
 import { GlobalReducerActionKind } from '../types/storeTypes'

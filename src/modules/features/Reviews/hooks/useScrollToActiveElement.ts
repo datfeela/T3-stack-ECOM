@@ -1,4 +1,3 @@
-import type { ProductReview, User } from '@prisma/client'
 import { useEffect, useRef, useState } from 'react'
 
 export const useScrollToActiveElement = ({ shouldScroll }: { shouldScroll: boolean }) => {

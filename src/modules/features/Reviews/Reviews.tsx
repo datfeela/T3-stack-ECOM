@@ -99,7 +99,7 @@ export const Reviews = ({
                 quantityToGetOnSuccess={reviewsToGetQuantity}
             />
             {reviews?.length === 0 && !expandedMode && !isAddFormActive ? (
-                <div className={s.placeholderText}>There is no reviews yet...</div>
+                <div className={s.placeholderText}>There are no reviews yet...</div>
             ) : null}
             {!expandedMode ? (
                 <AddReviewButton

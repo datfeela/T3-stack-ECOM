@@ -1,12 +1,11 @@
-import { api } from '~/modules/shared/api/apiTRPC'
 import s from './AddReviewForm.module.scss'
-import { Form, Formik, FormikProps } from 'formik'
+import { Form, Formik, type FormikProps } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { addReviewValidationSchema } from '~/modules/shared/lib/validationSchemas'
 import { Input } from '~/modules/shared/components/Inputs/Input'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { LikeIcon } from '../LikeIcon/LikeIcon'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAddReview } from '../../hooks/useAddReview'
 
 interface AddReviewFormProps {

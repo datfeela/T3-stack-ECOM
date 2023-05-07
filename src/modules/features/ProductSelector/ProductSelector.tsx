@@ -1,6 +1,5 @@
 import s from './ProductSelector.module.scss'
 import { useState } from 'react'
-import { api } from '~/modules/shared/api/apiTRPC'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'

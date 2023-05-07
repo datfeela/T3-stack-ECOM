@@ -12,7 +12,7 @@ export const Breadcrumbs = ({ pidName }: BreadcrumbsProps) => {
 
     let currentPath = ''
 
-    let paths = router.pathname.split('/').map((path) => {
+    const paths = router.pathname.split('/').map((path) => {
         if (path === '') return { name: 'Main', link: '/' }
 
         currentPath += `/${path}`
@@ -35,7 +35,7 @@ export const Breadcrumbs = ({ pidName }: BreadcrumbsProps) => {
             {paths.map(({ name, link }, id) => {
                 if (id + 1 === paths.length)
                     return (
-                        <div key={id} className={s.link + ' ' + s.link_active}>
+                        <div key={id} className={`${s.link} ${s.link_active}`}>
                             <span>{name}</span>
                         </div>
                     )
