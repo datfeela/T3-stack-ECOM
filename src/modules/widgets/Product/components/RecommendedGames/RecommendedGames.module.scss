@@ -1,4 +1,5 @@
 @import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .header {
     display: flex;
@@ -51,35 +52,11 @@
 }
 
 .nav {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-
-    @media all and (max-width: 600px) {
-        gap: 12px;
-    }
+    @include slider-nav-default;
 }
 
 .btn {
-    margin-top: 38px;
-
-    @media all and (max-width: 1200px) {
-        margin-top: 25px;
-    }
-
-    @media all and (max-width: 600px) {
-        margin-top: 15px;
-    }
-
-    &_prev {
-        position: relative;
-    }
-    &_next {
-        position: relative;
-    }
-    &_hidden {
-        display: none !important;
-    }
+    @include slider-btn-default;
 }
 
 .productsGrid {
