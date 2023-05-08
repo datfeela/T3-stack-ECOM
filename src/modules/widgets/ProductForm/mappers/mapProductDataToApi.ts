@@ -17,6 +17,11 @@ export async function mapProductDataToApi({
 }: SubmitFormProps) {
     // if typeof image === string, image is old, if obj - it's new
     // !
+<<<<<<< HEAD
+=======
+    const uploadPromises = [] as Promise<{ error: any; data: any }>[]
+
+>>>>>>> d6b0d718456649efb5ce57467701d2eb8079d9ea
     const coverImagePathPromise = handleImgUpload(coverImage as File | string | undefined)
     const horizontalImagePathPromise = handleImgUpload(horizontalImage as File | string | undefined)
     const verticalImagePathPromise = handleImgUpload(verticalImage as File | string | undefined)
@@ -25,12 +30,16 @@ export async function mapProductDataToApi({
     )
 
     const [coverImagePath, horizontalImagePath, verticalImagePath, detailPageImagesPaths] =
+<<<<<<< HEAD
         await Promise.all([
             coverImagePathPromise,
             horizontalImagePathPromise,
             verticalImagePathPromise,
             detailPageImagesPathsPromise,
         ])
+=======
+        await Promise.all(uploadPromises)
+>>>>>>> d6b0d718456649efb5ce57467701d2eb8079d9ea
 
     // !
     const releaseDateParsed = new Date(releaseDate)
