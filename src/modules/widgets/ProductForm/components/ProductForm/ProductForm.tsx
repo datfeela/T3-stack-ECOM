@@ -254,17 +254,16 @@ export const ProductForm = ({
                             />
                         </div>
                         <div className={s.footer}>
+                            {serverError ? (
+                                <div className={s.error}>ERROR! {serverError}</div>
+                            ) : null}
+                            {serverSuccess && !dirty ? <div>{serverSuccess}</div> : null}
                             <SubmitButton
                                 isError={isAnyErrors ? true : false}
                                 isSubmitting={isSubmitting}
                             >
                                 {isEditForm ? 'Save' : 'Add product'}
                             </SubmitButton>
-
-                            {serverError ? (
-                                <div className={s.error}>ERROR! {serverError}</div>
-                            ) : null}
-                            {serverSuccess && !dirty ? <div>{serverSuccess}</div> : null}
                         </div>
                     </Form>
                 )
