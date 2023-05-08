@@ -4,6 +4,7 @@ import { WithLoader } from '~/modules/shared/components/WrapWithLoader/WrapWithL
 import { ProductForm } from '../ProductForm/ProductForm'
 import { UseEditProduct } from '../../hooks/useEditProduct'
 import { useEditFormInitialValues } from '../../hooks/useEditFormInitialValues'
+import type { SubmitFormProps } from '../../ProductFormTypes'
 
 export const EditForm = () => {
     const router = useRouter()
@@ -17,18 +18,27 @@ export const EditForm = () => {
 
     const { initialValues, isLoaded } = useEditFormInitialValues(productId)
 
+    console.log(initialValues)
+
     const { isSubmitting, serverError, serverSuccess, setServerSuccess, handleFormSubmit } =
         UseEditProduct(productId)
+
+    const resetServerSuccess = () => {
+        setServerSuccess('')
+    }
 
     return (
         <>
             <h1>Edit product</h1>
-            {serverSuccess ? <div>REFACTOR ME PLS: {serverSuccess}</div> : null}
             <WithLoader loaderType='dots' conditionToShowLoader={!isLoaded}>
                 <ProductForm
                     isSubmitting={isSubmitting}
-                    submitForm={handleFormSubmit}
+                    submitForm={async (props: SubmitFormProps) => {
+                        await handleFormSubmit({ ...props, initialValues })
+                    }}
                     serverError={serverError}
+                    serverSuccess={serverSuccess}
+                    resetServerSuccess={resetServerSuccess}
                     initialValues={initialValues}
                     isEditForm={true}
                 />
