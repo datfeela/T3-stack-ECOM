@@ -8,10 +8,8 @@ export const handleImgUpload = async (image: string | File | undefined) => {
         const { data, error } = await uploadImage(image)
 
         if (error) {
-            console.log('ERROR LOG: ', JSON.stringify(error))
             throw new Error(
-                `HANDLEIMGUPLOAD: something went wrong, can't upload image, error:`,
-                error,
+                `HANDLEIMGUPLOAD: something went wrong, can't upload image, error: ${error.message}`,
             )
         }
         if (data) coverImgName = env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH + data.path

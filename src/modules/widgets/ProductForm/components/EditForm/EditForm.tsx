@@ -18,8 +18,6 @@ export const EditForm = () => {
 
     const { initialValues, isLoaded } = useEditFormInitialValues(productId)
 
-    console.log(initialValues)
-
     const { isSubmitting, serverError, serverSuccess, setServerSuccess, handleFormSubmit } =
         UseEditProduct(productId)
 

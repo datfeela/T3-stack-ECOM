@@ -57,8 +57,6 @@ export const UseEditProduct = (productId: string) => {
                     (value: string) => typeof value === 'string' && value.length > 0,
                 ) as string[]
 
-                console.log(oldImages, newImages)
-
                 const deletePromises = [] as Promise<{
                     data: any
                     error: any
@@ -82,8 +80,6 @@ export const UseEditProduct = (productId: string) => {
             setIsSubmitting(true)
             setServerSuccess('')
             const newProductValues = await mapProductDataToApi(props)
-
-            console.log(newProductValues)
 
             editProduct.mutate({ ...newProductValues, id: productId })
         } catch (e) {
