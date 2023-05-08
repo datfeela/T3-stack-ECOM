@@ -36,7 +36,7 @@ export const ProductsOnSale = ({ productsData }: ProductsOnSaleProps) => {
                 <Link href='/catalog?sale=true' className={s.link}>
                     <ButtonDefault
                         withDecorative={true}
-                        isGlitching={false}
+                        isGlitching={true}
                         withIcon={true}
                         Icon={<SvgSelector id='arrowDefault' />}
                         shouldIconDisplay={true}

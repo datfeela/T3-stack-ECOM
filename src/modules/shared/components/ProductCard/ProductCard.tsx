@@ -24,7 +24,6 @@ interface ProductCardBaseProps {
     imgPath: string | null
     imageSizes: string
     view: 'default' | 'defaultLg' | 'horizontal' | 'vertical' | 'cart' | 'cartHeader' | 'popular'
-    borderColor?: DefaultColor
     size?: 'default' | 'lg'
     productType?: ProductType
     linkBasePathName?: string
@@ -56,7 +55,6 @@ export const ProductCard = ({
     productType,
     imgPath,
     view,
-    borderColor,
     linkBasePathName,
     size = 'default',
     imageSizes,
@@ -108,7 +106,8 @@ export const ProductCard = ({
         <ClippedContainer
             clipSize={view === 'defaultLg' ? 'lg' : 'md'}
             height='full'
-            borderColor={borderColor || 'purple'}
+            borderColor={view === 'vertical' ? 'blue' : 'purple'}
+            borderColorHover={view === 'vertical' ? 'yellow' : undefined}
             background={view === 'horizontal' || view === 'cart' ? true : false}
             borders={view !== 'cartHeader'}
         >

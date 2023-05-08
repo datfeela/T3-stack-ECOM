@@ -25,7 +25,8 @@ export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorPr
 
     const { data, isLoading } = useManyProductsData({
         searchQuery: debouncedSearchQuery,
-        quantity: 10,
+        // todo: 10 + load more
+        quantity: 30,
     })
 
     const products = data?.map(({ id, name, price, horizontalImagePath }) => (

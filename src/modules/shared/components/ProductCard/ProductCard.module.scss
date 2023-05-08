@@ -61,9 +61,31 @@
                 margin-bottom: 10px;
             }
         }
+
+        .priceBlock {
+            @media all and (max-width: 480px) {
+                max-width: fit-content;
+                gap: 20px;
+            }
+        }
+
+        .priceBlockInner {
+            @media all and (min-width: 481px) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+        }
     }
 
     &_vertical {
+        &:hover {
+            .date {
+                color: #00e4f2;
+                text-shadow: -1px 0px 0px #ff003c, -1.5px 0px 0px rgba(250, 255, 0, 0.82);
+            }
+        }
+
         .priceRow {
             display: none;
         }

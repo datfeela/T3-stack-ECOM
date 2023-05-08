@@ -18,7 +18,8 @@ export const AdminProducts = () => {
     )
 
     const { data: productsData } = useManyProductsData({
-        quantity: 10,
+        // todo: 10 + load more
+        quantity: 30,
         searchQuery: debouncedSearchQuery,
         sortBy,
     })

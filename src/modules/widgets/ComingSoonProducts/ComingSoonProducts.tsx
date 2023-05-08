@@ -17,13 +17,12 @@ interface ComingSoonProductsProps {
 export const ComingSoonProducts = ({ productsData }: ComingSoonProductsProps) => {
     const productsDataMapped = mapProductsDataFromApi(productsData)
 
-    const productsEls = productsDataMapped.map((product, id) => {
+    const productsEls = productsDataMapped.map((product) => {
         return (
             <SwiperSlide className={s.slide} key={product.id}>
                 <ProductCard
                     linkBasePathName='/game'
                     view={'vertical'}
-                    borderColor={id === 1 ? 'blue' : 'yellow'}
                     imageSizes='(max-width: 480px) 100vw,
                 300px'
                     {...product}

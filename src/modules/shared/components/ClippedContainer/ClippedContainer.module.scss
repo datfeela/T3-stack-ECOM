@@ -92,6 +92,40 @@
             border-color: $blueLight;
         }
     }
+
+    &_borderBlueHover {
+        &:hover {
+            .border {
+                border-color: $blueLight;
+            }
+
+            .figure {
+                border-color: $blueLight;
+            }
+        }
+    }
+    &_borderRedHover {
+        &:hover {
+            .border {
+                border-color: $red;
+            }
+
+            .figure {
+                border-color: $red;
+            }
+        }
+    }
+    &_borderYellowHover {
+        &:hover {
+            .border {
+                border-color: $yellow;
+            }
+
+            .figure {
+                border-color: $yellow;
+            }
+        }
+    }
 }
 
 .border {

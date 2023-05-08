@@ -19,19 +19,34 @@
 
 .expandBtn {
     display: flex;
-    gap: 10px;
     align-items: center;
+
+    &:hover {
+        .expandBtn__icon {
+            svg {
+                transform: translateX(3px);
+                fill: $blueLight;
+            }
+        }
+
+        span {
+            color: $blueLight;
+        }
+    }
 
     &__icon {
         width: 18px;
         height: 18px;
-
+        display: flex;
+        align-items: center;
+        justify-content: center;
         @media all and (max-width: 480px) {
             width: 14px;
             height: 14px;
         }
 
         svg {
+            transition: 0.3s;
             height: 100%;
             width: 100%;
             fill: #fff;
@@ -40,6 +55,7 @@
     span {
         font-family: Orbitron;
         text-transform: uppercase;
+        padding-right: 10px;
 
         @media all and (max-width: 480px) {
             font-size: 14px;

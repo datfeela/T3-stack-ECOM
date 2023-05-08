@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
 
 const Catalog: NextPage = () => {
-    const { data } = useManyProductsData({ quantity: 10 })
+    // todo: 10 + load more
+    const { data } = useManyProductsData({ quantity: 30 })
 
     return (
         <>

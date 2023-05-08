@@ -11,6 +11,7 @@ export interface ClippedContainerProps {
     clipSize?: 'sm' | 'md' | 'lg'
     color?: DefaultColor
     borderColor?: DefaultColor
+    borderColorHover?: DefaultColor
     children: React.ReactNode
     corners?: { [key in Corner]?: boolean }
     borders?: boolean
@@ -22,6 +23,7 @@ export interface ClippedContainerProps {
 export const ClippedContainer = ({
     color = 'purple',
     borderColor = 'purple',
+    borderColorHover,
     clipSize = 'sm',
     width = 'full',
     height = 'fit',
@@ -57,6 +59,20 @@ export const ClippedContainer = ({
             break
         case 'yellow':
             containerCName += ` ${s.clip_borderYellow}`
+            break
+        default:
+            break
+    }
+
+    switch (borderColorHover) {
+        case 'blue':
+            containerCName += ` ${s.clip_borderBlueHover}`
+            break
+        case 'red':
+            containerCName += ` ${s.clip_borderRedHover}`
+            break
+        case 'yellow':
+            containerCName += ` ${s.clip_borderYellowHover}`
             break
         default:
             break
