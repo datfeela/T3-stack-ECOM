@@ -8,6 +8,6 @@ export const handleImgDelete = async (src: string) => {
 
         return { data, error }
     } catch (e) {
-        throw new Error(`something went wrong, can't upload image, error: ${e}`)
+        throw new Error(`something went wrong, can't delete image, error: ${e}`)
     }
 }

@@ -1,22 +1,7 @@
 @import '/src/modules/shared/styles/var.scss';
 
 .button {
-    border: 1px solid #fff;
-    padding: 10px 45px 10px 10px;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 18px;
-    font-family: 'Orbitron';
-
-    &_error {
-        border-color: red;
-    }
-
-    &_submitting {
-        padding-right: 10px;
-    }
+    margin-left: auto;
 }
 
 .loaderWrap {

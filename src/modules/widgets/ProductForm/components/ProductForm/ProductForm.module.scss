@@ -12,12 +12,14 @@
     height: 100px;
     width: calc(100% - $adminSidebarWidth - $scrollbarWidth);
     position: fixed;
+    z-index: 5;
     bottom: 0;
     left: $adminSidebarWidth;
     padding: $adminMainPadding;
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
 
     background: $background;

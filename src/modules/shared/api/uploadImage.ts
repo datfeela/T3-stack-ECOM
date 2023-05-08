@@ -20,8 +20,9 @@ export const uploadImage = async (image: File) => {
             .upload(newFileName, image, {})
 
         return { data, error }
-    } catch (e) {
-        throw new Error(`something went wrong, can't upload image, error: ${e}`)
+    } catch (e: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        throw new Error(`UPLOADIMAGE: something went wrong, can't upload image, error:`, e)
     }
 }
 
