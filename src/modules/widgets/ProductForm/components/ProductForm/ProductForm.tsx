@@ -2,8 +2,6 @@ import s from './ProductForm.module.scss'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { api } from '~/modules/shared/api/apiTRPC'
-import type { FilterResponse } from '~/server/api/apiTypes/productsRouterTypes'
 import type { ProductFormProps } from '../../ProductFormTypes'
 
 import { DynamicInput } from '~/modules/shared/components/Inputs/DynamicInput'
@@ -24,6 +22,8 @@ import { useFiltersData } from '~/modules/shared/hooks/api/useFiltersData'
 export const ProductForm = ({
     initialValues,
     serverError,
+    serverSuccess,
+    resetServerSuccess,
     submitForm,
     isEditForm,
     isSubmitting,
@@ -87,8 +87,6 @@ export const ProductForm = ({
         productType: initialValues?.productType || ('game' as ProductType),
     }
 
-    // submit
-
     return (
         <Formik
             enableReinitialize
@@ -102,13 +100,13 @@ export const ProductForm = ({
                     if (typeof value === 'string') {
                         value = value.trim()
                     }
-                    // todo: replace w/ validation schema on
                 }
                 submitForm(values)
             }}
         >
-            {({ errors, touched, setFieldValue, values }) => {
+            {({ errors, touched, setFieldValue, values, dirty }) => {
                 // console.log(values, errors)
+                const isAnyErrors = serverError || Object.keys(errors).length !== 0
 
                 const {
                     name,
@@ -122,8 +120,6 @@ export const ProductForm = ({
                     systemRequirementsMinimal,
                     systemRequirementsRecommended,
                 } = values
-
-                const isAnyErrors = serverError || Object.keys(errors).length !== 0
 
                 const mainFields = {
                     name,
@@ -156,8 +152,13 @@ export const ProductForm = ({
                 }
 
                 return (
-                    <Form>
-                        <div>
+                    <Form
+                        onChange={() => {
+                            if (!!serverSuccess && !!resetServerSuccess) resetServerSuccess()
+                        }}
+                        className={s.wrap}
+                    >
+                        <div className={s.form}>
                             <h2>Main data</h2>
                             <MainInputs mainFields={mainFields} errors={errors} touched={touched} />
                             <DynamicInput
@@ -252,13 +253,19 @@ export const ProductForm = ({
                                 setFieldValue={setFieldValue}
                             />
                         </div>
-                        {serverError ? <div>ERROR! {serverError}</div> : null}
-                        <SubmitButton
-                            isError={isAnyErrors ? true : false}
-                            isSubmitting={isSubmitting}
-                        >
-                            {isEditForm ? 'Save' : 'Add product'}
-                        </SubmitButton>
+                        <div className={s.footer}>
+                            <SubmitButton
+                                isError={isAnyErrors ? true : false}
+                                isSubmitting={isSubmitting}
+                            >
+                                {isEditForm ? 'Save' : 'Add product'}
+                            </SubmitButton>
+
+                            {serverError ? (
+                                <div className={s.error}>ERROR! {serverError}</div>
+                            ) : null}
+                            {serverSuccess && !dirty ? <div>{serverSuccess}</div> : null}
+                        </div>
                     </Form>
                 )
             }}

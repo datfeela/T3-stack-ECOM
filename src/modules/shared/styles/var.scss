@@ -18,6 +18,7 @@ $purple: #710fad;
 
 // sizes
 
+$scrollbarWidth: 20px;
 $loginWarningiconSize: 28px;
 
 $appMaxWidth: 1300px;
@@ -34,6 +35,11 @@ $breadcrumbsHeight600: 0px;
 
 $mdContainerPadding: 1.5rem 1rem;
 $smContainerPadding: 1rem;
+
+// admin layout
+
+$adminSidebarWidth: 250px;
+$adminMainPadding: 20px;
 
 // $blocksMargin: 15px;
 // $headerHeight: 50px;

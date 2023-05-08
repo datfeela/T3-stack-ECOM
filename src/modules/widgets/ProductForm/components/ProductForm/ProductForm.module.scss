@@ -1,3 +1,29 @@
+@import '/src/modules/shared/styles/var.scss';
+
 .imgInputs {
     margin: 20px 0;
+}
+
+.form {
+    margin-bottom: 100px;
+}
+
+.footer {
+    height: 100px;
+    width: calc(100% - $adminSidebarWidth - $scrollbarWidth);
+    position: fixed;
+    bottom: 0;
+    left: $adminSidebarWidth;
+    padding: $adminMainPadding;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background: $background;
+    border-top: 1px solid #555;
+}
+
+.error {
+    color: $red;
 }

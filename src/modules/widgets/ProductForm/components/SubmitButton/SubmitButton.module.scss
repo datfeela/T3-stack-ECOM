@@ -1,3 +1,5 @@
+@import '/src/modules/shared/styles/var.scss';
+
 .button {
     border: 1px solid #fff;
     padding: 10px 45px 10px 10px;
@@ -19,4 +21,8 @@
 
 .loaderWrap {
     height: 20px;
+}
+
+.error {
+    color: $red;
 }

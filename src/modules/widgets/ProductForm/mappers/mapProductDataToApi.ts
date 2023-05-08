@@ -15,8 +15,6 @@ export async function mapProductDataToApi({
     quantityInStock,
     ...rest
 }: SubmitFormProps) {
-    console.log(verticalImage, horizontalImage)
-
     // if typeof image === string, image is old, if obj - it's new
     const coverImagePath = await handleImgUpload(coverImage as File | string | undefined)
     const horizontalImagePath = await handleImgUpload(horizontalImage as File | string | undefined)
