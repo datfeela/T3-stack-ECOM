@@ -14,11 +14,13 @@ export const useManyProductsData = ({
     quantity = 10,
     keepPreviousData = false,
     refetchOnWindowFocus = true,
+    sortBy,
 }: UseProductsDataProps) => {
     const { data, isLoading, isError, isSuccess } = api.products.getManyProducts.useQuery(
         {
             quantity,
             searchQuery: searchQuery?.trim(),
+            sortBy,
         },
         {
             keepPreviousData,

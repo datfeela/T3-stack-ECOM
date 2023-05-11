@@ -58,12 +58,17 @@ const Home = ({
 
 export default Home
 
+export const revalidate = 60
+
 export const getServerSideProps: GetServerSideProps<{
     sliderProductsData: MainPageProductFromApiSerialized[]
     popularProductsData: ProductFromApiDefaultSerialized[]
     comingSoonProductsData: ProductFromApiDefaultSerialized[]
     productsOnSaleData: ProductFromApiDefaultSerialized[]
-}> = async () => {
+}> = async ({ res }) => {
+    // todo: uncomment when finished adding new products
+    // res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=2592000')
+
     const sliderProductsDataPromise = getMainPageProducts_server()
     const popularProductsDataPromise = getManyProducts_server({
         quantity: 5,

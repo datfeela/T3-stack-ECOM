@@ -16,13 +16,6 @@ export const Product = ({
             {horizontalImagePath ? (
                 <Link href={`/admin/products/edit/${id}`}>
                     <div className={s.image}>
-                        {/* <Image
-                            src={horizontalImagePath}
-                            alt={name}
-                            fill
-                            style={{ objectFit: 'contain' }}
-                            sizes='100px'
-                        /> */}
                         <ImageFill
                             src={horizontalImagePath}
                             alt={name}
