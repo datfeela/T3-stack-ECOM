@@ -5,7 +5,7 @@ import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsD
 
 const Catalog: NextPage = () => {
     // todo: 10 + load more
-    const { data } = useManyProductsData({ quantity: 30 })
+    const { products } = useManyProductsData({ quantity: 30 })
 
     return (
         <>
@@ -15,8 +15,8 @@ const Catalog: NextPage = () => {
             </Head>
             <main>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    {data
-                        ? data.map(({ name, id }) => (
+                    {products
+                        ? products.map(({ name, id }) => (
                               <Link key={id} href={`/game/${id}`}>
                                   {name}
                               </Link>

@@ -23,7 +23,7 @@ export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorPr
         250,
     )
 
-    const { data, isLoading } = useManyProductsData({
+    const { products: data, isLoading } = useManyProductsData({
         searchQuery: debouncedSearchQuery,
         // todo: 10 + load more
         quantity: 30,

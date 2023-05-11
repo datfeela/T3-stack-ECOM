@@ -65,4 +65,5 @@ export const getManyProductsInputSchema = z.object({
     sortBy: sortProductsSchema.optional(),
     comingSoon: z.boolean().optional(),
     onSale: z.boolean().optional(),
+    cursor: z.string().nullish(),
 })

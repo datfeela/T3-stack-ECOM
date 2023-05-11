@@ -43,8 +43,6 @@ export const Reviews = ({
         useReviewsWithPagination({
             productId,
             reviewsToGetQuantity,
-            totalReviewsCount: scoresCount,
-            isUsingPagination: expandedMode,
         })
 
     // scroll to active element on mount, or to container, if there's no active el

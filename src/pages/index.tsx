@@ -99,13 +99,13 @@ export const getServerSideProps: GetServerSideProps<{
                 ...data,
                 product: mapUnserializedProductFromApi(data.product),
             })),
-            popularProductsData: popularProductsData.map((product) =>
+            popularProductsData: popularProductsData.products.map((product) =>
                 mapUnserializedProductFromApi(product),
             ),
-            comingSoonProductsData: comingSoonProductsData.map((product) =>
+            comingSoonProductsData: comingSoonProductsData.products.map((product) =>
                 mapUnserializedProductFromApi(product),
             ),
-            productsOnSaleData: productsOnSaleData.map((product) =>
+            productsOnSaleData: productsOnSaleData.products.map((product) =>
                 mapUnserializedProductFromApi(product),
             ),
         },

@@ -1,5 +1,5 @@
 import s from './AdminProducts.module.scss'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
 import { Product } from './components/Product/Product'
@@ -7,6 +7,7 @@ import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
 import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
 import { Header } from './components/Header/Header'
+import { useInfiniteScroll } from '~/modules/shared/hooks/useInfiniteScroll'
 
 export const AdminProducts = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -17,15 +18,36 @@ export const AdminProducts = () => {
         250,
     )
 
-    const { data: productsData } = useManyProductsData({
+    const {
+        products: productsData,
+        isLoading,
+        getNextPage,
+        isAllProductsLoaded,
+    } = useManyProductsData({
         // todo: 10 + load more
-        quantity: 30,
+        quantity: 4,
         searchQuery: debouncedSearchQuery,
         sortBy,
         keepPreviousData: true,
     })
 
-    const products = productsData?.map((product) => <Product key={product.id} {...product} />)
+    const scrollAnchorRef = useInfiniteScroll({
+        getMore: () => {
+            getNextPage()
+        },
+        shouldGetMore: !isLoading && !isAllProductsLoaded,
+    })
+
+    const products = productsData?.map((product, id) => {
+        return (
+            <div
+                key={product.id}
+                ref={id === productsData.length - 4 ? scrollAnchorRef : undefined}
+            >
+                <Product {...product} />
+            </div>
+        )
+    })
 
     return (
         <div className={s.wrap}>

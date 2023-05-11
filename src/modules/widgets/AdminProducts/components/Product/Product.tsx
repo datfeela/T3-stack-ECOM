@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import s from './Product.module.scss'
 import ImageFill from '~/modules/shared/components/Image/Image'
+import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 
 export const Product = ({
     id,
@@ -30,7 +31,11 @@ export const Product = ({
             <Link href={`/admin/products/edit/${id}`}>{name}</Link>
             <span>{price}</span>
             {priceWithoutDiscount ? <span>{priceWithoutDiscount}</span> : <div />}
-            <Link href={`/admin/products/edit/${id}`}>Edit</Link>
+            <Link href={`/admin/products/edit/${id}`}>
+                <ButtonDefault color='purple' width='sm' height='sm' isGlitching={false}>
+                    Edit
+                </ButtonDefault>
+            </Link>
         </div>
     )
 }

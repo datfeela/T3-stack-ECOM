@@ -28,7 +28,7 @@ export const getProductById = publicProcedure.input(z.string()).query(async ({ i
             },
         })
     } catch (e) {
-        console.log(`ERROR! can't get categories!`, e)
+        console.log(`ERROR! getProductById: `, JSON.stringify(e))
         throw e
     }
 })
@@ -39,7 +39,7 @@ export const getProductMainDataByIdProcedure = publicProcedure
         try {
             return await _getProductMainData(input)
         } catch (e) {
-            console.log(`ERROR! can't get categories!`, e)
+            console.log(`ERROR! getProductMainDataById:`, JSON.stringify(e))
             throw e
         }
     })
@@ -47,7 +47,7 @@ export const getProductMainDataByIdProcedure = publicProcedure
 export const getManyProducts = publicProcedure
     .input(getManyProductsInputSchema)
     .query(async ({ ctx, input }) => {
-        const { quantity, searchQuery, sortBy, comingSoon, onSale } = input
+        const { quantity, searchQuery, sortBy, comingSoon, onSale, cursor } = input
         const query = searchQuery ? searchQuery : ''
 
         try {
@@ -57,9 +57,10 @@ export const getManyProducts = publicProcedure
                 searchQuery: query,
                 comingSoon,
                 onSale,
+                cursor,
             })
         } catch (e) {
-            console.log(`ERROR! can't get categories!`, e)
+            console.log(`ERROR! getManyProducts`, JSON.stringify(e))
             throw e
         }
     })
@@ -185,7 +186,7 @@ export const getRecommendedProductsForProduct = publicProcedure
                 publisherRelatedProducts,
             }
         } catch (e) {
-            console.log(`ERROR! can't get categories!`, e)
+            console.log(`ERROR! getRecommendedProductsForProduct:`, JSON.stringify(e))
             throw e
         }
     })
@@ -256,7 +257,7 @@ export const getRelatedProducts = publicProcedure
 
             return productsToReturn
         } catch (e) {
-            console.log(`ERROR! can't get categories!`, e)
+            console.log(`ERROR! getRelatedProducts:`, JSON.stringify(e))
             throw e
         }
     })
@@ -286,7 +287,7 @@ export const getManyProductsByIds = publicProcedure
 
             return productsFiltered
         } catch (e) {
-            console.log(`ERROR! can't get categories!`, e)
+            console.log(`ERROR! getManyProductsByIds:`, JSON.stringify(e))
             throw e
         }
     })
@@ -301,7 +302,6 @@ export const getProductReviewsById = publicProcedure
         z.object({
             id: z.string(),
             quantity: z.number(),
-            // quantityToSkip: z.number().optional(),
             cursor: z.string().nullish(),
         }),
     )
@@ -334,7 +334,7 @@ export const getProductReviewsById = publicProcedure
                 nextCursor,
             }
         } catch (e) {
-            console.log(`ERROR! can't get reviews!`, e)
+            console.log(`ERROR! getProductReviewsById:`, JSON.stringify(e))
             throw e
         }
     })
@@ -361,7 +361,7 @@ export const getProductReviewsStats = publicProcedure
 
             return data
         } catch (e) {
-            console.log(`ERROR! can't get reviews!`, e)
+            console.log(`ERROR! getProductReviewsStats:`, JSON.stringify(e))
             throw e
         }
     })
@@ -386,60 +386,81 @@ export async function getManyProducts_server({
     sortBy,
     comingSoon,
     onSale,
+    cursor,
 }: GetManyProductsInput) {
-    return await prisma.product.findMany({
-        include: {
-            categories: true,
-        },
-        take: quantity,
-        orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
-        where: {
-            OR: searchQuery
-                ? [
-                      { name: { contains: searchQuery, mode: 'insensitive' } },
-                      {
-                          categories: {
-                              some: {
-                                  name: { contains: searchQuery, mode: 'insensitive' },
+    try {
+        const products = await prisma.product.findMany({
+            include: {
+                categories: true,
+            },
+            take: quantity + 1,
+            orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
+            where: {
+                OR: searchQuery
+                    ? [
+                          { name: { contains: searchQuery, mode: 'insensitive' } },
+                          {
+                              categories: {
+                                  some: {
+                                      name: { contains: searchQuery, mode: 'insensitive' },
+                                  },
                               },
                           },
-                      },
-                  ]
-                : undefined,
-            AND: [
-                {
-                    releaseDate: comingSoon
-                        ? {
-                              gte: new Date(),
-                          }
-                        : undefined,
-                },
-                {
-                    priceWithoutDiscount: onSale
-                        ? {
-                              gt: 0,
-                          }
-                        : undefined,
-                },
-            ],
-        },
-    })
+                      ]
+                    : undefined,
+                AND: [
+                    {
+                        releaseDate: comingSoon
+                            ? {
+                                  gte: new Date(),
+                              }
+                            : undefined,
+                    },
+                    {
+                        priceWithoutDiscount: onSale
+                            ? {
+                                  gt: 0,
+                              }
+                            : undefined,
+                    },
+                ],
+            },
+            cursor: cursor ? { id: cursor } : undefined,
+        })
+
+        let nextCursor: typeof cursor | undefined = undefined
+        if (products.length > quantity) {
+            const nextItem = products.pop()
+            nextCursor = nextItem!.id
+        }
+        return {
+            products,
+            nextCursor,
+        }
+    } catch (e) {
+        console.log(`ERROR! getManyProducts:`, JSON.stringify(e))
+        throw e
+    }
 }
 
 export async function getMainPageProducts_server() {
-    const products = await prisma.mainPageProduct.findMany({
-        take: 10,
-        orderBy: {
-            sortNum: 'asc',
-        },
-        include: {
-            product: {
-                include: {
-                    detailPageImages: true,
+    try {
+        const products = await prisma.mainPageProduct.findMany({
+            take: 10,
+            orderBy: {
+                sortNum: 'asc',
+            },
+            include: {
+                product: {
+                    include: {
+                        detailPageImages: true,
+                    },
                 },
             },
-        },
-    })
-
-    return products
+        })
+        return products
+    } catch (e) {
+        console.log(`ERROR! getMainPageProducts:`, JSON.stringify(e))
+        throw e
+    }
 }
