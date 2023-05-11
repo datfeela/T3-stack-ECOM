@@ -4,8 +4,6 @@ import { api } from '~/modules/shared/api/apiTRPC'
 interface Props {
     productId: string
     reviewsToGetQuantity: number
-    totalReviewsCount: number
-    isUsingPagination: boolean
 }
 
 export const useReviewsWithPagination = ({ productId, reviewsToGetQuantity }: Props) => {
