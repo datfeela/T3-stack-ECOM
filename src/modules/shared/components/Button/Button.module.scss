@@ -105,10 +105,24 @@
 
     // sizes
 
+    &_small {
+        min-width: 135px;
+        width: fit-content;
+        max-width: 200px;
+        height: 53px;
+
+        @media all and (max-width: 768px) {
+            min-width: 120px;
+        }
+
+        * {
+            font-size: 15px;
+        }
+    }
+
     &_lgHeight {
         @media all and (max-width: 1200px) {
             height: 50px;
-            min-width: 152px;
         }
 
         @media all and (max-width: 768px) {
@@ -121,16 +135,6 @@
 
         @media all and (max-width: 1200px) {
             height: 42px;
-            min-width: 152px;
-        }
-    }
-
-    &_small {
-        max-width: 200px;
-        height: 53px;
-
-        * {
-            font-size: 15px;
         }
     }
 
