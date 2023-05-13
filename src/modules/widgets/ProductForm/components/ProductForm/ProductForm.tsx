@@ -18,6 +18,7 @@ import type { FilterName, ProductType } from '~/modules/shared/types/productType
 import { Input } from '~/modules/shared/components/Inputs/Input'
 import { useCategoriesData } from '~/modules/shared/hooks/api/useCategoriesData'
 import { useFiltersData } from '~/modules/shared/hooks/api/useFiltersData'
+import { Divider } from '~/modules/shared/components/Divider/Divider'
 
 export const ProductForm = ({
     initialValues,
@@ -159,10 +160,11 @@ export const ProductForm = ({
                         className={s.wrap}
                     >
                         <div className={s.form}>
+                            <Divider />
                             <h2>Main data</h2>
                             <MainInputs mainFields={mainFields} errors={errors} touched={touched} />
                             <DynamicInput
-                                title='features (will be displayed after product description)'
+                                title='Extra descriptions with title (will be displayed after description)'
                                 key='characteristics'
                                 name='characteristics'
                                 fields={values.characteristics}
@@ -170,6 +172,7 @@ export const ProductForm = ({
                                 errors={errors.characteristics}
                                 touched={touched.characteristics}
                             />
+                            <Divider />
                             <h2>System requirements (minimal)</h2>
                             <SystemRequirementsInputs
                                 name='systemRequirementsMinimal'
@@ -184,61 +187,44 @@ export const ProductForm = ({
                                 errors={errors.systemRequirementsRecommended}
                                 touched={touched.systemRequirementsRecommended}
                             />
+                            <Divider />
                             <h2>Images</h2>
                             <div className={s.imgInputs}>
                                 <ImageInput
                                     name='coverImage'
-                                    title='background image for game page'
+                                    title='Background image for game page'
                                     value={values.coverImage}
                                     error={errors.coverImage}
                                     onChangeHandler={setFieldValue}
                                 />
                                 <ImageInput
                                     name='verticalImage'
-                                    title='Vertical oriented image'
+                                    title='Vertical image for product cards (800px max)'
                                     value={values.verticalImage}
                                     error={errors.verticalImage}
                                     onChangeHandler={setFieldValue}
                                 />
                                 <ImageInput
                                     name='horizontalImage'
-                                    title='horizontal oriented image'
+                                    title='Horizontal image for product cards (1200px max)'
                                     value={values.horizontalImage}
                                     error={errors.horizontalImage}
                                     onChangeHandler={setFieldValue}
                                 />
                             </div>
-                            <h2>Detailed page images</h2>
+                            <Divider />
+                            <h2>Detailed images</h2>
+                            <span className={s.desc}>
+                                Select up to 6 images, that will be displayed in product page slider{' '}
+                                <br />
+                                <b>Important:</b> first image will be displayed as cover in some
+                                views
+                            </span>
                             <div className={s.imgInputs}>{detailPageImagesElements}</div>
+                            <Divider />
                             <h2>Filter data</h2>
-                            <DynamicInput
-                                title='publisher'
-                                key='publisher'
-                                name='filters.publisher'
-                                fields={values.filters.publisher}
-                                errors={errors.filters?.publisher}
-                                touched={touched.filters?.publisher}
-                            />
-                            <DynamicInput
-                                title='developer'
-                                key='developer'
-                                name='filters.developer'
-                                fields={values.filters.developer}
-                                errors={errors.filters?.developer}
-                                touched={touched.filters?.developer}
-                            />
-                            <CategoriesInput categoriesNames={categoriesNames} />
-                            <FiltersCheckboxes filtersData={checkboxFiltersData} />
-                            <DynamicInput
-                                title='tags'
-                                key='tags'
-                                name='filters.tags'
-                                fields={values.filters.tags}
-                                errors={errors.filters?.tags}
-                                touched={touched.filters?.tags}
-                            />
-                            <h2 style={{ marginBottom: '10px' }}>Product Type</h2>
-                            <div style={{ marginBottom: '15px' }}>
+                            <h3 style={{ marginBottom: '10px' }}>Product Type</h3>
+                            <div style={{ marginBottom: '20px' }}>
                                 <Input
                                     name='productType'
                                     type='radio'
@@ -246,6 +232,33 @@ export const ProductForm = ({
                                     title={'Product Type'}
                                 />
                             </div>
+                            <CategoriesInput categoriesNames={categoriesNames} />
+                            <FiltersCheckboxes filtersData={checkboxFiltersData} />
+                            <h3 className={s.subtitle}>Publisher</h3>
+                            <DynamicInput
+                                key='publisher'
+                                name='filters.publisher'
+                                fields={values.filters.publisher}
+                                errors={errors.filters?.publisher}
+                                touched={touched.filters?.publisher}
+                            />
+                            <h3 className={s.subtitle}>Developer</h3>
+                            <DynamicInput
+                                key='developer'
+                                name='filters.developer'
+                                fields={values.filters.developer}
+                                errors={errors.filters?.developer}
+                                touched={touched.filters?.developer}
+                            />
+                            <h3 className={s.subtitle}>Tags</h3>
+                            <DynamicInput
+                                key='tags'
+                                name='filters.tags'
+                                fields={values.filters.tags}
+                                errors={errors.filters?.tags}
+                                touched={touched.filters?.tags}
+                            />
+                            <Divider />
                             <h2>Original game</h2>
                             <OriginalGameInput
                                 name='originalGameId'

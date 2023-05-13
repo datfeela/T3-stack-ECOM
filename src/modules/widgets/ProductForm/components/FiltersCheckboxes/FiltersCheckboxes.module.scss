@@ -1,6 +1,13 @@
+@import '/src/modules/shared/styles/mixins.scss';
+
+.title {
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
 .checkboxes {
-    display: flex;
-    align-items: center;
-    gap: 20px 5px;
-    flex-wrap: wrap;
+    @include checkbox-grid;
+    margin-bottom: 20px;
 }

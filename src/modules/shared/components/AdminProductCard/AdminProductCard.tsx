@@ -39,7 +39,19 @@ type ProductCardPropsWithoutSort = ProductCardPropsSelect & {
     onDelete?: undefined
 }
 
-export type ProductCardProps = ProductCardPropsWithSort | ProductCardPropsWithoutSort
+type ProductCardPropsSort = ProductCardPropsWithSort | ProductCardPropsWithoutSort
+
+type ProductCardPropsWithDelete = ProductCardPropsSort & {
+    withDelete: true
+    handleDelete: () => void
+}
+
+type ProductCardPropsWithoutDelete = ProductCardPropsSort & {
+    withDelete?: undefined
+    handleDelete?: undefined
+}
+
+export type ProductCardProps = ProductCardPropsWithDelete | ProductCardPropsWithoutDelete
 
 export const AdminProductCard = ({
     id,
@@ -53,6 +65,8 @@ export const AdminProductCard = ({
     onSortChange,
     onDelete,
     sortNum,
+    withDelete,
+    handleDelete,
 }: ProductCardProps) => {
     const wrapCName = `${s.wrap} ${isSelected ? s.wrap_active : ''} ${
         !isWithSelect ? s.wrap_selected : ''
@@ -84,11 +98,19 @@ export const AdminProductCard = ({
                         }}
                     />
                     <button
+                        type='button'
                         onClick={() => {
                             onDelete(id)
                         }}
                         className={s.deleteBtn}
                     >
+                        <SvgSelector id='close' />
+                    </button>
+                </>
+            ) : null}
+            {withDelete ? (
+                <>
+                    <button type='button' onClick={handleDelete} className={s.deleteBtn}>
                         <SvgSelector id='close' />
                     </button>
                 </>

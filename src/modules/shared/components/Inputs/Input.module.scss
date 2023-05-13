@@ -1,13 +1,38 @@
 @import '/src/modules/shared/styles/var';
+@import '/src/modules/shared/styles/mixins';
 
 .inputWrap {
     padding: 10px 0 5px 0;
 }
 
+.inputEditable__wrapOuter {
+    margin-top: -5px;
+    margin-bottom: 25px;
+}
+
+.buttonAddNewField {
+    margin-top: 10px;
+}
+
 .inputEditable__wrap {
     display: grid;
-    grid-template-columns: 1fr 100px;
+    grid-template-columns: 1fr 135px;
     grid-gap: 30px;
+    align-items: center;
+
+    @media all and (max-width: 768px) {
+        grid-template-columns: 1fr 120px;
+    }
+
+    &_singleField {
+        grid-template-columns: 1fr 200px;
+
+        @media all and (max-width: 768px) {
+            grid-template-columns: 1fr;
+            grid-gap: 5px;
+            margin-bottom: 10px;
+        }
+    }
 }
 
 .title {
@@ -182,16 +207,52 @@
 }
 
 .checkboxWrap {
+    position: relative;
+    height: 20px;
+    cursor: pointer;
+
     display: flex;
     align-items: center;
+    gap: 10px;
 
-    input {
-        margin: 2px 5px 0 0;
+    .checkboxIcon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 20px;
+        width: 20px;
+        background: rgba(217, 217, 217, 0.15);
+        border: 1px solid rgba(0, 228, 242, 0.3);
+        border-radius: 2px;
+
+        svg {
+            display: none;
+        }
+    }
+
+    span {
+        text-transform: capitalize;
     }
 }
 
 .checkbox {
-    margin-right: 10px;
+    @include input-hidden;
+
+    &:checked + .checkboxWrap .checkboxIcon {
+        background: #710fad;
+        border: 1px solid #00e4f2;
+
+        svg {
+            display: block;
+        }
+    }
+}
+
+.radioWrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
 }
 
 .error {

@@ -11,7 +11,7 @@ export const FiltersCheckboxes = ({ filtersData }: FiltersCheckboxesProps) => {
         ? filtersData.map(({ name, options }, id) => {
               return (
                   <div key={`filter${id}`}>
-                      <div>{name}</div>
+                      <div className={s.title}>{name}</div>
                       <div className={s.checkboxes}>
                           {options.map((option, optionId) => (
                               <Input

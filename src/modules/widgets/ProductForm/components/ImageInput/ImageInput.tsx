@@ -48,14 +48,14 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
             <span className={s.title}>{title || ''}</span>
             {imgSrc ? (
                 <div className={s.buttonsWrap}>
-                    <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault isGlitching={false} element='span' width='sm'>
+                    <label className={s.labelButton} htmlFor={`${name}_image_input`}>
+                        <ButtonDefault isGlitching={false} element='span' color='purple'>
                             Change image
                         </ButtonDefault>
                     </label>
                     <ButtonDefault
                         isGlitching={false}
-                        width='sm'
+                        color='purple'
                         onClick={deleteImage}
                         type='button'
                     >
@@ -65,8 +65,8 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
             ) : (
                 <div className={s.buttonsWrap}>
                     <span></span>
-                    <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault isGlitching={false} element='span' width='sm'>
+                    <label className={s.labelButton} htmlFor={`${name}_image_input`}>
+                        <ButtonDefault isGlitching={false} element='span' color='purple'>
                             Add Image
                         </ButtonDefault>
                     </label>

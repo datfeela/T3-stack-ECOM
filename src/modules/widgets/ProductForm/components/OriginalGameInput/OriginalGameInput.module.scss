@@ -1,8 +1,15 @@
 @import '/src/modules/shared/styles/var.scss';
 
+.selectedProductWrap {
+    margin-bottom: 35px;
+}
+
 .selectedProduct {
-    border: 1px solid $grey;
-    padding: 20px;
-    border-radius: 15px;
+    border: 1px solid $blueLight;
     margin-bottom: 20px;
+}
+
+.desc {
+    display: block;
+    margin-bottom: 10px;
 }

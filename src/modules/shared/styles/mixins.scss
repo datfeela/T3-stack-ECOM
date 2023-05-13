@@ -172,3 +172,22 @@
         display: none !important;
     }
 }
+
+// shared
+
+@mixin checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-gap: 10px 15px;
+}
+
+@mixin input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+}
