@@ -21,7 +21,7 @@ export async function mapProductDataToApi({
     const horizontalImagePathPromise = handleImgUpload(horizontalImage as File | string | undefined)
     const verticalImagePathPromise = handleImgUpload(verticalImage as File | string | undefined)
     const detailPageImagesPathsPromise = mapImagesToApi(
-        detailPageImages as Array<File | string | undefined>,
+        detailPageImages as (File | string | undefined)[],
     )
 
     const [coverImagePath, horizontalImagePath, verticalImagePath, detailPageImagesPaths] =

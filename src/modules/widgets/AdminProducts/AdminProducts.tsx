@@ -1,5 +1,5 @@
 import s from './AdminProducts.module.scss'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
 import { Product } from './components/Product/Product'
@@ -25,7 +25,7 @@ export const AdminProducts = () => {
         isAllProductsLoaded,
     } = useManyProductsData({
         // todo: 10 + load more
-        quantity: 4,
+        quantity: 10,
         searchQuery: debouncedSearchQuery,
         sortBy,
         keepPreviousData: true,
@@ -42,7 +42,7 @@ export const AdminProducts = () => {
         return (
             <div
                 key={product.id}
-                ref={id === productsData.length - 4 ? scrollAnchorRef : undefined}
+                ref={id === productsData.length - 10 ? scrollAnchorRef : undefined}
             >
                 <Product {...product} />
             </div>

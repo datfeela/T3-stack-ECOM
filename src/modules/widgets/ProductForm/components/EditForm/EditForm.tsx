@@ -5,6 +5,7 @@ import { ProductForm } from '../ProductForm/ProductForm'
 import { UseEditProduct } from '../../hooks/useEditProduct'
 import { useEditFormInitialValues } from '../../hooks/useEditFormInitialValues'
 import type { SubmitFormProps } from '../../ProductFormTypes'
+import Head from 'next/head'
 
 export const EditForm = () => {
     const router = useRouter()
@@ -27,12 +28,27 @@ export const EditForm = () => {
 
     return (
         <>
+            <Head>{initialValues ? <title>{initialValues?.name} | Edit</title> : null}</Head>
             <h1>Edit product</h1>
             <WithLoader loaderType='dots' conditionToShowLoader={!isLoaded}>
                 <ProductForm
                     isSubmitting={isSubmitting}
                     submitForm={async (props: SubmitFormProps) => {
-                        await handleFormSubmit({ ...props, initialValues })
+                        await handleFormSubmit({
+                            ...props,
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                            detailPageImages: props.detailPageImages.map(
+                                (value: { id: number; value: string }) => value.value,
+                            ),
+                            initialValues: initialValues
+                                ? {
+                                      ...initialValues,
+                                      detailPageImages: initialValues.detailPageImages.map(
+                                          (image) => image.value,
+                                      ),
+                                  }
+                                : undefined,
+                        })
                     }}
                     serverError={serverError}
                     serverSuccess={serverSuccess}

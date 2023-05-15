@@ -7,20 +7,6 @@
     grid-gap: 20px;
 }
 
-.desc {
-    position: relative;
-    top: -16px;
-    line-height: 150%;
-
-    @media all and (max-width: 1200px) {
-        top: -9px;
-    }
-
-    @media all and (max-width: 768px) {
-        top: -6px;
-    }
-}
-
 .form {
     margin-bottom: 100px;
 }

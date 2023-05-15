@@ -19,6 +19,7 @@ import { Input } from '~/modules/shared/components/Inputs/Input'
 import { useCategoriesData } from '~/modules/shared/hooks/api/useCategoriesData'
 import { useFiltersData } from '~/modules/shared/hooks/api/useFiltersData'
 import { Divider } from '~/modules/shared/components/Divider/Divider'
+import { MultiImageInput } from '../MultiImageInput/MultiImageInput'
 
 export const ProductForm = ({
     initialValues,
@@ -67,7 +68,8 @@ export const ProductForm = ({
         horizontalImage:
             (initialValues?.horizontalImage as string) || (undefined as undefined | string | File),
         detailPageImages:
-            (initialValues?.detailPageImages as string[]) || ([] as string[] | File[]),
+            (initialValues?.detailPageImages as { value: string; id: number }[]) ||
+            ([] as { value: string; id: number }[] | { value: File; id: number }[]),
         categories: initialValues?.categories || ([] as string[]),
         systemRequirementsMinimal: initialValues?.systemRequirementsMinimal || {
             operatingSystem: '',
@@ -107,7 +109,9 @@ export const ProductForm = ({
         >
             {({ errors, touched, setFieldValue, values, dirty }) => {
                 // console.log(values, errors)
-                const isAnyErrors = serverError || Object.keys(errors).length !== 0
+
+                const isClientErrors = Object.keys(errors).length !== 0
+                const isAnyErrors = serverError || isClientErrors
 
                 const {
                     name,
@@ -136,21 +140,6 @@ export const ProductForm = ({
                 const checkboxFiltersData = filtersData?.filter(({ options }) => {
                     return options.length > 0
                 })
-
-                const detailPageImagesElements = [] as JSX.Element[]
-
-                for (let i = 0; i < 6; i++) {
-                    detailPageImagesElements.push(
-                        <ImageInput
-                            key={`detailImgInput${i}`}
-                            name={`detailPageImages[${i}]`}
-                            title={`image ${i + 1}`}
-                            value={values.detailPageImages[i]}
-                            error={errors.detailPageImages && errors.detailPageImages[i]}
-                            onChangeHandler={setFieldValue}
-                        />,
-                    )
-                }
 
                 return (
                     <Form
@@ -213,14 +202,11 @@ export const ProductForm = ({
                                 />
                             </div>
                             <Divider />
-                            <h2>Detailed images</h2>
-                            <span className={s.desc}>
-                                Select up to 6 images, that will be displayed in product page slider{' '}
-                                <br />
-                                <b>Important:</b> first image will be displayed as cover in some
-                                views
-                            </span>
-                            <div className={s.imgInputs}>{detailPageImagesElements}</div>
+                            <MultiImageInput
+                                setFieldValue={setFieldValue}
+                                values={values.detailPageImages}
+                                errors={errors.detailPageImages}
+                            />
                             <Divider />
                             <h2>Filter data</h2>
                             <h3 style={{ marginBottom: '10px' }}>Product Type</h3>
@@ -273,6 +259,7 @@ export const ProductForm = ({
                             {serverSuccess && !dirty ? <div>{serverSuccess}</div> : null}
                             <SubmitButton
                                 isError={isAnyErrors ? true : false}
+                                isClientError={isClientErrors}
                                 isSubmitting={isSubmitting}
                             >
                                 {isEditForm ? 'Save' : 'Add product'}

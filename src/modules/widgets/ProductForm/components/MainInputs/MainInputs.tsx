@@ -60,7 +60,7 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
                 props.placeholder = '0'
                 break
             case 'ytTrailerPath':
-                props.title = 'Youtube trailer id'
+                props.title = 'Youtube trailer id (required)'
                 props.placeholder =
                     'dQw4w9WgXcQ for "https://www.youtube.com/watch?v=dQw4w9WgXcQ" link'
                 break

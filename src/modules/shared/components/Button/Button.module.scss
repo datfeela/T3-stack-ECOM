@@ -236,6 +236,10 @@ $slice-5: inset(80% -6px 5% 0);
         &_purple {
             background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $purple 5%);
         }
+
+        &_red {
+            background: linear-gradient(45deg, transparent 3%, $blueLight 3%, $purple 5%, $red 5%);
+        }
     }
 }
 

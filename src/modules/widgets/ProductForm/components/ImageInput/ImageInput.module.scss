@@ -2,9 +2,10 @@
 
 .wrap {
     display: grid;
-    grid-template-columns: 150px 1fr 1.5fr;
+    grid-template-columns: 150px 1fr 200px;
     align-items: center;
     gap: 50px;
+    background: $background;
 }
 
 .label {
@@ -40,12 +41,6 @@
     cursor: pointer;
 }
 
-.buttonsWrap {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: space-evenly;
-}
-
 .popup {
     display: flex;
     flex-direction: column;
@@ -65,12 +60,55 @@
         backdrop-filter: blur(4px);
     }
 
-    * {
-        font-size: 28px;
-        font-weight: 300;
+    svg {
+        width: 30px;
+        height: 30px;
+        stroke: #fff;
     }
 }
 
 .input {
     display: none;
+}
+
+.buttonsWrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+
+.buttonSmall {
+    height: 40px;
+    width: 40px;
+
+    svg {
+        height: 100%;
+        width: 100%;
+    }
+
+    &_delete {
+        &:hover {
+            svg {
+                fill: $blueLight;
+            }
+        }
+
+        svg {
+            fill: #fff;
+        }
+    }
+
+    &_upload {
+        padding: 4px;
+
+        &:hover {
+            svg {
+                stroke: $blueLight;
+            }
+        }
+
+        svg {
+            stroke: #fff;
+        }
+    }
 }

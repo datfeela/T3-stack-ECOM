@@ -5,10 +5,11 @@ import s from './SubmitButton.module.scss'
 interface SubmitButtonProps {
     isSubmitting: boolean
     isError: boolean
+    isClientError: boolean
     children: React.ReactNode
 }
 
-const SubmitButton = ({ isSubmitting, isError, children }: SubmitButtonProps) => {
+const SubmitButton = ({ isSubmitting, isError, isClientError, children }: SubmitButtonProps) => {
     return (
         <>
             {isError ? (
@@ -22,15 +23,24 @@ const SubmitButton = ({ isSubmitting, isError, children }: SubmitButtonProps) =>
                     isSubmitting={isSubmitting}
                     disabled={isSubmitting}
                     withIcon={true}
+                    color='purple'
                     Icon={<CircleLoader />}
                     shouldIconDisplay={isSubmitting}
                     type='submit'
+                    onClick={() => {
+                        if (isClientError) scrollToError()
+                    }}
                 >
                     {children}
                 </ButtonDefault>
             </div>
         </>
     )
+}
+
+export function scrollToError() {
+    const firstErrorEl = document.querySelector('.input_error')
+    firstErrorEl?.parentElement?.scrollIntoView({ behavior: 'smooth' })
 }
 
 export default SubmitButton

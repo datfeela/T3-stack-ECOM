@@ -20,7 +20,7 @@ export const Input: React.FC<InputProps> = ({
     inputClassname += type === 'textarea' ? ' ' + s.textarea : ''
     inputClassname += type === 'date' ? ' ' + s.date : ''
     inputClassname += touched ? ' ' + s.input_touched : ''
-    inputClassname += errors ? ' ' + s.input_error : ''
+    inputClassname += errors ? ` ${s.input_error} input_error` : ''
 
     switch (color) {
         case 'purple':

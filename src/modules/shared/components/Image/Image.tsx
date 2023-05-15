@@ -1,5 +1,5 @@
 import NextImage, { type StaticImageData } from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { ImageOrientation } from '../../types/types'
 
 export interface ImageFillProps {
@@ -11,6 +11,7 @@ export interface ImageFillProps {
     objectPosition?: string
     sizes?: string
     priority?: boolean
+    id?: string
 }
 
 const ImageFill = ({
@@ -22,6 +23,7 @@ const ImageFill = ({
     orientation = 'unset',
     sizes,
     priority = false,
+    id,
 }: ImageFillProps) => {
     const [isError, setIsError] = useState(false)
 

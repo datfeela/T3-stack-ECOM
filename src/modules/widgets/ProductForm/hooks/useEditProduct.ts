@@ -6,7 +6,11 @@ import type { mapProductDataFromApi } from '../mappers/mapProductDataFromApi'
 import { handleImgDelete } from '../lib/handleImgDelete'
 
 type HandleFormSubmitProps = SubmitFormProps & {
-    initialValues: ReturnType<typeof mapProductDataFromApi> | undefined
+    initialValues:
+        | (Omit<ReturnType<typeof mapProductDataFromApi>, 'detailPageImages'> & {
+              detailPageImages: string[]
+          })
+        | undefined
 }
 
 export const UseEditProduct = (productId: string) => {
@@ -40,6 +44,8 @@ export const UseEditProduct = (productId: string) => {
 
     const handleFormSubmit = async ({ initialValues, ...props }: HandleFormSubmitProps) => {
         try {
+            console.log('submit', initialValues)
+
             if (initialValues) {
                 const oldImages = [
                     initialValues.coverImage,
@@ -47,6 +53,13 @@ export const UseEditProduct = (productId: string) => {
                     initialValues.horizontalImage,
                     ...initialValues.detailPageImages,
                 ].filter((value) => typeof value === 'string' && value.length > 0) as string[]
+
+                console.log([
+                    initialValues.coverImage,
+                    initialValues.verticalImage,
+                    initialValues.horizontalImage,
+                    ...initialValues.detailPageImages,
+                ])
 
                 const newImages = [
                     props.coverImage,
@@ -64,6 +77,8 @@ export const UseEditProduct = (productId: string) => {
 
                 oldImages.forEach((src) => {
                     const isNotTouched = !!newImages.find((value) => value === src)
+                    console.log(src, isNotTouched)
+
                     if (isNotTouched) return
 
                     const promise = handleImgDelete(src)

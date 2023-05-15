@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { ChangeEvent } from 'react'
 import { ImagePlaceholder } from '~/modules/shared/components/ImagePlaceholder/ImagePlaceholder'
 import s from './AdminProductCard.module.scss'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
+import Image from '../Image/Image'
 
 type ProductCardPropsBase = {
     imgSrc: string | null
@@ -81,7 +81,7 @@ export const AdminProductCard = ({
         >
             <div className={s.image}>
                 {imgSrc ? (
-                    <Image src={imgSrc} alt={name} fill style={{ objectFit: 'contain' }} />
+                    <Image sizes='150px' id={`${id}`} src={imgSrc} alt='' objectFit='contain' />
                 ) : (
                     <ImagePlaceholder />
                 )}
