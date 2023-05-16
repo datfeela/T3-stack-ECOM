@@ -58,8 +58,6 @@ const Home = ({
 
 export default Home
 
-export const revalidate = 60
-
 export const getServerSideProps: GetServerSideProps<{
     sliderProductsData: MainPageProductFromApiSerialized[]
     popularProductsData: ProductFromApiDefaultSerialized[]

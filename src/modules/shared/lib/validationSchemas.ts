@@ -67,3 +67,11 @@ export const getManyProductsInputSchema = z.object({
     onSale: z.boolean().optional(),
     cursor: z.string().nullish(),
 })
+
+// order
+
+export const orderStatusEnum = z.nativeEnum({
+    canceled: 'canceled',
+    received: 'received',
+    paidFor: 'paidFor',
+} as const)
