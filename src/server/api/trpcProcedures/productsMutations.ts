@@ -1,4 +1,4 @@
-import { MainPageProduct, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import type { ProductCategory, ProductFilter } from '@prisma/client'
 import { prisma } from '~/server/db'
 import {
@@ -337,6 +337,12 @@ async function deleteProductRelations({ productId, data }: deleteProductRelation
                       disconnect: true,
                   }
                 : undefined,
+            systemRequirementsMinimal: {
+                delete: true,
+            },
+            systemRequirementsRecommended: {
+                delete: true,
+            },
         },
     })
 
