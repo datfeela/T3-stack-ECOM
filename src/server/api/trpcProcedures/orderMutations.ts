@@ -1,15 +1,9 @@
-import { MainPageProduct, Prisma } from '@prisma/client'
-import type { ProductCategory, ProductFilter } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { prisma } from '~/server/db'
-import {
-    addProductValidationSchema,
-    editProductValidationSchema,
-} from '~/modules/widgets/ProductForm'
-import { adminProcedure, protectedProcedure, publicProcedure } from '../trpc'
+import { publicProcedure } from '../trpc'
 import { z } from 'zod'
-import { addReviewValidationSchema } from '../../../modules/shared/lib/validationSchemas'
-import { OrderStatus } from '~/modules/shared/types/orderTypes'
-import { getManyProductsByIds } from './productsQueries'
+import type { OrderStatus } from '~/modules/shared/types/orderTypes'
+import { orderStatusEnum } from '~/modules/shared/lib/validationSchemas'
 
 export const createOrder = publicProcedure
     .input(
@@ -42,43 +36,31 @@ export const createOrder = publicProcedure
                 },
             })
 
-            const orderProducts = await createOrderProducts({ products, orderId: order.id })
+            await createOrderProducts({ products, orderId: order.id })
 
-            // return await prisma.product.create({
-            //     data: {
-            //         ...rest,
-            //         categories: categories && { connect: categories.map((name) => ({ name })) },
-            //         characteristics: {
-            //             create: characteristics,
-            //         },
-            //         filters: filtersIds && {
-            //             connect: filtersIds,
-            //         },
-            //         detailPageImages: {
-            //             create: detailPageImages,
-            //         },
-            //         originalGame: originalGameId
-            //             ? {
-            //                   connect: {
-            //                       id: originalGameId,
-            //                   },
-            //               }
-            //             : undefined,
-            //         systemRequirementsMinimal: {
-            //             create: systemRequirementsMinimal,
-            //         },
-            //         systemRequirementsRecommended: {
-            //             create: systemRequirementsRecommended,
-            //         },
-            //     },
-            // })
+            return order
         } catch (e) {
-            console.log(`ERROR! can't create new product!`, e)
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                if (e.code === 'P2002' && e.meta?.target) {
-                    throw `this ${e.meta.target} has been already taken!`
-                }
-            }
+            console.log(`ERROR! createOrder:`, JSON.stringify(e))
+            throw e
+        }
+    })
+
+export const updateOrderStatus = publicProcedure
+    .input(z.object({ newStatus: orderStatusEnum, id: z.string() }))
+    .mutation(async ({ input }) => {
+        const { id, newStatus } = input
+
+        try {
+            const res = await prisma.order.update({
+                where: { id },
+                data: {
+                    status: newStatus,
+                },
+            })
+
+            return res
+        } catch (e) {
+            console.log(`ERROR! updateOrderStatus:`, JSON.stringify(e))
             throw e
         }
     })
