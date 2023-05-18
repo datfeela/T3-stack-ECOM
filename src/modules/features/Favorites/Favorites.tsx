@@ -6,14 +6,15 @@ import { useUserId } from '~/modules/shared/hooks/useUserId'
 export interface FavoritesProps {
     id: string
     withBg?: boolean
+    view?: 'icon' | 'iconWithText'
 }
 
-export const Favorites = ({ id, withBg = false }: FavoritesProps) => {
+export const Favorites = ({ id, withBg = false, view = 'icon' }: FavoritesProps) => {
     const userId = useUserId()
 
     const {
         isPending,
-        wishedProduct,
+        isWished,
         handleClick: handleButtonClick,
     } = useFavorites({ productId: id, userId })
 
@@ -22,14 +23,26 @@ export const Favorites = ({ id, withBg = false }: FavoritesProps) => {
     return (
         <button
             type='button'
-            className={`${s.wrap} ${withBg ? s.wrap_bg : ''} ${isPending ? s.wrap_disabled : ''}`}
+            className={`${s.wrap} ${view === 'iconWithText' ? s.wrap_withText : ''} ${
+                withBg ? s.wrap_bg : ''
+            } ${isPending ? s.wrap_disabled : ''}`}
             onClick={handleButtonClick}
         >
-            {(wishedProduct && !isPending) || (!wishedProduct && isPending) ? (
-                <SvgSelector id='favoritesActive' />
+            {isWished ? (
+                <>
+                    <div className={s.icon}>
+                        <SvgSelector id='favoritesActive' />
+                    </div>
+                    {view === 'iconWithText' ? <span>Remove from wishlist</span> : null}
+                </>
             ) : null}
-            {(!wishedProduct && !isPending) || (wishedProduct && isPending) ? (
-                <SvgSelector id='favorites' />
+            {!isWished ? (
+                <>
+                    <div className={s.icon}>
+                        <SvgSelector id='favorites' />
+                    </div>
+                    {view === 'iconWithText' ? <span>Move to wishlist</span> : null}
+                </>
             ) : null}
         </button>
     )

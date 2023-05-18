@@ -192,6 +192,11 @@
             font-weight: 700;
         }
     }
+
+    &[disabled] {
+        opacity: 0.6;
+        cursor: default;
+    }
 }
 
 .iconWrap {
@@ -204,7 +209,7 @@
     width: fit-content;
 
     &:hover {
-        .buttonGlitch {
+        .buttonGlitch:not([disabled]) {
             animation: 1.6s glitch;
             animation-timing-function: steps(2, end);
             animation-iteration-count: infinite;

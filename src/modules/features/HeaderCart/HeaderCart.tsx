@@ -1,43 +1,62 @@
 import { useEffect } from 'react'
 import s from './HeaderCart.module.scss'
-import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
-
 import { useInitializeCart } from './hooks/useInitializeCart'
 import { useCartPopup } from './hooks/useCartPopup'
-import { Product } from './components/Product/Product'
 import Link from 'next/link'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
-import { useProductsData } from './hooks/useProductsData'
+import { useRouter } from 'next/router'
+import { useProductsInCart } from '~/modules/shared/hooks/useProductsInCart'
+import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
 
 export const HeaderCart = () => {
-    const { state } = useGlobalContext()
+    useInitializeCart()
     const { isCartActive, setIsCartActive } = useCartPopup({ containerClassName: `.${s.wrap}` })
 
-    useInitializeCart()
+    const {
+        productsData,
+        totalQuantity,
+        incrementProductQuantity,
+        decrementProductQuantity,
+        deleteProduct,
+    } = useProductsInCart()
 
     useEffect(() => {
-        if (state.totalQuantity === 0 && !!isCartActive) setIsCartActive(false)
-    }, [state.totalQuantity])
+        if (totalQuantity === 0 && !!isCartActive) setIsCartActive(false)
+    }, [totalQuantity])
 
-    const productsData = useProductsData(state.products)
-    const productsEls = productsData?.map((el) => <Product key={el.id} {...el} />)
+    const productsEls = productsData?.map(({ verticalImagePath, quantity, ...el }) => (
+        <ProductCard
+            view={'cartHeader'}
+            key={el.id}
+            imgPath={verticalImagePath}
+            imageSizes='120px'
+            quantityInCart={quantity}
+            linkBasePathName='/game'
+            onQuantityDecrement={decrementProductQuantity}
+            onQuantityIncrement={incrementProductQuantity}
+            onProductDelete={deleteProduct}
+            {...el}
+        />
+    ))
+
+    const router = useRouter()
 
     return (
         <div className={`${s.wrap} ${isCartActive ? s.wrap_active : ''}`}>
             <div
                 onClick={() => {
-                    if (state.totalQuantity === 0) return
+                    if (totalQuantity === 0) return
                     setIsCartActive(!isCartActive)
                 }}
-                className={`${s.header} ${state.totalQuantity > 0 ? s.header_active : ''}`}
+                className={`${s.header} ${totalQuantity > 0 ? s.header_active : ''}`}
             >
                 <div className={`${s.header__icon} ${isCartActive ? s.header__icon_active : ''}`}>
                     <SvgSelector id='cart' />
-                    {state.totalQuantity > 0 ? <span>{state.totalQuantity}</span> : null}
+                    {totalQuantity > 0 ? <span>{totalQuantity}</span> : null}
                 </div>
             </div>
-            {state.totalQuantity > 0 ? (
+            {totalQuantity > 0 ? (
                 <div className={s.popup}>
                     <ClippedContainer
                         backdropFilter={true}
@@ -46,12 +65,14 @@ export const HeaderCart = () => {
                     >
                         <div className={s.popup__header}>
                             <span>Your cart</span>
-                            <Link href='/cart' className={s.toCartButton}>
-                                <span>To Cart</span>
-                                <div className={s.toCartButton__icon}>
-                                    <SvgSelector id='arrowDefault' />
-                                </div>
-                            </Link>
+                            {router.pathname !== '/cart' ? (
+                                <Link href='/cart' className={s.toCartButton}>
+                                    <span>To Cart</span>
+                                    <div className={s.toCartButton__icon}>
+                                        <SvgSelector id='arrowDefault' />
+                                    </div>
+                                </Link>
+                            ) : null}
                         </div>
                         <div className={s.popup__content}>{productsEls}</div>
                     </ClippedContainer>

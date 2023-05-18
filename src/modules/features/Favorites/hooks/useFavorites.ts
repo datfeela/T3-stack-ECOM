@@ -11,17 +11,23 @@ export const useFavorites = ({ productId, userId }: UseFavoritesProps) => {
     const userFavorites = api.user.getUserWishes.useQuery(userId || '').data
     const wishedProduct = userFavorites?.wishedProducts.find((product) => product.id === productId)
 
+    const [isWished, setIsWished] = useState(!!wishedProduct)
+
     const [isPending, setIsPending] = useState(false)
 
     const toggleFavorites = api.products.toggleProductToWishes.useMutation({
         onMutate: async () => {
             setIsPending(true)
+            setIsWished(!isWished)
             await apiContext.user.getUserWishes.cancel()
             const optimisticUpdate = apiContext.user.getUserWishes.getData()
 
             if (optimisticUpdate) {
                 apiContext.user.getUserWishes.setData(productId, optimisticUpdate)
             }
+        },
+        onError: () => {
+            setIsWished(!isWished)
         },
         onSuccess: async () => {
             await apiContext.user.getUserWishes.invalidate()
@@ -33,8 +39,8 @@ export const useFavorites = ({ productId, userId }: UseFavoritesProps) => {
 
     const handleClick = () => {
         if (isPending) return
-        toggleFavorites.mutate({ action: wishedProduct ? 'delete' : 'add', productId })
+        toggleFavorites.mutate({ action: !!wishedProduct ? 'delete' : 'add', productId })
     }
 
-    return { wishedProduct, isPending, handleClick }
+    return { isWished, isPending, handleClick }
 }

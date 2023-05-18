@@ -27,23 +27,37 @@ interface ProductCardBaseProps {
     size?: 'default' | 'lg'
     productType?: ProductType
     linkBasePathName?: string
-    // only for cartHeader view
-    quantityInCart?: number
     // only for vertical view
     releaseDate?: Date
 }
 
-interface ProductCardWithPopupProps extends ProductCardBaseProps {
+type ProductCardWithPopup = ProductCardBaseProps & {
     desc: string | null
     categories: string[]
 }
 
-interface ProductCardWithoutPopupProps extends ProductCardBaseProps {
+type ProductCardWithoutPopup = ProductCardBaseProps & {
     desc?: undefined
     categories?: undefined
 }
 
-type ProductCardProps = ProductCardWithPopupProps | ProductCardWithoutPopupProps
+type ProductCardPopup = ProductCardWithPopup | ProductCardWithoutPopup
+
+type ProductCardWithQuantity = ProductCardPopup & {
+    quantityInCart: number
+    onQuantityIncrement: (productId: string) => void
+    onQuantityDecrement: (productId: string) => void
+    onProductDelete: (productId: string) => void
+}
+
+type ProductCardWithoutQuantity = ProductCardPopup & {
+    quantityInCart?: undefined
+    onQuantityIncrement?: undefined
+    onQuantityDecrement?: undefined
+    onProductDelete?: undefined
+}
+
+type ProductCardProps = ProductCardWithQuantity | ProductCardWithoutQuantity
 
 export const ProductCard = ({
     id,
@@ -58,8 +72,11 @@ export const ProductCard = ({
     linkBasePathName,
     size = 'default',
     imageSizes,
-    quantityInCart,
     releaseDate,
+    quantityInCart,
+    onProductDelete,
+    onQuantityDecrement,
+    onQuantityIncrement,
 }: ProductCardProps) => {
     const matchMedia = useMatchMedia()
     const { dispatch } = useGlobalContext()
@@ -68,6 +85,8 @@ export const ProductCard = ({
     const href = linkBasePathName ? `${linkBasePathName}/${id}` : undefined
     let wrapCN = s.wrap
     let imageOrientation: ImageOrientation = '16/9'
+    const productTypeParsed = productType === 'game' ? 'base game' : productType
+    let containerHeight: 'full' | 'fit' = 'full'
 
     switch (view) {
         case 'default':
@@ -87,7 +106,8 @@ export const ProductCard = ({
             break
         case 'cart':
             wrapCN += ` ${s.wrap_cart}`
-            imageOrientation = '3/4'
+            imageOrientation = matchMedia && matchMedia.isLess480 ? '16/9' : '3/4'
+            containerHeight = 'fit'
             break
         case 'cartHeader':
             wrapCN += ` ${s.wrap_cartHeader}`
@@ -105,7 +125,7 @@ export const ProductCard = ({
     return (
         <ClippedContainer
             clipSize={view === 'defaultLg' ? 'lg' : 'md'}
-            height='full'
+            height={containerHeight}
             borderColor={view === 'vertical' ? 'blue' : 'purple'}
             borderColorHover={view === 'vertical' ? 'yellow' : undefined}
             background={view === 'horizontal' || view === 'cart' ? true : false}
@@ -212,24 +232,54 @@ export const ProductCard = ({
                                     currentQuantity={quantityInCart}
                                     size='sm'
                                     onIncrement={() => {
-                                        dispatch({
-                                            type: GlobalReducerActionKind.INCREMENT_PRODUCT_QUANTITY,
-                                            productId: id,
-                                        })
+                                        onQuantityIncrement(id)
                                     }}
                                     onDecrement={() => {
-                                        dispatch({
-                                            type: GlobalReducerActionKind.DECREMENT_PRODUCT_QUANTITY,
-                                            productId: id,
-                                        })
+                                        onQuantityDecrement(id)
                                     }}
                                 />
                             ) : null}
                         </div>
+                        {!!productTypeParsed && view === 'cart' ? (
+                            <div className={s.productType}>{productTypeParsed}</div>
+                        ) : null}
                         {view === 'vertical' && releaseDate ? (
                             <Link href={href || ''} className={s.date}>
                                 {parseDateToString(releaseDate)}
                             </Link>
+                        ) : null}
+                        {view === 'cart' && typeof quantityInCart === 'number' ? (
+                            <div className={s.actions}>
+                                <ProductQuantityController
+                                    currentQuantity={quantityInCart}
+                                    size='md'
+                                    onIncrement={() => {
+                                        onQuantityIncrement(id)
+                                    }}
+                                    onDecrement={() => {
+                                        onQuantityDecrement(id)
+                                    }}
+                                />
+                                <div className={s.actions__bottom}>
+                                    {matchMedia &&
+                                    (matchMedia.isMore1200 || matchMedia.isMore1440) ? (
+                                        <Favorites id={id} view='iconWithText' />
+                                    ) : (
+                                        <div className={s.favorites_absolute}>
+                                            <Favorites id={id} view='icon' />
+                                        </div>
+                                    )}
+                                    <button
+                                        className={s.deleteBtn}
+                                        type='button'
+                                        onClick={() => {
+                                            onProductDelete(id)
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
                         ) : null}
                     </div>
                     {view === 'defaultLg' && href ? (
@@ -305,14 +355,11 @@ export const ProductCard = ({
                         <SvgSelector id='arrowDefault' />
                     </Link>
                 ) : null}
-                {view === 'cartHeader' ? (
+                {view === 'cartHeader' && !!onProductDelete ? (
                     <button
                         onClick={(e) => {
                             e.stopPropagation()
-                            dispatch({
-                                type: GlobalReducerActionKind.DELETE_PRODUCT,
-                                productId: id,
-                            })
+                            onProductDelete(id)
                         }}
                         className={s.closeBtnSm}
                     >
