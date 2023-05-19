@@ -8,8 +8,7 @@ import { ClippedContainer } from '../ClippedContainer/ClippedContainer'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
 import { ProductQuantityController } from '../ProductQuantityController/ProductQuantityController'
 import { useGlobalContext } from '../../hooks/useGlobalContext'
-import { GlobalReducerActionKind } from '~/modules/app'
-import type { DefaultColor, ImageOrientation } from '../../types/types'
+import type { ImageOrientation } from '../../types/types'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { ButtonDefault } from '../Button/Button'
 import { Favorites } from '~/modules/features/Favorites'
@@ -79,7 +78,6 @@ export const ProductCard = ({
     onQuantityIncrement,
 }: ProductCardProps) => {
     const matchMedia = useMatchMedia()
-    const { dispatch } = useGlobalContext()
     const { activatePopup, deactivatePopup, isPopupActive } = usePopup()
 
     const href = linkBasePathName ? `${linkBasePathName}/${id}` : undefined

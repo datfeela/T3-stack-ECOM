@@ -1,5 +1,4 @@
 import { ProductSelector } from '~/modules/features/ProductSelector'
-import { api } from '~/modules/shared/api/apiTRPC'
 import s from './OriginalGameInput.module.scss'
 import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
 import { useSelectedOriginalGame } from '../../hooks/useSelectedOriginalGame'

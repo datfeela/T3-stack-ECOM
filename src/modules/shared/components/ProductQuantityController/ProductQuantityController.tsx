@@ -1,4 +1,3 @@
-import { SvgSelector } from '../SvgSelector/SvgSelector'
 import s from './ProductQuantityController.module.scss'
 
 interface ProductQuantityControllerProps {

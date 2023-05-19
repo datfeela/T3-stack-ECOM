@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import s from './HeaderCart.module.scss'
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
 import { useInitializeCart } from './hooks/useInitializeCart'

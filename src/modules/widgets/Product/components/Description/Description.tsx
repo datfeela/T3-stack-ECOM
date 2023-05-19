@@ -3,7 +3,6 @@ import s from './Description.module.scss'
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
 import { WrapWithExpand } from '~/modules/shared/components/WrapWithExpand/WrapWithExpand'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
-import { useEffect } from 'react'
 
 export interface DescriptionProps {
     desc: string | null

@@ -1,7 +1,6 @@
 import type { FormikErrors, FormikTouched } from 'formik'
 import { Input } from '~/modules/shared/components/Inputs/Input'
 import type { SystemRequirementsFields } from '../../ProductFormTypes'
-import s from './SystemRequirementsInputs.module.scss'
 
 export interface SystemRequirementsInputsProps {
     name: string

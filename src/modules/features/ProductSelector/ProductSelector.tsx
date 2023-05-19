@@ -1,5 +1,5 @@
 import s from './ProductSelector.module.scss'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'

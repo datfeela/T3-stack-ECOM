@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import s from './WrapWithExpand.module.scss'
 import { useIsWrapHigherThanContent } from '../../hooks/useIsWrapHigherThanContent'
 
