@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { useState } from 'react'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
 import { api } from '~/modules/shared/api/apiTRPC'
-import { useUserWishes } from '~/modules/entities/user/hooks/useUserWishes'
 import type { AddProductInput } from '~/modules/widgets/ProductForm'
 import type { FilterName } from '~/modules/shared/types/productTypes'
 

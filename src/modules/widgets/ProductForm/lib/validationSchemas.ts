@@ -54,8 +54,8 @@ const addProductSharedFields = z.object({
         )
         .optional(),
     originalGameId: z.string().nullable().optional(),
-    systemRequirementsMinimal: systemRequirements,
-    systemRequirementsRecommended: systemRequirements,
+    systemRequirementsMinimal: systemRequirements.nullish(),
+    systemRequirementsRecommended: systemRequirements.nullish(),
     productType,
 })
 
@@ -158,8 +158,8 @@ export const editProductValidationSchema = z
             .optional(),
 
         filters: filtersSchema.optional(),
-        systemRequirementsMinimal: systemRequirements.optional(),
-        systemRequirementsRecommended: systemRequirements.optional(),
+        systemRequirementsMinimal: systemRequirements.nullish(),
+        systemRequirementsRecommended: systemRequirements.nullish(),
         originalGameId: z.string().nullable().optional(),
         productType: productType.optional(),
     })

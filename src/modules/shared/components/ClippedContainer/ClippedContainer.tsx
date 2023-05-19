@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
 import type { DefaultColor } from '../../types/types'
 import s from './ClippedContainer.module.scss'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
@@ -98,7 +98,7 @@ export const ClippedContainer = ({
     }
 
     //clip formula
-    let [size, setSize] = useState(getCurrentClipSize())
+    const [size, setSize] = useState(getCurrentClipSize())
 
     useEffect(() => {
         setSize(getCurrentClipSize())

@@ -1,4 +1,3 @@
-import { Field } from 'formik'
 import { Input } from '~/modules/shared/components/Inputs/Input'
 import s from './CategoriesInput.module.scss'
 

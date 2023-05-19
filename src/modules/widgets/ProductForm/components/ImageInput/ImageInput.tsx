@@ -1,7 +1,6 @@
 import s from './ImageInput.module.scss'
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import type { MouseEvent } from 'react'
-import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import Image from '~/modules/shared/components/Image/Image'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 

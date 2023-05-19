@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import type { ChangeEvent } from 'react'
 import { ImagePlaceholder } from '~/modules/shared/components/ImagePlaceholder/ImagePlaceholder'
 import s from './AdminProductCard.module.scss'
 import { SvgSelector } from '../SvgSelector/SvgSelector'

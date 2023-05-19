@@ -46,12 +46,16 @@ export const addProduct = adminProcedure
                               },
                           }
                         : undefined,
-                    systemRequirementsMinimal: {
-                        create: systemRequirementsMinimal,
-                    },
-                    systemRequirementsRecommended: {
-                        create: systemRequirementsRecommended,
-                    },
+                    systemRequirementsMinimal: systemRequirementsMinimal
+                        ? {
+                              create: systemRequirementsMinimal,
+                          }
+                        : undefined,
+                    systemRequirementsRecommended: systemRequirementsRecommended
+                        ? {
+                              create: systemRequirementsRecommended,
+                          }
+                        : undefined,
                 },
             })
         } catch (e) {
@@ -119,12 +123,16 @@ export const editProduct = adminProcedure
                               },
                           }
                         : undefined,
-                    systemRequirementsMinimal: {
-                        create: systemRequirementsMinimal,
-                    },
-                    systemRequirementsRecommended: {
-                        create: systemRequirementsRecommended,
-                    },
+                    systemRequirementsMinimal: systemRequirementsMinimal
+                        ? {
+                              create: systemRequirementsMinimal,
+                          }
+                        : undefined,
+                    systemRequirementsRecommended: systemRequirementsRecommended
+                        ? {
+                              create: systemRequirementsRecommended,
+                          }
+                        : undefined,
                 },
             })
         } catch (e) {

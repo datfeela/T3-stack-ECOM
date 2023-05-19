@@ -1,5 +1,4 @@
 import type { Product as ProductT } from '@prisma/client'
-import Image from 'next/image'
 import Link from 'next/link'
 import s from './Product.module.scss'
 import ImageFill from '~/modules/shared/components/Image/Image'

@@ -8,7 +8,6 @@ import { LikeIcon } from '../LikeIcon/LikeIcon'
 import { useEffect, useRef } from 'react'
 import { useAddReview } from '../../hooks/useAddReview'
 import { CircleLoader } from '~/modules/shared/components/Loaders/Loaders'
-import { log } from 'console'
 
 interface AddReviewFormProps {
     isActive: boolean
