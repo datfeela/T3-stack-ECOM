@@ -5,12 +5,20 @@ interface LikeIconProps {
     isReversed: boolean
     size?: 'md' | 'sm'
     color?: 'white' | 'red' | 'blue'
+    isActive?: boolean
 }
 
-export const LikeIcon = ({ isReversed, size = 'md', color = 'white' }: LikeIconProps) => {
+export const LikeIcon = ({
+    isReversed,
+    size = 'md',
+    color = 'white',
+    isActive = true,
+}: LikeIconProps) => {
     let clName = s.icon
 
     if (isReversed) clName += ` ${s.icon_dislike}`
+
+    if (isActive) clName += ` ${s.icon_active}`
 
     if (size === 'sm') clName += ` ${s.icon_sm}`
 

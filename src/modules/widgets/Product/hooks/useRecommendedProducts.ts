@@ -9,7 +9,7 @@ type Product = ProductWithoutImages & {
 export const useRecommendedProducts = (productId: string) => {
     const { data } = api.products.getRecommendedProductsForProduct.useQuery({
         productId,
-        quantity: 9,
+        quantity: 12,
     })
 
     if (!data) return [] as ReturnType<typeof mapProducts>

@@ -1,9 +1,9 @@
-import type { InferGetServerSidePropsType } from 'next'
-import type { GetServerSideProps } from 'next'
+import type { GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from 'next'
 import { prisma } from '~/server/db'
 import { Product } from '~/modules/widgets/Product'
 import { Breadcrumbs } from '~/modules/features/Breadcrumbs'
 import type { ProductPagePropsSerialized } from '~/modules/entities/product'
+import type { ParsedUrlQuery } from 'querystring'
 
 const ProductPage = ({ product }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const { name } = product
@@ -14,7 +14,6 @@ const ProductPage = ({ product }: InferGetServerSidePropsType<typeof getServerSi
             <main>
                 <Breadcrumbs pidName={name} />
                 <Product productData={{ ...product, releaseDate }} />
-                {/* reviews */}
             </main>
         </>
     )
@@ -22,9 +21,15 @@ const ProductPage = ({ product }: InferGetServerSidePropsType<typeof getServerSi
 
 export default ProductPage
 
-export const getServerSideProps: GetServerSideProps<{
-    product: ProductPagePropsSerialized
-}> = async ({ res, params }) => {
+type GetServerSidePropsT = ({
+    res,
+    params,
+}: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => Promise<
+    | { notFound: boolean; props?: undefined }
+    | { props: { product: ProductPagePropsSerialized }; notFound?: undefined }
+>
+
+export const getServerSideProps: GetServerSidePropsT = async ({ res, params }) => {
     // todo: uncomment when finished adding new products
     // res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=2592000')
 
@@ -62,5 +67,12 @@ export const getServerSideProps: GetServerSideProps<{
             notFound: true,
         }
 
-    return { props: { product: { ...product, releaseDate: JSON.stringify(product.releaseDate) } } }
+    return {
+        props: {
+            product: {
+                ...product,
+                releaseDate: JSON.stringify(product.releaseDate),
+            } as ProductPagePropsSerialized,
+        },
+    }
 }

@@ -158,7 +158,7 @@ export const ProductCard = ({
                             <>
                                 {matchMedia &&
                                 (matchMedia?.isMore1200 || matchMedia?.isMore1440) ? (
-                                    <div onClick={activatePopup}>
+                                    <div className={s.image} onClick={activatePopup}>
                                         <Image
                                             src={imgPath}
                                             sizes={imageSizes}
@@ -185,7 +185,7 @@ export const ProductCard = ({
                 {!href ? (
                     <>
                         {imgPath ? (
-                            <div onClick={activatePopup}>
+                            <div className={s.image} onClick={activatePopup}>
                                 <Image
                                     src={imgPath}
                                     sizes={imageSizes}
@@ -304,16 +304,21 @@ export const ProductCard = ({
                         ) : (
                             <div className={s.name}>{name}</div>
                         )}
-                        <div className={s.desc}>{desc}</div>
-                        {categories ? (
-                            <div className={s.categories}>
-                                {categories.map((name, id) => (
-                                    <div className={s.categories__item} key={id}>
-                                        {name}
-                                    </div>
-                                ))}
-                            </div>
-                        ) : null}
+                        <div>
+                            <div className={s.desc}>{desc}</div>
+                            {categories ? (
+                                <div className={s.categories}>
+                                    {categories.map((name, id) => {
+                                        if (id > 3) return null
+                                        return (
+                                            <div className={s.categories__item} key={id}>
+                                                {name}
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            ) : null}
+                        </div>
                         <div className={s.priceRow}>
                             <div className={s.priceBlock}>
                                 <div className={s.priceBlockInner}>

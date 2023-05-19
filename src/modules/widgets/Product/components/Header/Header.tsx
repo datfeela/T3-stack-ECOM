@@ -2,7 +2,6 @@ import ImageFill from '~/modules/shared/components/Image/Image'
 import { Slider } from '../Slider/Slider'
 import s from './Header.module.scss'
 import { Discount } from '~/modules/shared/components/Discount/Discount'
-import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { Favorites } from '~/modules/features/Favorites'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 import { BuyButton } from '~/modules/features/BuyButton'
@@ -16,6 +15,7 @@ export interface HeaderProps {
     coverImagePath: string | undefined | null
     horizontalImagePath: string | undefined | null
     detailImages: string[]
+    isOut: boolean
 }
 
 export const Header = ({
@@ -28,6 +28,7 @@ export const Header = ({
     coverImagePath,
     horizontalImagePath,
     detailImages,
+    isOut,
 }: HeaderProps) => {
     const videosSrc: string[] = []
     ytTrailerPath && videosSrc.push(ytTrailerPath)
@@ -42,7 +43,6 @@ export const Header = ({
                     {coverImagePath ? <ImageFill priority={true} src={coverImagePath} /> : null}
                 </div>
                 <div className={s.bgShadow}></div>
-                {/* TODO: !PLACEHOLDER BG */}
             </div>
             <div className={s.content + ' wrap'}>
                 <Slider
@@ -96,7 +96,7 @@ export const Header = ({
                             </div>
                         ) : null}
                         <div className={s.buyRow}>
-                            <BuyButton productId={id} />
+                            <BuyButton productId={id} isOut={isOut} />
                             <Favorites id={id} withBg={true} />
                         </div>
                     </div>

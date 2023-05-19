@@ -13,6 +13,7 @@ export const mapDataFromApi = (props: ProductPageProps) => {
     const { tags, features, platforms, ...restFilters } = mapProductFiltersFromApi(filters)
 
     const releaseDateParsed = parseDateToString(releaseDate)
+    const isOut = new Date().getTime() - releaseDate.getTime() > 0
 
     return {
         detailImages: detailPageImagesMapped,
@@ -27,6 +28,7 @@ export const mapDataFromApi = (props: ProductPageProps) => {
         features,
         releaseDate: releaseDateParsed,
         relatedGamesIds: relatedGames?.map(({ id }) => id),
+        isOut,
         ...rest,
     }
 }

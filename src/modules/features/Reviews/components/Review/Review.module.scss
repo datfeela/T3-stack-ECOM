@@ -33,6 +33,10 @@
             span {
                 line-height: 100%;
                 color: $blueLight;
+
+                @media all and (max-width: 480px) {
+                    display: none;
+                }
             }
 
             &_dislike {

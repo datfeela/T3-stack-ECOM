@@ -9,3 +9,10 @@
     grid-template-columns: 1fr 28px;
     gap: 20px;
 }
+
+.rating {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}

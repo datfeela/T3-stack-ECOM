@@ -7,20 +7,24 @@ import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { LikeIcon } from '../LikeIcon/LikeIcon'
 import { useEffect, useRef } from 'react'
 import { useAddReview } from '../../hooks/useAddReview'
+import { CircleLoader } from '~/modules/shared/components/Loaders/Loaders'
+import { log } from 'console'
 
 interface AddReviewFormProps {
     isActive: boolean
     productId: string
     quantityToGetOnSuccess: number
+    onSubmit: () => void
 }
 
 export const AddReviewForm = ({
     isActive,
     productId,
     quantityToGetOnSuccess,
+    onSubmit,
 }: AddReviewFormProps) => {
     const { isSubmitting, serverError, isServerSuccess, setIsServerSuccess, handleAddReview } =
-        useAddReview({ productId, quantityToGetOnSuccess })
+        useAddReview({ productId, quantityToGetOnSuccess, onSuccess: onSubmit })
 
     const formikRef =
         useRef<FormikProps<{ productId: string; rating: number; message: string }>>(null)
@@ -53,10 +57,13 @@ export const AddReviewForm = ({
                         }
                     }
                     handleAddReview(values)
+                    // onSubmit()
                 }}
                 innerRef={formikRef}
             >
                 {({ errors, touched, setFieldValue, values }) => {
+                    console.log(values)
+
                     return (
                         <Form className={s.wrap}>
                             <div className={s.inputsWrap}>
@@ -70,18 +77,34 @@ export const AddReviewForm = ({
                                     touched={touched.message}
                                     errors={errors.message}
                                 />
-                                <button
-                                    type='button'
-                                    onClick={() => {
-                                        setFieldValue('rating', values.rating === 1 ? 0 : 1)
-                                    }}
-                                >
-                                    <LikeIcon
-                                        color={values.rating === 1 ? 'blue' : 'red'}
-                                        isReversed={values.rating === 0}
-                                        size='md'
-                                    />
-                                </button>
+                                <div className={s.rating}>
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            setFieldValue('rating', 1)
+                                        }}
+                                    >
+                                        <LikeIcon
+                                            color={'blue'}
+                                            isReversed={false}
+                                            size='md'
+                                            isActive={values.rating === 1}
+                                        />
+                                    </button>
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            setFieldValue('rating', 0)
+                                        }}
+                                    >
+                                        <LikeIcon
+                                            color={'red'}
+                                            isReversed={true}
+                                            size='md'
+                                            isActive={values.rating === 0}
+                                        />
+                                    </button>
+                                </div>
                             </div>
                             {serverError ? <div>{serverError}</div> : null}
                             <ButtonDefault
@@ -89,6 +112,9 @@ export const AddReviewForm = ({
                                 type='submit'
                                 color='purple'
                                 fontW='600'
+                                withIcon={true}
+                                Icon={<CircleLoader />}
+                                shouldIconDisplay={isSubmitting}
                             >
                                 add review
                             </ButtonDefault>

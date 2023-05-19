@@ -10,9 +10,14 @@ interface HandleAddReviewValues {
 interface UseAddReviewProps {
     quantityToGetOnSuccess: number
     productId: string
+    onSuccess: () => void
 }
 
-export const useAddReview = ({ productId, quantityToGetOnSuccess }: UseAddReviewProps) => {
+export const useAddReview = ({
+    productId,
+    quantityToGetOnSuccess,
+    onSuccess,
+}: UseAddReviewProps) => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [serverError, setServerError] = useState(null as null | string)
     const [isServerSuccess, setIsServerSuccess] = useState(false)
@@ -21,6 +26,7 @@ export const useAddReview = ({ productId, quantityToGetOnSuccess }: UseAddReview
 
     const addReview = api.products.addReviewToProduct.useMutation({
         onMutate: async () => {
+            setIsSubmitting(true)
             await apiContext.products.getProductReviewsById.cancel()
             await apiContext.products.getProductReviewsStats.cancel()
             const optimisticUpdate = apiContext.products.getProductReviewsById.getData()
@@ -42,6 +48,7 @@ export const useAddReview = ({ productId, quantityToGetOnSuccess }: UseAddReview
             setIsServerSuccess(true)
             await apiContext.products.getProductReviewsById.invalidate()
             await apiContext.products.getProductReviewsStats.invalidate()
+            onSuccess()
         },
     })
 

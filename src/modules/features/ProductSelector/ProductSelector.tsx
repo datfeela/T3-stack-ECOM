@@ -1,10 +1,11 @@
 import s from './ProductSelector.module.scss'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
 import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
 import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
+import { useInfiniteScroll } from '~/modules/shared/hooks/useInfiniteScroll'
 
 export interface ProductSelectorProps {
     selectedIds: string[]
@@ -23,23 +24,42 @@ export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorPr
         250,
     )
 
-    const { products: data, isLoading } = useManyProductsData({
+    const {
+        products: data,
+        isLoading,
+        getNextPage,
+        isAllProductsLoaded,
+    } = useManyProductsData({
         searchQuery: debouncedSearchQuery,
-        // todo: 10 + load more
-        quantity: 30,
+        quantity: 10,
     })
 
-    const products = data?.map(({ id, name, price, horizontalImagePath }) => (
-        <AdminProductCard
-            key={id}
-            id={id}
-            name={name}
-            price={price}
-            imgSrc={horizontalImagePath}
-            isWithSelect={true}
-            isSelected={!!selectedIds.find((el) => el === id)}
-            handleClick={handleProductSelect}
-        />
+    const scrollAnchorRef = useInfiniteScroll({
+        getMore: () => {
+            getNextPage()
+        },
+        shouldGetMore: !isLoading && !isAllProductsLoaded,
+        observerOptions: {
+            root:
+                typeof window === 'object'
+                    ? document.querySelector(`${s.productsWrap}`)
+                    : undefined,
+        },
+    })
+
+    const products = data?.map(({ id, name, price, horizontalImagePath }, mapId) => (
+        <div key={id} ref={mapId === data.length - 10 ? scrollAnchorRef : undefined}>
+            <AdminProductCard
+                key={id}
+                id={id}
+                name={name}
+                price={price}
+                imgSrc={horizontalImagePath}
+                isWithSelect={true}
+                isSelected={!!selectedIds.find((el) => el === id)}
+                handleClick={handleProductSelect}
+            />
+        </div>
     ))
 
     const areProductsFound = products && products.length > 0 ? true : false

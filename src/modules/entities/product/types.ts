@@ -28,9 +28,7 @@ export interface ProductPageProps extends ProductT {
         | undefined
 }
 
-export interface ProductPagePropsSerialized extends Omit<ProductPageProps, 'releaseDate'> {
-    releaseDate: string
-}
+export type ProductPagePropsSerialized = ProductSerialized<ProductPageProps>
 
 export type ProductSerialized<T> = Omit<T, 'releaseDate'> & {
     releaseDate: string

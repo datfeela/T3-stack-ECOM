@@ -5,12 +5,12 @@ import { useReviewsWithPagination } from './hooks/useReviewsWithPagination'
 import { useReviewsToGetQuantity } from './hooks/useReviewsToGetQuantity'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
 import { useScrollToActiveElement } from './hooks/useScrollToActiveElement'
-import { useScrollContainerInView } from './hooks/useScrollContainerInView'
 import { Header } from './components/Header/Header'
 import { AddReviewForm } from './components/AddReviewForm/AddReviewForm'
 import { useState } from 'react'
 import { useProductReviewsStats } from './hooks/useProductReviewsStats'
 import { AddReviewButton } from './components/AddReviewButton/AddReviewButton'
+import { useScrollToElement } from '~/modules/shared/hooks/useScrollToElement'
 
 interface reviewsProps {
     productName: string
@@ -47,8 +47,9 @@ export const Reviews = ({
 
     // scroll to active element on mount, or to container, if there's no active el
     const activeElementRef = useScrollToActiveElement({ shouldScroll: !!reviews })
-    const containerRef = useScrollContainerInView({
+    const containerRef = useScrollToElement({
         shouldScroll: !activeCommentId && expandedMode && !!reviews,
+        behavior: 'smooth',
     })
 
     // render
@@ -95,6 +96,9 @@ export const Reviews = ({
                 isActive={isAddFormActive}
                 productId={productId}
                 quantityToGetOnSuccess={reviewsToGetQuantity}
+                onSubmit={() => {
+                    setIsAddFormActive(false)
+                }}
             />
             {reviews?.length === 0 && !expandedMode && !isAddFormActive ? (
                 <div className={s.placeholderText}>There are no reviews yet...</div>

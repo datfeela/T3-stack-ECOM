@@ -3,6 +3,7 @@
 .icon {
     width: 28px;
     height: 25px;
+    opacity: 0.4;
 
     svg {
         height: 100%;
@@ -13,6 +14,10 @@
     &_sm {
         height: 17px;
         width: 17px;
+    }
+
+    &_active {
+        opacity: 1;
     }
 
     &_dislike {

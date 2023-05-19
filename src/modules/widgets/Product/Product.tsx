@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { api } from '~/modules/shared/api/apiTRPC'
 import Head from 'next/head'
 import s from './Product.module.scss'
 import { Header } from './components/Header/Header'
@@ -13,8 +12,10 @@ import { Tags } from './components/Tags/Tags'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 import { RecommendedGames } from './components/RecommendedGames/RecommendedGames'
 import { RelatedGames } from './components/RelatedGames/RelatedGames'
+import { useScrollProductToTop } from './hooks/useScrollProductToTop'
 
 export const Product = ({ productData }: { productData: ProductPageProps }) => {
+    useScrollProductToTop()
     const {
         // shared
         id,
@@ -28,6 +29,7 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
         horizontalImagePath,
         detailImages,
         properties,
+        isOut,
         // description
         desc,
         characteristics,
@@ -59,6 +61,7 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
         coverImagePath,
         horizontalImagePath,
         detailImages,
+        isOut,
     }
 
     const descriptionProps = {

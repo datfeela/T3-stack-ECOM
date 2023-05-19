@@ -81,6 +81,30 @@
         }
     }
 
+    &_withGlitch {
+        color: #fff !important;
+        * {
+            color: #fff !important;
+        }
+
+        &.button_red {
+            color: #fff !important;
+
+            * {
+                color: #fff !important;
+            }
+        }
+
+        &.button_yellow,
+        &.button_blue {
+            color: #000 !important;
+
+            * {
+                color: #000 !important;
+            }
+        }
+    }
+
     // colors
     &_yellow {
         background: $yellow;
@@ -88,6 +112,14 @@
 
         * {
             color: #000;
+        }
+
+        &:hover {
+            color: $red;
+
+            * {
+                color: $red;
+            }
         }
     }
 
@@ -98,10 +130,26 @@
         * {
             color: #000;
         }
+
+        &:hover {
+            color: $yellow;
+
+            * {
+                color: $yellow;
+            }
+        }
     }
 
     &_red {
         background: $red;
+
+        &:hover {
+            color: $blueLight;
+
+            * {
+                color: $blueLight;
+            }
+        }
     }
 
     // sizes
@@ -197,6 +245,14 @@
         opacity: 0.6;
         cursor: default;
     }
+
+    &:hover {
+        color: $blueLight;
+
+        * {
+            color: $blueLight;
+        }
+    }
 }
 
 .iconWrap {
@@ -236,14 +292,17 @@ $slice-5: inset(80% -6px 5% 0);
     clip-path: $slice-0;
     text-shadow: -3px -3px 0px $red, 3px 3px 0px $blueLight;
     background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $yellow 5%);
+    color: #000 !important;
 
     &.button {
         &_purple {
             background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $purple 5%);
+            color: #fff !important;
         }
 
         &_red {
             background: linear-gradient(45deg, transparent 3%, $blueLight 3%, $purple 5%, $red 5%);
+            color: #fff !important;
         }
     }
 }

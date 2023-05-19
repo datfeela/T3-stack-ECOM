@@ -7,9 +7,10 @@ import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 
 interface BuyButtonProps {
     productId: string
+    isOut: boolean
 }
 
-export const BuyButton = ({ productId }: BuyButtonProps) => {
+export const BuyButton = ({ productId, isOut }: BuyButtonProps) => {
     const { state, dispatch } = useGlobalContext()
 
     const addProductToCart = () => {
@@ -20,7 +21,7 @@ export const BuyButton = ({ productId }: BuyButtonProps) => {
         <>
             {!state.products[productId] ? (
                 <ButtonDefault onClick={addProductToCart} fontSize='md'>
-                    Buy now
+                    {isOut ? 'Buy now' : 'Preorder'}
                 </ButtonDefault>
             ) : null}
             {state.products[productId] ? (

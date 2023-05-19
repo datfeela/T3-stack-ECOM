@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { MouseEvent, useEffect, useRef } from 'react'
 import s from './HeaderCart.module.scss'
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
 import { useInitializeCart } from './hooks/useInitializeCart'
@@ -8,10 +8,17 @@ import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector
 import { useRouter } from 'next/router'
 import { useProductsInCart } from '~/modules/shared/hooks/useProductsInCart'
 import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
+import { useHandleCloseCart } from './hooks/useHandleCloseCart'
 
 export const HeaderCart = () => {
     useInitializeCart()
     const { isCartActive, setIsCartActive } = useCartPopup({ containerClassName: `.${s.wrap}` })
+
+    const ref = useHandleCloseCart({
+        closeCart: () => {
+            setIsCartActive(false)
+        },
+    })
 
     const {
         productsData,
@@ -43,7 +50,7 @@ export const HeaderCart = () => {
     const router = useRouter()
 
     return (
-        <div className={`${s.wrap} ${isCartActive ? s.wrap_active : ''}`}>
+        <div ref={ref} className={`${s.wrap} ${isCartActive ? s.wrap_active : ''}`}>
             <div
                 onClick={() => {
                     if (totalQuantity === 0) return

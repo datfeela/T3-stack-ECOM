@@ -128,6 +128,19 @@
     gap: 10px;
     align-items: center;
 
+    &:hover {
+        .expandBtn__icon {
+            svg {
+                transform: translateX(3px);
+                fill: $blueLight;
+            }
+        }
+
+        span {
+            color: $blueLight;
+        }
+    }
+
     &__icon {
         width: 18px;
         height: 18px;
@@ -136,6 +149,7 @@
             height: 100%;
             width: 100%;
             fill: #fff;
+            transition: 0.3s;
         }
     }
     span {

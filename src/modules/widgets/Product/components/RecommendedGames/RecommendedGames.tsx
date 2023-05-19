@@ -8,6 +8,7 @@ import 'swiper/css'
 import { SliderButton } from '~/modules/shared/components/SliderButton/SliderButton'
 import Link from 'next/link'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
+import { useScrollToElement } from '~/modules/shared/hooks/useScrollToElement'
 
 interface RecommendedGamesProps {
     productId: string
@@ -21,6 +22,8 @@ export const RecommendedGames = ({
     expandedMode = false,
 }: RecommendedGamesProps) => {
     const products = useRecommendedProducts(productId)
+
+    const headerRef = useScrollToElement({ shouldScroll: true, behavior: 'smooth' })
 
     const productsElements = products.map((product, id) => {
         if (expandedMode)
@@ -48,7 +51,7 @@ export const RecommendedGames = ({
 
     return (
         <div className='wrap'>
-            <div className={s.header}>
+            <div className={s.header} ref={headerRef}>
                 <h2>{expandedMode ? `Games similar to ${productName}` : 'You may also like'}</h2>
                 {!expandedMode ? (
                     <Link

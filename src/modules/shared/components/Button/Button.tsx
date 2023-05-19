@@ -104,6 +104,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     withIcon && (clName += ' ' + s.button_withIcon)
     !shouldIconDisplay && (clName += ' ' + s.button_withIcon_hidden)
     withDecorative && (clName += ' ' + s.button_withDecorative)
+    isGlitching && (clName += ' ' + s.button_withGlitch)
 
     return (
         <div className={s.wrap}>

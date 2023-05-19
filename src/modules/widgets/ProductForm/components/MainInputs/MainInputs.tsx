@@ -22,11 +22,8 @@ interface MainInputsProps {
 // basic 1 field inputs w/ validation
 
 export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => {
-    // todo: Object.keys
-    const mainFieldsEntries = Object.entries(mainFields) as [keyof typeof mainFields, string][]
-    const mainInputs = mainFieldsEntries.map((entry) => {
-        const [inputName, inputValue] = entry
-
+    const mainFieldsEntries = Object.keys(mainFields) as (keyof typeof mainFields)[]
+    const mainInputs = mainFieldsEntries.map((inputName) => {
         const props: InputProps = {
             name: inputName,
             touched: touched[inputName] as boolean,

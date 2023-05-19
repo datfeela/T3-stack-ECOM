@@ -62,6 +62,12 @@
     font-weight: 500;
     color: rgba(255, 255, 255, 0.8);
 
+    &:hover {
+        background: rgba($color: $purple, $alpha: 0.6);
+        color: $blueLight;
+        backdrop-filter: 5px;
+    }
+
     @media all and (max-width: 540px) {
         width: 100%;
     }
