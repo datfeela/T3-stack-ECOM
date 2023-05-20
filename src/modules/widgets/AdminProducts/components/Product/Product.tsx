@@ -2,7 +2,8 @@ import type { Product as ProductT } from '@prisma/client'
 import Link from 'next/link'
 import s from './Product.module.scss'
 import ImageFill from '~/modules/shared/components/Image/Image'
-import { ButtonDefault } from '~/modules/shared/components/Button/Button'
+import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
+import { DeletePopup } from '../DeletePopup/DeletePopup'
 
 export const Product = ({
     id,
@@ -31,10 +32,11 @@ export const Product = ({
             <span>{price}</span>
             {priceWithoutDiscount ? <span>{priceWithoutDiscount}</span> : <div />}
             <Link href={`/admin/products/edit/${id}`}>
-                <ButtonDefault color='purple' width='sm' height='sm' isGlitching={false}>
-                    Edit
-                </ButtonDefault>
+                <button className={`${s.button} ${s.button_edit}`}>
+                    <SvgSelector id='edit' />
+                </button>
             </Link>
+            <DeletePopup id={id} />
         </div>
     )
 }

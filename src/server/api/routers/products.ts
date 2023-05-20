@@ -15,6 +15,7 @@ import {
 } from '../trpcProcedures/productsQueries'
 import {
     addProduct,
+    deleteProduct,
     deleteAllProducts,
     editProduct,
     toggleProductToWishes,
@@ -41,5 +42,6 @@ export const productsRouter = createTRPCRouter({
     addReviewToProduct,
     updateMainPageProducts,
     // delete
+    deleteProduct,
     deleteAllProducts,
 })

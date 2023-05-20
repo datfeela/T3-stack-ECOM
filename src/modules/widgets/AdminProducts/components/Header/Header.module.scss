@@ -1,11 +1,11 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
 .header {
+    @include admin-products-grid;
     margin-top: 25px;
     padding-bottom: 16px;
-    display: grid;
-    align-items: center;
-    grid-gap: 25px;
-    grid-template-columns: 100px repeat(4, 1fr);
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid $greyMid;
 }
 
 .sortBtn {

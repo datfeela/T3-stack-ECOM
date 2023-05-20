@@ -1,0 +1,43 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.button {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    border-radius: 5px;
+
+    svg {
+        height: 100%;
+        width: 100%;
+    }
+
+    &_delete {
+        background: rgba($color: $red, $alpha: 0.5);
+        border: 1px solid $red;
+
+        svg {
+            fill: #fff;
+        }
+
+        &:hover {
+            background: $red;
+        }
+    }
+}
+
+.popup {
+    max-width: 600px;
+    background: $greyDark;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.error {
+    margin-bottom: 20px;
+    color: $red;
+}

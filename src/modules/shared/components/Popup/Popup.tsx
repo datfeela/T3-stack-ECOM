@@ -7,9 +7,10 @@ export interface PopupProps {
     isPopupActive: boolean
     deactivatePopup: () => void
     children: React.ReactNode
+    size?: 'fitContent' | 'full'
 }
 
-const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) => {
+const Popup = ({ isPopupActive, deactivatePopup, children, size }: PopupProps) => {
     const closeBtnRef = useRef<HTMLDivElement>(null)
 
     // if screen is wider, than 18 / 10, layout changes
@@ -46,7 +47,11 @@ const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) => {
             onClick={handleClick}
             className={`${s.wrapFixed} ${isPopupActive ? s.wrapFixed_visible : ''}`}
         >
-            <div className={`${s.wrapRelative} ${isWideScreen ? s.wrapRelative_wide : ''}`}>
+            <div
+                className={`${s.wrapRelative}  ${
+                    size === 'fitContent' ? s.wrapRelative_fitContent : ''
+                }  ${isWideScreen ? s.wrapRelative_wide : ''}`}
+            >
                 <div className={s.content}>{children}</div>
                 <div ref={closeBtnRef} className={s.icon}>
                     <SvgSelector id='close' />

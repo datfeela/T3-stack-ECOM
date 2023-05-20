@@ -41,6 +41,11 @@
             backdrop-filter: blur(3px);
         }
     }
+
+    &_fitContent {
+        width: fit-content;
+        height: fit-content;
+    }
 }
 
 .icon {

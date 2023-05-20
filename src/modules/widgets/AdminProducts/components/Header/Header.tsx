@@ -41,7 +41,8 @@ export const Header = ({ sortBy, setSortBy }: HeaderProps) => {
                 <SvgSelector id='breadcrumbsArrow' />
             </button>
             <span>Price w/o discount</span>
-            <span>To product</span>
+            <span>Edit</span>
+            <span>Delete</span>
         </div>
     )
 }

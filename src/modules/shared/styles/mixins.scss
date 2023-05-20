@@ -191,3 +191,12 @@
     height: 0px;
     width: 0px;
 }
+
+// admin
+
+@mixin admin-products-grid {
+    display: grid;
+    align-items: center;
+    grid-gap: 25px;
+    grid-template-columns: 100px 2fr 1fr 1fr 60px 55px;
+}

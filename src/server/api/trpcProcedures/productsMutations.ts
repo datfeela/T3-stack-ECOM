@@ -146,6 +146,36 @@ export const editProduct = adminProcedure
         }
     })
 
+export const deleteProduct = adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+        const { id } = input
+        try {
+            // delete old relations
+            const productData = await prisma.product.findFirst({
+                where: {
+                    id,
+                },
+                select: {
+                    filters: true,
+                    categories: true,
+                    originalGameId: true,
+                },
+            })
+
+            await deleteProductRelations({ productId: id, data: productData })
+            // delete product
+            await prisma.product.delete({
+                where: {
+                    id,
+                },
+            })
+        } catch (e) {
+            console.log(`ERROR! deleteProduct:`, JSON.stringify(e))
+            throw e
+        }
+    })
+
 export const toggleProductToWishes = protectedProcedure
     .input(z.object({ productId: z.string(), action: z.enum(['add', 'delete']) }))
     .mutation(async ({ ctx, input }) => {

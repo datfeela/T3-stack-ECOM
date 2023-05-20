@@ -25,6 +25,14 @@
         0 100%
     );
 
+    &:hover:not([disabled]) {
+        color: $blueLight;
+
+        * {
+            color: $blueLight;
+        }
+    }
+
     // text
 
     * {
@@ -114,7 +122,7 @@
             color: #000;
         }
 
-        &:hover {
+        &:hover:not([disabled]) {
             color: $red;
 
             * {
@@ -131,7 +139,7 @@
             color: #000;
         }
 
-        &:hover {
+        &:hover:not([disabled]) {
             color: $yellow;
 
             * {
@@ -143,11 +151,11 @@
     &_red {
         background: $red;
 
-        &:hover {
-            color: $blueLight;
+        &:hover:not([disabled]) {
+            color: $yellow;
 
             * {
-                color: $blueLight;
+                color: $yellow;
             }
         }
     }
@@ -244,14 +252,6 @@
     &[disabled] {
         opacity: 0.6;
         cursor: default;
-    }
-
-    &:hover {
-        color: $blueLight;
-
-        * {
-            color: $blueLight;
-        }
     }
 }
 

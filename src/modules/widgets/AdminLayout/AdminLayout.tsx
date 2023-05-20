@@ -34,8 +34,7 @@ export const AdminLayout: React.FC<Props> = ({ children }) => {
                 href: '/admin/content',
                 sublinks: linksContent,
             },
-            { name: 'Settings', href: '/admin/settings' },
-            { name: 'Magic page', href: '/admin/test' },
+            { name: 'Orders', href: '/orders' },
         ]
 
         const linkEls = linksMain.map((link) => {
