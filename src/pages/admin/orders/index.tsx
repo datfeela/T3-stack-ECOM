@@ -1,22 +1,22 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
-import { AdminMain } from '~/modules/widgets/AdminMain'
+import { AdminOrders } from '~/modules/widgets/AdminOrders'
 
-const Admin: NextPage = () => {
+const Orders: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Admin</title>
+                <title>Orders</title>
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <AdminLayout>
                 <main>
-                    <AdminMain />
+                    <AdminOrders />
                 </main>
             </AdminLayout>
         </>
     )
 }
 
-export default Admin
+export default Orders

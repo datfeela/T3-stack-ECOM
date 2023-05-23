@@ -1,0 +1,35 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.title {
+    display: flex;
+    gap: 20px;
+
+    a {
+        height: 30px;
+        width: 30px;
+        padding: 5px;
+
+        &:hover {
+            svg {
+                margin-left: -3px;
+                margin-right: 3px;
+                fill: $blueLight;
+            }
+        }
+
+        svg {
+            height: 100%;
+            width: 100%;
+            fill: #fff;
+            display: block;
+            transform: rotate(180deg);
+            transition: 0.3s;
+        }
+    }
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 2.4fr 1fr;
+    grid-gap: 30px;
+}

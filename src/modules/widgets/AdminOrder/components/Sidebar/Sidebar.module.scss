@@ -1,0 +1,42 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    padding: 1rem;
+    @include semi-transparent-bg;
+    height: fit-content;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 600;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $greyMid;
+}
+
+.rows {
+    border-bottom: 1px solid $greyMid;
+    padding: 1rem 0;
+}
+
+.price {
+    font-weight: 700;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.35rem;
+}
+
+.paid {
+    width: fit-content;
+    margin-left: auto;
+    padding: 1rem 0;
+    font-size: 22px;
+    font-weight: 700;
+}

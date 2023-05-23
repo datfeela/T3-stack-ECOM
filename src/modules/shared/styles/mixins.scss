@@ -175,6 +175,10 @@
 
 // shared
 
+@mixin semi-transparent-bg {
+    background: rgba($color: #fff, $alpha: 0.03);
+}
+
 @mixin checkbox-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -192,6 +196,33 @@
     width: 0px;
 }
 
+@mixin link-with-arrow-icon {
+    color: #fff;
+    * {
+        color: #fff;
+    }
+
+    &:hover {
+        color: $blueLight;
+
+        * {
+            color: $blueLight;
+        }
+
+        svg {
+            fill: $blueLight;
+            transform: translateX(3px);
+        }
+    }
+
+    svg {
+        height: 100%;
+        width: 100%;
+        fill: #fff;
+        transition: 0.3s;
+    }
+}
+
 // admin
 
 @mixin admin-products-grid {
@@ -199,4 +230,30 @@
     align-items: center;
     grid-gap: 25px;
     grid-template-columns: 100px 2fr 1fr 1fr 60px 55px;
+    padding: 0 15px;
+}
+
+@mixin admin-orders-grid {
+    padding: 0 20px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: 280px 1fr 2fr repeat(4, 1fr);
+    align-items: center;
+
+    span {
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
+@mixin admin-order-grid {
+    display: grid;
+    grid-template-columns: 80px 2fr repeat(5, 1fr);
+    align-items: center;
+    gap: 1rem;
+
+    span {
+        word-wrap: break-word;
+        overflow: hidden;
+    }
 }

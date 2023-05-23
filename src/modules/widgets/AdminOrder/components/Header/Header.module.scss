@@ -1,0 +1,37 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.header {
+    padding: 1rem 0.7rem;
+    border-top: 1px solid $greyMid;
+    border-bottom: 1px solid $greyMid;
+    margin-bottom: 1rem;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    width: 65%;
+
+    &:last-child {
+        margin-top: 10px;
+        align-items: center;
+    }
+}
+
+.item {
+}
+
+.title {
+    font-weight: 700;
+}
+
+.user {
+    &_name {
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    &_email {
+        color: $blueLight;
+    }
+}

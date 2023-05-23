@@ -42,6 +42,23 @@ export const getUserOrders = protectedProcedure
         }
     })
 
+export const getOrderByIdAdmin = adminProcedure.input(z.string()).query(async ({ input }) => {
+    try {
+        const order = await prisma.order.findUnique({
+            where: { id: input },
+            include: {
+                products: true,
+                User: true,
+            },
+        })
+
+        return order
+    } catch (e) {
+        console.log(`getOrderByIdAdmin`, JSON.stringify(e))
+        throw e
+    }
+})
+
 export const getManyOrdersAdmin = adminProcedure
     .input(
         z.object({

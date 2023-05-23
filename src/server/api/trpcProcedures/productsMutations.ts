@@ -312,7 +312,7 @@ interface changeProductPopularityProps {
     amountToChange: number
 }
 
-async function changeProductPopularity({
+export async function changeProductPopularity({
     productId,
     amountToChange,
 }: changeProductPopularityProps) {

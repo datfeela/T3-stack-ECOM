@@ -1,0 +1,27 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+}
+
+.productWrap {
+    padding: 1rem;
+
+    &_bg {
+        @include semi-transparent-bg;
+    }
+}
+
+.product {
+    @include admin-order-grid;
+}
+
+.header {
+    padding: 1rem;
+    @include admin-order-grid;
+    border-bottom: 1px solid $greyMid;
+}
+
+.image {
+    background: rgba($color: $grey, $alpha: 0.7);
+}

@@ -1,0 +1,42 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.content {
+    @include admin-orders-grid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.id {
+    color: $blueLight !important;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.expandBtn {
+    background: rgba($color: $purple, $alpha: 0.5);
+    height: 100%;
+    aspect-ratio: 1 / 1 !important;
+
+    &:hover {
+        background: $purple;
+    }
+
+    svg {
+        fill: #fff;
+        transform: rotate(90deg);
+        position: relative;
+        top: 2px;
+    }
+
+    &_rotated {
+        svg {
+            fill: #fff;
+            transform: rotate(270deg);
+            position: relative;
+            top: 2px;
+        }
+    }
+}

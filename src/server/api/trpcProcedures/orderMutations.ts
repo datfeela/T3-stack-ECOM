@@ -4,6 +4,7 @@ import { publicProcedure } from '../trpc'
 import { z } from 'zod'
 import type { OrderStatus } from '~/modules/shared/types/orderTypes'
 import { orderStatusEnum } from '~/modules/shared/lib/validationSchemas'
+import { changeProductPopularity } from './productsMutations'
 
 export const createOrder = publicProcedure
     .input(
@@ -36,7 +37,23 @@ export const createOrder = publicProcedure
                 },
             })
 
-            await createOrderProducts({ products, orderId: order.id })
+            // update products popularity
+            const popularityPromises: Promise<void>[] = []
+
+            products.forEach((product) => {
+                const promise = changeProductPopularity({
+                    productId: product.id,
+                    amountToChange: 5 * product.quantity,
+                })
+
+                popularityPromises.push(promise)
+            })
+            //
+
+            await Promise.all([
+                ...popularityPromises,
+                createOrderProducts({ products, orderId: order.id }),
+            ])
 
             return order
         } catch (e) {
