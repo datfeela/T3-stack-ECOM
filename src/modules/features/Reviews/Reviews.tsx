@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { useProductReviewsStats } from './hooks/useProductReviewsStats'
 import { AddReviewButton } from './components/AddReviewButton/AddReviewButton'
 import { useScrollToElement } from '~/modules/shared/hooks/useScrollToElement'
+import { useReinitReviews } from './hooks/useReinitReviews'
 
 interface reviewsProps {
     productName: string
@@ -31,6 +32,10 @@ export const Reviews = ({
 }: reviewsProps) => {
     const [isAddFormActive, setIsAddFormActive] = useState(false)
     // initial values
+
+    useReinitReviews(() => {
+        setIsAddFormActive(false)
+    })
 
     const { scoresCount, percentUsersRecommend } = useProductReviewsStats({
         productId,

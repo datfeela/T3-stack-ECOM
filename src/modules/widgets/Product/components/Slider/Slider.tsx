@@ -12,6 +12,8 @@ import { WithVideoCoverIcon } from '~/modules/shared/components/WrapWithCoverIco
 // dynamic import
 import dynamic from 'next/dynamic'
 import type { PopupProps } from '~/modules/shared/components/Popup/Popup'
+import { useRouter } from 'next/router'
+import { useReinitSlider } from '../../hooks/useReinitSlider'
 
 const Popup = dynamic<PopupProps>(() => import('~/modules/shared/components/Popup/Popup'), {
     ssr: false,
@@ -36,6 +38,8 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
     const mainSliderEls: JSX.Element[] = []
     const thumbsSliderEls: JSX.Element[] = []
     const popupSliderElements: JSX.Element[] = []
+
+    useReinitSlider(firstSwiper)
 
     useEffect(() => {
         const autoplay = firstSwiper?.autoplay

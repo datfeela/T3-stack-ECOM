@@ -61,8 +61,6 @@ export const AddReviewForm = ({
                 innerRef={formikRef}
             >
                 {({ errors, touched, setFieldValue, values }) => {
-                    console.log(values)
-
                     return (
                         <Form className={s.wrap}>
                             <div className={s.inputsWrap}>
