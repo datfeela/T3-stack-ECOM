@@ -1,0 +1,41 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrapOuter {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-top: 100px;
+
+    @media all and (max-width: 768px) {
+        padding-top: 40px;
+    }
+
+    @media all and (max-width: 480px) {
+        padding-top: 0;
+    }
+}
+
+.wrap {
+    padding: 2rem 3rem;
+    @include semi-transparent-bg;
+
+    h1 {
+        margin-bottom: 1rem;
+
+        @media all and (max-width: 1200px) {
+            margin-bottom: 0.7rem;
+        }
+
+        @media all and (max-width: 768px) {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    @media all and (max-width: 480px) {
+        background: unset;
+    }
+}
+
+.button {
+    margin-top: 1rem;
+}
