@@ -5,7 +5,7 @@ import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 export const useInitializeCart = () => {
     const { dispatch } = useGlobalContext()
 
-    useEffect(() => {
+    const init = () => {
         const localStorageCartData = localStorage.getItem('cart')
         if (!localStorageCartData) return
 
@@ -13,5 +13,20 @@ export const useInitializeCart = () => {
             type: GlobalReducerActionKind.INITIALIZE,
             initialState: JSON.parse(localStorageCartData),
         })
+    }
+
+    const onVisibilityChange = () => {
+        if (document.visibilityState === 'hidden') return
+        init()
+    }
+
+    useEffect(() => {
+        init()
+
+        document.addEventListener('visibilitychange', onVisibilityChange)
+
+        return () => {
+            document.removeEventListener('visibilitychange', onVisibilityChange)
+        }
     }, [])
 }
