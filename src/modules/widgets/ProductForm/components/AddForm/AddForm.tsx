@@ -8,7 +8,7 @@ export const AddForm = () => {
     return (
         <>
             <Head>
-                <title>Add new game</title>
+                <title>Add new product</title>
             </Head>
             <h1>Add new product</h1>
             <ProductForm

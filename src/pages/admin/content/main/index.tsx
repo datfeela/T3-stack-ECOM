@@ -7,8 +7,7 @@ const Admin: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Admin</title>
-                <link rel='icon' href='/favicon.ico' />
+                <title>Main page content</title>
             </Head>
             <AdminLayout>
                 <main>

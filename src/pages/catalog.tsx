@@ -10,8 +10,7 @@ const Catalog: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Catalog</title>
-                <meta name='description' content='' />
+                <title>Catalog | T3-Ecom</title>
             </Head>
             <main>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>

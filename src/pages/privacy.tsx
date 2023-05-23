@@ -5,9 +5,8 @@ const Privacy: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Политика конфиденциальности | Feela-t3-ecom</title>
+                <title>Политика конфиденциальности | T3-Ecom</title>
                 <meta name='description' content='Пользовательское соглашение' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <main>
                 <h1>Политика конфиденциальности</h1>

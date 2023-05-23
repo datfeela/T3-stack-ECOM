@@ -106,10 +106,10 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
             <Head>
                 <title>
                     {!commentsReviewMode && !recommendedGamesMode
-                        ? `Buy ${productData.name}`
+                        ? `Buy ${productData.name} | T3-Ecom`
                         : null}
-                    {commentsReviewMode ? `${productData.name} | Reviews` : null}
-                    {recommendedGamesMode ? `${productData.name} | Similar Games` : null}
+                    {commentsReviewMode ? `${productData.name} | Reviews | T3-Ecom` : null}
+                    {recommendedGamesMode ? `${productData.name} | Similar Games | T3-Ecom` : null}
                 </title>
             </Head>
             <Header {...headerProps} />

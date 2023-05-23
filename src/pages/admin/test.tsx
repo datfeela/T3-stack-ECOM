@@ -412,7 +412,6 @@ const Test: NextPage = () => {
         <>
             <Head>
                 <title>Test</title>
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <AdminLayout>
                 <main>

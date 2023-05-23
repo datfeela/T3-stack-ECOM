@@ -8,7 +8,6 @@ const AdminContent: NextPage = () => {
         <>
             <Head>
                 <title>Content</title>
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <AdminLayout>
                 <main>

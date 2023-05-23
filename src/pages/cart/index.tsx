@@ -5,7 +5,7 @@ const CartPage = () => {
     return (
         <>
             <Head>
-                <title>Cart</title>
+                <title>Cart | T3-Ecom</title>
             </Head>
             <main>
                 <Cart />

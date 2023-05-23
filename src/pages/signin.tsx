@@ -34,9 +34,8 @@ const SignIn: NextPage<SingInProps> = ({ providers }) => {
     return (
         <>
             <Head>
-                <title>Sign In | feela-t3-ecom</title>
+                <title>Sign In | T3-Ecom</title>
                 <meta name='description' content='Sing In' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <main>
                 <h1>Sign In</h1>

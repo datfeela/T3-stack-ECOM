@@ -6,12 +6,9 @@ const Auth: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Test</title>
-                <meta name='description' content='Пользовательское соглашение' />
-                <link rel='icon' href='/favicon.ico' />
+                <title>Admin Auth</title>
             </Head>
             <main>
-                <div>auth</div>
                 <AdminLogin />
             </main>
         </>

@@ -39,7 +39,7 @@ const Home = ({
     return (
         <>
             <Head>
-                <title>Title</title>
+                <title>T3-Ecom</title>
                 <meta name='description' content='' />
             </Head>
             <main>

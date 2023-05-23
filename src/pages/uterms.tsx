@@ -5,9 +5,8 @@ const Uterms: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Пользовательское соглашение | Feela-t3-ecom</title>
+                <title>Пользовательское соглашение | T3-Ecom</title>
                 <meta name='description' content='Пользовательское соглашение' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <main>
                 <h1>Пользовательское Соглашение</h1>
