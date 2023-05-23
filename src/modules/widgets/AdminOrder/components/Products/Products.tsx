@@ -39,8 +39,7 @@ interface ProductProps {
 }
 
 export const Product = ({ product }: ProductProps) => {
-    const { id, imagePath, name, orderId, price, priceWithoutDiscount, productId, quantity } =
-        product
+    const { imagePath, name, price, priceWithoutDiscount, productId, quantity } = product
 
     return (
         <div className={s.product}>
