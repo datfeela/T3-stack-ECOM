@@ -1,4 +1,5 @@
 @import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .wrap {
     padding: $smContainerPadding;
@@ -146,17 +147,5 @@
     width: 34px;
     padding: 8px;
 
-    &:hover {
-        svg {
-            fill: $blueLight;
-            transform: translateX(3px);
-        }
-    }
-
-    svg {
-        height: 100%;
-        width: 100%;
-        fill: #fff;
-        transition: 0.3s;
-    }
+    @include link-with-arrow-icon;
 }

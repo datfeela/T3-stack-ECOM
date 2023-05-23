@@ -1,1 +1,7 @@
+@import '/src/modules/shared/styles/mixins.scss';
 
+.product {
+    &_bg {
+        @include semi-transparent-bg;
+    }
+}

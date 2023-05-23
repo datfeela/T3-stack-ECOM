@@ -523,6 +523,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    line-height: 150%;
 }
 
 a.name {
@@ -560,12 +561,7 @@ a.name {
     width: 28px;
     padding: 6px;
 
-    &:hover {
-        svg {
-            fill: $blueLight;
-            transform: translateX(3px);
-        }
-    }
+    @include link-with-arrow-icon;
 
     @media all and (max-width: 1200px) {
         bottom: 1rem;
@@ -573,13 +569,6 @@ a.name {
 
     @media all and (max-width: 480px) {
         bottom: 0.75rem;
-    }
-
-    svg {
-        height: 100%;
-        width: 100%;
-        fill: #fff;
-        transition: 0.3s;
     }
 }
 

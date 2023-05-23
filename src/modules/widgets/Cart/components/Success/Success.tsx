@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import s from './Success.module.scss'
 import { useRouter } from 'next/router'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
+import Link from 'next/link'
 
 export const Success = () => {
     const [secondsTillRedirect, setSecondsTillRedirect] = useState(5)
@@ -25,7 +26,7 @@ export const Success = () => {
                 You will be redirected to main page in {secondsTillRedirect} seconds
             </span>
             <ButtonDefault fontSize='md' color='purple'>
-                To main page
+                <Link href='/'>To main page</Link>
             </ButtonDefault>
         </div>
     )
