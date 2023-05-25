@@ -1,19 +1,21 @@
 import Link from 'next/link'
 import type { ProductType } from '../../types/productTypes'
 import s from './ProductCard.module.scss'
-import Image from '../Image/Image'
-import { ImagePlaceholder } from '../ImagePlaceholder/ImagePlaceholder'
 import { Discount } from '../Discount/Discount'
-import { ClippedContainer } from '../ClippedContainer/ClippedContainer'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
 import { ProductQuantityController } from '../ProductQuantityController/ProductQuantityController'
-import { useGlobalContext } from '../../hooks/useGlobalContext'
 import type { ImageOrientation } from '../../types/types'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { ButtonDefault } from '../Button/Button'
 import { Favorites } from '~/modules/features/Favorites'
 import { usePopup } from '../../hooks/usePopup'
 import { parseDateToString } from '../../lib/parseDateToString'
+import type { View } from './types/types'
+import { WithClip } from './components/WithClip/WithClip'
+import { ProductImage } from './components/ProductImage/ProductImage'
+import { WithImageLink } from './components/WithImageLink/WithImageLink'
+import { Popup } from './components/Popup/Popup'
+import { Info } from './components/Info/Info'
 
 interface ProductCardBaseProps {
     id: string
@@ -22,12 +24,13 @@ interface ProductCardBaseProps {
     priceWithoutDiscount: number | null
     imgPath: string | null
     imageSizes: string
-    view: 'default' | 'defaultLg' | 'horizontal' | 'vertical' | 'cart' | 'cartHeader' | 'popular'
+    view: View
     size?: 'default' | 'lg'
     productType?: ProductType
     linkBasePathName?: string
     // only for vertical view
     releaseDate?: Date
+    withClip?: boolean
 }
 
 type ProductCardWithPopup = ProductCardBaseProps & {
@@ -85,6 +88,7 @@ export const ProductCard = ({
     let imageOrientation: ImageOrientation = '16/9'
     const productTypeParsed = productType === 'game' ? 'base game' : productType
     let containerHeight: 'full' | 'fit' = 'full'
+    let withClip = true
 
     switch (view) {
         case 'default':
@@ -116,237 +120,102 @@ export const ProductCard = ({
             imageOrientation =
                 matchMedia && (matchMedia.isMore768 || matchMedia.isMore960) ? 'unset' : '16/10'
             break
+        case 'search':
+            wrapCN += ` ${s.wrap_search}`
+            imageOrientation = '16/10'
+            withClip = false
+            break
         default:
             break
     }
 
     return (
-        <ClippedContainer
-            clipSize={view === 'defaultLg' ? 'lg' : 'md'}
-            height={containerHeight}
-            borderColor={view === 'vertical' ? 'blue' : 'purple'}
-            borderColorHover={view === 'vertical' ? 'yellow' : undefined}
-            background={view === 'horizontal' || view === 'cart' ? true : false}
-            borders={view !== 'cartHeader'}
-        >
+        <WithClip view={view} withClip={withClip} containerHeight={containerHeight}>
             <div className={wrapCN}>
-                {href && view !== 'defaultLg' && view !== 'popular' ? (
-                    <Link
-                        className={s.imageLink}
-                        href={href}
-                        style={{ aspectRatio: imageOrientation }}
-                    >
-                        {imgPath ? (
-                            <Image
-                                src={imgPath || ''}
-                                sizes={imageSizes}
-                                orientation={imageOrientation}
-                                alt={name}
-                            />
-                        ) : (
-                            <>
-                                <ImagePlaceholder />
-                            </>
-                        )}
-                    </Link>
+                {/* image */}
+                {view !== 'defaultLg' && view !== 'popular' ? (
+                    <WithImageLink href={href} imageOrientation={imageOrientation}>
+                        <ProductImage
+                            src={imgPath}
+                            alt={name}
+                            orientation={imageOrientation}
+                            sizes={imageSizes}
+                        />
+                    </WithImageLink>
                 ) : null}
-                {href && (view === 'defaultLg' || view === 'popular') ? (
+                {view === 'defaultLg' || view === 'popular' ? (
                     <>
-                        {imgPath ? (
-                            <>
-                                {matchMedia &&
-                                (matchMedia?.isMore1200 || matchMedia?.isMore1440) ? (
-                                    <div className={s.image} onClick={activatePopup}>
-                                        <Image
-                                            src={imgPath}
-                                            sizes={imageSizes}
-                                            orientation={imageOrientation}
-                                            alt={name}
-                                        />
-                                    </div>
-                                ) : (
-                                    <Link className={s.imageLink} href={href}>
-                                        <Image
-                                            src={imgPath}
-                                            sizes={imageSizes}
-                                            orientation={imageOrientation}
-                                            alt={name}
-                                        />
-                                    </Link>
-                                )}
-                            </>
-                        ) : (
-                            <ImagePlaceholder />
-                        )}
-                    </>
-                ) : null}
-                {!href ? (
-                    <>
-                        {imgPath ? (
+                        {matchMedia && (matchMedia?.isMore1200 || matchMedia?.isMore1440) ? (
                             <div className={s.image} onClick={activatePopup}>
-                                <Image
+                                <ProductImage
                                     src={imgPath}
-                                    sizes={imageSizes}
-                                    orientation={imageOrientation}
                                     alt={name}
+                                    orientation={imageOrientation}
+                                    sizes={imageSizes}
                                 />
                             </div>
                         ) : (
-                            <ImagePlaceholder />
+                            <WithImageLink href={href} imageOrientation={imageOrientation}>
+                                <ProductImage
+                                    src={imgPath}
+                                    alt={name}
+                                    orientation={imageOrientation}
+                                    sizes={imageSizes}
+                                />
+                            </WithImageLink>
                         )}
                     </>
                 ) : null}
-                <div className={s.bottom}>
-                    <div className={s.info}>
-                        {href ? (
-                            <Link href={href} className={s.name}>
-                                {name}
-                            </Link>
-                        ) : (
-                            <span className={s.name}>{name}</span>
-                        )}
-                        <div className={s.priceRow}>
-                            <div className={s.priceBlock}>
-                                <div className={s.priceBlockInner}>
-                                    <div className={s.price}>{price} y.e</div>
-                                    {priceWithoutDiscount ? (
-                                        <div className={s.priceWithoutDiscount}>
-                                            {priceWithoutDiscount} y.e
-                                        </div>
-                                    ) : null}
-                                </div>
-                                {priceWithoutDiscount ? (
-                                    <div className={s.discount}>
-                                        <Discount
-                                            price={price}
-                                            priceWithoutDiscount={priceWithoutDiscount}
-                                            size={view !== 'cartHeader' ? 'sm' : 'xs'}
-                                        />
-                                    </div>
-                                ) : null}
-                            </div>
-                            {view === 'cartHeader' && typeof quantityInCart === 'number' ? (
-                                <ProductQuantityController
-                                    currentQuantity={quantityInCart}
-                                    size='sm'
-                                    onIncrement={() => {
-                                        onQuantityIncrement(id)
-                                    }}
-                                    onDecrement={() => {
-                                        onQuantityDecrement(id)
-                                    }}
-                                />
-                            ) : null}
-                        </div>
-                        {!!productTypeParsed && view === 'cart' ? (
-                            <div className={s.productType}>{productTypeParsed}</div>
-                        ) : null}
-                        {view === 'vertical' && releaseDate ? (
-                            <Link href={href || ''} className={s.date}>
-                                {parseDateToString(releaseDate)}
-                            </Link>
-                        ) : null}
-                        {view === 'cart' && typeof quantityInCart === 'number' ? (
-                            <div className={s.actions}>
-                                <ProductQuantityController
-                                    currentQuantity={quantityInCart}
-                                    size='md'
-                                    onIncrement={() => {
-                                        onQuantityIncrement(id)
-                                    }}
-                                    onDecrement={() => {
-                                        onQuantityDecrement(id)
-                                    }}
-                                />
-                                <div className={s.actions__bottom}>
-                                    {matchMedia &&
-                                    (matchMedia.isMore1200 || matchMedia.isMore1440) ? (
-                                        <Favorites id={id} view='iconWithText' />
-                                    ) : (
-                                        <div className={s.favorites_absolute}>
-                                            <Favorites id={id} view='icon' />
-                                        </div>
-                                    )}
-                                    <button
-                                        className={s.deleteBtn}
-                                        type='button'
-                                        onClick={() => {
-                                            onProductDelete(id)
-                                        }}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </div>
-                        ) : null}
-                    </div>
-                    {view === 'defaultLg' && href ? (
-                        <Link className={s.toProductBtn_lg} href={href}>
-                            <ButtonDefault
-                                isGlitching={false}
-                                color='purple'
-                                height='sm'
-                                fontW='500'
-                            >
-                                More details
-                            </ButtonDefault>
-                        </Link>
-                    ) : null}
-                </div>
+                {/* info */}
+                {!onProductDelete &&
+                !quantityInCart &&
+                !onQuantityIncrement &&
+                !onQuantityDecrement ? (
+                    <Info
+                        id={id}
+                        name={name}
+                        href={href}
+                        view={view}
+                        price={price}
+                        priceWithoutDiscount={priceWithoutDiscount}
+                        productTypeParsed={productTypeParsed}
+                        releaseDate={releaseDate}
+                        onProductDelete={onProductDelete}
+                        quantityInCart={quantityInCart}
+                        onQuantityIncrement={onQuantityIncrement}
+                        onQuantityDecrement={onQuantityDecrement}
+                    />
+                ) : null}
+                {!!onProductDelete &&
+                !!quantityInCart &&
+                !!onQuantityIncrement &&
+                !!onQuantityDecrement ? (
+                    <Info
+                        id={id}
+                        name={name}
+                        href={href}
+                        view={view}
+                        price={price}
+                        priceWithoutDiscount={priceWithoutDiscount}
+                        productTypeParsed={productTypeParsed}
+                        releaseDate={releaseDate}
+                        onProductDelete={onProductDelete}
+                        quantityInCart={quantityInCart}
+                        onQuantityIncrement={onQuantityIncrement}
+                        onQuantityDecrement={onQuantityDecrement}
+                    />
+                ) : null}
+                {/* absolute feats */}
                 {isPopupActive && (view === 'defaultLg' || view === 'popular') ? (
-                    <div className={s.popup}>
-                        {href ? (
-                            <Link href={href} className={s.name}>
-                                {name}
-                            </Link>
-                        ) : (
-                            <div className={s.name}>{name}</div>
-                        )}
-                        <div>
-                            <div className={s.desc}>{desc}</div>
-                            {categories ? (
-                                <div className={s.categories}>
-                                    {categories.map((name, id) => {
-                                        if (id > 3) return null
-                                        return (
-                                            <div className={s.categories__item} key={id}>
-                                                {name}
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            ) : null}
-                        </div>
-                        <div className={s.priceRow}>
-                            <div className={s.priceBlock}>
-                                <div className={s.priceBlockInner}>
-                                    <div className={s.price}>{price} y.e</div>
-                                    {priceWithoutDiscount ? (
-                                        <div className={s.priceWithoutDiscount}>
-                                            {priceWithoutDiscount} y.e
-                                        </div>
-                                    ) : null}
-                                </div>
-                                {priceWithoutDiscount ? (
-                                    <div className={s.discount}>
-                                        <Discount
-                                            price={price}
-                                            priceWithoutDiscount={priceWithoutDiscount}
-                                            size={'xs'}
-                                        />
-                                    </div>
-                                ) : null}
-                            </div>
-                        </div>
-                        {href ? (
-                            <Link href={href} className={s.toProductBtn}>
-                                <SvgSelector id='arrowDefault' />
-                            </Link>
-                        ) : null}
-                        <div className={s.popup__closeBtn} onClick={deactivatePopup}>
-                            <SvgSelector id='close' />
-                        </div>
-                    </div>
+                    <Popup
+                        name={name}
+                        desc={desc}
+                        href={href}
+                        categories={categories}
+                        price={price}
+                        priceWithoutDiscount={priceWithoutDiscount}
+                        deactivatePopup={deactivatePopup}
+                    />
                 ) : null}
                 {view === 'defaultLg' || view === 'popular' ? (
                     <div className={s.fav}>
@@ -370,6 +239,6 @@ export const ProductCard = ({
                     </button>
                 ) : null}
             </div>
-        </ClippedContainer>
+        </WithClip>
     )
 }
