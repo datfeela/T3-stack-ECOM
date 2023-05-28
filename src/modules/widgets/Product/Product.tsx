@@ -16,6 +16,7 @@ import { useScrollProductToTop } from './hooks/useScrollProductToTop'
 
 export const Product = ({ productData }: { productData: ProductPageProps }) => {
     useScrollProductToTop()
+
     const {
         // shared
         id,
@@ -101,19 +102,26 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
         productName: name,
     }
 
+    const isDesktopRes =
+        !matchMedia || (!!matchMedia && (matchMedia.isMore1200 || matchMedia.isMore1440))
+    const isMainContentDisplayed = !commentsReviewMode && !recommendedGamesMode
+    const isRecommendedDisplayed = !commentsReviewMode && recommendedGamesMode
+    const isCommentsDisplayed = commentsReviewMode && !recommendedGamesMode
+    const shouldDisplayFeatures = (!!features && features.length > 0) || (!!tags && tags.length > 0)
+
     return (
         <>
             <Head>
                 <title>
-                    {!commentsReviewMode && !recommendedGamesMode
-                        ? `Buy ${productData.name} | T3-Ecom`
+                    {isMainContentDisplayed ? `Buy ${productData.name} | T3-Ecom` : null}
+                    {isCommentsDisplayed ? `${productData.name} | Reviews | T3-Ecom` : null}
+                    {isRecommendedDisplayed
+                        ? `${productData.name} | Similar Games | T3-Ecom`
                         : null}
-                    {commentsReviewMode ? `${productData.name} | Reviews | T3-Ecom` : null}
-                    {recommendedGamesMode ? `${productData.name} | Similar Games | T3-Ecom` : null}
                 </title>
             </Head>
             <Header {...headerProps} />
-            {!commentsReviewMode && !recommendedGamesMode ? (
+            {isMainContentDisplayed ? (
                 <>
                     <div className='wrap'>
                         <h2 className={s.title}>About the game</h2>
@@ -123,15 +131,17 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
                         </div>
                     </div>
                     <div className='wrap'>
-                        {matchMedia && (matchMedia.isMore1200 || matchMedia.isMore1440) ? (
+                        {isDesktopRes ? (
                             <>
                                 <div className={`${s.gridRow} ${s.sysReqRow}`}>
                                     <h2 className={s.title}>System requirements</h2>
-                                    <h2 className={s.title}>Features</h2>
+                                    {shouldDisplayFeatures ? (
+                                        <h2 className={s.title}>Features</h2>
+                                    ) : null}
                                 </div>
                                 <div className={`${s.gridRow} ${s.sysReqRow}`}>
                                     <SystemRequirements {...systemReqProps} />
-                                    <Tags {...tagsProps} />
+                                    {shouldDisplayFeatures ? <Tags {...tagsProps} /> : null}
                                 </div>
                             </>
                         ) : (
@@ -140,10 +150,12 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
                                     <h2 className={s.title}>System requirements</h2>
                                     <SystemRequirements {...systemReqProps} />
                                 </div>
-                                <div>
-                                    <h2 className={s.title}>Features</h2>
-                                    <Tags {...tagsProps} />
-                                </div>
+                                {shouldDisplayFeatures ? (
+                                    <div>
+                                        <h2 className={s.title}>Features</h2>
+                                        <Tags {...tagsProps} />
+                                    </div>
+                                ) : null}
                             </div>
                         )}
                     </div>
@@ -152,10 +164,8 @@ export const Product = ({ productData }: { productData: ProductPageProps }) => {
                     <RecommendedGames {...recommendedGamesProps} />
                 </>
             ) : null}
-            {!commentsReviewMode && recommendedGamesMode ? (
-                <RecommendedGames {...recommendedGamesProps} />
-            ) : null}
-            {commentsReviewMode && !recommendedGamesMode ? <Reviews {...reviewsProps} /> : null}
+            {isRecommendedDisplayed ? <RecommendedGames {...recommendedGamesProps} /> : null}
+            {isCommentsDisplayed ? <Reviews {...reviewsProps} /> : null}
         </>
     )
 }
