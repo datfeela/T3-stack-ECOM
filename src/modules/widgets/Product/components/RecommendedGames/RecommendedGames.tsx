@@ -1,4 +1,4 @@
-import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
+import { ProductCard } from '~/modules/shared/components/ProductCard'
 import { useRecommendedProducts } from '../../hooks/useRecommendedProducts'
 import s from './RecommendedGames.module.scss'
 

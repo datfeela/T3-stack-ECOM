@@ -1,7 +1,7 @@
 import type { ProductFromApiDefault } from '~/modules/entities/product'
 import s from './PopularProducts.module.scss'
 import { mapDataFromApi } from './mappers/mapDataFromApi'
-import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
+import { ProductCard } from '~/modules/shared/components/ProductCard'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 import Image from '~/modules/shared/components/Image/Image'

@@ -1,4 +1,4 @@
-import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
+import { ProductCard } from '~/modules/shared/components/ProductCard'
 import s from './RelatedGames.module.scss'
 
 import { Swiper, SwiperSlide } from 'swiper/react'

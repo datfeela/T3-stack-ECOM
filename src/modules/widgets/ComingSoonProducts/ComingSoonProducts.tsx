@@ -1,7 +1,7 @@
 import type { ProductFromApiDefault } from '~/modules/entities/product'
 import s from './ComingSoonProducts.module.scss'
 import { mapProductsDataFromApi } from './mappers/mapProductDataFromApi'
-import { ProductCard } from '~/modules/shared/components/ProductCard/ProductCard'
+import { ProductCard } from '~/modules/shared/components/ProductCard'
 import { TitleDecorative } from '~/modules/shared/components/TitleDecorative/TitleDecorative'
 import Image from '~/modules/shared/components/Image/Image'
 
