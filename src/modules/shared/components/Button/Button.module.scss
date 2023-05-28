@@ -52,7 +52,7 @@
 
     @media all and (max-width: 768px) {
         height: 32px;
-        min-width: 120px;
+        // min-width: 120px;
         padding: 10px 15px;
 
         clip-path: polygon(
@@ -192,6 +192,14 @@
 
         @media all and (max-width: 1200px) {
             height: 42px;
+        }
+    }
+
+    &_xsHeight {
+        height: 36px;
+
+        @media all and (max-width: 1200px) {
+            height: 34px;
         }
     }
 

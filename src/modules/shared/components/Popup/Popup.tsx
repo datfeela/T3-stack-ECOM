@@ -2,6 +2,7 @@ import { type MouseEvent, useRef, useEffect, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
 import s from './Popup.module.scss'
+import { useBodyNoScroll } from '../../hooks/useBodyNoScroll'
 
 export interface PopupProps {
     isPopupActive: boolean
@@ -22,17 +23,7 @@ const Popup = ({ isPopupActive, deactivatePopup, children, size }: PopupProps) =
         else setIsWideScreen(false)
     }, [height, width, isPopupActive])
 
-    useEffect(() => {
-        if (!document) return
-        const bodyRef = document.body
-
-        if (isPopupActive && !bodyRef.classList.contains('no-scroll')) {
-            bodyRef.classList.add('no-scroll')
-        }
-        if (!isPopupActive && bodyRef.classList.contains('no-scroll')) {
-            bodyRef.classList.remove('no-scroll')
-        }
-    }, [isPopupActive])
+    useBodyNoScroll(isPopupActive)
     //
 
     const handleClick = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {

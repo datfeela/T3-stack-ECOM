@@ -346,10 +346,15 @@
             @media all and (max-width: 1200px) {
                 font-size: 15px;
                 min-height: 45px;
+                padding-right: 30px;
             }
 
             @media all and (min-width: 768px) and (max-width: 850px) {
                 white-space: normal;
+            }
+
+            @media all and (max-width: 480px) {
+                padding-right: 0;
             }
         }
 
@@ -504,6 +509,41 @@
     }
 
     &_search {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-gap: 12px;
+        padding: 20px 40px 20px 20px;
+
+        .name {
+            white-space: normal;
+
+            font-weight: 400;
+            font-size: 18px;
+
+            @media all and (max-width: 900px) {
+                font-size: 16px;
+            }
+        }
+
+        .priceBlock {
+            justify-content: flex-end;
+        }
+
+        .priceBlockInner {
+            width: fit-content;
+        }
+
+        .price {
+            @include price-main-md;
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        .priceWithoutDiscount {
+            @include price-discount-md;
+            font-weight: 400;
+            font-size: 18px;
+        }
     }
 }
 

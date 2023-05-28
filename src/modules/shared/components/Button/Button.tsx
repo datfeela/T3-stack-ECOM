@@ -13,7 +13,7 @@ interface ButtonProps<El extends ElementType = ElementType> {
     // visual customization
     color?: DefaultColor
     width?: 'sm' | 'default' | 'wide'
-    height?: 'sm' | 'default' | 'lg'
+    height?: 'xs' | 'sm' | 'default' | 'lg'
     fontW?: '400' | '500' | '600' | '700'
     fontSize?: 'default' | 'md' | 'lg'
     withDecorative?: boolean
@@ -95,6 +95,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     }
     width === 'wide' && (clName += ' ' + s.button_wide)
     width === 'sm' && (clName += ' ' + s.button_small)
+    height === 'xs' && (clName += ' ' + s.button_xsHeight)
     height === 'sm' && (clName += ' ' + s.button_smHeight)
     height === 'lg' && (clName += ' ' + s.button_lgHeight)
     fontSize === 'md' && (clName += ' ' + s.button_fontMd)

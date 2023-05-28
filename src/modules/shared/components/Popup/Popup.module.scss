@@ -15,7 +15,7 @@
 
     opacity: 0;
     visibility: hidden;
-    background: rgba($color: #1e1e1e, $alpha: 0.7);
+    background: $popupBg;
 
     &_visible {
         opacity: 1;
@@ -27,9 +27,12 @@
     position: relative;
     max-height: $popupMaxHeight;
     max-width: $popupMaxWidth;
-    right: 8px;
     margin-top: 30px;
     width: calc(100% - 16px);
+
+    @media all and (max-width: 1500px) {
+        width: 100%;
+    }
 
     &_wide {
         max-height: 100vh;

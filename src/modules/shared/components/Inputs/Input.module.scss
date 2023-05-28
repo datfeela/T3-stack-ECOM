@@ -3,6 +3,10 @@
 
 .inputWrap {
     padding: 10px 0 5px 0;
+
+    &_blackWhite {
+        padding: 0;
+    }
 }
 
 .inputEditable__wrapOuter {
@@ -176,33 +180,25 @@
         }
     }
 
-    @media (max-width: 680px) {
-        // font-size: 14px;
-        // padding: 0px 7px;
-        // border-bottom: 2px solid;
-        // border-color: $green600;
+    &.input_blackWhite {
+        height: fit-content;
+        border: 1px solid #ffffff;
+        border-radius: 0;
+        padding: 7px 40px 7px 15px;
+        margin: 0;
+        background: transparent;
+        font-size: 15px;
+        line-height: 125%;
 
-        // &.textarea {
-        //     // margin-top: 7px;
-        //     // padding-bottom: 7px;
-        //     padding: 7px;
-        // }
+        &:hover {
+            background: transparent !important;
+            border: 1px solid #ffffff !important;
+        }
 
-        // &:focus {
-        //     border-color: $green500 !important;
-        // }
-        // &:hover {
-        //     border-color: #000;
-        // }
-        // &_withIcon {
-        //     padding-left: 32px !important;
-        // }
-        // &_touched {
-        //     border-color: #000;
-        // }
-        // &_error {
-        //     border-color: $red500;
-        // }
+        &:focus {
+            background: rgba($color: $purple, $alpha: 0.5) !important;
+            border: 1px solid $purple !important;
+        }
     }
 }
 
