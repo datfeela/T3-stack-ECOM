@@ -1,24 +1,7 @@
 import { type CSSProperties, useEffect, useState } from 'react'
-import type { DefaultColor } from '../../types/types'
 import s from './ClippedContainer.module.scss'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
-
-type Corner = 'topLeft' | 'topRight' | 'botRight' | 'botLeft'
-
-export interface ClippedContainerProps {
-    width?: 'full' | 'fit'
-    height?: 'full' | 'fit'
-    clipSize?: 'sm' | 'md' | 'lg'
-    color?: DefaultColor
-    borderColor?: DefaultColor
-    borderColorHover?: DefaultColor
-    children: React.ReactNode
-    corners?: { [key in Corner]?: boolean }
-    borders?: boolean
-    withPadding?: boolean
-    background?: boolean
-    backdropFilter?: boolean
-}
+import type { ClippedContainerProps, Corner } from './types'
 
 export const ClippedContainer = ({
     color = 'purple',

@@ -1,0 +1,224 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    position: absolute;
+    left: -2px;
+    top: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    @media all and (max-width: 960px) {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &_expanded {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.content {
+    position: relative;
+    width: 100vw;
+    max-width: calc($appMaxWidth - $headerPaddingX);
+    padding: 15px 17% 30px 17%;
+    background: rgba($color: $headerBg, $alpha: 0.5);
+    backdrop-filter: blur(5px);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media all and (max-width: 1280px) {
+        max-width: calc(100vw - 120px);
+    }
+
+    @media all and (max-width: 960px) {
+        background: unset;
+        backdrop-filter: unset;
+        max-width: 100%;
+        padding: 14px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.item {
+    cursor: pointer;
+    padding: 0 40px;
+    font-family: 'Orbitron';
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 125%;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 960px) {
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 8px;
+        border-bottom: 1px solid $purple;
+    }
+
+    &:hover,
+    &_active {
+        span {
+            color: $blueLight;
+        }
+
+        svg {
+            fill: $blueLight;
+        }
+    }
+}
+
+.expandBtn {
+    position: relative;
+    top: 2px;
+    right: 4px;
+    height: 100%;
+    aspect-ratio: 1 / 1 !important;
+    display: none;
+
+    @media all and (max-width: 960px) {
+        display: block;
+    }
+
+    svg {
+        width: 20px;
+        fill: #fff;
+        transform: rotate(180deg);
+    }
+
+    &_reversed {
+        svg {
+            transform: unset;
+        }
+    }
+}
+
+.sublistWrap {
+    width: 100%;
+    display: none;
+
+    @media all and (max-width: 960px) {
+        @include animated-height-hidden;
+    }
+
+    &_active {
+        @media all and (max-width: 960px) {
+            @include animated-height-visible;
+            border-bottom: 1px solid $purple;
+
+            .sublist {
+                padding: 8px;
+            }
+        }
+    }
+}
+
+.sublist {
+    transition: 0.3s;
+    padding: 0 8px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 8px 12px;
+    align-items: center;
+
+    @media all and (max-width: 480px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media all and (max-width: 360px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sublink {
+    height: fit-content;
+    width: 100%;
+    text-transform: capitalize;
+    font-family: 'Orbitron';
+
+    @media all and (max-width: 960px) {
+        font-size: 14px;
+    }
+
+    &:hover {
+        color: $blueLight;
+
+        svg {
+            fill: $blueLight;
+        }
+    }
+
+    &_withIcon {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        grid-gap: 10px;
+        align-items: center;
+
+        @media all and (max-width: 960px) {
+            grid-template-columns: 20px 1fr;
+            grid-gap: 5px;
+        }
+
+        svg {
+            display: block;
+            max-height: 20px;
+            width: fit-content;
+            fill: #fff;
+
+            @media all and (max-width: 960px) {
+                max-height: 14px;
+            }
+        }
+    }
+}
+
+.popup {
+    width: 66%;
+    position: relative;
+    top: -2px;
+    left: 17%;
+    display: none;
+
+    @media all and (max-width: 1200px) {
+        left: 6%;
+        width: 88%;
+    }
+
+    &_active {
+        display: block;
+
+        @media all and (max-width: 960px) {
+            display: none;
+        }
+    }
+
+    &__content {
+        padding: 10px 40px 30px 40px;
+        background: rgba($color: $headerBg, $alpha: 0.5);
+        backdrop-filter: blur(5px);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        grid-gap: 25px;
+        justify-items: center;
+
+        .sublink {
+            width: fit-content;
+            text-align: center;
+        }
+    }
+}

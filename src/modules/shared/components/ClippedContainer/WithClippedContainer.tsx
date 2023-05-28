@@ -1,16 +1,12 @@
 import { ClippedContainer } from './ClippedContainer'
+import type { WithClippedContainerProps } from './types'
 
-interface WithClippedContainerProps {
-    withContainer: boolean
-    children: React.ReactNode
-}
-
-export const WithClippedContainer = ({ children, withContainer }: WithClippedContainerProps) => {
+export const WithClippedContainer = ({
+    children,
+    withContainer,
+    ...props
+}: WithClippedContainerProps) => {
     if (!withContainer) return <>{children}</>
 
-    return (
-        <ClippedContainer backdropFilter={true} corners={{ botLeft: true }} clipSize='sm'>
-            {children}
-        </ClippedContainer>
-    )
+    return <ClippedContainer {...props}>{children}</ClippedContainer>
 }

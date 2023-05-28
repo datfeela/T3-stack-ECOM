@@ -173,6 +173,84 @@
     }
 }
 
+// header
+@mixin popup-bg {
+    position: absolute;
+    height: 120vh;
+    width: 300vw;
+    top: 100%;
+    left: -100vw;
+    background: rgba($color: #1e1e1e, $alpha: 0.7);
+    z-index: 6;
+    backdrop-filter: blur(4px);
+}
+
+@mixin header-link {
+    font-family: 'Orbitron';
+    font-size: 18px;
+    padding: 0.5rem 0.6rem;
+
+    @media all and (max-width: 600px) {
+        font-size: 16px;
+        padding: 0.4rem;
+    }
+}
+
+@mixin header-item-active {
+    margin: -1.25rem calc(-1rem - 2px) calc(2px - $headerPaddingBot) calc(-1rem - 2px);
+    border: 2px solid #710fad;
+    border-bottom: unset;
+    top: 0px;
+    background: rgba(113, 15, 173, 0.15);
+
+    @media all and (max-width: 1200px) {
+        margin: -0.9rem calc(-0.5rem - 2px) calc(2px - $headerPaddingBot) calc(-0.5rem - 2px);
+    }
+}
+
+@mixin header-item-active-padding {
+    padding: 1.25rem 1rem calc($headerPaddingBot - 2px) 1rem;
+
+    @media all and (max-width: 1200px) {
+        padding: 0.9rem 0.5rem calc($headerPaddingBot - 2px) 0.5rem;
+    }
+}
+
+// admin
+
+@mixin admin-products-grid {
+    display: grid;
+    align-items: center;
+    grid-gap: 25px;
+    grid-template-columns: 100px 2fr 1fr 1fr 60px 55px;
+    padding: 0 15px;
+}
+
+@mixin admin-orders-grid {
+    padding: 0 20px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: 280px 1fr 2fr repeat(4, 1fr);
+    align-items: center;
+
+    span {
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
+@mixin admin-order-grid {
+    display: grid;
+    grid-template-columns: 80px 2fr repeat(5, 1fr);
+    align-items: center;
+    gap: 1rem;
+
+    span {
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
 // shared
 
 @mixin semi-transparent-bg {
@@ -223,37 +301,28 @@
     }
 }
 
-// admin
-
-@mixin admin-products-grid {
-    display: grid;
-    align-items: center;
-    grid-gap: 25px;
-    grid-template-columns: 100px 2fr 1fr 1fr 60px 55px;
-    padding: 0 15px;
+@mixin purple-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: $headerBg;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $purple;
+    }
 }
 
-@mixin admin-orders-grid {
-    padding: 0 20px;
-    gap: 10px;
+@mixin animated-height-hidden {
     display: grid;
-    grid-template-columns: 280px 1fr 2fr repeat(4, 1fr);
-    align-items: center;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s;
 
-    span {
-        word-wrap: break-word;
+    & > div {
         overflow: hidden;
     }
 }
 
-@mixin admin-order-grid {
-    display: grid;
-    grid-template-columns: 80px 2fr repeat(5, 1fr);
-    align-items: center;
-    gap: 1rem;
-
-    span {
-        word-wrap: break-word;
-        overflow: hidden;
-    }
+@mixin animated-height-visible {
+    grid-template-rows: 1fr;
 }

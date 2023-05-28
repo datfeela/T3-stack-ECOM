@@ -1,0 +1,24 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.btn {
+    margin: 16px 0 0 auto;
+}
+
+// .btn {
+//     font-family: 'Tomorrow';
+//     line-height: 150%;
+//     color: rgba($color: #fff, $alpha: 0.7);
+//     font-size: 18px;
+//     width: fit-content;
+//     display: block;
+//     margin-left: auto;
+//     margin-top: 20px;
+
+//     @media all and (max-width: 600px) {
+//         font-size: 16px;
+//     }
+
+//     &:hover {
+//         color: #fff;
+//     }
+// }

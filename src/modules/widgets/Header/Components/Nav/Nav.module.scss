@@ -1,0 +1,115 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.nav {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+
+    @media all and (max-width: 1200px) {
+        justify-content: space-evenly;
+    }
+
+    @media all and (max-width: 960px) {
+        margin-top: 5px;
+        flex-direction: column;
+        gap: 6px;
+
+        &__item {
+            @include header-link;
+            display: block;
+            width: 100%;
+            background: $purple;
+        }
+    }
+
+    &__item {
+        font-family: 'Orbitron';
+        cursor: pointer;
+
+        &:hover {
+            color: $blueLight;
+            & > span {
+                color: $blueLight;
+            }
+
+            .catalogBtn {
+                svg {
+                    fill: $blueLight;
+                }
+            }
+        }
+    }
+}
+
+.catalogWrap {
+    position: relative;
+
+    &_expanded {
+        @media all and (max-width: 960px) {
+            .catalogContent {
+                @include animated-height-visible;
+            }
+        }
+
+        @media all and (min-width: 961px) {
+            @include header-item-active;
+        }
+
+        .nav__item {
+            @media all and (min-width: 961px) {
+                @include header-item-active-padding;
+            }
+
+            & > span {
+                color: $blueLight !important;
+            }
+        }
+
+        .catalogBtn {
+            svg {
+                fill: $blueLight;
+            }
+        }
+    }
+
+    @media all and (max-width: 960px) {
+        width: 100%;
+
+        .nav__item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}
+
+.catalogContent {
+    @include animated-height-hidden;
+}
+
+.catalogBtn {
+    position: relative;
+    top: 2px;
+    right: 4px;
+    height: 100%;
+    aspect-ratio: 1 / 1 !important;
+    display: none;
+
+    @media all and (max-width: 960px) {
+        display: block;
+    }
+
+    svg {
+        width: 20px;
+        fill: #fff;
+        transform: rotate(180deg);
+    }
+
+    &_reversed {
+        svg {
+            transform: unset;
+        }
+    }
+}

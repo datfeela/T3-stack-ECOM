@@ -1,0 +1,54 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    position: relative;
+    flex-shrink: 0;
+
+    @media all and (max-width: 960px) {
+        position: static;
+    }
+
+    &_active {
+        @include header-item-active;
+
+        .headerWrap {
+            @include header-item-active-padding;
+        }
+
+        .popup {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.popup {
+    opacity: 0;
+    visibility: hidden;
+
+    position: absolute;
+    top: 100%;
+    right: -2px;
+
+    width: fit-content;
+
+    @media all and (max-width: 960px) {
+        position: static;
+        top: unset;
+        right: unset;
+        opacity: 1;
+        visibility: visible;
+        width: 100%;
+    }
+
+    &__content {
+        width: 270px;
+
+        @media all and (max-width: 960px) {
+            padding: 1.25rem 1rem 1.25rem 1rem;
+            width: 100%;
+            padding: 0;
+        }
+    }
+}

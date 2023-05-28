@@ -31,7 +31,7 @@ aside {
 }
 html,
 body {
-    background: #fff;
+    background: $background;
     height: 100%;
     width: 100%;
     min-height: 100%;
@@ -42,7 +42,7 @@ body {
     -webkit-text-size-adjust: 100%;
     font-family: 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
     overflow-x: clip;
-    // overflow-x: hidden;
+    overflow-y: initial;
 }
 body {
     font-size: 16px;
@@ -108,9 +108,18 @@ h6 {
     color: #ffffff;
 }
 
-main {
-    background: $background;
+#__next {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main {
+    flex-grow: 1;
+    flex-shrink: 0;
+    background: $background;
+    min-height: 100%;
 }
 
 .wrap {
@@ -202,8 +211,12 @@ h3 {
 }
 
 // noscroll for popup
-body.no-scroll {
+html.no-scroll {
     height: 100vh;
     overflow-y: hidden;
     padding-right: 16px;
+
+    @media all and (max-width: 960px) {
+        padding-right: 0;
+    }
 }

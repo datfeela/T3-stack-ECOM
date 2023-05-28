@@ -2,6 +2,10 @@
 $background: #25212b;
 $fontColor: #fff;
 $headerBg: #1d1a21;
+$popupBg: rgba(
+    $color: #1e1e1e,
+    $alpha: 0.7,
+);
 
 $grey: rgba(
     $color: #fff,
@@ -38,6 +42,11 @@ $breadcrumbsHeight600: 0px;
 
 $mdContainerPadding: 1.5rem 1rem;
 $smContainerPadding: 1rem;
+
+$headerPaddingBot: 21px;
+$headerPaddingBot960: 14px;
+$headerPaddingX: 30px;
+$headerPaddingX1200: 20px;
 
 // admin layout
 

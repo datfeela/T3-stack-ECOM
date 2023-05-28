@@ -1,34 +1,41 @@
 @import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .wrap {
     position: relative;
-    height: 100%;
-    top: 1px;
 
     &_active {
-        border: 2px solid #710fad;
-        border-bottom: unset;
-        top: 0px;
-        background: rgba(113, 15, 173, 0.15);
+        @media all and (min-width: 961px) {
+            @include header-item-active;
 
-        .header {
-            padding: 1.5rem 1rem;
-        }
+            .header {
+                @include header-item-active-padding;
+            }
 
-        .popup {
-            opacity: 1;
-            visibility: visible;
+            .popup {
+                opacity: 1;
+                visibility: visible;
+            }
         }
     }
 }
 
 .header {
     display: block;
-    height: 100%;
-    padding: 25px 18px;
 
-    display: flex;
-    align-items: center;
+    @media all and (max-width: 960px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            @include semi-transparent-bg;
+
+            .title {
+                color: $blueLight;
+            }
+        }
+    }
 
     &_active {
         cursor: pointer;
@@ -36,6 +43,9 @@
 
     &__icon {
         position: relative;
+        height: 32px;
+        width: 32px;
+        padding-top: 3px;
 
         &:hover {
             svg {
@@ -44,13 +54,15 @@
         }
 
         svg {
+            height: 100%;
+            width: 100%;
             fill: #fff;
         }
 
         span {
             user-select: none;
             position: absolute;
-            top: -11px;
+            top: -8px;
             left: -2px;
 
             display: flex;
@@ -70,6 +82,31 @@
                 fill: $blueLight;
             }
         }
+
+        @media all and (max-width: 960px) {
+            svg {
+                display: none;
+            }
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            span {
+                position: static;
+                height: 20px;
+                width: 20px;
+            }
+        }
+    }
+}
+
+.title {
+    display: none;
+
+    @media all and (max-width: 960px) {
+        display: block;
+        @include header-link;
     }
 }
 
@@ -113,6 +150,10 @@
 
     @media all and (max-width: 1500px) {
         right: -2px;
+    }
+
+    @media all and (max-width: 960px) {
+        display: none;
     }
 }
 
