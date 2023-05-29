@@ -148,6 +148,43 @@ main {
     }
 }
 
+.wrapTextPage {
+    h1,
+    h2,
+    h3 {
+        font-family: 'Ubuntu';
+        margin-top: 25px;
+
+        @media all and (max-width: 1200px) {
+            margin-top: 20px;
+        }
+
+        @media all and (max-width: 768px) {
+            margin-top: 15px;
+        }
+    }
+
+    p {
+        margin: 16px 0;
+
+        @media all and (max-width: 1200px) {
+            margin: 12px 0;
+        }
+
+        @media all and (max-width: 768px) {
+            margin: 8px 0;
+        }
+    }
+
+    a {
+        text-decoration: underline;
+
+        &:hover {
+            color: $blueLight;
+        }
+    }
+}
+
 h1 {
     font-size: 40px;
     margin-bottom: 30px;

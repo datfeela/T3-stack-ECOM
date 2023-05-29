@@ -1,0 +1,51 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    width: 600px;
+    position: fixed;
+    bottom: 20px;
+    left: calc(50vw - 300px);
+    padding: 20px;
+    background: rgba($color: $headerBg, $alpha: 0.8);
+    border: 1px solid $purple;
+    backdrop-filter: blur(4px);
+    z-index: 6;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    @media all and (max-width: 720px) {
+        width: 60vw;
+        left: 20vw;
+        flex-direction: column;
+    }
+
+    @media all and (max-width: 480px) {
+        width: calc(90vw - 16px);
+        left: 5vw;
+    }
+
+    &_hidden {
+        display: none;
+    }
+}
+
+.left {
+    span,
+    a {
+        display: block;
+        margin-bottom: 10px;
+        font-family: 'Orbitron';
+
+        @media all and (max-width: 720px) {
+            text-align: center;
+        }
+    }
+    a {
+        &:hover {
+            color: $blueLight;
+        }
+    }
+}
