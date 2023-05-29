@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { GlobalReducerActionKind } from '~/modules/app'
+import { GlobalReducerActionKind } from '~/modules/app/context'
 import { ButtonDefault } from '~/modules/shared/components/Button/Button'
 import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 

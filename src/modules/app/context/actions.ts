@@ -1,4 +1,4 @@
-import type { DeleteAllProductsActionFn, SingleProductActionFn } from '../types/storeTypes'
+import type { DeleteAllProductsActionFn, SingleProductActionFn } from './types/storeTypes'
 
 export const incrementProductQuantity: SingleProductActionFn = ({ state, productId }) => {
     const productQuantity = state.products[productId]

@@ -42,20 +42,17 @@ export const useBodyNoScroll = (shouldBeNoScroll: boolean) => {
                 bodyRef.classList.contains('isOpening') &&
                 bodyRef.classList.contains('isClosing')
             ) {
-                console.log('openclose')
                 bodyRef.classList.add('no-scroll')
                 bodyRef.classList.remove('isClosing')
                 bodyRef.classList.remove('isOpening')
             }
 
             if (bodyRef.classList.contains('isClosing')) {
-                console.log('close')
                 bodyRef.classList.remove('no-scroll')
                 bodyRef.classList.remove('isClosing')
             }
 
             if (bodyRef.classList.contains('isOpening')) {
-                console.log('open')
                 bodyRef.classList.add('no-scroll')
                 bodyRef.classList.remove('isOpening')
             }

@@ -1,9 +1,9 @@
 'use client'
 
 import { createContext, useReducer } from 'react'
-import type { ContextProps, GlobalReducerAction, GlobalState } from '../types/storeTypes'
+import type { ContextProps, GlobalReducerAction, GlobalState } from './types/storeTypes'
 
-import { GlobalReducerActionKind } from '../types/storeTypes'
+import { GlobalReducerActionKind } from './types/storeTypes'
 import {
     decrementProductQuantity,
     deleteAllProducts,

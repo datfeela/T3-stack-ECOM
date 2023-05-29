@@ -1,7 +1,7 @@
 import { api } from '~/modules/shared/api/apiTRPC'
 import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
-import { GlobalReducerActionKind } from '~/modules/app'
 import { mapCartProductDataFromApi } from '../mappers/mapCartProductDataFromApi'
+import { GlobalReducerActionKind } from '~/modules/app/context'
 
 export const useProductsInCart = () => {
     const { state, dispatch } = useGlobalContext()

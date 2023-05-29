@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { GlobalReducerActionKind } from '~/modules/app'
+import { GlobalReducerActionKind } from '~/modules/app/context'
 import { api } from '~/modules/shared/api/apiTRPC'
 import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { GlobalReducerActionKind } from '~/modules/app'
+import { GlobalReducerActionKind } from '~/modules/app/context'
 import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 
 export const useInitializeCart = () => {

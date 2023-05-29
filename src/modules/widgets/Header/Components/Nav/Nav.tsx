@@ -12,8 +12,6 @@ export const Nav = () => {
 
     const catalogWrapRef = useHandleCloseHeaderPopup({
         close: () => {
-            console.log(matchMedia)
-
             if (
                 matchMedia &&
                 (matchMedia.isLess480 || matchMedia.isMore480 || matchMedia.isMore768)
