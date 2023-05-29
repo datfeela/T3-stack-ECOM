@@ -469,24 +469,3 @@ async function disconnectProductFromCategory({
         throw e
     }
 }
-
-// async function deleteProductCharacteristics(productId: string) {
-//     try {
-//         await prisma.product.update({
-//             where: {
-//                 id: productId,
-//             },
-//             data: {
-//                 characteristics: {
-//                     deleteMany: {},
-//                 },
-//                 filters: {
-//                     deleteMany: {},
-//                 },
-//             },
-//         })
-//     } catch (e) {
-//         console.log(`ERROR! can't delete product characteristics!`, e)
-//         throw e
-//     }
-// }

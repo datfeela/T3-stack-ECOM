@@ -46,7 +46,7 @@ export const getProductMainDataByIdProcedure = publicProcedure
 
 export const getManyProducts = publicProcedure
     .input(getManyProductsInputSchema)
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
         const { quantity, searchQuery, sortBy, comingSoon, onSale, cursor } = input
         const query = searchQuery ? searchQuery : ''
 
@@ -72,102 +72,27 @@ export const getRecommendedProductsForProduct = publicProcedure
             quantity: z.number(),
         }),
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
         const { productId, quantity } = input
 
         try {
-            const product = await prisma.product.findUnique({
-                where: {
-                    id: productId,
-                },
-                select: {
-                    filters: { include: { values: true } },
-                    categories: true,
-                    negativeScoresCount: true,
-                    positiveScoresCount: true,
-                    popularity: true,
-                },
-            })
+            const productData = await getProductDataForRecommendations(productId)
+            if (!productData) return
 
-            if (!product) return
-
-            // map data
-
-            const { categories: categoriesData, filters } = product
-            const publisherData = filters.find((el) => el.name === 'publisher')
-
-            const categories = categoriesData.map((el) => el.name)
-            const publisher =
-                publisherData?.values && publisherData?.values.length > 0
-                    ? publisherData.values[0]?.value
-                    : undefined
+            const { publisher, categories } = productData
 
             // get related products
-            const publisherRelatedProductsPromise = publisher
-                ? prisma.product.findMany({
-                      include: {
-                          detailPageImages: true,
-                      },
-                      take: quantity,
-                      where: {
-                          AND: [
-                              {
-                                  filters: {
-                                      some: {
-                                          values: {
-                                              some: {
-                                                  value: {
-                                                      equals: publisher,
-                                                      mode: 'insensitive',
-                                                  },
-                                              },
-                                          },
-                                      },
-                                  },
-                              },
-                              {
-                                  id: {
-                                      not: {
-                                          equals: productId,
-                                      },
-                                  },
-                              },
-                          ],
-                      },
-                      orderBy: {
-                          popularity: 'desc',
-                      },
-                  })
-                : undefined
+            const publisherRelatedProductsPromise = getPublisherRelatedProducts({
+                productId,
+                quantity,
+                publisher,
+            })
 
-            const categoriesRelatedProductsPromise = publisher
-                ? prisma.product.findMany({
-                      include: {
-                          detailPageImages: true,
-                      },
-                      take: quantity,
-                      where: {
-                          OR: categories.map((catName) => ({
-                              categories: {
-                                  some: {
-                                      name: {
-                                          equals: catName,
-                                          mode: 'insensitive',
-                                      },
-                                  },
-                              },
-                          })),
-                          NOT: {
-                              id: {
-                                  equals: productId,
-                              },
-                          },
-                      },
-                      orderBy: {
-                          popularity: 'desc',
-                      },
-                  })
-                : undefined
+            const categoriesRelatedProductsPromise = getCategoriesRelatedProducts({
+                productId,
+                quantity,
+                categories,
+            })
 
             const [categoriesRelatedProducts, publisherRelatedProducts] = await Promise.all([
                 categoriesRelatedProductsPromise,
@@ -199,58 +124,25 @@ export const getRelatedProducts = publicProcedure
             relatedGamesIds: z.array(z.string()).optional(),
         }),
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
         const { productId, originalGameId, relatedGamesIds } = input
 
         try {
-            let productsToReturn = [] as (Product & {
+            const productsToReturn = [] as (Product & {
                 detailPageImages: ProductImagePath[]
             })[]
 
             if (originalGameId) {
-                const originalProduct = await prisma.product.findUnique({
-                    where: {
-                        id: originalGameId,
-                    },
-                    include: {
-                        detailPageImages: true,
-                        relatedGames: {
-                            include: {
-                                detailPageImages: true,
-                            },
-                        },
-                    },
+                const productsData = await getRelatedProductsDataByOriginalProductId({
+                    productId,
+                    originalGameId,
                 })
 
-                if (originalProduct) {
-                    const { relatedGames, ...rest } = originalProduct
-
-                    productsToReturn.push({ ...rest })
-                    productsToReturn.push(...relatedGames.filter((el) => el.id !== productId))
-                }
+                if (productsData) productsToReturn.push(...productsData)
             }
 
             if (relatedGamesIds) {
-                const productsPromises = [] as Prisma.Prisma__ProductClient<Product | null, null>[]
-
-                relatedGamesIds.forEach((id) => {
-                    const productPromise = prisma.product.findUnique({
-                        where: {
-                            id,
-                        },
-                        include: {
-                            detailPageImages: true,
-                        },
-                    })
-
-                    productsPromises.push(productPromise)
-                })
-
-                const products = (await Promise.all(productsPromises)).filter(
-                    (el) => el !== null,
-                ) as (Product & {
-                    detailPageImages: ProductImagePath[]
-                })[]
+                const products = await getRelatedProductsDataByRelatedGamesIds({ relatedGamesIds })
 
                 productsToReturn.push(...products)
             }
@@ -463,4 +355,187 @@ export async function getMainPageProducts_server() {
         console.log(`ERROR! getMainPageProducts:`, JSON.stringify(e))
         throw e
     }
+}
+
+async function getProductDataForRecommendations(productId: string) {
+    const product = await prisma.product.findUnique({
+        where: {
+            id: productId,
+        },
+        select: {
+            filters: { include: { values: true } },
+            categories: true,
+            negativeScoresCount: true,
+            positiveScoresCount: true,
+            popularity: true,
+        },
+    })
+
+    if (!product) return
+
+    // map data
+
+    const { categories: categoriesData, filters } = product
+    const publisherData = filters.find((el) => el.name === 'publisher')
+
+    const categories = categoriesData.map((el) => el.name)
+    const publisher =
+        publisherData?.values && publisherData?.values.length > 0
+            ? publisherData.values[0]?.value
+            : undefined
+
+    return { publisher, categories }
+}
+
+interface GetPublisherRelatedProductsProps {
+    productId: string
+    quantity: number
+    publisher?: string
+}
+
+function getPublisherRelatedProducts({
+    productId,
+    quantity,
+    publisher,
+}: GetPublisherRelatedProductsProps) {
+    const promise = publisher
+        ? prisma.product.findMany({
+              include: {
+                  detailPageImages: true,
+              },
+              take: quantity,
+              where: {
+                  AND: [
+                      {
+                          filters: {
+                              some: {
+                                  values: {
+                                      some: {
+                                          value: {
+                                              equals: publisher,
+                                              mode: 'insensitive',
+                                          },
+                                      },
+                                  },
+                              },
+                          },
+                      },
+                      {
+                          id: {
+                              not: {
+                                  equals: productId,
+                              },
+                          },
+                      },
+                  ],
+              },
+              orderBy: {
+                  popularity: 'desc',
+              },
+          })
+        : undefined
+
+    return promise
+}
+
+interface GetCategoriesRelatedProductsProps {
+    productId: string
+    quantity: number
+    categories: string[]
+}
+
+function getCategoriesRelatedProducts({
+    productId,
+    quantity,
+    categories,
+}: GetCategoriesRelatedProductsProps) {
+    const promise = prisma.product.findMany({
+        include: {
+            detailPageImages: true,
+        },
+        take: quantity,
+        where: {
+            OR: categories.map((catName) => ({
+                categories: {
+                    some: {
+                        name: {
+                            equals: catName,
+                            mode: 'insensitive',
+                        },
+                    },
+                },
+            })),
+            NOT: {
+                id: {
+                    equals: productId,
+                },
+            },
+        },
+        orderBy: {
+            popularity: 'desc',
+        },
+    })
+
+    return promise
+}
+
+interface GetRelatedProductsDataByOriginalProductIdProps {
+    originalGameId: string
+    productId: string
+}
+
+async function getRelatedProductsDataByOriginalProductId({
+    productId,
+    originalGameId,
+}: GetRelatedProductsDataByOriginalProductIdProps) {
+    const originalProduct = await prisma.product.findUnique({
+        where: {
+            id: originalGameId,
+        },
+        include: {
+            detailPageImages: true,
+            relatedGames: {
+                include: {
+                    detailPageImages: true,
+                },
+            },
+        },
+    })
+
+    if (originalProduct) {
+        const { relatedGames, ...rest } = originalProduct
+
+        return [{ ...rest }, ...relatedGames.filter((el) => el.id !== productId)]
+    }
+}
+
+interface GetRelatedProductsDataByRelatedGamesIdsProps {
+    relatedGamesIds: string[]
+}
+
+async function getRelatedProductsDataByRelatedGamesIds({
+    relatedGamesIds,
+}: GetRelatedProductsDataByRelatedGamesIdsProps) {
+    const productsPromises = [] as Prisma.Prisma__ProductClient<Product | null, null>[]
+
+    relatedGamesIds.forEach((id) => {
+        const productPromise = prisma.product.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                detailPageImages: true,
+            },
+        })
+
+        productsPromises.push(productPromise)
+    })
+
+    const products = (await Promise.all(productsPromises)).filter(
+        (el) => el !== null,
+    ) as (Product & {
+        detailPageImages: ProductImagePath[]
+    })[]
+
+    return products
 }

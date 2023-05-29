@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client'
 import { prisma } from '~/server/db'
 import { publicProcedure } from '../trpc'
 import { z } from 'zod'
