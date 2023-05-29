@@ -10,7 +10,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
     touched,
     type,
     changeHandler,
-    view,
+    view = 'default',
     ...props
 }) => {
     let inputClassname = s.input
@@ -22,7 +22,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
 
     return (
         <div className={`${s.inputWrap} ${view === 'blackWhite' ? s.inputWrap_blackWhite : ''}`}>
-            {title && <span className={s.title}>{title}</span>}
+            {title && <span className={`${s.title} ${s.title_md}`}>{title}</span>}
             <input
                 name={name}
                 className={inputClassname}

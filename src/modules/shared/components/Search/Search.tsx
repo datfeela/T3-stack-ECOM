@@ -18,7 +18,7 @@ export const Search = ({
     isLoading,
     inputName,
     value,
-    view,
+    view = 'default',
     onSubmit,
     onFocus,
 }: SearchProps) => {
@@ -32,7 +32,7 @@ export const Search = ({
                     changeHandler={(input) => {
                         handleChange(input)
                     }}
-                    view='blackWhite'
+                    view={view === 'header' ? 'blackWhite' : 'default'}
                     onFocus={onFocus}
                     autoComplete='off'
                 />

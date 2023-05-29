@@ -43,6 +43,10 @@
     display: block;
     margin-bottom: 10px;
     text-transform: capitalize;
+
+    &_md {
+        font-size: 20px;
+    }
 }
 
 .input {
