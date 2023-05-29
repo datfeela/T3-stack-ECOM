@@ -1,0 +1,31 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: flex;
+    gap: 27px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+
+    @media all and (max-width: 960px) {
+        gap: 10px;
+    }
+
+    @media all and (max-width: 768px) {
+        justify-content: flex-start;
+    }
+
+    @media all and (max-width: 540px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    a {
+        font-family: 'Orbitron';
+        text-decoration: underline;
+
+        &:hover {
+            color: $blueLight;
+        }
+    }
+}

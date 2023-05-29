@@ -1,0 +1,87 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    justify-items: center;
+
+    @media all and (max-width: 1200px) {
+        justify-items: flex-start;
+    }
+
+    @media all and (max-width: 600px) {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 15px;
+    }
+
+    @media all and (max-width: 420px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.column {
+}
+
+.link {
+    font-size: 20px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+
+    @media all and (max-width: 960px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 600px) {
+        font-size: 17px;
+    }
+
+    &:hover {
+        color: $blueLight;
+    }
+
+    &_noHref {
+        cursor: default;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
+.sublink {
+    display: block;
+    margin: 0 0 10px 0;
+
+    &:hover {
+        color: $blueLight;
+    }
+
+    &__icon {
+        display: inline-block;
+        margin: 0 13px 0 0;
+
+        &:hover {
+            svg {
+                fill: $blueLight;
+            }
+        }
+
+        &:last-child {
+            margin: 0;
+        }
+
+        &_stroke {
+            svg {
+                fill: none !important;
+                stroke: #fff;
+
+                &:hover {
+                    fill: none !important;
+                    stroke: $blueLight;
+                }
+            }
+        }
+    }
+}

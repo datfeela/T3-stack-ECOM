@@ -1,6 +1,5 @@
 import s from './Header.module.scss'
 import { Nav } from './Components/Nav/Nav'
-import { Logo } from './Components/Logo/Logo'
 import { Actions } from './Components/Actions/Actions'
 import { useScrollPosition } from '~/modules/shared/hooks/useScrollPosition'
 import { useRouter } from 'next/router'
@@ -9,6 +8,7 @@ import { HeaderAuth } from '~/modules/features/HeaderAuth'
 import { HeaderCart } from '~/modules/features/HeaderCart/HeaderCart'
 import { SignOutBtn } from './Components/SignOutBtn/SignOutBtn'
 import { WithBurger } from './Components/WithBurger/WithBurger'
+import { AppLogo } from '~/modules/shared/components/AppLogo/AppLogo'
 export const Header: React.FC = () => {
     const scrollPosition = useScrollPosition()
     const router = useRouter()
@@ -22,11 +22,11 @@ export const Header: React.FC = () => {
             <header>
                 <div className={`${headerClName} ${s.header_desktop}`}>
                     <Nav />
-                    <Logo />
+                    <AppLogo view='header' />
                     <Actions />
                 </div>
                 <div className={`${headerClName} ${s.header_mobile}`}>
-                    <Logo />
+                    <AppLogo view='header' />
                     <div className={s.rightMd}>
                         <SearchWithPopup />
                         <WithBurger>
