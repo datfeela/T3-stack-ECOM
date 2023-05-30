@@ -277,7 +277,7 @@ async function _getProductMainData(productId: string) {
 export async function getManyProducts_server({
     quantity,
     searchQuery = '',
-    isAdvancedSearch = true,
+    isAdvancedSearch,
     sortBy,
     comingSoon,
     onSale,
