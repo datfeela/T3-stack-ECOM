@@ -326,3 +326,22 @@
 @mixin animated-height-visible {
     grid-template-rows: 1fr;
 }
+
+@mixin main-view-more-link {
+    margin: 50px auto 0 auto;
+    display: flex;
+    justify-content: center;
+
+    @media all and (max-width: 1200px) {
+        margin-top: 35px;
+    }
+
+    @media all and (max-width: 768px) {
+        margin-top: 20px;
+    }
+
+    button svg {
+        position: relative;
+        fill: #000;
+    }
+}

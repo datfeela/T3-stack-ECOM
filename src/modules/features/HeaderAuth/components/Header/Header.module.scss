@@ -41,10 +41,15 @@
 
 .profileIcon {
     position: relative;
-    height: 32px;
-    width: 32px;
+    height: 34px;
+    width: 34px;
     border-radius: 50%;
     overflow: hidden;
+
+    @media all and (max-width: 960px) {
+        height: 27px;
+        width: 27px;
+    }
 
     svg {
         stroke: #fff;

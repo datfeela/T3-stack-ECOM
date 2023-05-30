@@ -1,4 +1,5 @@
 @import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .wrap {
     position: relative;
@@ -53,14 +54,7 @@
 }
 
 .link {
-    margin: 50px auto 0 auto;
-    display: flex;
-    justify-content: center;
-
-    button svg {
-        position: relative;
-        fill: #000;
-    }
+    @include main-view-more-link;
 }
 
 .bg {

@@ -20,7 +20,7 @@ export const Header = ({
         <div className={s.header} onClick={handleClick}>
             <div className={s.profileIcon}>
                 {sessionData?.user.image ? (
-                    <Image src={sessionData.user.image} objectFit='cover' sizes='32px' />
+                    <Image src={sessionData.user.image} objectFit='cover' sizes='50px' alt='' />
                 ) : (
                     <SvgSelector id='profile' />
                 )}
