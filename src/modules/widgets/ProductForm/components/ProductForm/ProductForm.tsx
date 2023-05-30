@@ -107,10 +107,8 @@ export const ProductForm = ({
                 submitForm(values)
             }}
         >
-            {({ errors, touched, setFieldValue, values, dirty, ...rest }) => {
+            {({ errors, touched, setFieldValue, values }) => {
                 // console.log(values, errors)
-
-                console.log(rest)
 
                 const isClientErrors = Object.keys(errors).length !== 0
                 const isAnyErrors = serverError || isClientErrors
@@ -258,7 +256,7 @@ export const ProductForm = ({
                             {serverError ? (
                                 <div className={s.error}>ERROR! {serverError}</div>
                             ) : null}
-                            {serverSuccess && !dirty ? <div>{serverSuccess}</div> : null}
+                            {serverSuccess ? <div>{serverSuccess}</div> : null}
                             <SubmitButton
                                 isError={isAnyErrors ? true : false}
                                 isClientError={isClientErrors}

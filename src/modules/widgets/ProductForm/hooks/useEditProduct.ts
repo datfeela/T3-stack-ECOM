@@ -18,16 +18,10 @@ export const UseEditProduct = (productId: string) => {
     const [serverSuccess, setServerSuccess] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const apiContext = api.useContext()
-
     const editProduct = api.products.editProduct.useMutation({
-        onMutate: async () => {
-            await apiContext.products.getProductById.cancel()
-            const optimisticUpdate = apiContext.products.getProductById.getData()
-
-            if (optimisticUpdate) {
-                apiContext.products.getProductById.setData(productId, optimisticUpdate)
-            }
+        onMutate: () => {
+            setServerError('')
+            setServerSuccess('')
         },
         onSettled: () => {
             setIsSubmitting(false)
@@ -36,16 +30,13 @@ export const UseEditProduct = (productId: string) => {
             setServerSuccess('')
             setServerError(e.message)
         },
-        onSuccess: async () => {
-            await apiContext.products.getProductById.invalidate()
+        onSuccess: () => {
             setServerSuccess('Product edited successfully!')
         },
     })
 
     const handleFormSubmit = async ({ initialValues, ...props }: HandleFormSubmitProps) => {
         try {
-            console.log('submit', initialValues)
-
             if (initialValues) {
                 const oldImages = [
                     initialValues.coverImage,
@@ -53,13 +44,6 @@ export const UseEditProduct = (productId: string) => {
                     initialValues.horizontalImage,
                     ...initialValues.detailPageImages,
                 ].filter((value) => typeof value === 'string' && value.length > 0) as string[]
-
-                console.log([
-                    initialValues.coverImage,
-                    initialValues.verticalImage,
-                    initialValues.horizontalImage,
-                    ...initialValues.detailPageImages,
-                ])
 
                 const newImages = [
                     props.coverImage,
@@ -77,7 +61,6 @@ export const UseEditProduct = (productId: string) => {
 
                 oldImages.forEach((src) => {
                     const isNotTouched = !!newImages.find((value) => value === src)
-                    console.log(src, isNotTouched)
 
                     if (isNotTouched) return
 

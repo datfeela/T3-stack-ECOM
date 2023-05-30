@@ -42,6 +42,7 @@ export function mapProductDataFromApi(productData: ProductData) {
     const systemRequirementsRecommendedMapped = mapSystemReqFromApi(systemRequirementsRecommended)
 
     const detailPageImagesMapped = detailPageImages.map((image, id) => ({ value: image.value, id }))
+    console.log(detailPageImagesMapped)
 
     const parsedReleaseDate = mapDateFromApi(releaseDate)
 
