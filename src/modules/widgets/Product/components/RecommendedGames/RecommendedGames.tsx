@@ -9,6 +9,7 @@ import { SliderButton } from '~/modules/shared/components/SliderButton/SliderBut
 import Link from 'next/link'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 import { useScrollToElement } from '~/modules/shared/hooks/useScrollToElement'
+import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
 
 interface RecommendedGamesProps {
     productId: string
@@ -49,11 +50,13 @@ export const RecommendedGames = ({
             )
     })
 
+    const shouldDisplaySeeAllBtn = productsElements.length > 3 && !expandedMode
+
     return (
         <div className='wrap'>
             <div className={s.header} ref={headerRef}>
                 <h2>{expandedMode ? `Games similar to ${productName}` : 'You may also like'}</h2>
-                {!expandedMode ? (
+                {shouldDisplaySeeAllBtn ? (
                     <Link
                         href={`/game/${productId}?recommendedGamesMode=true`}
                         className={s.expandBtn}
