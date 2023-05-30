@@ -36,7 +36,7 @@ export const Popup = ({
                 {categories ? (
                     <div className={s.categories}>
                         {categories.map((name, id) => {
-                            if (id > 3) return null
+                            if (id > 1) return null
                             return (
                                 <div className={s.categories__item} key={id}>
                                     {name}

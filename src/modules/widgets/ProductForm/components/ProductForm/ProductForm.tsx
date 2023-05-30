@@ -107,8 +107,10 @@ export const ProductForm = ({
                 submitForm(values)
             }}
         >
-            {({ errors, touched, setFieldValue, values, dirty }) => {
+            {({ errors, touched, setFieldValue, values, dirty, ...rest }) => {
                 // console.log(values, errors)
+
+                console.log(rest)
 
                 const isClientErrors = Object.keys(errors).length !== 0
                 const isAnyErrors = serverError || isClientErrors

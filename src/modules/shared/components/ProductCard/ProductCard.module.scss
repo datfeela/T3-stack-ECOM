@@ -389,6 +389,13 @@
         }
 
         .popup {
+            &__closeBtn {
+                @media all and (max-width: 1350px) {
+                    top: 3px;
+                    left: 0;
+                }
+            }
+
             @media all and (max-width: 1200px) {
                 display: none;
             }
@@ -656,15 +663,14 @@ a.name {
     }
 
     @media all and (max-width: 1350px) {
-        padding: 5px 10px 10px 10px;
+        padding: 8px 10px 10px 10px;
+        gap: 0;
     }
 
     .name {
+        flex-shrink: 0;
         text-align: center;
-
-        @media all and (max-width: 1350px) {
-            padding: 0 32px 0 20px;
-        }
+        padding: 0 32px 0 20px;
     }
 
     .desc {
@@ -692,11 +698,6 @@ a.name {
             svg {
                 fill: #fff;
             }
-        }
-
-        @media all and (max-width: 1350px) {
-            left: 0;
-            top: 5px;
         }
 
         svg {
