@@ -24,7 +24,6 @@ export const AdminProducts = () => {
         getNextPage,
         isAllProductsLoaded,
     } = useManyProductsData({
-        // todo: 10 + load more
         quantity: 10,
         searchQuery: debouncedSearchQuery,
         sortBy,

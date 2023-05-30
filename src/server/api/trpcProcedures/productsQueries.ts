@@ -47,7 +47,8 @@ export const getProductMainDataByIdProcedure = publicProcedure
 export const getManyProducts = publicProcedure
     .input(getManyProductsInputSchema)
     .query(async ({ input }) => {
-        const { quantity, searchQuery, sortBy, comingSoon, onSale, cursor } = input
+        const { quantity, searchQuery, isAdvancedSearch, sortBy, comingSoon, onSale, cursor } =
+            input
         const query = searchQuery ? searchQuery : ''
 
         try {
@@ -55,6 +56,7 @@ export const getManyProducts = publicProcedure
                 quantity,
                 sortBy,
                 searchQuery: query,
+                isAdvancedSearch,
                 comingSoon,
                 onSale,
                 cursor,
@@ -274,12 +276,39 @@ async function _getProductMainData(productId: string) {
 
 export async function getManyProducts_server({
     quantity,
-    searchQuery,
+    searchQuery = '',
+    isAdvancedSearch = true,
     sortBy,
     comingSoon,
     onSale,
     cursor,
 }: GetManyProductsInput) {
+    const releaseDateCondition = {
+        releaseDate: comingSoon
+            ? {
+                  gte: new Date(),
+              }
+            : undefined,
+    }
+
+    const onSaleCondition = {
+        priceWithoutDiscount: onSale
+            ? {
+                  gt: 0,
+              }
+            : undefined,
+    }
+
+    const nameConditions = searchQuery
+        .split(' ')
+        .map((word) => ({ name: { contains: word, mode: 'insensitive' as const } }))
+
+    const categoriesConditions = searchQuery.split(' ').map((word) => ({
+        categories: {
+            some: { name: { contains: word, mode: 'insensitive' as const } },
+        },
+    }))
+
     try {
         const products = await prisma.product.findMany({
             include: {
@@ -288,33 +317,12 @@ export async function getManyProducts_server({
             take: quantity + 1,
             orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
             where: {
-                OR: searchQuery
-                    ? [
-                          { name: { contains: searchQuery, mode: 'insensitive' } },
-                          {
-                              categories: {
-                                  some: {
-                                      name: { contains: searchQuery, mode: 'insensitive' },
-                                  },
-                              },
-                          },
-                      ]
-                    : undefined,
                 AND: [
-                    {
-                        releaseDate: comingSoon
-                            ? {
-                                  gte: new Date(),
-                              }
-                            : undefined,
-                    },
-                    {
-                        priceWithoutDiscount: onSale
-                            ? {
-                                  gt: 0,
-                              }
-                            : undefined,
-                    },
+                    releaseDateCondition,
+                    onSaleCondition,
+                    isAdvancedSearch
+                        ? { OR: [{ AND: nameConditions }, { AND: categoriesConditions }] }
+                        : { AND: nameConditions },
                 ],
             },
             cursor: cursor ? { id: cursor } : undefined,

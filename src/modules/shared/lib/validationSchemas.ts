@@ -62,6 +62,7 @@ export const addReviewValidationSchema = z.object({
 export const getManyProductsInputSchema = z.object({
     quantity: z.number(),
     searchQuery: z.string().optional(),
+    isAdvancedSearch: z.boolean().optional(),
     sortBy: sortProductsSchema.optional(),
     comingSoon: z.boolean().optional(),
     onSale: z.boolean().optional(),
