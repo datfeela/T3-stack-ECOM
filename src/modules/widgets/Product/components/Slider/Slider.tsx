@@ -66,6 +66,7 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                             orientation='16/9'
                             sizes='(max-width: 600px) 100vw, 650px'
                             priority={id === 0}
+                            diffPlaceholderColor={true}
                         />
                     </WithVideoCoverIcon>
                 </SwiperSlide>,
@@ -81,6 +82,7 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                             objectFit='cover'
                             orientation='16/9'
                             sizes='(max-width: 480px) 1px, 150px'
+                            diffPlaceholderColor={true}
                         />
                     </WithVideoCoverIcon>
                 </SwiperSlide>,
@@ -113,6 +115,7 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                         orientation='16/9'
                         sizes='(max-width: 600px) 100vw, 650px'
                         priority={id === 0}
+                        diffPlaceholderColor={true}
                     />
                 </SwiperSlide>,
             )
@@ -126,6 +129,7 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                         objectFit='cover'
                         orientation='16/9'
                         sizes='(max-width: 480px) 1px, 150px'
+                        diffPlaceholderColor={true}
                     />
                 </SwiperSlide>,
             )

@@ -1,0 +1,21 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    position: relative;
+    width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+}
+
+.placeholder {
+    position: absolute;
+    width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    backdrop-filter: blur(5px);
+    background: rgba($color: #282828, $alpha: 0.8);
+
+    &_diffColor {
+        background: rgba($color: #363636, $alpha: 0.8);
+    }
+}

@@ -1,6 +1,7 @@
 import NextImage, { type StaticImageData } from 'next/image'
 import React, { useState } from 'react'
 import type { ImageOrientation } from '../../types/types'
+import s from './Image.module.scss'
 
 export interface ImageFillProps {
     src: string | StaticImageData
@@ -12,6 +13,7 @@ export interface ImageFillProps {
     sizes?: string
     priority?: boolean
     id?: string
+    diffPlaceholderColor?: boolean
 }
 
 const ImageFill = ({
@@ -23,47 +25,56 @@ const ImageFill = ({
     orientation = 'unset',
     sizes,
     priority = false,
+    diffPlaceholderColor,
 }: ImageFillProps) => {
     const [isError, setIsError] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false)
 
     return (
         <div
+            className={s.wrap}
             style={{
-                position: 'relative',
-                width: '100%',
-                maxHeight: '100%',
                 aspectRatio: orientation,
-                margin: '0 auto',
                 height: orientation === 'unset' ? '100%' : 'auto',
             }}
         >
+            {!isLoaded ? (
+                <div
+                    className={`${s.placeholder} ${
+                        diffPlaceholderColor ? s.placeholder_diffColor : ''
+                    }`}
+                    style={{
+                        aspectRatio: orientation,
+                        height: orientation === 'unset' ? '100%' : 'auto',
+                    }}
+                ></div>
+            ) : null}
             {!isError ? (
                 <NextImage
                     src={src}
                     alt={alt || ''}
-                    placeholder='blur'
-                    blurDataURL={typeof src === 'string' ? src : undefined}
                     fill
-                    style={{ objectFit, objectPosition }}
+                    style={{ objectFit, objectPosition, opacity: isLoaded ? 1 : 0 }}
                     sizes={sizes}
                     onError={() => {
                         setIsError(true)
                     }}
                     quality={95}
                     priority={priority}
+                    onLoadingComplete={() => {
+                        setIsLoaded(true)
+                    }}
                 />
             ) : null}
             {isError && srcRes ? (
                 <NextImage
                     src={srcRes}
                     alt={alt || ''}
-                    placeholder='blur'
-                    blurDataURL={srcRes}
                     fill
-                    style={{ objectFit }}
+                    style={{ objectFit, objectPosition, opacity: isLoaded ? 1 : 0 }}
                     sizes={sizes}
-                    onError={() => {
-                        setIsError(true)
+                    onLoadingComplete={() => {
+                        setIsLoaded(true)
                     }}
                 />
             ) : null}
