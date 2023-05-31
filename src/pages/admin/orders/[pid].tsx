@@ -30,9 +30,6 @@ type GetServerSidePropsT = ({
 >
 
 export const getServerSideProps: GetServerSidePropsT = async ({ res, params }) => {
-    // todo: uncomment when finished adding new products
-    // res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=2592000')
-
     if (!params?.pid || typeof params.pid !== 'string')
         return {
             notFound: true,
