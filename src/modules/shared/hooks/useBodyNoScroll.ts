@@ -1,39 +1,23 @@
 import { useEffect } from 'react'
-import { useMatchMedia } from './useMatchMedia'
 
 export const useBodyNoScroll = (shouldBeNoScroll: boolean) => {
-    const matchMedia = useMatchMedia()
-
     useEffect(() => {
         if (!document) return
         const bodyRef = document.querySelector('html')
         if (!bodyRef) return
-
-        if (
-            bodyRef.classList.contains('no-scroll') &&
-            matchMedia &&
-            (matchMedia.isMore960 || matchMedia.isMore1200 || matchMedia.isMore1440)
-        )
-            bodyRef.classList.remove('no-scroll')
 
         if (
             shouldBeNoScroll &&
-            !bodyRef.classList.contains('no-scroll') &&
-            matchMedia &&
-            !(matchMedia.isMore960 || matchMedia.isMore1200 || matchMedia.isMore1440)
-        )
-            bodyRef.classList.add('no-scroll')
-    }, [matchMedia])
-
-    useEffect(() => {
-        if (!document) return
-        const bodyRef = document.querySelector('html')
-        if (!bodyRef) return
-
-        if (shouldBeNoScroll) {
+            !bodyRef.classList.contains('isClosing') &&
+            !bodyRef.classList.contains('isOpening')
+        ) {
             bodyRef.classList.add('isOpening')
         }
-        if (!shouldBeNoScroll) {
+        if (
+            !shouldBeNoScroll &&
+            !bodyRef.classList.contains('isClosing') &&
+            !bodyRef.classList.contains('isOpening')
+        ) {
             bodyRef.classList.add('isClosing')
         }
 

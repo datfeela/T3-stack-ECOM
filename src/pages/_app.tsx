@@ -3,7 +3,7 @@ import { type Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 
 import '~/modules/app/styles/globals.scss'
-import { useIsAdmin } from '~/modules/app'
+import { useIsAdmin, useResetBodyNoScroll } from '~/modules/app'
 import { GlobalContextProvider } from '~/modules/app/context'
 import { CookiesPolicyPopup } from '~/modules/app/components/CookiesPolicyPopup'
 import { api } from '~/modules/shared/api/apiTRPC'
@@ -15,6 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     pageProps: { session, ...pageProps },
 }) => {
     const isAdminPage = useIsAdmin()
+    useResetBodyNoScroll()
 
     return (
         <>
