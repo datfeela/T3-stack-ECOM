@@ -1,4 +1,4 @@
-@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .imgInputs {
     margin: 20px 0;
@@ -8,25 +8,11 @@
 }
 
 .form {
-    margin-bottom: 100px;
+    @include admin-content-with-footer-fixed;
 }
 
 .footer {
-    height: 100px;
-    width: calc(100% - $adminSidebarWidth - $scrollbarWidth);
-    position: fixed;
-    z-index: 5;
-    bottom: 0;
-    left: $adminSidebarWidth;
-    padding: $adminMainPadding;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-
-    background: $background;
-    border-top: 1px solid $greyMid;
+    @include admin-footer-fixed;
 }
 
 .error {

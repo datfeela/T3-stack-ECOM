@@ -1,3 +1,5 @@
+@import '/src/modules/shared/styles/var.scss';
+
 // price
 
 @mixin price-row {
@@ -249,6 +251,28 @@
         word-wrap: break-word;
         overflow: hidden;
     }
+}
+
+@mixin admin-footer-fixed {
+    height: 100px;
+    width: calc(100% - $adminSidebarWidth - $scrollbarWidth);
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    left: $adminSidebarWidth;
+    padding: $adminMainPadding;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background: $background;
+    border-top: 1px solid $greyMid;
+}
+
+@mixin admin-content-with-footer-fixed {
+    margin-bottom: 100px;
 }
 
 // shared
