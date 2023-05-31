@@ -1,0 +1,53 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.main {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px 20px 30px 20px;
+
+    h1 {
+        text-align: center;
+
+        span {
+            font-weight: 400;
+        }
+    }
+}
+
+.providers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    @media all and (max-width: 480px) {
+        gap: 0;
+    }
+
+    &__item {
+        display: block;
+        min-width: 200px;
+
+        @media all and (max-width: 600px) {
+            min-width: 150px;
+        }
+
+        @media all and (max-width: 360px) {
+            min-width: 135px;
+        }
+
+        h3 {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 0 !important;
+        }
+    }
+}
