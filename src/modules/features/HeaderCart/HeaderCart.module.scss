@@ -40,6 +40,12 @@
     &_active {
         cursor: pointer;
 
+        &:hover {
+            svg {
+                fill: $blueLight;
+            }
+        }
+
         @media all and (max-width: 960px) {
             .header__icon {
                 display: flex;
@@ -57,12 +63,6 @@
 
         @media all and (max-width: 960px) {
             display: none;
-        }
-
-        &:hover {
-            svg {
-                fill: $blueLight;
-            }
         }
 
         svg {
