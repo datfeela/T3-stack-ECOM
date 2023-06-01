@@ -2,6 +2,7 @@
 import { Field } from 'formik'
 import s from './Input.module.scss'
 import type { InputProps } from './InputTypes'
+import { SvgSelector } from '../SvgSelector/SvgSelector'
 
 export const Input: React.FC<InputProps> = ({
     name,
@@ -11,21 +12,70 @@ export const Input: React.FC<InputProps> = ({
     touched,
     type,
     value,
+    color,
+    radioOptions,
     ...props
 }) => {
     let inputClassname = s.input
     inputClassname += type === 'textarea' ? ' ' + s.textarea : ''
     inputClassname += type === 'date' ? ' ' + s.date : ''
     inputClassname += touched ? ' ' + s.input_touched : ''
-    inputClassname += errors ? ' ' + s.input_error : ''
+    inputClassname += errors ? ` ${s.input_error} input_error` : ''
+
+    switch (color) {
+        case 'purple':
+            inputClassname += ' ' + s.input_purple
+            break
+        case 'yellow':
+            inputClassname += ' ' + s.input_yellow
+            break
+        default:
+            break
+    }
+
     inputClassname += extraClassName ? ' ' + extraClassName : ''
 
     if (type === 'checkbox') {
+        const id = `checkbox_${name}_${value}`
+
         return (
-            <label className={s.checkboxWrap}>
-                <Field type='checkbox' name={name} value={value} />
-                {title || name}
-            </label>
+            <div>
+                <Field type='checkbox' id={id} className={s.checkbox} name={name} value={value} />
+                <label htmlFor={id} className={s.checkboxWrap}>
+                    <div className={s.checkboxIcon}>
+                        <SvgSelector id='checkboxTick' />
+                    </div>
+                    <span>{title || name}</span>
+                </label>
+            </div>
+        )
+    }
+
+    if (type === 'radio') {
+        if (!radioOptions) return null
+        return (
+            <div className={s.radioWrap} role='group'>
+                {radioOptions.map((value, radioId) => {
+                    const id = `radio_${name}_${value}_${radioId}`
+                    return (
+                        <div key={radioId}>
+                            <Field
+                                type='radio'
+                                id={id}
+                                className={s.checkbox}
+                                name={name}
+                                value={value}
+                            />
+                            <label htmlFor={id} className={s.checkboxWrap}>
+                                <div className={s.checkboxIcon}>
+                                    <SvgSelector id='checkboxTick' />
+                                </div>
+                                <span>{value}</span>
+                            </label>
+                        </div>
+                    )
+                })}
+            </div>
         )
     }
 

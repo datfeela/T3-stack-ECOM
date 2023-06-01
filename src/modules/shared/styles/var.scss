@@ -2,8 +2,17 @@
 $background: #25212b;
 $fontColor: #fff;
 $headerBg: #1d1a21;
+$popupBg: rgba(
+    $color: #1e1e1e,
+    $alpha: 0.7,
+);
 
-$grey: #ffffff80;
+$grey: rgba(
+    $color: #fff,
+    $alpha: 0.5,
+);
+$greyMid: #555;
+$greyDark: #3f3f46;
 
 $blueLight: #00e4f2;
 // $blue: #0ea5e9;
@@ -12,9 +21,11 @@ $blueDark: #0c4a6e;
 $red: #ff003c;
 $yellow: #f8ef00;
 $purple: #710fad;
+$green: #10b981;
 
 // sizes
 
+$scrollbarWidth: 20px;
 $loginWarningiconSize: 28px;
 
 $appMaxWidth: 1300px;
@@ -23,10 +34,24 @@ $popupMaxHeight: calc(100vh - 30px);
 $popupMaxWidth: 1500px;
 
 $sliderBtnSize: 38px;
+
 $breadcrumbsHeight: 75px;
+$breadcrumbsHeight1200: 43px;
+$breadcrumbsHeight768: 38px;
+$breadcrumbsHeight600: 0px;
 
 $mdContainerPadding: 1.5rem 1rem;
 $smContainerPadding: 1rem;
+
+$headerPaddingBot: 21px;
+$headerPaddingBot960: 14px;
+$headerPaddingX: 30px;
+$headerPaddingX1200: 20px;
+
+// admin layout
+
+$adminSidebarWidth: 250px;
+$adminMainPadding: 20px;
 
 // $blocksMargin: 15px;
 // $headerHeight: 50px;

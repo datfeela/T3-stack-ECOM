@@ -1,44 +1,14 @@
 @import '/src/modules/shared/styles/var.scss';
 
 .wrap {
-    min-height: 100%;
-    height: 0px;
-    overflow: hidden;
-    position: relative;
     padding: $mdContainerPadding;
 
-    &_expanded {
-        height: auto;
-        padding-bottom: calc(1.5rem + 44px);
-
-        &::after {
-            display: none;
-        }
-    }
-
-    &_noOverflow {
-        &::after {
-            display: none;
-        }
-    }
-
-    &::after {
-        content: '';
-        width: calc(100% + 2rem);
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: -1rem;
-        background: linear-gradient(180deg, rgba(43, 39, 50, 0) 32.53%, #25212a 100%);
-        pointer-events: none;
+    @media all and (max-width: 768px) {
+        font-size: 15px;
     }
 }
 
 .title {
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 125%;
-
     margin-bottom: 10px;
 }
 
@@ -53,39 +23,20 @@
 .subtitle {
     font-weight: 500;
     font-size: 20px;
+    text-transform: capitalize;
 
     margin-bottom: 10px;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 17px;
+    }
 }
 
 .text {
     margin-bottom: 20px;
-}
-
-.expandBtnWrap {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    visibility: hidden;
-}
-
-.expandBtn {
-    visibility: visible;
-    cursor: pointer;
-
-    width: 62%;
-    height: 44px;
-    margin: 0 auto 16px auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: rgba($color: $purple, $alpha: 0.4);
-    border: 0.5px solid $purple;
-    backdrop-filter: blur(2px);
-    border-radius: 15px;
-
-    font-family: 'Orbitron';
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
+    white-space: pre-line;
 }

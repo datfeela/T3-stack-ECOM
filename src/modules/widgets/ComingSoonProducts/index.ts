@@ -1,0 +1,1 @@
+export { ComingSoonProducts } from './ComingSoonProducts'

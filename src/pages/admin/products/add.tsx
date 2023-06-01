@@ -6,10 +6,6 @@ import { AddProductForm } from '~/modules/widgets/ProductForm'
 const Products: NextPage = () => {
     return (
         <>
-            <Head>
-                <title>Products</title>
-                <link rel='icon' href='/favicon.ico' />
-            </Head>
             <AdminLayout>
                 <main>
                     <AddProductForm />

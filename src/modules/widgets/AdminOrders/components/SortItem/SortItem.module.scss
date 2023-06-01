@@ -1,0 +1,33 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.sort {
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+
+    &_canceled {
+        background: rgba($color: $red, $alpha: 0.4);
+
+        &:hover,
+        &.sort_active {
+            background: $red;
+        }
+    }
+
+    &_received {
+        background: rgba($color: $green, $alpha: 0.4);
+
+        &:hover,
+        &.sort_active {
+            background: $green;
+        }
+    }
+
+    &_paidFor {
+        background: rgba($color: $purple, $alpha: 0.4);
+
+        &:hover,
+        &.sort_active {
+            background: $purple;
+        }
+    }
+}

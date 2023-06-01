@@ -1,0 +1,371 @@
+@import '/src/modules/shared/styles/var.scss';
+
+// price
+
+@mixin price-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    @media all and (max-width: 768px) {
+        gap: 11px;
+    }
+
+    @media all and (max-width: 480px) {
+        gap: 7px;
+    }
+}
+
+@mixin price-row-align-bot {
+    @include price-row;
+    align-items: flex-end;
+}
+
+@mixin price-main {
+    font-family: 'Orbitron';
+    font-weight: 500;
+    line-height: 125%;
+}
+
+@mixin price-main-lg {
+    @include price-main;
+
+    font-size: 32px;
+    color: $blueLight;
+
+    @media all and (max-width: 1200px) {
+        font-size: 24px;
+
+        &_discount {
+            font-size: 22px;
+        }
+    }
+
+    @media all and (max-width: 960px) {
+        font-size: 20px;
+
+        &_discount {
+            font-size: 18px;
+        }
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 18px;
+
+        &_discount {
+            font-size: 17px;
+        }
+    }
+}
+
+@mixin price-discount-lg {
+    @include price-main;
+
+    font-size: 26px;
+    text-decoration-line: line-through;
+    color: $grey;
+
+    @media all and (max-width: 1200px) {
+        font-size: 22px;
+    }
+
+    @media all and (max-width: 960px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 17px;
+    }
+}
+
+@mixin price-main-md {
+    @include price-main;
+
+    color: $blueLight;
+    font-size: 20px;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media all and (max-width: 480px) {
+        font-size: 15px;
+    }
+}
+
+@mixin price-discount-md {
+    @include price-main;
+
+    text-decoration-line: line-through;
+    color: $grey;
+    font-size: 20px;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media all and (max-width: 480px) {
+        font-size: 15px;
+    }
+}
+
+@mixin price-main-sm {
+    @include price-main;
+
+    color: $blueLight;
+    font-size: 16px;
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+    }
+}
+
+@mixin price-discount-sm {
+    @include price-main;
+
+    text-decoration-line: line-through;
+    color: $grey;
+    font-size: 16px;
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+    }
+}
+
+// slider
+
+@mixin slider-nav-default {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    @media all and (max-width: 600px) {
+        gap: 12px;
+    }
+}
+
+@mixin slider-btn-default {
+    margin-top: 38px;
+
+    @media all and (max-width: 1200px) {
+        margin-top: 25px;
+    }
+
+    @media all and (max-width: 600px) {
+        margin-top: 15px;
+    }
+
+    &_prev {
+        position: relative;
+    }
+    &_next {
+        position: relative;
+    }
+    &_hidden {
+        display: none !important;
+    }
+}
+
+// header
+@mixin popup-bg {
+    position: absolute;
+    height: 120vh;
+    width: 300vw;
+    top: 100%;
+    left: -100vw;
+    background: rgba($color: #1e1e1e, $alpha: 0.7);
+    z-index: 6;
+    backdrop-filter: blur(4px);
+}
+
+@mixin header-link {
+    font-family: 'Orbitron';
+    font-size: 18px;
+    padding: 0.5rem 0.6rem;
+
+    @media all and (max-width: 600px) {
+        font-size: 16px;
+        padding: 0.4rem;
+    }
+}
+
+@mixin header-item-active {
+    margin: -1.25rem calc(-1rem - 2px) calc(2px - $headerPaddingBot) calc(-1rem - 2px);
+    border: 2px solid #710fad;
+    border-bottom: unset;
+    top: 0px;
+    background: rgba(113, 15, 173, 0.15);
+
+    @media all and (max-width: 1200px) {
+        margin: -0.9rem calc(-0.5rem - 2px) calc(2px - $headerPaddingBot) calc(-0.5rem - 2px);
+    }
+}
+
+@mixin header-item-active-padding {
+    padding: 1.25rem 1rem calc($headerPaddingBot - 2px) 1rem;
+
+    @media all and (max-width: 1200px) {
+        padding: 0.9rem 0.5rem calc($headerPaddingBot - 2px) 0.5rem;
+    }
+}
+
+// admin
+
+@mixin admin-products-grid {
+    display: grid;
+    align-items: center;
+    grid-gap: 25px;
+    grid-template-columns: 100px 2fr 1fr 1fr 60px 55px;
+    padding: 0 15px;
+}
+
+@mixin admin-orders-grid {
+    padding: 0 20px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: 280px 1fr 2fr repeat(4, 1fr);
+    align-items: center;
+
+    span {
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
+@mixin admin-order-grid {
+    display: grid;
+    grid-template-columns: 80px 2fr repeat(5, 1fr);
+    align-items: center;
+    gap: 1rem;
+
+    span {
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+}
+
+@mixin admin-footer-fixed {
+    height: 100px;
+    width: calc(100% - $adminSidebarWidth - $scrollbarWidth);
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    left: $adminSidebarWidth;
+    padding: $adminMainPadding;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    background: $background;
+    border-top: 1px solid $greyMid;
+}
+
+@mixin admin-content-with-footer-fixed {
+    margin-bottom: 100px;
+}
+
+// shared
+
+@mixin semi-transparent-bg {
+    background: rgba($color: #fff, $alpha: 0.03);
+}
+
+@mixin checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-gap: 10px 15px;
+}
+
+@mixin input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+}
+
+@mixin link-with-arrow-icon {
+    color: #fff;
+    * {
+        color: #fff;
+    }
+
+    &:hover {
+        color: $blueLight;
+
+        * {
+            color: $blueLight;
+        }
+
+        svg {
+            fill: $blueLight;
+            transform: translateX(3px);
+        }
+    }
+
+    svg {
+        height: 100%;
+        width: 100%;
+        fill: #fff;
+        transition: 0.3s;
+    }
+}
+
+@mixin purple-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: $headerBg;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $purple;
+    }
+}
+
+@mixin animated-height-hidden {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s;
+
+    & > div {
+        overflow: hidden;
+    }
+}
+
+@mixin animated-height-visible {
+    grid-template-rows: 1fr;
+}
+
+@mixin main-view-more-link {
+    margin: 50px auto 0 auto;
+    display: flex;
+    justify-content: center;
+
+    @media all and (max-width: 1200px) {
+        margin-top: 35px;
+    }
+
+    @media all and (max-width: 768px) {
+        margin-top: 20px;
+    }
+
+    button svg {
+        position: relative;
+        fill: #000;
+    }
+}

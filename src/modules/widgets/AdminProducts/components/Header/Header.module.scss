@@ -1,0 +1,35 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.header {
+    @include admin-products-grid;
+    margin-top: 25px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $greyMid;
+}
+
+.sortBtn {
+    font-family: 'Tomorrow', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+
+    svg {
+        display: none;
+        margin-top: 2px;
+        transform: rotate(90deg);
+    }
+
+    &_active {
+        svg {
+            display: block;
+        }
+    }
+
+    &_reversed {
+        svg {
+            transform: rotate(-90deg);
+        }
+    }
+}

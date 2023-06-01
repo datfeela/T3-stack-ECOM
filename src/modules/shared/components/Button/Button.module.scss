@@ -1,15 +1,18 @@
 @import '/src/modules/shared/styles/var.scss';
 
 .button {
-    width: 200px;
-    max-width: 200px;
+    min-width: 200px;
+    width: fit-content;
+    max-width: 270px;
     height: 58px;
-    padding: 15px;
+    padding: 15px 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
     background: $purple;
+    color: #fff;
+    text-align: center;
 
     clip-path: polygon(
         0 0,
@@ -22,6 +25,14 @@
         0 100%
     );
 
+    &:hover:not([disabled]) {
+        color: $blueLight;
+
+        * {
+            color: $blueLight;
+        }
+    }
+
     // text
 
     * {
@@ -31,7 +42,29 @@
         line-height: 150%;
         letter-spacing: 0.2em;
         text-transform: uppercase;
-        color: #000;
+        color: #fff;
+    }
+
+    @media all and (max-width: 1200px) {
+        height: 46px;
+        min-width: 152px;
+    }
+
+    @media all and (max-width: 768px) {
+        height: 32px;
+        // min-width: 120px;
+        padding: 10px 15px;
+
+        clip-path: polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            calc(100% - 0.7rem) 100%,
+            calc(100% - 0.7rem) calc(100% - 3px),
+            calc(100% - 1.8rem) calc(100% - 3px),
+            calc(100% - 1.8rem) 100%,
+            0 100%
+        );
     }
 
     // modifiers
@@ -56,33 +89,145 @@
         }
     }
 
+    &_withGlitch {
+        color: #fff !important;
+        * {
+            color: #fff !important;
+        }
+
+        &.button_red {
+            color: #fff !important;
+
+            * {
+                color: #fff !important;
+            }
+        }
+
+        &.button_yellow,
+        &.button_blue {
+            color: #000 !important;
+
+            * {
+                color: #000 !important;
+            }
+        }
+    }
+
     // colors
     &_yellow {
         background: $yellow;
-    }
+        color: #000;
 
-    &_red {
-        background: $red;
+        * {
+            color: #000;
+        }
+
+        &:hover:not([disabled]) {
+            color: $red;
+
+            * {
+                color: $red;
+            }
+        }
     }
 
     &_blue {
         background: $blueLight;
+        color: #000;
+
+        * {
+            color: #000;
+        }
+
+        &:hover:not([disabled]) {
+            color: $yellow;
+
+            * {
+                color: $yellow;
+            }
+        }
+    }
+
+    &_red {
+        background: $red;
+
+        &:hover:not([disabled]) {
+            color: $yellow;
+
+            * {
+                color: $yellow;
+            }
+        }
     }
 
     // sizes
 
     &_small {
-        max-width: 160px;
+        min-width: 135px;
+        width: fit-content;
+        max-width: 200px;
         height: 53px;
+
+        @media all and (max-width: 768px) {
+            min-width: 120px;
+        }
 
         * {
             font-size: 15px;
         }
     }
 
+    &_lgHeight {
+        @media all and (max-width: 1200px) {
+            height: 50px;
+        }
+
+        @media all and (max-width: 768px) {
+            height: 40px;
+        }
+    }
+
+    &_smHeight {
+        height: 46px;
+
+        @media all and (max-width: 1200px) {
+            height: 42px;
+        }
+    }
+
+    &_xsHeight {
+        height: 36px;
+
+        @media all and (max-width: 1200px) {
+            height: 34px;
+        }
+    }
+
     &_fontLg {
         * {
+            font-size: 24px;
+
+            @media all and (max-width: 1200px) {
+                font-size: 18px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 16px;
+            }
+        }
+    }
+
+    &_fontMd {
+        * {
             font-size: 20px;
+
+            @media all and (max-width: 1200px) {
+                font-size: 16px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 14px;
+            }
         }
     }
 
@@ -111,6 +256,11 @@
             font-weight: 700;
         }
     }
+
+    &[disabled] {
+        opacity: 0.6;
+        cursor: default;
+    }
 }
 
 .iconWrap {
@@ -123,7 +273,7 @@
     width: fit-content;
 
     &:hover {
-        .buttonGlitch {
+        .buttonGlitch:not([disabled]) {
             animation: 1.6s glitch;
             animation-timing-function: steps(2, end);
             animation-iteration-count: infinite;
@@ -150,6 +300,19 @@ $slice-5: inset(80% -6px 5% 0);
     clip-path: $slice-0;
     text-shadow: -3px -3px 0px $red, 3px 3px 0px $blueLight;
     background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $yellow 5%);
+    color: #000 !important;
+
+    &.button {
+        &_purple {
+            background: linear-gradient(45deg, transparent 3%, $red 3%, $red 5%, $purple 5%);
+            color: #fff !important;
+        }
+
+        &_red {
+            background: linear-gradient(45deg, transparent 3%, $blueLight 3%, $purple 5%, $red 5%);
+            color: #fff !important;
+        }
+    }
 }
 
 @keyframes glitch {

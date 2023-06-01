@@ -1,7 +1,7 @@
 export const parseDateToString = (date: Date) => {
     const year = `${date.getFullYear()}`
 
-    let monthNum = date.getMonth()
+    const monthNum = date.getMonth()
     let month = ''
 
     switch (monthNum) {

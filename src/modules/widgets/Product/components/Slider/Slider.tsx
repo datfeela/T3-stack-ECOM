@@ -6,9 +6,18 @@ import { useEffect, useState } from 'react'
 import { Video } from '~/modules/shared/components/Video/Video'
 import { SliderButton } from '~/modules/shared/components/SliderButton/SliderButton'
 import { usePopup } from '~/modules/shared/hooks/usePopup'
-import { Popup } from '~/modules/shared/components/Popup/Popup'
-import { ImageFill } from '~/modules/shared/components/Image/Image'
-import { WithVideoCoverIcon } from '~/modules/shared/components/WithVideoCoverIcon/WithVideoCoverIcon'
+import ImageFill from '~/modules/shared/components/Image/Image'
+import { WithVideoCoverIcon } from '~/modules/shared/components/WrapWithCoverIcon/WrapWithVideoCoverIcon'
+
+// dynamic import
+import dynamic from 'next/dynamic'
+import type { PopupProps } from '~/modules/shared/components/Popup/Popup'
+import { useRouter } from 'next/router'
+import { useReinitSlider } from '../../hooks/useReinitSlider'
+
+const Popup = dynamic<PopupProps>(() => import('~/modules/shared/components/Popup/Popup'), {
+    ssr: false,
+})
 
 export interface SliderProps {
     imagesSrc?: string[]
@@ -24,11 +33,13 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
     const [thumbsSwiper, setThumbsSwiper] = useState(null as null | SwiperCore)
 
     const [activeSlideId, setActiveSlideId] = useState(0)
-    const [isPopupActive, activatePopup, deactivatePopup] = usePopup()
+    const { isPopupActive, activatePopup, deactivatePopup } = usePopup()
 
     const mainSliderEls: JSX.Element[] = []
     const thumbsSliderEls: JSX.Element[] = []
     const popupSliderElements: JSX.Element[] = []
+
+    useReinitSlider(firstSwiper)
 
     useEffect(() => {
         const autoplay = firstSwiper?.autoplay
@@ -38,7 +49,7 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
     }, [isPopupActive, firstSwiper?.autoplay])
 
     useEffect(() => {
-        secondSwiper?.slideTo(activeSlideId)
+        secondSwiper?.slideTo(activeSlideId, 1000)
     }, [activeSlideId])
 
     // render
@@ -53,6 +64,9 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                             srcRes={horizontalImage || undefined}
                             objectFit='cover'
                             orientation='16/9'
+                            sizes='(max-width: 600px) 100vw, 650px'
+                            priority={id === 0}
+                            diffPlaceholderColor={true}
                         />
                     </WithVideoCoverIcon>
                 </SwiperSlide>,
@@ -67,6 +81,8 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                             src={`https://img.youtube.com/vi/${src}/mqdefault.jpg`}
                             objectFit='cover'
                             orientation='16/9'
+                            sizes='(max-width: 480px) 1px, 150px'
+                            diffPlaceholderColor={true}
                         />
                     </WithVideoCoverIcon>
                 </SwiperSlide>,
@@ -93,7 +109,14 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                     className={s.slide}
                     key={`${src}_${idWithVideos}`}
                 >
-                    <ImageFill src={src} objectFit='cover' orientation='16/9' />
+                    <ImageFill
+                        src={src}
+                        objectFit='cover'
+                        orientation='16/9'
+                        sizes='(max-width: 600px) 100vw, 650px'
+                        priority={id === 0}
+                        diffPlaceholderColor={true}
+                    />
                 </SwiperSlide>,
             )
             thumbsSliderEls.push(
@@ -101,12 +124,23 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                     className={`${s.thumb} ${activeSlideId === idWithVideos ? s.thumb_active : ''}`}
                     key={`${src}_${idWithVideos}`}
                 >
-                    <ImageFill src={src} objectFit='cover' orientation='16/9' />
+                    <ImageFill
+                        src={src}
+                        objectFit='cover'
+                        orientation='16/9'
+                        sizes='(max-width: 480px) 1px, 150px'
+                        diffPlaceholderColor={true}
+                    />
                 </SwiperSlide>,
             )
             popupSliderElements.push(
                 <SwiperSlide className={s.slide} key={`${src}_${idWithVideos}`}>
-                    <ImageFill src={src} objectFit='cover' orientation='16/9' />
+                    <ImageFill
+                        src={src}
+                        objectFit='cover'
+                        orientation='16/9'
+                        sizes='(max-width: 1500px) 100vw, 1500px'
+                    />
                 </SwiperSlide>,
             )
         })
@@ -147,18 +181,24 @@ export const Slider = ({ imagesSrc, videosSrc, horizontalImage }: SliderProps) =
                         <SliderButton type='next' ClName={s.btnNext} />
                     </div>
                 </div>
-
                 <Swiper
                     className={s.thumbs}
                     modules={[Navigation, Thumbs]}
                     onSwiper={setThumbsSwiper}
                     spaceBetween={10}
-                    slidesPerView={4}
+                    slidesPerView={20}
                     watchSlidesProgress={true}
+                    breakpoints={{
+                        480: {
+                            slidesPerView: 3,
+                        },
+                        900: {
+                            slidesPerView: 4,
+                        },
+                    }}
                 >
                     {thumbsSliderEls}
                 </Swiper>
-
                 <Popup isPopupActive={isPopupActive} deactivatePopup={deactivatePopup}>
                     <div>
                         <div className={s.popup}>

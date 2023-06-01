@@ -1,3 +1,4 @@
+import { productType } from '~/modules/shared/lib/validationSchemas'
 import { z } from 'zod'
 import { clientFiltersSchema, filtersSchema } from '~/modules/shared/lib/validationSchemas'
 
@@ -53,8 +54,9 @@ const addProductSharedFields = z.object({
         )
         .optional(),
     originalGameId: z.string().nullable().optional(),
-    systemRequirementsMinimal: systemRequirements,
-    systemRequirementsRecommended: systemRequirements,
+    systemRequirementsMinimal: systemRequirements.nullish(),
+    systemRequirementsRecommended: systemRequirements.nullish(),
+    productType,
 })
 
 export const formikAddProductValidationSchema = addProductSharedFields
@@ -91,11 +93,11 @@ export const formikAddProductValidationSchema = addProductSharedFields
                 })
                 return
             }
-            if (Number(value) <= 0) {
+            if (Number(value) < 0) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     path: [key],
-                    message: `value can't be less, than 1`,
+                    message: `value can't be less, than 0`,
                 })
                 return
             }
@@ -154,17 +156,12 @@ export const editProductValidationSchema = z
                 }),
             )
             .optional(),
+
         filters: filtersSchema.optional(),
-        systemRequirements: z
-            .object({
-                operatingSystem: z.string().optional(),
-                cpu: z.string().optional(),
-                gpu: z.string().optional(),
-                memory: z.string().optional(),
-                freeSpace: z.string().optional(),
-                soundHardware: z.string().optional(),
-            })
-            .optional(),
+        systemRequirementsMinimal: systemRequirements.nullish(),
+        systemRequirementsRecommended: systemRequirements.nullish(),
+        originalGameId: z.string().nullable().optional(),
+        productType: productType.optional(),
     })
     .superRefine(({ price, priceWithoutDiscount, quantityInStock }, ctx) => {
         Object.entries({

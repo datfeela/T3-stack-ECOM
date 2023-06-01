@@ -1,26 +1,47 @@
-import { getProductReviewsById } from './../trpcProcedures/productsQueries'
 import { createTRPCRouter } from '../trpc'
 
-import { getManyProducts, getProductById } from '../trpcProcedures/productsQueries'
+import {
+    // single product data
+    getProductById,
+    getProductMainDataByIdProcedure as getProductMainDataById,
+    getProductReviewsById,
+    getProductReviewsStats,
+    // many products
+    getManyProducts,
+    getManyProductsByIds,
+    getRelatedProducts,
+    getRecommendedProductsForProduct,
+    getMainPageProducts,
+} from '../trpcProcedures/productsQueries'
 import {
     addProduct,
+    deleteProduct,
     deleteAllProducts,
     editProduct,
     toggleProductToWishes,
     addReviewToProduct,
+    updateMainPageProducts,
 } from '../trpcProcedures/productsMutations'
 
 export const productsRouter = createTRPCRouter({
     // get
     getProductById,
+    getProductMainDataById,
     getManyProducts,
+    getManyProductsByIds,
+    getRelatedProducts,
+    getRecommendedProductsForProduct,
     getProductReviewsById,
+    getProductReviewsStats,
+    getMainPageProducts,
     // create
     addProduct,
     // update
     editProduct,
     toggleProductToWishes,
     addReviewToProduct,
+    updateMainPageProducts,
     // delete
+    deleteProduct,
     deleteAllProducts,
 })

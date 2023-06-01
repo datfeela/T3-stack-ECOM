@@ -1,0 +1,13 @@
+@import '/src/modules/shared/styles/mixins.scss';
+
+.slide {
+    height: auto;
+}
+
+.nav {
+    @include slider-nav-default;
+}
+
+.btn {
+    @include slider-btn-default;
+}

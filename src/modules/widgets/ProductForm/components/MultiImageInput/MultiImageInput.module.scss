@@ -1,0 +1,23 @@
+.desc {
+    position: relative;
+    top: -16px;
+    line-height: 150%;
+
+    @media all and (max-width: 1200px) {
+        top: -9px;
+    }
+
+    @media all and (max-width: 768px) {
+        top: -6px;
+    }
+}
+
+.reorderItems {
+    margin: 15px 0;
+}
+
+.reorderItemWrap {
+    position: relative;
+    padding: 10px 0;
+    cursor: grab;
+}

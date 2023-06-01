@@ -3,6 +3,7 @@ import s from './Input.module.scss'
 import { FieldArray } from 'formik'
 import type { DynamicInputProps } from './InputTypes'
 import { Input } from './Input'
+import { ButtonDefault } from '../Button/Button'
 
 export const DynamicInput: React.FC<DynamicInputProps> = ({
     title,
@@ -14,23 +15,30 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
 }) => {
     return (
         <div className={s.inputWrap}>
-            <span className={s.title}>{title || name}</span>
+            {title ? <span className={s.title}>{title}</span> : null}
             <FieldArray name={name}>
                 {({ push, remove }) => (
-                    <>
+                    <div className={s.inputEditable__wrapOuter}>
                         {fields.map((field, id) => {
                             if (typeof field === 'string' || typeof field === 'number') {
                                 return (
                                     <div key={`basic_input_${id}`}>
-                                        <div className={s.inputEditable__wrap}>
+                                        <div
+                                            className={`${s.inputEditable__wrap} ${s.inputEditable__wrap_singleField}`}
+                                        >
                                             <Input name={`${name}[${id}]`} />
-                                            <button
+                                            <ButtonDefault
+                                                color='purple'
+                                                width='sm'
+                                                height='sm'
+                                                isGlitching={false}
+                                                type='button'
                                                 onClick={() => {
                                                     remove(id)
                                                 }}
                                             >
-                                                remove field
-                                            </button>
+                                                Remove field
+                                            </ButtonDefault>
                                         </div>
                                         {errors &&
                                             errors[id] &&
@@ -73,13 +81,17 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
                                                     )
                                                 })}
                                             </div>
-                                            <button
+                                            <ButtonDefault
+                                                color='purple'
+                                                width='sm'
+                                                isGlitching={false}
+                                                type='button'
                                                 onClick={() => {
                                                     remove(id)
                                                 }}
                                             >
-                                                remove field
-                                            </button>
+                                                Remove field
+                                            </ButtonDefault>
                                         </div>
                                         {errors &&
                                             errors[id] &&
@@ -95,24 +107,30 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
                                 )
                             }
                         })}
-                        <button
-                            type='button'
-                            onClick={() => {
-                                if (newFieldKeys) {
-                                    const newField = {} as { [key: string]: string }
-                                    newFieldKeys?.forEach((key) => {
-                                        newField[key] = ''
-                                    })
-                                    push(newField)
-                                }
-                                if (!newFieldKeys) {
-                                    push('')
-                                }
-                            }}
-                        >
-                            Add field
-                        </button>
-                    </>
+                        <div className={s.buttonAddNewField}>
+                            <ButtonDefault
+                                color='purple'
+                                width='sm'
+                                height='sm'
+                                isGlitching={false}
+                                type='button'
+                                onClick={() => {
+                                    if (newFieldKeys) {
+                                        const newField = {} as { [key: string]: string }
+                                        newFieldKeys?.forEach((key) => {
+                                            newField[key] = ''
+                                        })
+                                        push(newField)
+                                    }
+                                    if (!newFieldKeys) {
+                                        push('')
+                                    }
+                                }}
+                            >
+                                Add field
+                            </ButtonDefault>
+                        </div>
+                    </div>
                 )}
             </FieldArray>
         </div>

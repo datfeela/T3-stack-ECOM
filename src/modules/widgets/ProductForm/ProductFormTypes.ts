@@ -15,6 +15,8 @@ export type EditProductProps = z.infer<typeof editProductValidationSchema>
 export interface ProductFormProps {
     submitForm: (props: SubmitFormProps) => void
     serverError?: string
+    serverSuccess?: string
+    resetServerSuccess?: () => void
     initialValues?: SubmitFormProps
     isEditForm?: boolean
     isSubmitting: boolean

@@ -1,0 +1,18 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    margin-bottom: 20px;
+}
+
+.inputsWrap {
+    display: grid;
+    grid-template-columns: 1fr 28px;
+    gap: 20px;
+}
+
+.rating {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}

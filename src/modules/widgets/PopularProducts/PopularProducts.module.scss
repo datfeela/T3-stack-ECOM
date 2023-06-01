@@ -1,0 +1,70 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    position: relative;
+    padding-top: 100px;
+
+    @media all and (max-width: 1350px) {
+        padding-top: 75px;
+    }
+
+    @media all and (max-width: 960px) {
+        padding-top: 50px;
+    }
+
+    @media all and (max-width: 960px) {
+        padding-top: 30px;
+    }
+
+    @media all and (max-width: 600px) {
+        padding-top: 20px;
+    }
+}
+
+.wrapInner {
+    position: relative;
+    z-index: 1;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+
+    @media all and (min-width: 768px) and (max-width: 850px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media all and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-gap: 14px;
+    }
+}
+
+.productsSmall {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px 20px;
+
+    @media all and (max-width: 1200px) {
+        grid-template-columns: 1fr;
+        grid-gap: 14px;
+    }
+}
+
+.link {
+    @include main-view-more-link;
+}
+
+.bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+
+    @media all and (max-width: 480px) {
+        display: none;
+    }
+}

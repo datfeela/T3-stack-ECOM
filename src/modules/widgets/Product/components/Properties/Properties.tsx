@@ -1,7 +1,8 @@
 import { ClippedContainer } from '~/modules/shared/components/ClippedContainer/ClippedContainer'
-import type { Platform, Properties as TProperties } from '../../types/types'
+import type { Properties as TProperties } from '../../types/types'
 import s from './Properties.module.scss'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
+import type { Platform } from '~/modules/shared/types/productTypes'
 
 export const Properties = (props: TProperties) => {
     const { categories, releaseDate, developer, publisher, gamemodes, platforms } = props
@@ -51,7 +52,7 @@ const Property = ({ name, value }: PropertyProps) => {
                         value.map((text, valueId) => {
                             return (
                                 <span key={valueId}>
-                                    {valueId > 0 ? ', ' : ''}
+                                    {valueId > 0 ? `${name === 'genre' ? ' / ' : ', '}` : ''}
                                     {text}
                                 </span>
                             )

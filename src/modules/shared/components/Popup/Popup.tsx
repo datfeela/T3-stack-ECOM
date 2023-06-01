@@ -1,37 +1,29 @@
-import { type MouseEvent, useRef, useLayoutEffect, useState } from 'react'
+import { type MouseEvent, useRef, useEffect, useState } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import { SvgSelector } from '../SvgSelector/SvgSelector'
 import s from './Popup.module.scss'
+import { useBodyNoScroll } from '../../hooks/useBodyNoScroll'
 
 export interface PopupProps {
     isPopupActive: boolean
     deactivatePopup: () => void
     children: React.ReactNode
+    size?: 'fitContent' | 'full'
 }
 
-export const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) => {
+const Popup = ({ isPopupActive, deactivatePopup, children, size }: PopupProps) => {
     const closeBtnRef = useRef<HTMLDivElement>(null)
 
     // if screen is wider, than 18 / 10, layout changes
     const { height, width } = useWindowSize()
     const [isWideScreen, setIsWideScreen] = useState(width / height > 2)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (isPopupActive && width / height > 1.8) setIsWideScreen(true)
         else setIsWideScreen(false)
     }, [height, width, isPopupActive])
 
-    useLayoutEffect(() => {
-        if (!document) return
-        const bodyRef = document.body
-
-        if (isPopupActive && !bodyRef.classList.contains('no-scroll')) {
-            bodyRef.classList.add('no-scroll')
-        }
-        if (!isPopupActive && bodyRef.classList.contains('no-scroll')) {
-            bodyRef.classList.remove('no-scroll')
-        }
-    }, [isPopupActive])
+    useBodyNoScroll(isPopupActive)
     //
 
     const handleClick = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
@@ -46,7 +38,11 @@ export const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) 
             onClick={handleClick}
             className={`${s.wrapFixed} ${isPopupActive ? s.wrapFixed_visible : ''}`}
         >
-            <div className={`${s.wrapRelative} ${isWideScreen ? s.wrapRelative_wide : ''}`}>
+            <div
+                className={`${s.wrapRelative}  ${
+                    size === 'fitContent' ? s.wrapRelative_fitContent : ''
+                }  ${isWideScreen ? s.wrapRelative_wide : ''}`}
+            >
                 <div className={s.content}>{children}</div>
                 <div ref={closeBtnRef} className={s.icon}>
                     <SvgSelector id='close' />
@@ -55,3 +51,5 @@ export const Popup = ({ isPopupActive, deactivatePopup, children }: PopupProps) 
         </div>
     )
 }
+
+export default Popup

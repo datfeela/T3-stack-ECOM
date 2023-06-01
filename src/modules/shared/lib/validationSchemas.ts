@@ -27,11 +27,15 @@ export const clientFiltersSchema = z.object({
     features: z.array(z.string()).optional(),
 })
 
+export const productType = z.enum(['game', 'DLC', 'edition'])
+
 // product sort
 
 export const NamesToSortProductsEnum = z.nativeEnum({
     price: 'price',
     name: 'name',
+    popularity: 'popularity',
+    releaseDate: 'releaseDate',
 } as const)
 
 export const ValuesToSortProductsEnum = z.nativeEnum({
@@ -43,3 +47,32 @@ export const sortProductsSchema = z.object({
     name: NamesToSortProductsEnum,
     value: ValuesToSortProductsEnum,
 })
+
+// addReview
+
+export const addReviewValidationSchema = z.object({
+    productId: z.string(),
+    rating: z.number().min(0).max(1),
+    message: z
+        .string()
+        .max(1500, { message: 'Message must be 1500 or fewer characters long' })
+        .optional(),
+})
+
+export const getManyProductsInputSchema = z.object({
+    quantity: z.number(),
+    searchQuery: z.string().optional(),
+    isAdvancedSearch: z.boolean().optional(),
+    sortBy: sortProductsSchema.optional(),
+    comingSoon: z.boolean().optional(),
+    onSale: z.boolean().optional(),
+    cursor: z.string().nullish(),
+})
+
+// order
+
+export const orderStatusEnum = z.nativeEnum({
+    canceled: 'canceled',
+    received: 'received',
+    paidFor: 'paidFor',
+} as const)

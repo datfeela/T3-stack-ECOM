@@ -1,0 +1,10 @@
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 30px;
+
+    @media all and (max-width: 1200px) {
+        gap: 20px;
+    }
+}

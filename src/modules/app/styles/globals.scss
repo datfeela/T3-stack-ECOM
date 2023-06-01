@@ -31,18 +31,26 @@ aside {
 }
 html,
 body {
-    background: #fff;
+    background: $background;
     height: 100%;
     width: 100%;
+    min-height: 100%;
     font-size: 100%;
     line-height: 150%;
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     font-family: 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif;
-    overflow-x: hidden;
+    overflow-x: clip;
+    overflow-y: initial;
 }
+body {
+    font-size: 16px;
 
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+    }
+}
 input,
 button,
 textarea {
@@ -91,7 +99,7 @@ h6 {
     font-family: 'Orbitron';
     font-size: inherit;
     font-weight: 600;
-    line-height: 150%;
+    line-height: 140%;
 }
 
 //common
@@ -100,15 +108,81 @@ h6 {
     color: #ffffff;
 }
 
-main {
-    background: $background;
+#__next {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main {
+    flex-grow: 1;
+    flex-shrink: 0;
+    background: $background;
+    min-height: 100%;
 }
 
 .wrap {
     max-width: $appMaxWidth;
     padding: 0px 30px 85px 30px;
     margin: 0 auto;
+
+    @media all and (max-width: 1350px) {
+        padding: 0px 60px 50px 60px;
+    }
+
+    @media all and (max-width: 960px) {
+        padding: 0px 40px 40px 40px;
+    }
+
+    @media all and (max-width: 960px) {
+        padding: 0px 35px 30px 35px;
+    }
+
+    @media all and (max-width: 768px) {
+        padding: 0px 30px 30px 30px;
+    }
+
+    @media all and (max-width: 600px) {
+        padding: 0px 15px 20px 15px;
+    }
+}
+
+.wrapTextPage {
+    h1,
+    h2,
+    h3 {
+        font-family: 'Ubuntu';
+        margin-top: 25px;
+
+        @media all and (max-width: 1200px) {
+            margin-top: 20px;
+        }
+
+        @media all and (max-width: 768px) {
+            margin-top: 15px;
+        }
+    }
+
+    p {
+        margin: 16px 0;
+
+        @media all and (max-width: 1200px) {
+            margin: 12px 0;
+        }
+
+        @media all and (max-width: 768px) {
+            margin: 8px 0;
+        }
+    }
+
+    a {
+        text-decoration: underline;
+
+        &:hover {
+            color: $blueLight;
+        }
+    }
 }
 
 h1 {
@@ -118,7 +192,7 @@ h1 {
 
 h2 {
     font-size: 36px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 h3 {
@@ -126,9 +200,60 @@ h3 {
     margin-bottom: 15px;
 }
 
+@media all and (max-width: 1200px) {
+    h1 {
+        font-size: 32px;
+        margin-bottom: 25px;
+    }
+
+    h2 {
+        font-size: 27px;
+        margin-bottom: 18px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+}
+
+@media all and (max-width: 768px) {
+    h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+}
+
+@media all and (max-width: 480px) {
+    h1 {
+        font-size: 19px;
+    }
+
+    h2 {
+        font-size: 17px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+}
+
 // noscroll for popup
-body.no-scroll {
+html.no-scroll {
     height: 100vh;
     overflow-y: hidden;
     padding-right: 16px;
+
+    @media all and (max-width: 960px) {
+        padding-right: 0;
+    }
 }

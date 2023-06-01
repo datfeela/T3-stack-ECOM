@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ImageFill } from '../Image/Image'
+import ImageFill from '../Image/Image'
 import s from './Video.module.scss'
 
 export interface VideoProps {
@@ -36,6 +36,7 @@ export const Video = ({ id, isActive = false, autoplay = false, resCoverSrc }: V
                     orientation='16/9'
                     src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
                     srcRes={resCoverSrc}
+                    sizes='(max-width: 1500px) 100vw, 1500px'
                 />
             </div>
             {isVideoRendered ? (

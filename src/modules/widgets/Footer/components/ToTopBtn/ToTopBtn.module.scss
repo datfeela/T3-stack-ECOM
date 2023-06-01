@@ -1,0 +1,44 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.toTopBtn {
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    @media all and (max-width: 1200px) {
+        top: 20px;
+        right: 20px;
+    }
+
+    @media all and (max-width: 480px) {
+        top: 30px;
+
+        span {
+            display: none;
+        }
+    }
+
+    &:hover {
+        span {
+            color: $blueLight;
+        }
+
+        svg {
+            fill: $blueLight;
+        }
+    }
+
+    span {
+        font-family: 'Orbitron';
+    }
+
+    svg {
+        fill: #fff;
+        transform: rotate(-90deg);
+    }
+}

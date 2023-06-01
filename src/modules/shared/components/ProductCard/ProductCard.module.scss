@@ -1,0 +1,742 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &_default {
+        .info {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .name {
+            font-size: 20px;
+            margin: 10px 18px;
+            font-weight: 500;
+
+            @media all and (max-width: 1200px) {
+                font-size: 18px;
+            }
+
+            @media all and (max-width: 768px) {
+                margin: 7px 12px;
+                font-size: 16px;
+            }
+        }
+
+        .priceBlock {
+            padding: 5px 18px;
+            background: rgba($color: $purple, $alpha: 0.4);
+            backdrop-filter: blur(3px);
+
+            @media all and (max-width: 768px) {
+                padding: 5px 12px;
+            }
+        }
+    }
+
+    &_horizontal {
+        padding: 1rem 0.75rem;
+
+        display: grid;
+        grid-template-columns: 5fr 4fr;
+        grid-gap: 1rem;
+
+        @media all and (max-width: 480px) {
+            grid-template-columns: 1fr;
+        }
+
+        .name {
+            font-weight: 500;
+            margin-bottom: 20px;
+
+            @media all and (max-width: 480px) {
+                margin-bottom: 10px;
+            }
+        }
+
+        .priceBlock {
+            @media all and (max-width: 480px) {
+                max-width: fit-content;
+                gap: 20px;
+            }
+        }
+
+        .priceBlockInner {
+            @media all and (min-width: 481px) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+        }
+    }
+
+    &_vertical {
+        &:hover {
+            .date {
+                color: #00e4f2;
+                text-shadow: -1px 0px 0px #ff003c, -1.5px 0px 0px rgba(250, 255, 0, 0.82);
+            }
+        }
+
+        .priceRow {
+            display: none;
+        }
+
+        .name {
+            display: none;
+        }
+
+        .date {
+            display: block;
+            padding: 15px 20px 20px 20px;
+            text-align: center;
+
+            font-family: 'Orbitron';
+            font-weight: 500;
+            line-height: 150%;
+        }
+    }
+
+    &_cartHeader {
+        padding: 1rem 0.75rem;
+
+        display: grid;
+        grid-template-columns: 75px 1fr;
+        grid-gap: 20px;
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .priceRow {
+            justify-content: space-between;
+            padding-right: 0.5rem;
+        }
+
+        .name {
+            padding-right: 24px;
+        }
+
+        .price {
+            @include price-main-sm;
+        }
+
+        .priceWithoutDiscount {
+            @include price-discount-sm;
+        }
+    }
+
+    &_cart {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-gap: 12px;
+        padding: 20px 40px 20px 20px;
+
+        @media all and (max-width: 1120px) {
+            grid-template-columns: 160px 1fr;
+        }
+
+        @media all and (max-width: 768px) {
+            padding: 12px 24px 12px 12px;
+        }
+
+        @media all and (max-width: 480px) {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            grid-gap: 0;
+        }
+
+        .imageLink {
+            align-self: center;
+        }
+
+        .info {
+            height: 100%;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            grid-template-rows: auto auto 1fr;
+            grid-gap: 12px;
+            align-items: start;
+            position: relative;
+            grid-template-areas:
+                'TYPE PRICE'
+                'NAME NAME'
+                'ACTIONS ACTIONS';
+
+            @media all and (max-width: 1200px) {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    'TYPE'
+                    'NAME'
+                    'PRICE'
+                    'ACTIONS';
+            }
+
+            @media all and (max-width: 480px) {
+                padding: 12px;
+                grid-gap: 8px;
+            }
+        }
+
+        .actions {
+            grid-area: ACTIONS;
+            justify-self: flex-end;
+            align-self: flex-end;
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-end;
+
+            &__bottom {
+                display: flex;
+                gap: 34px;
+                align-items: center;
+            }
+
+            @media all and (max-width: 540px) {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            @media all and (max-width: 480px) {
+                justify-self: flex-start;
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        .productType {
+            text-transform: capitalize;
+            font-family: 'Orbitron';
+            color: rgba($color: #fff, $alpha: 0.7);
+            grid-area: TYPE;
+        }
+
+        .name {
+            font-family: 'Orbitron';
+            font-weight: 400;
+            font-size: 24px;
+            white-space: normal;
+            grid-area: NAME;
+
+            @media all and (max-width: 1200px) {
+                font-size: 22px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 19px;
+            }
+
+            @media all and (max-width: 480px) {
+                font-size: 17px;
+            }
+        }
+
+        .priceRow {
+            grid-area: PRICE;
+            justify-content: flex-end;
+
+            @media all and (max-width: 540px) {
+                justify-content: flex-start;
+            }
+        }
+
+        .priceBlock {
+            flex-direction: row-reverse;
+            align-items: flex-start;
+            width: fit-content;
+
+            @media all and (max-width: 540px) {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            @media all and (max-width: 480px) {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+
+        .priceBlockInner {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            width: fit-content;
+
+            @media all and (max-width: 540px) {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            @media all and (max-width: 480px) {
+                flex-direction: row;
+                gap: 10px;
+            }
+        }
+
+        .favorites_absolute {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            @media all and (max-width: 480px) {
+                top: 12px;
+                right: 12px;
+            }
+        }
+    }
+
+    &_popular {
+        @media all and (max-width: 1200px) {
+            display: grid;
+            grid-template-columns: 4fr 5fr;
+        }
+
+        @media all and (max-width: 900px) {
+            grid-template-columns: 3.6fr 5fr;
+        }
+
+        .image,
+        .imageLink {
+            padding: 5px 5px 0 5px;
+
+            @media all and (max-width: 1200px) {
+                padding: 4px;
+            }
+
+            @media all and (max-width: 768px) {
+                padding: 0;
+            }
+        }
+
+        .bottom {
+            background: rgba($color: $purple, $alpha: 0.15);
+            backdrop-filter: 2px;
+        }
+
+        .info {
+            height: 100%;
+            padding: 5px 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            @media all and (max-width: 768px) {
+                justify-content: space-between;
+                padding: 12px 10px;
+            }
+        }
+
+        .name {
+            font-size: 16px;
+            line-height: 150%;
+
+            @media all and (max-width: 1200px) {
+                font-size: 15px;
+                min-height: 45px;
+                padding-right: 30px;
+            }
+
+            @media all and (min-width: 768px) and (max-width: 850px) {
+                white-space: normal;
+            }
+
+            @media all and (max-width: 480px) {
+                padding-right: 0;
+            }
+        }
+
+        .priceBlock {
+            padding: 2px 1rem 2px 0;
+            justify-content: space-between;
+
+            @media all and (max-width: 1200px) {
+                padding-right: 5px;
+            }
+        }
+
+        .priceBlockInner {
+            @media all and (min-width: 768px) and (max-width: 850px) {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+
+        .price {
+            @include price-main-sm;
+        }
+
+        .priceWithoutDiscount {
+            @include price-discount-sm;
+        }
+
+        .discount {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+        }
+
+        .popup {
+            &__closeBtn {
+                @media all and (max-width: 1350px) {
+                    top: 3px;
+                    left: 0;
+                }
+            }
+
+            @media all and (max-width: 1200px) {
+                display: none;
+            }
+
+            .priceBlockInner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+        }
+    }
+
+    &_defaultLg {
+        .image,
+        .imageLink {
+            padding: 11px 11px 0 11px;
+
+            @media all and (max-width: 1200px) {
+                padding: 5px 5px 0 5px;
+            }
+
+            @media all and (max-width: 768px) {
+                padding: 0;
+            }
+        }
+
+        .bottom {
+            padding: 15px 35px 20px 7px;
+            background: rgba($color: $purple, $alpha: 0.15);
+            backdrop-filter: 2px;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            @media all and (max-width: 1350px) {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 15px 7px;
+            }
+        }
+
+        .info {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            @media all and (max-width: 1350px) {
+                height: auto;
+                margin-bottom: 25px;
+                gap: 15px;
+            }
+        }
+
+        .name {
+            font-size: 24px;
+            font-weight: 600;
+
+            @media all and (min-width: 961px) and (max-width: 1350px) {
+                white-space: unset;
+            }
+
+            @media all and (max-width: 960px) {
+                font-size: 20px;
+            }
+
+            @media all and (max-width: 768px) {
+                font-size: 18px;
+            }
+        }
+
+        .priceBlock {
+            @media all and (max-width: 768px) {
+                padding: 5px 12px;
+            }
+        }
+
+        .toProductBtn_lg {
+            margin-right: 15px;
+
+            @media all and (max-width: 1350px) {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            & > div {
+                margin: 0 auto;
+            }
+        }
+
+        .discount {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .fav {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .popup {
+            padding: 15px 30px;
+
+            @media all and (max-width: 1200px) {
+                display: none;
+            }
+
+            .name {
+                margin-bottom: 10px;
+            }
+
+            .desc {
+                -webkit-line-clamp: 10;
+            }
+        }
+    }
+
+    &_search {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-gap: 12px;
+        padding: 20px 40px 20px 20px;
+
+        .name {
+            white-space: normal;
+
+            font-weight: 400;
+            font-size: 18px;
+
+            @media all and (max-width: 900px) {
+                font-size: 16px;
+            }
+        }
+
+        .priceBlock {
+            justify-content: flex-end;
+        }
+
+        .priceBlockInner {
+            width: fit-content;
+        }
+
+        .price {
+            @include price-main-md;
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        .priceWithoutDiscount {
+            @include price-discount-md;
+            font-weight: 400;
+            font-size: 18px;
+        }
+    }
+}
+
+.bottom {
+    flex-grow: 1;
+}
+
+.info {
+}
+
+.name {
+    font-family: 'Orbitron';
+    font-weight: 600;
+    white-space: pre-wrap;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 150%;
+}
+
+a.name {
+    &:hover {
+        color: $blueLight;
+    }
+}
+
+.priceRow {
+    @include price-row;
+}
+
+.priceBlock {
+    @include price-row;
+}
+
+.priceBlockInner {
+    @include price-row;
+}
+
+.price {
+    @include price-main-md;
+}
+
+.priceWithoutDiscount {
+    @include price-discount-md;
+}
+
+.toProductBtn {
+    position: absolute;
+    right: 2rem;
+    bottom: 1.5rem;
+
+    height: 28px;
+    width: 28px;
+    padding: 6px;
+
+    @include link-with-arrow-icon;
+
+    @media all and (max-width: 1200px) {
+        bottom: 1rem;
+    }
+
+    @media all and (max-width: 480px) {
+        bottom: 0.75rem;
+    }
+}
+
+.fav {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 3;
+}
+
+.closeBtnSm {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    height: 24px;
+    width: 24px;
+
+    &:hover {
+        svg {
+            fill: rgba($color: $blueLight, $alpha: 1);
+        }
+    }
+
+    svg {
+        fill: rgba($color: #fff, $alpha: 0.5);
+    }
+}
+
+.popup {
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba($color: $headerBg, $alpha: 0.8);
+    backdrop-filter: blur(2px);
+    padding: 10px 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media all and (max-width: 1350px) {
+        padding: 8px 10px 10px 10px;
+        gap: 0;
+    }
+
+    .name {
+        flex-shrink: 0;
+        text-align: center;
+        padding: 0 32px 0 20px;
+    }
+
+    .desc {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        text-align: center;
+        margin-bottom: 8px;
+
+        @media all and (max-width: 1350px) {
+            -webkit-line-clamp: 2;
+        }
+    }
+
+    &__closeBtn {
+        cursor: pointer;
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        height: 30px;
+        width: 30px;
+
+        &:hover {
+            svg {
+                fill: #fff;
+            }
+        }
+
+        svg {
+            fill: $grey;
+        }
+    }
+
+    .priceBlock {
+        align-items: start;
+        justify-content: start;
+    }
+
+    .priceBlockInner {
+        width: auto;
+    }
+
+    .discount {
+        position: static;
+    }
+
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        padding: 0 20px 0 15px;
+
+        @media all and (max-width: 1350px) {
+            margin-bottom: 5px;
+        }
+
+        &__item {
+            padding: 5px 7px;
+            background: rgba($color: $purple, $alpha: 0.7);
+            border-radius: 23px;
+
+            font-family: 'Orbitron';
+            font-size: 12px;
+            line-height: 120%;
+        }
+    }
+}

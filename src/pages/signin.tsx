@@ -1,52 +1,28 @@
-import { signIn, getProviders, type LiteralUnion, type ClientSafeProvider } from 'next-auth/react'
-import { type BuiltInProviderType } from 'next-auth/providers'
+import { getProviders } from 'next-auth/react'
 import { getServerAuthSession } from '~/server/auth'
 
 import { type GetServerSideProps, type NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import { SignIn } from '~/modules/widgets/SignIn'
+import type { AuthProviders } from '~/modules/shared/types/types'
 
 export interface SingInProps {
-    providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null
+    providers: AuthProviders
 }
 
-const SignIn: NextPage<SingInProps> = ({ providers }) => {
-    const providersEls =
-        providers &&
-        Object.values(providers).map(({ name, id }) => (
-            <button
-                key={id}
-                onClick={() => {
-                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                    signIn(id, { callbackUrl: `${window.location.origin}` })
-                }}
-            >
-                <Image
-                    src={`/sign-in-providers/${name}.png`}
-                    alt={`${name}`}
-                    width={200}
-                    height={112}
-                />
-                <span>{name}</span>
-            </button>
-        ))
-
+const SignInPage: NextPage<SingInProps> = ({ providers }) => {
     return (
         <>
             <Head>
-                <title>Sign In | feela-t3-ecom</title>
+                <title>Sign In | T3-Ecom</title>
                 <meta name='description' content='Sing In' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
-            <main>
-                <h1>Sign In</h1>
-                <div>{providersEls}</div>
-            </main>
+            <SignIn providers={providers} />
         </>
     )
 }
 
-export default SignIn
+export default SignInPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { res } = ctx

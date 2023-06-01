@@ -2,11 +2,12 @@ import s from './AdminProducts.module.scss'
 import { useState } from 'react'
 
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
-import { api } from '~/modules/shared/api/apiTRPC'
-import { Sort } from './components/Sort/Sort'
 import { Product } from './components/Product/Product'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
+import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
+import { Header } from './components/Header/Header'
+import { useInfiniteScroll } from '~/modules/shared/hooks/useInfiniteScroll'
 
 export const AdminProducts = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -17,13 +18,36 @@ export const AdminProducts = () => {
         250,
     )
 
-    const productsData = api.products.getManyProducts.useQuery({
+    const {
+        products: productsData,
+        isLoading,
+        getNextPage,
+        isAllProductsLoaded,
+    } = useManyProductsData({
         quantity: 10,
         searchQuery: debouncedSearchQuery,
         sortBy,
+        keepPreviousData: true,
     })
 
-    const products = productsData.data?.map((product) => <Product key={product.id} {...product} />)
+    const scrollAnchorRef = useInfiniteScroll({
+        getMore: () => {
+            getNextPage()
+        },
+        shouldGetMore: !isLoading && !isAllProductsLoaded,
+    })
+
+    const products = productsData?.map((product, id) => {
+        return (
+            <div
+                key={product.id}
+                ref={id === productsData.length - 10 ? scrollAnchorRef : undefined}
+                className={`${s.product} ${id % 2 === 1 ? s.product_bg : ''}`}
+            >
+                <Product {...product} />
+            </div>
+        )
+    })
 
     return (
         <div className={s.wrap}>
@@ -33,7 +57,7 @@ export const AdminProducts = () => {
                 handleChange={setSearchQuery}
                 isLoading={isDebouncing}
             />
-            <Sort setSortBy={setSortBy} />
+            <Header sortBy={sortBy} setSortBy={setSortBy} />
             <div className={s.productsWrap}>{products}</div>
         </div>
     )

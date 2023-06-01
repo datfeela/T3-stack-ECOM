@@ -1,8 +1,5 @@
-import { TRPCError } from '@trpc/server'
-import { SignJWT } from 'jose'
-import { nanoid } from 'nanoid'
 import { env } from '~/env.mjs'
-import { getJwtSecretKey } from '~/server/helpers/adminAuth'
+import { createJwtSecretKey, validateAdminCredentials } from '~/server/helpers/adminAuth'
 import cookie from 'cookie'
 import { adminLoginSchema } from '~/modules/entities/admin'
 import { publicProcedure } from '../trpc'
@@ -13,40 +10,16 @@ export const adminLogIn = publicProcedure
         const { login, password, rememberMe } = input
         const { res } = ctx
 
-        const envLogin = env.ADMIN_LOGIN
-        const envPassWord = env.ADMIN_PASSWORD
+        validateAdminCredentials({ login, password })
 
-        if (!envLogin || envLogin.length === 0 || !envPassWord || envPassWord.length === 0) {
-            throw new TRPCError({
-                message: 'there is no login/password set for admin!',
-                code: 'NOT_FOUND',
-            })
-        }
+        // if valid credentials
+        const token = await createJwtSecretKey(rememberMe)
 
-        if (envLogin !== login || envPassWord !== password) {
-            throw new TRPCError({
-                message: 'wrong login/password!',
-                code: 'NOT_FOUND',
-            })
-        }
-
-        // if login an password are valid
-
-        const token = await new SignJWT({})
-            .setProtectedHeader({ alg: 'HS256' })
-            .setJti(nanoid())
-            .setIssuedAt()
-            .setExpirationTime(
-                rememberMe ? (env.NODE_ENV === 'production' ? '1d' : '14 days') : '1h',
-            ) //see "vercel/ms"
-            .sign(new TextEncoder().encode(getJwtSecretKey()))
-
-        // so the cookie can be sent back and revalidated in middleware
-
+        // now cookie can be sent back and revalidated in middleware
         res.setHeader(
             'Set-Cookie',
             cookie.serialize('admin-token', token, {
-                // httpOnly: true, //!turning this off is a bit wrong btw
+                // httpOnly: true, //!turning this off is a bit wrong btw, but idk how to play around it on client
                 path: '/',
                 secure: env.NODE_ENV === 'production',
                 sameSite: env.NODE_ENV === 'production' && 'lax',

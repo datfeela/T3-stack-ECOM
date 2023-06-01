@@ -1,15 +1,19 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
 .wrap {
     font-family: 'Tomorrow', sans-serif;
     width: 100%;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
 }
 
 .sidebar {
     position: fixed;
-    width: 250px;
+    width: $adminSidebarWidth;
     height: 100vh;
     padding: 20px;
-    border-right: 1px solid #555;
+    border-right: 1px solid $greyMid;
     background: #222;
 
     display: flex;
@@ -38,7 +42,7 @@
 
 .content {
     main {
-        margin-left: 250px;
-        padding: 20px;
+        margin-left: $adminSidebarWidth;
+        padding: $adminMainPadding;
     }
 }

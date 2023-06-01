@@ -1,0 +1,58 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrapInner {
+    padding: 1.5rem 1rem;
+
+    @media all and (max-width: 1200px) {
+        padding: 0.75rem 1rem;
+    }
+}
+
+.title {
+    font-weight: 500;
+    font-size: 20px;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+
+    @media all and (max-width: 1200px) {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    @media all and (max-width: 768px) {
+        font-size: 17px;
+    }
+}
+
+.items {
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: 10px;
+
+    @media all and (max-width: 1200px) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px 15px;
+    }
+
+    @media all and (max-width: 480px) {
+        flex-direction: column;
+    }
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    @media all and (max-width: 1200px) {
+        gap: 7px;
+    }
+
+    span {
+        height: 7px;
+        width: 7px;
+        border-radius: 50%;
+        background: $blueLight;
+    }
+}

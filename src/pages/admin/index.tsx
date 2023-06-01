@@ -1,18 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
+import { AdminMain } from '~/modules/widgets/AdminMain'
 
 const Admin: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Test</title>
-                <meta name='description' content='Пользовательское соглашение' />
-                <link rel='icon' href='/favicon.ico' />
+                <title>Admin</title>
             </Head>
             <AdminLayout>
                 <main>
-                    <div>admin secret page</div>
+                    <AdminMain />
                 </main>
             </AdminLayout>
         </>

@@ -5,6 +5,14 @@
     flex-direction: column;
     gap: 30px;
     padding: $mdContainerPadding;
+
+    @media all and (max-width: 960px) {
+        gap: 20px;
+    }
+
+    @media all and (max-width: 768px) {
+        gap: 15px;
+    }
 }
 
 .filter {
@@ -12,9 +20,16 @@
     grid-template-columns: 120px 1fr;
     grid-gap: 10px;
 
+    word-break: break-word;
+
+    @media all and (max-width: 768px) {
+        font-size: 15px;
+    }
+
     &__title {
         font-weight: 700;
         text-transform: capitalize;
+        color: $blueLight;
     }
 
     &__value {
@@ -30,8 +45,21 @@
 
 .icon {
     height: 30px;
-    width: 40px;
+    aspect-ratio: 4 / 3 !important;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media all and (max-width: 960px) {
+        height: 25px;
+    }
+
+    @media all and (max-width: 768px) {
+        height: 20px;
+    }
+
+    svg {
+        height: 100%;
+        fill: #fff;
+    }
 }

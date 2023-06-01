@@ -1,0 +1,17 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    @include link-with-arrow-icon;
+
+    svg {
+        height: 20px;
+        width: 20px;
+        position: relative;
+        top: -6px;
+    }
+}

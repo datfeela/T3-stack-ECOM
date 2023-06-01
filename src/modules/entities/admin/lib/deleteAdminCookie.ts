@@ -15,7 +15,7 @@ export const deleteAdminCookie = () => {
         updatedCookie += '; ' + optionKey
         const optionValue = options[optionKey as keyof typeof options]
         if (optionValue !== true) {
-            updatedCookie += '=' + optionValue
+            updatedCookie += '=' + `${optionValue}`
         }
     }
 

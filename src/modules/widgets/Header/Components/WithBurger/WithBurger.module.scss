@@ -1,0 +1,126 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.burger {
+    position: relative;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 30px;
+    height: 22px;
+    overflow: hidden;
+
+    &:hover {
+        @media all and (min-width: 421px) {
+            span {
+                background: $blueLight;
+            }
+        }
+    }
+
+    &_active {
+        @media all and (min-width: 421px) {
+            height: 25px;
+
+            span {
+                height: calc(100% - 3px);
+            }
+
+            .first {
+                transform: rotate(45deg);
+                top: 50%;
+            }
+
+            .second {
+                transform: translateX(100%);
+            }
+
+            .third {
+                transform: rotate(-45deg);
+                top: 50%;
+            }
+        }
+    }
+
+    span {
+        position: absolute;
+        right: 0;
+        background: #fff;
+        height: 2px;
+        transition: 0.2s;
+    }
+}
+
+.first {
+    width: 100%;
+    top: 0;
+}
+
+.second {
+    width: 50%;
+    top: calc(50% - 1px);
+}
+
+.third {
+    width: 100%;
+    top: calc(100% - 2px);
+}
+
+.burgerBg {
+    @include popup-bg;
+
+    &_hidden {
+        display: none;
+    }
+}
+
+.burgerContentWrap {
+    position: absolute;
+    top: calc(100% - 2px);
+    right: 0px;
+    width: 100%;
+    height: calc(100vh - 100% + 2px);
+    z-index: 15;
+    border: 1px solid $purple;
+
+    max-width: 520px;
+
+    background: rgba(29, 26, 33, 0.7);
+    backdrop-filter: blur(2.5px);
+
+    @media all and (max-width: 420px) {
+        top: 0;
+        height: 100vh;
+    }
+
+    &_hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.closeBurgerBtn {
+    position: absolute;
+    z-index: 20;
+    top: 2.25rem;
+    right: 1rem;
+    height: 30px;
+    width: 30px;
+    padding: 4px;
+    display: none;
+
+    @media all and (max-width: 420px) {
+        display: block;
+    }
+
+    &:hover {
+        svg {
+            fill: #fff;
+        }
+    }
+
+    svg {
+        fill: $grey;
+    }
+}

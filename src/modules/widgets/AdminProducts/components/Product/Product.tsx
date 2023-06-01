@@ -1,7 +1,9 @@
 import type { Product as ProductT } from '@prisma/client'
-import Image from 'next/image'
 import Link from 'next/link'
 import s from './Product.module.scss'
+import ImageFill from '~/modules/shared/components/Image/Image'
+import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
+import { DeletePopup } from '../DeletePopup/DeletePopup'
 
 export const Product = ({
     id,
@@ -15,11 +17,11 @@ export const Product = ({
             {horizontalImagePath ? (
                 <Link href={`/admin/products/edit/${id}`}>
                     <div className={s.image}>
-                        <Image
+                        <ImageFill
                             src={horizontalImagePath}
                             alt={name}
-                            fill
-                            style={{ objectFit: 'contain' }}
+                            objectFit='contain'
+                            sizes='100px'
                         />
                     </div>
                 </Link>
@@ -29,7 +31,12 @@ export const Product = ({
             <Link href={`/admin/products/edit/${id}`}>{name}</Link>
             <span>{price}</span>
             {priceWithoutDiscount ? <span>{priceWithoutDiscount}</span> : <div />}
-            <Link href={`/admin/products/edit/${id}`}>Edit</Link>
+            <Link href={`/admin/products/edit/${id}`}>
+                <button className={`${s.button} ${s.button_edit}`}>
+                    <SvgSelector id='edit' />
+                </button>
+            </Link>
+            <DeletePopup id={id} />
         </div>
     )
 }

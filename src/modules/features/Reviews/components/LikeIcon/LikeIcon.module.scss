@@ -1,0 +1,40 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.icon {
+    width: 28px;
+    height: 25px;
+    opacity: 0.4;
+
+    svg {
+        height: 100%;
+        width: 100%;
+        fill: #fff;
+    }
+
+    &_sm {
+        height: 17px;
+        width: 17px;
+    }
+
+    &_active {
+        opacity: 1;
+    }
+
+    &_dislike {
+        svg {
+            transform: rotate(180deg);
+        }
+    }
+
+    &_red {
+        svg {
+            fill: $red;
+        }
+    }
+
+    &_blue {
+        svg {
+            fill: $blueLight;
+        }
+    }
+}

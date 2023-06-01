@@ -1,0 +1,32 @@
+@import '/src/modules/shared/styles/mixins.scss';
+@import '/src/modules/shared/styles/var.scss';
+
+.popupContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.nothingFound {
+    font-size: 20px;
+    padding: 30px 0;
+    text-align: center;
+    line-height: 150%;
+}
+
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.productWrap {
+    &:nth-child(2n - 1) {
+        @include semi-transparent-bg;
+    }
+    // border-bottom: 1px solid $purple;
+
+    // &:last-child {
+    //     border: unset;
+    // }
+}

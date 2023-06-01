@@ -1,0 +1,134 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.iconXs {
+    height: 30px;
+    width: 30px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    svg {
+        fill: #fff;
+        stroke: #fff;
+        height: 100%;
+        width: 100%;
+    }
+
+    display: none;
+
+    @media all and (max-width: 420px) {
+        display: block;
+    }
+}
+
+.wrap {
+    position: relative;
+
+    @media all and (max-width: 960px) {
+        height: 100%;
+    }
+
+    @media all and (max-width: 768px) {
+        position: static;
+    }
+}
+
+.search {
+    @media all and (max-width: 420px) {
+        z-index: 10;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: $headerBg;
+        width: 100vw;
+
+        opacity: 0;
+        visibility: hidden;
+
+        &_visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.popupBg {
+    @include popup-bg;
+}
+
+.popup {
+    position: absolute;
+    top: calc(100% + $headerPaddingBot - 2px);
+    right: 0;
+    width: 100vw;
+    max-width: 900px;
+    background: $headerBg;
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    z-index: 10;
+    border: 1px solid $purple;
+
+    @include purple-scrollbar;
+
+    @media all and (max-width: 1500px) {
+        max-width: 60vw;
+    }
+
+    @media all and (max-width: 960px) {
+        top: calc(100% + $headerPaddingBot960);
+        max-width: 80vw;
+    }
+
+    @media all and (max-width: 768px) {
+        left: 0;
+        max-width: 100%;
+        top: 100%;
+    }
+
+    @media all and (max-width: 420px) {
+        height: calc(100vh - 100%);
+    }
+}
+
+.popupCloseBtn {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + $headerPaddingBot + 10px);
+    right: -40px;
+    height: 30px;
+    width: 30px;
+    display: none;
+
+    @media all and (max-width: 1500px) {
+        display: block;
+    }
+
+    @media all and (max-width: 960px) {
+        top: calc(100% + $headerPaddingBot960 + 10px);
+    }
+
+    @media all and (max-width: 768px) {
+        top: calc(100% + 5px);
+        right: 10px;
+    }
+
+    &:hover {
+        svg {
+            fill: #fff;
+        }
+    }
+
+    svg {
+        fill: rgba($color: #fff, $alpha: 0.5);
+    }
+}
+
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}

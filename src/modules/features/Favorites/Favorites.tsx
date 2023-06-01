@@ -1,50 +1,49 @@
-import { api } from '~/modules/shared/api/apiTRPC'
 import s from './Favorites.module.scss'
-import { useSession } from 'next-auth/react'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
+import { useFavorites } from './hooks/useFavorites'
+import { useUserId } from '~/modules/shared/hooks/useUserId'
 
 export interface FavoritesProps {
     id: string
     withBg?: boolean
+    view?: 'icon' | 'iconWithText'
 }
 
-export const Favorites = ({ id, withBg = false }: FavoritesProps) => {
-    // todo: refactor to react context???
-    const session = useSession()
-    const userId = session.data?.user.id
+export const Favorites = ({ id, withBg = false, view = 'icon' }: FavoritesProps) => {
+    const userId = useUserId()
 
-    const apiContext = api.useContext()
-    const userFavorites = api.user.getUserWishes.useQuery(userId || '').data
-    const wishedProduct = userFavorites?.wishedProducts.find((product) => product.id === id)
-    const toggleFavorites = api.products.toggleProductToWishes.useMutation({
-        onMutate: async () => {
-            await apiContext.user.getUserWishes.cancel()
-            const optimisticUpdate = apiContext.user.getUserWishes.getData()
-
-            if (optimisticUpdate) {
-                apiContext.user.getUserWishes.setData(id, optimisticUpdate)
-            }
-        },
-        onSuccess: async () => {
-            await apiContext.user.getUserWishes.invalidate()
-        },
-    })
-
-    const handleClick = () => {
-        toggleFavorites.mutate({ action: wishedProduct ? 'delete' : 'add', productId: id })
-    }
+    const {
+        isPending,
+        isWished,
+        handleClick: handleButtonClick,
+    } = useFavorites({ productId: id, userId })
 
     if (!userId) return null
 
     return (
         <button
             type='button'
-            className={`${s.wrap} ${withBg ? s.wrap_bg : ''}`}
-            onClick={() => {
-                handleClick()
-            }}
+            className={`${s.wrap} ${view === 'iconWithText' ? s.wrap_withText : ''} ${
+                withBg ? s.wrap_bg : ''
+            } ${isPending ? s.wrap_disabled : ''}`}
+            onClick={handleButtonClick}
         >
-            <SvgSelector id={wishedProduct ? 'favoritesActive' : 'favorites'} />
+            {isWished ? (
+                <>
+                    <div className={s.icon}>
+                        <SvgSelector id='favoritesActive' />
+                    </div>
+                    {view === 'iconWithText' ? <span>Remove from wishlist</span> : null}
+                </>
+            ) : null}
+            {!isWished ? (
+                <>
+                    <div className={s.icon}>
+                        <SvgSelector id='favorites' />
+                    </div>
+                    {view === 'iconWithText' ? <span>Move to wishlist</span> : null}
+                </>
+            ) : null}
         </button>
     )
 }

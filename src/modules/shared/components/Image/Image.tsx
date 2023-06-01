@@ -1,45 +1,68 @@
-import NextImage from 'next/image'
-import { useState } from 'react'
+import NextImage, { type StaticImageData } from 'next/image'
+import React, { useState } from 'react'
+import type { ImageOrientation } from '../../types/types'
+import s from './Image.module.scss'
 
 export interface ImageFillProps {
-    src: string
+    src: string | StaticImageData
     srcRes?: string
     alt?: string
-    orientation?: '16/9' | '16/10' | '4/5' | '21/9' | 'unset'
+    orientation?: ImageOrientation
     objectFit?: 'cover' | 'contain'
+    objectPosition?: string
     sizes?: string
+    priority?: boolean
+    id?: string
+    diffPlaceholderColor?: boolean
 }
 
-export const ImageFill = ({
+const ImageFill = ({
     src,
     srcRes,
     alt,
     objectFit = 'cover',
+    objectPosition,
     orientation = 'unset',
     sizes,
+    priority = false,
+    diffPlaceholderColor,
 }: ImageFillProps) => {
     const [isError, setIsError] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false)
 
     return (
         <div
+            className={s.wrap}
             style={{
-                position: 'relative',
                 aspectRatio: orientation,
-                margin: '0 auto',
                 height: orientation === 'unset' ? '100%' : 'auto',
             }}
         >
+            {!isLoaded ? (
+                <div
+                    className={`${s.placeholder} ${
+                        diffPlaceholderColor ? s.placeholder_diffColor : ''
+                    }`}
+                    style={{
+                        aspectRatio: orientation,
+                        height: orientation === 'unset' ? '100%' : 'auto',
+                    }}
+                ></div>
+            ) : null}
             {!isError ? (
                 <NextImage
                     src={src}
                     alt={alt || ''}
-                    placeholder='blur'
-                    blurDataURL={src}
                     fill
-                    style={{ objectFit }}
+                    style={{ objectFit, objectPosition, opacity: isLoaded ? 1 : 0 }}
                     sizes={sizes}
                     onError={() => {
                         setIsError(true)
+                    }}
+                    quality={95}
+                    priority={priority}
+                    onLoadingComplete={() => {
+                        setIsLoaded(true)
                     }}
                 />
             ) : null}
@@ -47,16 +70,16 @@ export const ImageFill = ({
                 <NextImage
                     src={srcRes}
                     alt={alt || ''}
-                    placeholder='blur'
-                    blurDataURL={srcRes}
                     fill
-                    style={{ objectFit }}
+                    style={{ objectFit, objectPosition, opacity: isLoaded ? 1 : 0 }}
                     sizes={sizes}
-                    onError={() => {
-                        setIsError(true)
+                    onLoadingComplete={() => {
+                        setIsLoaded(true)
                     }}
                 />
             ) : null}
         </div>
     )
 }
+
+export default React.memo(ImageFill)

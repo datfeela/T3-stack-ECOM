@@ -1,18 +1,19 @@
 import s from './ImageInput.module.scss'
-import Image from 'next/image'
 import React, { useRef } from 'react'
 import type { MouseEvent } from 'react'
-import { ButtonDefault } from '~/modules/shared/components/Button/Button'
+import Image from '~/modules/shared/components/Image/Image'
+import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 
-interface ImageInputProps {
+type ImageInputProps = {
     title?: string
     name: string
     value: string | File | undefined
     error: string | undefined
     onChangeHandler: (field: string, value: any) => void
+    id?: number
 }
 
-const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputProps) => {
+const ImageInput = ({ title, name, value, error, onChangeHandler, id }: ImageInputProps) => {
     const imgSrc = value
         ? typeof value === 'string'
             ? value
@@ -22,8 +23,6 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
     const inputRef = useRef(null) as React.RefObject<HTMLInputElement> | null
 
     const deleteImage = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log(e.currentTarget.value)
-
         e.preventDefault()
         const input = inputRef?.current as HTMLInputElement
         input.value = ''
@@ -39,29 +38,45 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
             >
                 {imgSrc ? (
                     <>
-                        <Image src={imgSrc} alt='' fill style={{ objectFit: 'contain' }} />
+                        <Image sizes='150px' id={`${id}`} src={imgSrc} alt='' objectFit='contain' />
                     </>
                 ) : (
                     <div className={s.popup}>
-                        <button type='button'>+</button>
+                        <SvgSelector id='upload' />
                     </div>
                 )}
             </label>
             <span className={s.title}>{title || ''}</span>
             {imgSrc ? (
                 <div className={s.buttonsWrap}>
-                    <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault width='sm'>Change image</ButtonDefault>
+                    <label className={s.labelButton} htmlFor={`${name}_image_input`}>
+                        <div className={`${s.buttonSmall} ${s.buttonSmall_upload}`}>
+                            <SvgSelector id='upload' />
+                        </div>
                     </label>
-                    <ButtonDefault width='sm' onClick={deleteImage} type='button'>
+                    <button
+                        onClick={deleteImage}
+                        className={`${s.buttonSmall} ${s.buttonSmall_delete}`}
+                        type='button'
+                    >
+                        <SvgSelector id='close' />
+                    </button>
+                    {/* <ButtonDefault
+                        isGlitching={false}
+                        color='purple'
+                        
+                        type='button'
+                    >
                         Delete image
-                    </ButtonDefault>
+                    </ButtonDefault> */}
                 </div>
             ) : (
                 <div className={s.buttonsWrap}>
                     <span></span>
-                    <label htmlFor={`${name}_image_input`}>
-                        <ButtonDefault width='sm'>Add Image</ButtonDefault>
+                    <label className={s.labelButton} htmlFor={`${name}_image_input`}>
+                        <div className={`${s.buttonSmall} ${s.buttonSmall_upload}`}>
+                            <SvgSelector id='upload' />
+                        </div>
                     </label>
                 </div>
             )}
@@ -75,7 +90,6 @@ const ImageInput = ({ title, name, value, error, onChangeHandler }: ImageInputPr
                 onChange={(e) => {
                     if (!e.currentTarget.files || !e.currentTarget.files[0]) return
                     const img = e.currentTarget.files[0]
-
                     onChangeHandler(name, img)
                 }}
             />

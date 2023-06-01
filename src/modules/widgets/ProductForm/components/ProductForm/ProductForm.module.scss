@@ -1,3 +1,24 @@
+@import '/src/modules/shared/styles/mixins.scss';
+
 .imgInputs {
     margin: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+}
+
+.form {
+    @include admin-content-with-footer-fixed;
+}
+
+.footer {
+    @include admin-footer-fixed;
+}
+
+.error {
+    color: $red;
+}
+
+.subtitle {
+    margin-bottom: 0 !important;
 }

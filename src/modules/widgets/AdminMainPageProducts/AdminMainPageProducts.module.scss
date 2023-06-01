@@ -1,0 +1,13 @@
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    @include admin-content-with-footer-fixed;
+}
+
+.footer {
+    @include admin-footer-fixed;
+}
+
+.submitBtn {
+    margin-left: auto;
+}

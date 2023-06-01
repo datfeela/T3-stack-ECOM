@@ -1,0 +1,1 @@
+export { AdminMainPageProducts } from './AdminMainPageProducts'

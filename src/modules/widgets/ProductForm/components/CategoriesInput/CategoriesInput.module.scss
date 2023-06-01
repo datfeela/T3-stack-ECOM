@@ -1,6 +1,6 @@
+@import '/src/modules/shared/styles/mixins.scss';
+
 .checkboxes {
-    display: flex;
-    align-items: center;
-    gap: 5px 20px;
-    flex-wrap: wrap;
+    @include checkbox-grid;
+    margin-bottom: 20px;
 }

@@ -22,16 +22,20 @@ export const Breadcrumbs = ({ pidName }: BreadcrumbsProps) => {
         //
 
         // change pid for name via props
-        if (path === '[pid]') return { name: pidName, link: currentPath }
+        if (path === '[pid]')
+            return { name: pidName, link: currentPath.replace('[pid]', router.query.pid as string) }
         return { name: path, link: currentPath }
     })
+
+    router.query.reviewsMode && paths.push({ name: 'Reviews', link: '' })
+    router.query.recommendedGamesMode && paths.push({ name: 'similar games', link: '' })
 
     return (
         <div className={`${s.wrap} wrap`}>
             {paths.map(({ name, link }, id) => {
                 if (id + 1 === paths.length)
                     return (
-                        <div key={id} className={s.link + ' ' + s.link_active}>
+                        <div key={id} className={`${s.link} ${s.link_active}`}>
                             <span>{name}</span>
                         </div>
                     )

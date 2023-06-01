@@ -1,0 +1,14 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.order {
+    &_bg {
+        @include semi-transparent-bg;
+    }
+}
+
+.loader {
+    width: fit-content;
+    margin: 30px auto 0 auto;
+    padding-bottom: 15px;
+}

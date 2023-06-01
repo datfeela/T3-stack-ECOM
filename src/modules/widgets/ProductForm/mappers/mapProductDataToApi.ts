@@ -16,13 +16,23 @@ export async function mapProductDataToApi({
     ...rest
 }: SubmitFormProps) {
     // if typeof image === string, image is old, if obj - it's new
-    const coverImagePath = await handleImgUpload(coverImage as File | string | undefined)
-    const horizontalImagePath = await handleImgUpload(horizontalImage as File | string | undefined)
-    const verticalImagePath = await handleImgUpload(verticalImage as File | string | undefined)
-    const detailPageImagesPaths = await mapImagesToApi(
-        detailPageImages as Array<File | string | undefined>,
+    // !
+    const coverImagePathPromise = handleImgUpload(coverImage as File | string | undefined)
+    const horizontalImagePathPromise = handleImgUpload(horizontalImage as File | string | undefined)
+    const verticalImagePathPromise = handleImgUpload(verticalImage as File | string | undefined)
+    const detailPageImagesPathsPromise = mapImagesToApi(
+        detailPageImages as (File | string | undefined)[],
     )
 
+    const [coverImagePath, horizontalImagePath, verticalImagePath, detailPageImagesPaths] =
+        await Promise.all([
+            coverImagePathPromise,
+            horizontalImagePathPromise,
+            verticalImagePathPromise,
+            detailPageImagesPathsPromise,
+        ])
+
+    // !
     const releaseDateParsed = new Date(releaseDate)
     const priceNum = Number(price)
     const priceWithoutDiscountNum = priceWithoutDiscount ? Number(priceWithoutDiscount) : null

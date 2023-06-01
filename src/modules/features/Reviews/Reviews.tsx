@@ -1,96 +1,142 @@
-import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 import s from './Reviews.module.scss'
-import { api } from '~/modules/shared/api/apiTRPC'
 import { Review } from './components/Review/Review'
 import { parseDateToString } from '~/modules/shared/lib/parseDateToString'
+import { useReviewsWithPagination } from './hooks/useReviewsWithPagination'
+import { useReviewsToGetQuantity } from './hooks/useReviewsToGetQuantity'
+import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
+import { useScrollToActiveElement } from './hooks/useScrollToActiveElement'
+import { Header } from './components/Header/Header'
+import { AddReviewForm } from './components/AddReviewForm/AddReviewForm'
 import { useState } from 'react'
+import { useProductReviewsStats } from './hooks/useProductReviewsStats'
+import { AddReviewButton } from './components/AddReviewButton/AddReviewButton'
+import { useScrollToElement } from '~/modules/shared/hooks/useScrollToElement'
+import { useReinitReviews } from './hooks/useReinitReviews'
 
 interface reviewsProps {
+    productName: string
     productId: string
     negativeScoresCount: number
     positiveScoresCount: number
+    expandedMode?: boolean
+    activeCommentId?: string
 }
 
-export const Reviews = ({ negativeScoresCount, positiveScoresCount, productId }: reviewsProps) => {
-    const scoresCount = positiveScoresCount + negativeScoresCount
+export const Reviews = ({
+    productName,
+    activeCommentId,
+    negativeScoresCount,
+    positiveScoresCount,
+    productId,
+    expandedMode = false,
+}: reviewsProps) => {
+    const [isAddFormActive, setIsAddFormActive] = useState(false)
+    // initial values
 
-    const percentUsersRecommend = Math.round((positiveScoresCount / scoresCount) * 100)
+    useReinitReviews(() => {
+        setIsAddFormActive(false)
+    })
 
-    const [taken, setTaken] = useState(0)
+    const { scoresCount, percentUsersRecommend } = useProductReviewsStats({
+        productId,
+        negativeScoresCount,
+        positiveScoresCount,
+    })
 
-    const addReview = api.products.addReviewToProduct.useMutation()
+    const reviewsToGetQuantity = useReviewsToGetQuantity(expandedMode)
+    const { reviews, isAllReviewsLoaded, isLoading, isSuccess, getNextPage } =
+        useReviewsWithPagination({
+            productId,
+            reviewsToGetQuantity,
+        })
 
-    const reviews = api.products.getProductReviewsById.useQuery({
-        id: productId,
-        quantity: 4,
-        quantityToSkip: taken,
-    }).data
-    const reviewEls = reviews
-        ? reviews.map(({ User, message, rating, id, date }) => {
-              const ratingTyped = rating as 0 | 1
+    // scroll to active element on mount, or to container, if there's no active el
+    const activeElementRef = useScrollToActiveElement({ shouldScroll: !!reviews })
+    const containerRef = useScrollToElement({
+        shouldScroll: !activeCommentId && expandedMode && !!reviews,
+        behavior: 'smooth',
+    })
 
-              return (
-                  <Review
-                      key={id}
-                      userName={User?.name}
-                      userImgSrc={User?.image}
-                      message={message}
-                      rating={ratingTyped}
-                      date={parseDateToString(date)}
-                  />
-              )
-          })
-        : null
+    // render
+    const reviewEls =
+        reviews && reviews.length > 0
+            ? reviews.map(({ User, message, rating, id, date }) => {
+                  const ratingTyped = rating as 0 | 1
+                  const isElActive = id === activeCommentId
+
+                  return (
+                      <div
+                          key={id}
+                          ref={isElActive && activeElementRef ? activeElementRef : undefined}
+                      >
+                          <Review
+                              productId={productId}
+                              id={id}
+                              userName={User?.name}
+                              userImgSrc={User?.image}
+                              message={message}
+                              rating={ratingTyped}
+                              date={parseDateToString(date)}
+                              expandedMode={expandedMode}
+                              isActive={isElActive}
+                          />
+                      </div>
+                  )
+              })
+            : null
 
     return (
-        <div className='wrap'>
-            <div className={s.header}>
-                <div className={s.header__left}>
-                    <h2 className={s.title}>Customer Reviews</h2>
-                    {scoresCount > 0 ? (
-                        <div className={s.rating}>
-                            <div
-                                className={`${s.rating__icon} ${
-                                    percentUsersRecommend < 50 ? s.rating__icon_reversed : ''
-                                }`}
+        <div ref={containerRef} className='wrap'>
+            <Header
+                expandedMode={expandedMode}
+                percentUsersRecommend={percentUsersRecommend}
+                productId={productId}
+                productName={productName}
+                scoresCount={scoresCount}
+                isAddFormActive={isAddFormActive}
+                setIsAddFormActive={setIsAddFormActive}
+                reviewsVisibleQuantity={reviewsToGetQuantity}
+            />
+            <AddReviewForm
+                isActive={isAddFormActive}
+                productId={productId}
+                quantityToGetOnSuccess={reviewsToGetQuantity}
+                onSubmit={() => {
+                    setIsAddFormActive(false)
+                }}
+            />
+            {reviews?.length === 0 && !expandedMode && !isAddFormActive ? (
+                <div className={s.placeholderText}>There are no reviews yet...</div>
+            ) : null}
+            {!expandedMode ? (
+                <AddReviewButton
+                    isAddFormActive={isAddFormActive}
+                    setIsAddFormActive={setIsAddFormActive}
+                />
+            ) : null}
+            <div className={`${s.reviews} ${expandedMode ? s.reviews_expandedMode : ''}`}>
+                {reviews && isSuccess ? (
+                    <>
+                        {reviews.length > 0 ? reviewEls : null}
+                        {expandedMode && !isAllReviewsLoaded && !isLoading ? (
+                            <button
+                                onClick={async () => {
+                                    await getNextPage()
+                                }}
+                                type='button'
+                                className={s.loadMoreBtn}
                             >
-                                <SvgSelector id='like' />
-                            </div>
-                            <span>{percentUsersRecommend}% recommended</span>
-                        </div>
-                    ) : (
-                        <div>placeholder</div>
-                    )}
-                </div>
-                <button className={s.expandBtn}>
-                    <span>See all reviews</span>
-                    <div className={s.expandBtn__icon}>
-                        <SvgSelector id='arrowDefault' />
+                                More reviews
+                            </button>
+                        ) : null}
+                    </>
+                ) : null}
+                {!reviews || isLoading ? (
+                    <div className={s.reviews__placeholder}>
+                        <LoaderFullScreen type='dots' />
                     </div>
-                </button>
+                ) : null}
             </div>
-            <div className={s.reviews}>
-                {reviewEls ? reviewEls : <div className={s.reviews__placeholder}></div>}
-            </div>
-            <button
-                onClick={() => {
-                    setTaken(taken + 1)
-                }}
-            >
-                do weird things
-            </button>{' '}
-            <button
-                onClick={() => {
-                    addReview.mutate({
-                        productId,
-                        rating: 1,
-                        message:
-                            'Lorem ipsum dolor sit amet consectetur. Dignissim lacus imperdiet rhoncus consectetur tortor tincidunt vel lacinia. Mauris posuere mi mi eget pellentesque iaculis. Duis adipiscing mollis at tellus ultrices diam at. Integer quisque id dolor ultrices egestas turpis netus molestie blandit. Suspendisse mollis porta tincidunt in. Porttitor vel viverra ut nisl scelerisque elements, Lorem ipsum dolor sit amet consectetur. Dignissim lacus imperdiet rhoncus consectetur tortor tincidunt vel lacinia. Mauris posuere mi mi eget pellentesque iaculis. Duis adipiscing mollis at tellus ultrices diam at. Integer quisque id dolor ultrices egestas turpis netus molestie blandit. Suspendisse mollis',
-                    })
-                }}
-            >
-                add review
-            </button>
         </div>
     )
 }

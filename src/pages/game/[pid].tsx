@@ -1,16 +1,19 @@
-import type { InferGetServerSidePropsType } from 'next'
-import type { GetServerSideProps } from 'next'
+import type { GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from 'next'
 import { prisma } from '~/server/db'
 import { Product } from '~/modules/widgets/Product'
 import { Breadcrumbs } from '~/modules/features/Breadcrumbs'
+import type { ProductPagePropsSerialized } from '~/modules/entities/product'
+import type { ParsedUrlQuery } from 'querystring'
 
-const ProductPage = ({ productName }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const ProductPage = ({ product }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const { name } = product
+    const releaseDate = new Date(JSON.parse(product.releaseDate) as string)
+
     return (
         <>
             <main>
-                <Breadcrumbs pidName={productName} />
-                <Product />
-                {/* reviews */}
+                <Breadcrumbs pidName={name} />
+                <Product productData={{ ...product, releaseDate }} />
             </main>
         </>
     )
@@ -18,9 +21,17 @@ const ProductPage = ({ productName }: InferGetServerSidePropsType<typeof getServ
 
 export default ProductPage
 
-export const getServerSideProps: GetServerSideProps<{
-    productName: string
-}> = async ({ params }) => {
+type GetServerSidePropsT = ({
+    res,
+    params,
+}: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => Promise<
+    | { notFound: boolean; props?: undefined }
+    | { props: { product: ProductPagePropsSerialized }; notFound?: undefined }
+>
+
+export const getServerSideProps: GetServerSidePropsT = async ({ res, params }) => {
+    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=2592000')
+
     if (!params?.pid || typeof params.pid !== 'string')
         return {
             notFound: true,
@@ -30,6 +41,24 @@ export const getServerSideProps: GetServerSideProps<{
         where: {
             id: typeof params?.pid === 'string' ? params.pid : '',
         },
+        include: {
+            categories: true,
+            characteristics: true,
+            detailPageImages: true,
+            filters: {
+                include: {
+                    values: true,
+                },
+            },
+            wishedBy: true,
+            systemRequirementsMinimal: true,
+            systemRequirementsRecommended: true,
+            relatedGames: {
+                select: {
+                    id: true,
+                },
+            },
+        },
     })
 
     if (!product)
@@ -37,5 +66,12 @@ export const getServerSideProps: GetServerSideProps<{
             notFound: true,
         }
 
-    return { props: { productName: product?.name } }
+    return {
+        props: {
+            product: {
+                ...product,
+                releaseDate: JSON.stringify(product.releaseDate),
+            } as ProductPagePropsSerialized,
+        },
+    }
 }

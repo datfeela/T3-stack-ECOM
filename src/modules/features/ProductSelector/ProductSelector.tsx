@@ -1,22 +1,22 @@
 import s from './ProductSelector.module.scss'
 import { useState } from 'react'
-import { api } from '~/modules/shared/api/apiTRPC'
 import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
 import { Search } from '~/modules/shared/components/Search/Search'
-import { ProductCard } from './components/ProductCard/ProductCard'
 import { LoaderFullScreen } from '~/modules/shared/components/Loaders/Loaders'
+import { AdminProductCard } from '~/modules/shared/components/AdminProductCard/AdminProductCard'
+import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
+import { useInfiniteScroll } from '~/modules/shared/hooks/useInfiniteScroll'
 
 export interface ProductSelectorProps {
-    selectedId: string
+    selectedIds: string[]
     handleChange: (value: string) => void
 }
 
-export const ProductSelector = ({ selectedId, handleChange }: ProductSelectorProps) => {
+export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorProps) => {
     const [searchQuery, setSearchQuery] = useState('')
 
     const handleProductSelect = (id: string) => {
-        if (id === selectedId) handleChange('')
-        else handleChange(id)
+        handleChange(id)
     }
 
     const { value: debouncedSearchQuery, isDebouncing } = useDebouncedValue<string>(
@@ -24,24 +24,43 @@ export const ProductSelector = ({ selectedId, handleChange }: ProductSelectorPro
         250,
     )
 
-    const { data, isLoading } = api.products.getManyProducts.useQuery({
-        quantity: 10,
+    const {
+        products: data,
+        isLoading,
+        getNextPage,
+        isAllProductsLoaded,
+    } = useManyProductsData({
         searchQuery: debouncedSearchQuery,
+        quantity: 10,
     })
 
-    const products = data?.map(({ id, name, price, horizontalImagePath }) => (
-        <ProductCard
-            key={id}
-            id={id}
-            selectedProductId={selectedId}
-            name={name}
-            price={price}
-            imgSrc={horizontalImagePath}
-            handleClick={handleProductSelect}
-        />
-    ))
+    const scrollAnchorRef = useInfiniteScroll({
+        getMore: () => {
+            getNextPage()
+        },
+        shouldGetMore: !isLoading && !isAllProductsLoaded,
+        observerOptions: {
+            root:
+                typeof window === 'object'
+                    ? document.querySelector(`${s.productsWrap}`)
+                    : undefined,
+        },
+    })
 
-    const selectedProduct = api.products.getProductById.useQuery(selectedId).data
+    const products = data?.map(({ id, name, price, horizontalImagePath }, mapId) => (
+        <div key={id} ref={mapId === data.length - 10 ? scrollAnchorRef : undefined}>
+            <AdminProductCard
+                key={id}
+                id={id}
+                name={name}
+                price={price}
+                imgSrc={horizontalImagePath}
+                isWithSelect={true}
+                isSelected={!!selectedIds.find((el) => el === id)}
+                handleClick={handleProductSelect}
+            />
+        </div>
+    ))
 
     const areProductsFound = products && products.length > 0 ? true : false
     const isNothingFound =
@@ -49,27 +68,12 @@ export const ProductSelector = ({ selectedId, handleChange }: ProductSelectorPro
 
     return (
         <div className={s.wrap}>
-            {selectedProduct ? (
-                <div className={s.selectedProduct}>
-                    <span>Selected product: </span>
-                    <ProductCard
-                        imgSrc={selectedProduct.horizontalImagePath}
-                        name={selectedProduct.name}
-                        price={selectedProduct.price}
-                        key={selectedProduct.id}
-                    />
-                </div>
-            ) : null}
-            <span>
-                If this product is anothers game DLC / Edition, you can select original game below
-            </span>
             <Search
                 inputName='products-search'
                 value={searchQuery}
                 handleChange={setSearchQuery}
                 isLoading={isDebouncing || isLoading}
             />
-
             <div className={`${s.productsWrap}`}>
                 {areProductsFound ? <> {products} </> : null}
                 {isLoading ? <LoaderFullScreen type='dots' /> : null}

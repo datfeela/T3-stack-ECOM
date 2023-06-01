@@ -1,0 +1,89 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    position: relative;
+    cursor: pointer;
+}
+
+.popup {
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+
+    &_active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.status {
+    display: block;
+    width: 130px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    user-select: none;
+    font-family: 'Tomorrow', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    svg {
+        position: relative;
+        top: 1px;
+        transform: rotate(90deg);
+        height: 12px;
+        width: 16px;
+    }
+
+    &_active {
+        svg {
+            transform: rotate(270deg);
+        }
+    }
+
+    &_withIcon {
+        cursor: default;
+
+        & > div {
+            height: 16px;
+            width: 16px;
+        }
+    }
+
+    &_canceled {
+        background: rgba($color: $red, $alpha: 0.5);
+
+        &:not(.status_withIcon) {
+            &:hover {
+                background: $red;
+            }
+        }
+    }
+    &_received {
+        background: rgba($color: $green, $alpha: 0.5);
+
+        &:not(.status_withIcon) {
+            &:hover {
+                background: $green;
+            }
+        }
+    }
+    &_paidFor {
+        background: rgba($color: $purple, $alpha: 0.5);
+
+        &:not(.status_withIcon) {
+            &:hover {
+                background: $purple;
+            }
+        }
+    }
+    &_hidden {
+        display: none;
+    }
+}

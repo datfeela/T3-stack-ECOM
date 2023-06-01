@@ -11,6 +11,24 @@
     display: flex;
     gap: 10px;
     align-items: center;
+
+    @media all and (max-width: 1200px) {
+        padding-top: 10px;
+        padding-bottom: 15px;
+
+        height: $breadcrumbsHeight1200;
+    }
+
+    @media all and (max-width: 768px) {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        height: $breadcrumbsHeight768;
+    }
+
+    @media all and (max-width: 600px) {
+        display: none;
+    }
 }
 
 .link {

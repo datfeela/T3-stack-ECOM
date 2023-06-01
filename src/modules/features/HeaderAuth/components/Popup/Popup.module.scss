@@ -1,0 +1,62 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.popupContent {
+    width: 270px;
+
+    @media all and (max-width: 960px) {
+        padding: 1.25rem 1rem 1.25rem 1rem;
+        width: 100%;
+        padding: 0;
+    }
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+
+    a {
+        @include header-link;
+        padding: 0.5rem 1.25rem;
+
+        @media all and (max-width: 960px) {
+            margin: 0;
+            @include header-link;
+            text-align: center;
+        }
+
+        &:hover {
+            color: $blueLight;
+            @include semi-transparent-bg;
+        }
+    }
+}
+
+.signInText {
+    display: block;
+    padding: 0.5rem 1.25rem;
+
+    @media all and (max-width: 960px) {
+        border-bottom: 1px solid $purple;
+    }
+
+    @media all and (max-width: 768px) {
+        padding-bottom: 0.4rem;
+    }
+}
+
+.logInBtn {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0.5rem 1.25rem;
+
+    @media all and (max-width: 960px) {
+        display: none;
+    }
+}
+
+.link_desktop {
+    @media all and (max-width: 960px) {
+        display: none;
+    }
+}

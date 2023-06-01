@@ -22,11 +22,8 @@ interface MainInputsProps {
 // basic 1 field inputs w/ validation
 
 export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => {
-    // todo: Object.keys
-    const mainFieldsEntries = Object.entries(mainFields) as [keyof typeof mainFields, string][]
-    const mainInputs = mainFieldsEntries.map((entry) => {
-        const [inputName, inputValue] = entry
-
+    const mainFieldsEntries = Object.keys(mainFields) as (keyof typeof mainFields)[]
+    const mainInputs = mainFieldsEntries.map((inputName) => {
         const props: InputProps = {
             name: inputName,
             touched: touched[inputName] as boolean,
@@ -43,7 +40,7 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
                 break
             case 'price':
                 props.title = 'price (required)'
-                props.placeholder = '1999'
+                props.placeholder = '0'
                 props.inputMode = 'numeric'
                 break
             case 'quantityInStock':
@@ -57,10 +54,10 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
                 break
             case 'priceWithoutDiscount':
                 props.inputMode = 'numeric'
-                props.placeholder = '1999'
+                props.placeholder = '0'
                 break
             case 'ytTrailerPath':
-                props.title = 'Youtube trailer id'
+                props.title = 'Youtube trailer id (required)'
                 props.placeholder =
                     'dQw4w9WgXcQ for "https://www.youtube.com/watch?v=dQw4w9WgXcQ" link'
                 break

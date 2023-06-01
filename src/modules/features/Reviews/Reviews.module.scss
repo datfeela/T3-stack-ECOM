@@ -1,64 +1,54 @@
 @import '/src/modules/shared/styles/var.scss';
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &__left {
-    }
-}
-
-.title {
-    margin-bottom: 5px;
-}
-
-.rating {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-
-    &__icon {
-        height: 17px;
-        width: 17px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &_reversed {
-            transform: rotateZ(180deg);
-        }
-    }
-
-    span {
-        font-weight: 300;
-    }
-}
-
-.expandBtn {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-
-    &__icon {
-        width: 18px;
-        height: 18px;
-
-        svg {
-            height: 100%;
-            width: 100%;
-            fill: #fff;
-        }
-    }
-    span {
-        font-family: Orbitron;
-        text-transform: uppercase;
-    }
-}
-
 .reviews {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
+
+    &_expandedMode {
+        grid-template-columns: 1fr !important;
+    }
+
+    &__placeholder {
+        margin-top: 30px;
+        width: 80px;
+        position: relative;
+    }
+
+    @media all and (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media all and (max-width: 960px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.placeholderText {
+    font-family: Orbitron;
+    font-size: 18px;
+    margin-bottom: 15px;
+
+    @media all and (max-width: 768px) {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+}
+
+.loadMoreBtn {
+    height: 44px;
+    max-width: 390px;
+    min-width: 260px;
+    width: 26vw;
+
+    display: block;
+    margin: 30px auto 0 auto;
+    background: rgba($color: $purple, $alpha: 0.4);
+    border: 0.5px solid $purple;
+    backdrop-filter: blur(2px);
+    border-radius: 15px;
+
+    font-family: Orbitron;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
 }

@@ -5,6 +5,9 @@ import { z } from 'zod'
  * built with invalid env vars.
  */
 const server = z.object({
+    NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+    NEXT_PUBLIC_SUPABASE_KEY: z.string(),
+    SUPABASE_SERVICE_KEY: z.string(),
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(['development', 'test', 'production']),
     NEXTAUTH_SECRET:
@@ -33,7 +36,10 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
-    NODE_ENV: z.enum(['development', 'test', 'production']), NEXT_PUBLIC_IMAGES_PATH: z.string(),
+    NODE_ENV: z.enum(['development', 'test', 'production']),
+    NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+    NEXT_PUBLIC_SUPABASE_KEY: z.string(),
+    NEXT_PUBLIC_IMAGES_PATH: z.string(),
     NEXT_PUBLIC_PRODUCT_IMAGES_PATH: z.string(),
 })
 
@@ -44,8 +50,11 @@ const client = z.object({
  * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
  */
 const processEnv = {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_KEY: process.env.NEXT_PUBLIC_SUPABASE_KEY,
     NEXT_PUBLIC_IMAGES_PATH: process.env.NEXT_PUBLIC_IMAGES_PATH,
     NEXT_PUBLIC_PRODUCT_IMAGES_PATH: process.env.NEXT_PUBLIC_PRODUCT_IMAGES_PATH,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,

@@ -1,0 +1,36 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.title {
+    margin-bottom: 64px;
+
+    @media all and (max-width: 1200px) {
+        margin-bottom: 35px;
+    }
+
+    @media all and (max-width: 768px) {
+        margin-bottom: 20px;
+    }
+
+    @media all and (max-width: 600px) {
+        padding-top: 20px;
+    }
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 23px;
+    position: relative;
+
+    @media all and (max-width: 900px) {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
+
+.products {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+    height: fit-content;
+}

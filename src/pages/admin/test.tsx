@@ -3,8 +3,6 @@ import Head from 'next/head'
 import { useState } from 'react'
 import { AdminLayout } from '~/modules/widgets/AdminLayout'
 import { api } from '~/modules/shared/api/apiTRPC'
-import { ProductToWishes } from '~/modules/features/ProductToWishes'
-import { useUserWishes } from '~/modules/entities/user/hooks/useUserWishes'
 import type { AddProductInput } from '~/modules/widgets/ProductForm'
 import type { FilterName } from '~/modules/shared/types/productTypes'
 
@@ -57,18 +55,33 @@ const productData: AddProductInput = {
     releaseDate: new Date(),
     ytTrailerPath: 'JSRtYpNRoN0',
     ytGameplayTrailerPath: 'PjqsYzBrP-M',
-    coverImagePath: '/images/product/skyrim_cover.jpg',
-    horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+    coverImagePath:
+        'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_cover.webp',
+    horizontalImagePath:
+        'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_horizontal.webp',
     detailPageImages: [
-        { value: '/images/product/skyrim1.jpg' },
-        { value: '/images/product/skyrim2.jpg' },
-        { value: '/images/product/skyrim3.jpg' },
-        { value: '/images/product/skyrim4.jpg' },
-        { value: '/images/product/skyrim5.jpeg' },
-        { value: '/images/product/skyrim6.jpeg' },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim1.webp',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim2.webp',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim3.webp',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim4.webp',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim5.webp',
+        },
+        {
+            value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim6.webp',
+        },
     ],
     systemRequirementsMinimal: systemReqMinimal,
     systemRequirementsRecommended: systemReqRec,
+    productType: 'game',
 }
 
 const otherProductsData: AddProductInput[] = [
@@ -79,6 +92,7 @@ const otherProductsData: AddProductInput[] = [
         quantityInStock: 500,
         categories: ['RPG', 'FPS'],
         characteristics: chars,
+        productType: 'edition',
         filters: [
             ...filtersInit,
             { name: 'publisher', values: ['Bethesda Softworks'] },
@@ -87,15 +101,29 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date(),
         ytTrailerPath: 'lTjRZ__-278',
         ytGameplayTrailerPath: 'PjqsYzBrP-M',
-        coverImagePath: '/images/product/skyrim_cover.jpg',
-        horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_cover.webp',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_horizontal.webp',
         detailPageImages: [
-            { value: '/images/product/skyrim1.jpg' },
-            { value: '/images/product/skyrim2.jpg' },
-            { value: '/images/product/skyrim3.jpg' },
-            { value: '/images/product/skyrim4.jpg' },
-            { value: '/images/product/skyrim5.jpeg' },
-            { value: '/images/product/skyrim6.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim1.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim2.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim3.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim5.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim6.webp',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -108,6 +136,7 @@ const otherProductsData: AddProductInput[] = [
         quantityInStock: 500,
         categories: ['RPG', 'FPS'],
         characteristics: chars,
+        productType: 'edition',
         filters: [
             ...filtersInit,
             { name: 'publisher', values: ['Bethesda Softworks'] },
@@ -116,15 +145,29 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date(),
         ytTrailerPath: 'JSRtYpNRoN0',
         ytGameplayTrailerPath: 'PjqsYzBrP-M',
-        coverImagePath: '/images/product/skyrim_cover.jpg',
-        horizontalImagePath: '/images/product/skyrim_horizontal.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_cover.webp',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim_horizontal.webp',
         detailPageImages: [
-            { value: '/images/product/skyrim1.jpg' },
-            { value: '/images/product/skyrim2.jpg' },
-            { value: '/images/product/skyrim3.jpg' },
-            { value: '/images/product/skyrim4.jpg' },
-            { value: '/images/product/skyrim5.jpeg' },
-            { value: '/images/product/skyrim6.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim1.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim2.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim3.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim5.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/skyrim6.webp',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
@@ -145,19 +188,35 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2017-01-26'),
         ytTrailerPath: 'K_03kFqWfqs',
         ytGameplayTrailerPath: 'E3Huy2cdih0',
-        coverImagePath: '/images/product/elden_ring_cover.jpg',
-        horizontalImagePath: '/images/product/elden_ring_horizontal.webp',
-        verticalImagePath: '/images/product/elden_ring_vertical.webp',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_cover.webp',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_horizontal.webp',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_vertical.webp',
         detailPageImages: [
-            { value: '/images/product/elden_ring_1.jpg' },
-            { value: '/images/product/elden_ring_2.jpg' },
-            { value: '/images/product/elden_ring_3.jpg' },
-            { value: '/images/product/elden_ring_4.webp' },
-            { value: '/images/product/elden_ring_5.jpg' },
-            { value: '/images/product/elden_ring_6.jpg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_1.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_2.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_3.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_5.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/elden_ring_6.webp',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
+        productType: 'game',
     },
     {
         name: 'Starfield',
@@ -174,18 +233,32 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2023-07-01'),
         ytTrailerPath: 'pYqyVpCV-3c',
         ytGameplayTrailerPath: 'zmb2FJGvnAw',
-        coverImagePath: '/images/product/starfield_cover.jpg',
-        horizontalImagePath: '/images/product/starfield_horizontal.webp',
-        verticalImagePath: '/images/product/starfield_vertical.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_cover.webp',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_horizontal.webp',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_vertical.webp',
         detailPageImages: [
-            { value: '/images/product/starfield_1.jpg' },
-            { value: '/images/product/starfield_2.jpeg' },
-            { value: '/images/product/starfield_3.jpeg' },
-            { value: '/images/product/starfield_4.jpg' },
-            { value: '/images/product/starfield_5.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_1.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_2.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_3.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/starfield_5.webp',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
+        productType: 'game',
     },
     {
         name: 'The Last of Us Part II',
@@ -202,21 +275,37 @@ const otherProductsData: AddProductInput[] = [
             { name: 'developer', values: ['Naughty Dog'] },
         ],
         releaseDate: new Date('2020-06-23'),
-        ytTrailerPath: 'vhII1qlcZ4E',
+        ytTrailerPath: 'eOiUtRF8k28',
         ytGameplayTrailerPath: 'btmN-bWwv0A',
-        coverImagePath: '/images/product/tlou2_cover.jpg',
-        horizontalImagePath: '/images/product/tlou2_horizontal.jpg',
-        verticalImagePath: '/images/product/tlou2_vertical.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_cover.webp',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_horizontal.webp',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_vertical.webp',
         detailPageImages: [
-            { value: '/images/product/tlou2_1.jpg' },
-            { value: '/images/product/tlou2_2.jpg' },
-            { value: '/images/product/tlou2_3.jpg' },
-            { value: '/images/product/tlou2_4.jpg' },
-            { value: '/images/product/tlou2_5.jpeg' },
-            { value: '/images/product/tlou2_6.jpeg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_1.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_2.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_3.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_5.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/tlou2_6.webp',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
+        productType: 'game',
     },
     {
         name: 'The Witcher 3: Wild Hunt',
@@ -233,19 +322,35 @@ const otherProductsData: AddProductInput[] = [
         releaseDate: new Date('2015-08-22'),
         ytTrailerPath: '53MyR_Z3i1w',
         ytGameplayTrailerPath: 'YdHc3JZixRY',
-        coverImagePath: '/images/product/witcher3_cover.jpg',
-        horizontalImagePath: '/images/product/witcher3_horizontal.jpg',
-        verticalImagePath: '/images/product/witcher3_vertical.jpg',
+        coverImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_cover.webp',
+        horizontalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_horizontal.webp',
+        verticalImagePath:
+            'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_vertical.webp',
         detailPageImages: [
-            { value: '/images/product/witcher3_1.jpg' },
-            { value: '/images/product/witcher3_2.jpg' },
-            { value: '/images/product/witcher3_3.jpg' },
-            { value: '/images/product/witcher3_4.jpg' },
-            { value: '/images/product/witcher3_5.jpg' },
-            { value: '/images/product/witcher3_6.jpg' },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_1.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_2.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_3.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_4.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_5.webp',
+            },
+            {
+                value: 'https://xadodtgvngwoqptchxau.supabase.co/storage/v1/object/public/product-images/witcher3_6.webp',
+            },
         ],
         systemRequirementsMinimal: systemReqMinimal,
         systemRequirementsRecommended: systemReqRec,
+        productType: 'game',
     },
 ]
 
@@ -284,8 +389,6 @@ const Test: NextPage = () => {
 
     const deleteProducts = api.products.deleteAllProducts.useMutation()
 
-    const categories = api.categories.getAllCategories.useQuery()
-
     // add product
     const addProduct = api.products.addProduct.useMutation({
         onMutate: async () => {
@@ -305,32 +408,10 @@ const Test: NextPage = () => {
         },
     })
 
-    let isProductInWishes = false
-
-    const wishedProducts = useUserWishes()
-    const gottenProduct = api.products.getProductById.useQuery('clfjdffah001aes243q9je0fz')
-
-    if (wishedProducts) {
-        const product = wishedProducts.find((item) => {
-            return item.id === gottenProduct.data?.id
-        })
-        console.log('product', product)
-
-        if (product) isProductInWishes = true
-    }
-
-    console.log('wishedProducts', wishedProducts)
-    console.log('isProductInWishes', isProductInWishes)
-
-    //
-
-    const addReview = api.products.addReviewToProduct.useMutation()
-
     return (
         <>
             <Head>
                 <title>Test</title>
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <AdminLayout>
                 <main>
@@ -379,25 +460,6 @@ const Test: NextPage = () => {
                         }}
                     >
                         DELETE PRODUCTS
-                    </div>
-                    {gottenProduct.data ? (
-                        <ProductToWishes
-                            productId={gottenProduct.data.id}
-                            isActive={isProductInWishes}
-                        />
-                    ) : null}
-
-                    <div
-                        onClick={() => {
-                            if (gottenProduct.data && typeof gottenProduct.data.id === 'string')
-                                addReview.mutate({
-                                    productId: gottenProduct.data?.id,
-                                    rating: 4,
-                                    message: 'nisouu2',
-                                })
-                        }}
-                    >
-                        add review
                     </div>
 
                     <div>SERVER ERROR?: {serverError}</div>

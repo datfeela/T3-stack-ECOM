@@ -1,0 +1,591 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrapOuter {
+    position: relative;
+    max-width: fit-content;
+}
+
+.wrap {
+    max-width: fit-content;
+
+    &_shadow {
+        position: absolute;
+        top: 0;
+        left: -3px;
+        width: 100%;
+        height: 100%;
+        background: $background;
+        overflow: hidden;
+
+        .title {
+            text-shadow: -2px -2px 0px $purple, 2px 2px 0px $blueLight;
+        }
+    }
+
+    &_1 {
+        &.wrap_shadow {
+            animation: 3.2s glitch-1;
+            animation-timing-function: steps(2, end);
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        .el {
+            &_1 {
+                bottom: 0px;
+                left: -2px;
+                height: 6px;
+                width: 103%;
+                background: $yellow;
+
+                clip-path: polygon(
+                    0 0,
+                    100% 0,
+                    100% 2px,
+                    45% 2px,
+                    calc(45% - 4px) 100%,
+                    0 100%,
+                    0 0
+                );
+            }
+
+            &_2 {
+                bottom: 22px;
+                right: -20%;
+                width: 40%;
+                height: 0px;
+                border-top: 2px dotted $blueLight;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 19px;
+                }
+
+                @media all and (max-width: 768px) {
+                    bottom: 13px;
+                }
+            }
+
+            &_3 {
+                left: 13px;
+                top: 13px;
+                width: 25%;
+                height: 1px;
+                background: $blueLight;
+
+                @media all and (max-width: 768px) {
+                    top: 8px;
+                    left: 8px;
+                }
+            }
+
+            &_4 {
+                right: -20%;
+                top: 6px;
+                height: 3px;
+                width: 1px;
+                background: $blueLight;
+            }
+
+            &_5 {
+                right: calc(-20% - 3px - 25%);
+                top: 6px;
+                height: 3px;
+                width: 25%;
+                background: $blueLight;
+            }
+
+            &_6 {
+                left: 0;
+                top: 3px;
+                height: 1px;
+                width: 117%;
+                background: rgba($color: $yellow, $alpha: 0.7);
+            }
+
+            &_7 {
+                left: 2px;
+                top: 0;
+                height: 0px;
+                width: 15px;
+                border-top: 2px dashed $blueLight;
+            }
+        }
+    }
+
+    &_2 {
+        &.wrap_shadow {
+            animation: 3.2s glitch-2;
+            animation-timing-function: steps(2, end);
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        .el {
+            &_1 {
+                bottom: 0px;
+                left: 0px;
+                height: 6px;
+                width: 103%;
+                background: $yellow;
+                border-left: 1px solid $red;
+
+                clip-path: polygon(
+                    0 0,
+                    100% 0,
+                    100% 2px,
+                    30% 2px,
+                    calc(30% - 4px) 100%,
+                    0 100%,
+                    0 0
+                );
+            }
+
+            &_2 {
+                bottom: 0;
+                left: 3px;
+                height: 2px;
+                width: 11px;
+                background: #000;
+                z-index: 1;
+            }
+
+            &_3 {
+                bottom: 26px;
+                right: -19%;
+                width: 33%;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    bottom: 15px;
+                    right: -23%;
+                }
+            }
+
+            &_4 {
+                top: 8px;
+                right: -9%;
+                width: 33%;
+                height: 0px;
+                border-top: 2px dashed $yellow;
+
+                @media all and (max-width: 768px) {
+                    top: 4px;
+                }
+            }
+
+            &_5 {
+                top: 2px;
+                left: 0;
+                width: 80%;
+                height: 1px;
+                background: $blueLight;
+
+                @media all and (max-width: 768px) {
+                    top: -2px;
+                }
+            }
+        }
+    }
+
+    &_3 {
+        &.wrap_shadow {
+            animation: 3.2s glitch-3;
+            animation-timing-function: steps(2, end);
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        .el {
+            &_1 {
+                bottom: 0px;
+                left: 0px;
+                height: 6px;
+                width: 100%;
+                background: $yellow;
+
+                clip-path: polygon(
+                    0 0,
+                    100% 0,
+                    100% 2px,
+                    55% 2px,
+                    calc(55% - 4px) 100%,
+                    0 100%,
+                    0 0
+                );
+            }
+
+            &_2 {
+                bottom: 0;
+                right: -50%;
+                width: 80%;
+                height: 0px;
+                border-top: 2px dashed $blueLight;
+            }
+
+            &_3 {
+                right: -24px;
+                width: 1px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    bottom: 14px;
+                }
+            }
+
+            &_4 {
+                right: -15px;
+                width: 7px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    bottom: 14px;
+                }
+            }
+
+            &_5 {
+                right: -4px;
+                width: 2px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    bottom: 14px;
+                }
+            }
+
+            &_6 {
+                right: 7px;
+                width: 7px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    bottom: 14px;
+                    right: 2px;
+                }
+            }
+
+            &_7 {
+                right: 21px;
+                width: 2px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    display: none;
+                }
+            }
+
+            &_8 {
+                right: 33px;
+                width: 6px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    display: none;
+                }
+            }
+
+            &_9 {
+                right: 44px;
+                width: 1px;
+                height: 0px;
+                border-top: 2px solid $blueLight;
+
+                bottom: 23px;
+
+                @media all and (max-width: 1200px) {
+                    bottom: 21px;
+                }
+
+                @media all and (max-width: 768px) {
+                    display: none;
+                }
+            }
+
+            &_10 {
+                right: 15%;
+                top: 7px;
+                width: 50%;
+                height: 1px;
+                background: $blueLight;
+
+                @media all and (max-width: 768px) {
+                    top: 3px;
+                }
+            }
+
+            &_11 {
+                right: 17%;
+                top: 3px;
+                border-top: 2px dotted $yellow;
+                width: 6px;
+
+                @media all and (max-width: 768px) {
+                    top: -1px;
+                }
+            }
+
+            &_12 {
+                left: 20%;
+                top: 2px;
+                background: $yellow;
+                width: 30%;
+                height: 3px;
+
+                @media all and (max-width: 768px) {
+                    top: -2px;
+                }
+            }
+
+            &_13 {
+                left: -2px;
+                top: 2px;
+                border-top: 3px dotted $blueLight;
+                width: 12px;
+
+                @media all and (max-width: 768px) {
+                    top: -2px;
+                    left: -8px;
+                }
+            }
+        }
+    }
+}
+
+.el {
+    position: absolute;
+
+    @media all and (max-width: 480px) {
+        display: none;
+    }
+}
+
+.title {
+    color: $yellow;
+    line-height: 100%;
+    padding: 8px 0 14px 0;
+
+    @media all and (max-width: 768px) {
+        padding: 4px 0 10px 0;
+    }
+
+    @media all and (max-width: 480px) {
+        padding: 0;
+    }
+}
+
+$slice-0: inset(50% 50% 50% 50%);
+$slice-1: inset(84% -6px 6% 0);
+$slice-2: inset(50% -6px 30% 0);
+$slice-3: inset(10% -6px 85% 0);
+$slice-4: inset(40% -6px 43% 0);
+$slice-5: inset(80% -6px 5% 0);
+
+@keyframes glitch-1 {
+    0% {
+        clip-path: $slice-1;
+        transform: translate(-20px, -10px);
+    }
+    8% {
+        clip-path: $slice-3;
+        transform: translate(10px, 10px);
+    }
+    10% {
+        clip-path: $slice-1;
+        transform: translate(-10px, -10px);
+    }
+    14% {
+        clip-path: $slice-3;
+        transform: translate(0px, 5px);
+    }
+    16% {
+        clip-path: $slice-2;
+        transform: translate(-5px, 0px);
+    }
+    20% {
+        clip-path: $slice-3;
+        transform: translate(5px, 0px);
+    }
+    28% {
+        clip-path: $slice-4;
+        transform: translate(5px, 10px);
+    }
+    30% {
+        clip-path: $slice-2;
+        transform: translate(-10px, 10px);
+    }
+    32% {
+        clip-path: $slice-5;
+        transform: translate(20px, -10px);
+    }
+    38% {
+        clip-path: $slice-1;
+        transform: translate(-10px, 0px);
+    }
+    40% {
+        clip-path: $slice-1;
+        transform: translate(0);
+    }
+    42%,
+    100% {
+        clip-path: $slice-0;
+        transform: translate(0);
+    }
+}
+
+@keyframes glitch-2 {
+    0% {
+        clip-path: $slice-0;
+        transform: translate(0);
+    }
+    30% {
+        clip-path: $slice-1;
+        transform: translate(-20px, -10px);
+    }
+    38% {
+        clip-path: $slice-3;
+        transform: translate(10px, 10px);
+    }
+    40% {
+        clip-path: $slice-1;
+        transform: translate(-10px, -10px);
+    }
+    44% {
+        clip-path: $slice-3;
+        transform: translate(0px, 5px);
+    }
+    46% {
+        clip-path: $slice-2;
+        transform: translate(-5px, 0px);
+    }
+    50% {
+        clip-path: $slice-3;
+        transform: translate(5px, 0px);
+    }
+    58% {
+        clip-path: $slice-4;
+        transform: translate(5px, 10px);
+    }
+    60% {
+        clip-path: $slice-2;
+        transform: translate(-10px, 10px);
+    }
+    62% {
+        clip-path: $slice-5;
+        transform: translate(20px, -10px);
+    }
+    68% {
+        clip-path: $slice-1;
+        transform: translate(-10px, 0px);
+    }
+    70% {
+        clip-path: $slice-1;
+        transform: translate(0);
+    }
+    72%,
+    100% {
+        clip-path: $slice-0;
+        transform: translate(0);
+    }
+}
+
+@keyframes glitch-3 {
+    0% {
+        clip-path: $slice-0;
+        transform: translate(0);
+    }
+    56% {
+        clip-path: $slice-5;
+        transform: translate(-30px, 0px);
+    }
+    64% {
+        clip-path: $slice-3;
+        transform: translate(10px, 10px);
+    }
+    66% {
+        clip-path: $slice-1;
+        transform: translate(-10px, -10px);
+    }
+    70% {
+        clip-path: $slice-3;
+        transform: translate(0px, 5px);
+    }
+    72% {
+        clip-path: $slice-2;
+        transform: translate(-5px, 0px);
+    }
+    76% {
+        clip-path: $slice-3;
+        transform: translate(5px, 0px);
+    }
+    84% {
+        clip-path: $slice-4;
+        transform: translate(5px, 10px);
+    }
+    86% {
+        clip-path: $slice-2;
+        transform: translate(-10px, 10px);
+    }
+    88% {
+        clip-path: $slice-5;
+        transform: translate(20px, -10px);
+    }
+    94% {
+        clip-path: $slice-1;
+        transform: translate(-10px, 0px);
+    }
+    96% {
+        clip-path: $slice-2;
+        transform: translate(0);
+    }
+    98%,
+    100% {
+        clip-path: $slice-0;
+        transform: translate(0);
+    }
+}

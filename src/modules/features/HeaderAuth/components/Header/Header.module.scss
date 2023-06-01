@@ -1,0 +1,65 @@
+@import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
+
+.header {
+    display: flex;
+    gap: 7px;
+    align-items: flex-end;
+    cursor: pointer;
+
+    &:hover {
+        .profileIcon svg {
+            stroke: $blueLight;
+        }
+
+        .profileName,
+        span {
+            color: $blueLight;
+        }
+    }
+
+    @media all and (max-width: 960px) {
+        @include header-link;
+        margin-top: -0.25rem;
+        align-items: center;
+        border-bottom: 1px solid $purple;
+
+        &:hover {
+            @include semi-transparent-bg;
+        }
+    }
+
+    .profileName {
+        display: none;
+
+        @media all and (max-width: 960px) {
+            display: block;
+            font-family: 'Tomorrow', 'Roboto', 'Ubuntu', sans-serif !important;
+        }
+    }
+}
+
+.profileIcon {
+    position: relative;
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    @media all and (max-width: 960px) {
+        height: 27px;
+        width: 27px;
+    }
+
+    svg {
+        height: 100%;
+        width: 100%;
+        stroke: #fff;
+    }
+
+    &_active {
+        svg {
+            fill: $blueLight;
+        }
+    }
+}
