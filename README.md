@@ -54,7 +54,7 @@ T3-Stack Ecom - интернет-магазин видеоигр, типобез
 ## Стек технологий
 
 -   Typescript
--   [NextJS](https://feature-sliced.design/ru/docs)
+-   [NextJS](https://nextjs.org/docs)
 -   [TRPC](https://trpc.io/docs) - API, связь типов между сервером и клиентом
 -   [Prisma](https://www.prisma.io/docs) - типобезопасный клиент базы данных
 -   [NextAuth](https://next-auth.js.org/getting-started/introduction) - аутентификация
@@ -69,7 +69,7 @@ T3-Stack Ecom - интернет-магазин видеоигр, типобез
 
 ```
 npm install
-npm run serve
+npm run dev
 ```
 
 ## Использование админ-панели
