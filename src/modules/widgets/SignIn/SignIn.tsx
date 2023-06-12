@@ -16,6 +16,8 @@ export const SignIn = ({ providers }: SignInProps) => {
                 key={id}
                 onClick={() => {
                     // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                    console.log(id, `${window.location.origin}`)
+
                     signIn(id, { callbackUrl: `${window.location.origin}` })
                 }}
             >

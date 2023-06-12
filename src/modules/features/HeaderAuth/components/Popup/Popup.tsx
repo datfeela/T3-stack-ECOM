@@ -16,6 +16,7 @@ export const Popup = ({ sessionData }: PopupProps) => {
                     <Link className={s.link_desktop} href='/profile'>
                         Profile
                     </Link>
+                    <Link href='/favorites'>Favorites</Link>
                     <Link href='/orders'>Orders</Link>
                 </div>
             ) : (
