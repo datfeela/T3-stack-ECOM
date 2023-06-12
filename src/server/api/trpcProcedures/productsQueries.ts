@@ -211,7 +211,6 @@ export const getProductReviewsById = publicProcedure
                     User: true,
                 },
                 take: quantity + 1,
-                // skip: quantityToSkip || 0,
                 cursor: cursor ? { id: cursor } : undefined,
                 orderBy: {
                     date: 'desc',
@@ -309,13 +308,16 @@ export async function getManyProducts_server({
         },
     }))
 
+    const orderBy = [{ name: 'asc' }] as { [x: string]: 'asc' | 'desc' }[]
+    if (sortBy && sortBy.name !== 'name') orderBy.unshift({ [sortBy.name]: sortBy.value })
+
     try {
         const products = await prisma.product.findMany({
             include: {
                 categories: true,
             },
             take: quantity + 1,
-            orderBy: sortBy ? { [sortBy.name]: sortBy.value } : { name: 'asc' },
+            orderBy: orderBy,
             where: {
                 AND: [
                     releaseDateCondition,
