@@ -2,6 +2,8 @@
 @import '/src/modules/shared/styles/mixins.scss';
 
 .order {
+    @include semi-transparent-bg-2;
+
     &_bg {
         @include semi-transparent-bg;
     }

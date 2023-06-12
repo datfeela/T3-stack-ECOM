@@ -4,6 +4,8 @@
 .productWrap {
     padding: 1rem;
 
+    @include semi-transparent-bg-2;
+
     &_bg {
         @include semi-transparent-bg;
     }

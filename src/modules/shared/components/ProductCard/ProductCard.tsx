@@ -68,7 +68,6 @@ export const ProductCard = ({
     imgPath,
     view,
     linkBasePathName,
-    size = 'default',
     imageSizes,
     releaseDate,
     quantityInCart,
@@ -119,6 +118,11 @@ export const ProductCard = ({
         case 'search':
             wrapCN += ` ${s.wrap_search}`
             imageOrientation = '16/10'
+            withClip = false
+            break
+        case 'favorites':
+            wrapCN += ` ${s.wrap_favorites}`
+            imageOrientation = '3/4'
             withClip = false
             break
         default:
@@ -213,7 +217,7 @@ export const ProductCard = ({
                         deactivatePopup={deactivatePopup}
                     />
                 ) : null}
-                {view === 'defaultLg' || view === 'popular' ? (
+                {view === 'defaultLg' || view === 'popular' || view === 'favorites' ? (
                     <div className={s.fav}>
                         <Favorites id={id} />
                     </div>

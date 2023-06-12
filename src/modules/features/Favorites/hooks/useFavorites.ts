@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '~/modules/shared/api/apiTRPC'
 
 interface UseFavoritesProps {
@@ -8,10 +8,15 @@ interface UseFavoritesProps {
 
 export const useFavorites = ({ productId, userId }: UseFavoritesProps) => {
     const apiContext = api.useContext()
-    const userFavorites = api.user.getUserWishes.useQuery(userId || '').data
-    const wishedProduct = userFavorites?.wishedProducts.find((product) => product.id === productId)
+    const userFavorites = api.user.getUserWishes.useQuery({ quantity: 9999, userId: userId || '' })
+        .data?.products
+    const wishedProduct = userFavorites?.find((product) => product.id === productId)
 
     const [isWished, setIsWished] = useState(!!wishedProduct)
+
+    useEffect(() => {
+        setIsWished(!!wishedProduct)
+    }, [wishedProduct])
 
     const [isPending, setIsPending] = useState(false)
 
@@ -23,7 +28,10 @@ export const useFavorites = ({ productId, userId }: UseFavoritesProps) => {
             const optimisticUpdate = apiContext.user.getUserWishes.getData()
 
             if (optimisticUpdate) {
-                apiContext.user.getUserWishes.setData(productId, optimisticUpdate)
+                apiContext.user.getUserWishes.setData(
+                    { quantity: 9999, userId: userId || '' },
+                    optimisticUpdate,
+                )
             }
         },
         onError: () => {

@@ -7,6 +7,7 @@ import type { View } from '../../types/types'
 import { Discount } from '../../../Discount/Discount'
 import { parseDateToString } from '~/modules/shared/lib/parseDateToString'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
+import { BuyButton } from '~/modules/features/BuyButton'
 
 type InfoPropsBase = {
     id: string
@@ -50,6 +51,7 @@ export const Info = ({
     onQuantityDecrement,
 }: InfoProps) => {
     const matchMedia = useMatchMedia()
+    const isGameOut = releaseDate ? new Date().getTime() - releaseDate.getTime() > 0 : undefined
 
     return (
         <div className={s.bottom}>
@@ -78,6 +80,11 @@ export const Info = ({
                                     priceWithoutDiscount={priceWithoutDiscount}
                                     size={view !== 'cartHeader' ? 'sm' : 'xs'}
                                 />
+                            </div>
+                        ) : null}
+                        {view === 'favorites' && isGameOut !== undefined ? (
+                            <div className={s.buyBtn}>
+                                <BuyButton isOut={isGameOut} productId={id} size='sm' />
                             </div>
                         ) : null}
                     </div>

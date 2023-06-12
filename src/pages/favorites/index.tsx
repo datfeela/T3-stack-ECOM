@@ -1,23 +1,33 @@
-import { useSession } from 'next-auth/react'
+import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
+import { FavoritesList } from '~/modules/widgets/FavoritesList'
+import { getServerAuthSession } from '~/server/auth'
 
-const Favorites = () => {
-    const { data } = useSession()
-
+const FavoritesPage = () => {
     return (
         <>
             <Head>
                 <title>Favorites | T3-Ecom</title>
             </Head>
             <main>
-                {data?.user ? <h3>Hello, {data.user.name}!</h3> : null}
-                <div>
-                    this page is currently in development, visit it later to see if we have added
-                    anything new ;)
-                </div>
+                <FavoritesList />
             </main>
         </>
     )
 }
 
-export default Favorites
+export default FavoritesPage
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const { res } = ctx
+    const session = await getServerAuthSession(ctx)
+
+    if (res && !session?.user) {
+        res.writeHead(302, { Location: '/signin' })
+        res.end()
+    }
+
+    return {
+        props: {},
+    }
+}

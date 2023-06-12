@@ -25,6 +25,7 @@ export const BuyButton = ({ productId, isOut, size }: BuyButtonProps) => {
                     onClick={addProductToCart}
                     fontSize={size === 'sm' ? undefined : 'md'}
                     height={size === 'sm' ? 'xs' : undefined}
+                    width={size === 'sm' ? 'sm' : undefined}
                 >
                     {isOut ? 'Buy now' : 'Preorder'}
                 </ButtonDefault>
@@ -36,6 +37,7 @@ export const BuyButton = ({ productId, isOut, size }: BuyButtonProps) => {
                         isGlitching={false}
                         fontSize={size === 'sm' ? undefined : 'md'}
                         height={size === 'sm' ? 'xs' : undefined}
+                        width={size === 'sm' ? 'sm' : undefined}
                     >
                         in cart
                     </ButtonDefault>

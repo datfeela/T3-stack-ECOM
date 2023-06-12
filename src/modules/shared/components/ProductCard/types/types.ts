@@ -7,3 +7,4 @@ export type View =
     | 'cartHeader'
     | 'popular'
     | 'search'
+    | 'favorites'
