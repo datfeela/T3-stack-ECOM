@@ -38,24 +38,24 @@ export const HeaderAuth: React.FC = () => {
             ref={wrapRef}
             className={`${s.wrap} ${isDesktop && isPopupActive ? s.wrap_active : ''}`}
         >
-            <WithLink
-                href={isSessionDataLoaded && isSignedIn ? '/profile' : undefined}
+            {/* <WithLink
+                href={isSessionDataLoaded && !isSignedIn ? '/profile' : undefined}
                 withLink={isMobile}
-            >
-                <div className={s.headerWrap}>
-                    <Header
-                        sessionData={sessionData}
-                        isSignedIn={isSignedIn}
-                        isSessionDataLoaded={isSessionDataLoaded}
-                        handleClick={() => {
-                            if (isDesktop) setIsPopupActive(!isPopupActive)
-                            else {
-                                isSessionDataLoaded && !isSignedIn && void signIn()
-                            }
-                        }}
-                    />
-                </div>
-            </WithLink>
+            > */}
+            <div className={s.headerWrap}>
+                <Header
+                    sessionData={sessionData}
+                    isSignedIn={isSignedIn}
+                    isSessionDataLoaded={isSessionDataLoaded}
+                    handleClick={() => {
+                        if (isDesktop) setIsPopupActive(!isPopupActive)
+                        else {
+                            isSessionDataLoaded && !isSignedIn && void signIn()
+                        }
+                    }}
+                />
+            </div>
+            {/* </WithLink> */}
             <div className={s.popup}>
                 <WithClippedContainer
                     withContainer={isDesktop}

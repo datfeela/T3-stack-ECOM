@@ -13,9 +13,6 @@ export const Popup = ({ sessionData }: PopupProps) => {
         <div className={s.popupContent}>
             {sessionData?.user ? (
                 <div className={s.links}>
-                    <Link className={s.link_desktop} href='/profile'>
-                        Profile
-                    </Link>
                     <Link href='/favorites'>Favorites</Link>
                     <Link href='/orders'>Orders</Link>
                 </div>

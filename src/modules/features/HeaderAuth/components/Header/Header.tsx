@@ -17,7 +17,10 @@ export const Header = ({
     isSignedIn,
 }: HeaderProps) => {
     return (
-        <div className={s.header} onClick={handleClick}>
+        <div
+            className={`${s.header} ${!isSignedIn ? s.header_notSigned : ''}`}
+            onClick={handleClick}
+        >
             <div className={s.profileIcon}>
                 {sessionData?.user.image ? (
                     <Image src={sessionData.user.image} objectFit='cover' sizes='50px' alt='' />
