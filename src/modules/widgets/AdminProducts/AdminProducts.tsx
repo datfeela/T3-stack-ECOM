@@ -41,7 +41,7 @@ export const AdminProducts = () => {
         return (
             <div
                 key={product.id}
-                ref={id === productsData.length - 10 ? scrollAnchorRef : undefined}
+                ref={id === productsData.length - 4 ? scrollAnchorRef : undefined}
                 className={`${s.product} ${id % 2 === 1 ? s.product_bg : ''}`}
             >
                 <Product {...product} />

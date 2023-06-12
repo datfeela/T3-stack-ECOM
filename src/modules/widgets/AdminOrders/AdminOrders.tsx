@@ -36,7 +36,7 @@ export const AdminOrders = () => {
         <div
             className={`${s.order} ${mapId % 2 === 0 ? s.order_bg : ''}`}
             key={id}
-            ref={mapId === orders.length - 20 ? scrollAnchorRef : undefined}
+            ref={mapId === orders.length - 7 ? scrollAnchorRef : undefined}
         >
             <Order id={id} {...rest} status={status as OrderStatus} />
         </div>

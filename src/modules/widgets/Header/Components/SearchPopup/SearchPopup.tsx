@@ -56,9 +56,7 @@ const SearchPopup = ({
             <div
                 className={s.productWrap}
                 key={id}
-                ref={
-                    mapId === products.length - quantityLoadingPerPage ? scrollAnchorRef : undefined
-                }
+                ref={mapId === products.length - 4 ? scrollAnchorRef : undefined}
             >
                 <ProductCard
                     key={id}

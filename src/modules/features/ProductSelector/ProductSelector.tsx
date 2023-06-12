@@ -48,7 +48,7 @@ export const ProductSelector = ({ selectedIds, handleChange }: ProductSelectorPr
     })
 
     const products = data?.map(({ id, name, price, horizontalImagePath }, mapId) => (
-        <div key={id} ref={mapId === data.length - 10 ? scrollAnchorRef : undefined}>
+        <div key={id} ref={mapId === data.length - 4 ? scrollAnchorRef : undefined}>
             <AdminProductCard
                 key={id}
                 id={id}

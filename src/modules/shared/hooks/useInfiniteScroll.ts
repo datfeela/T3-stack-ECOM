@@ -12,7 +12,7 @@ export const useInfiniteScroll = ({
     observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 1.0,
+        threshold: 0.1,
     },
 }: UseInfiniteScrollProps) => {
     const observer = useRef<IntersectionObserver | null>(null)
@@ -25,8 +25,8 @@ export const useInfiniteScroll = ({
             if (observer.current) observer.current.disconnect()
 
             observer.current = new IntersectionObserver((entries, observer) => {
-                entries.forEach(({ isIntersecting }) => {
-                    if (!isIntersecting) return
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return
 
                     getMore()
                     observer.disconnect()
