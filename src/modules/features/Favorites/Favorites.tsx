@@ -1,7 +1,7 @@
 import s from './Favorites.module.scss'
 import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
-import { useFavorites } from './hooks/useFavorites'
 import { useUserId } from '~/modules/shared/hooks/useUserId'
+import { useFavorites } from './hooks/useFavorites'
 
 export interface FavoritesProps {
     id: string

@@ -8,9 +8,10 @@ import { useGlobalContext } from '~/modules/shared/hooks/useGlobalContext'
 interface BuyButtonProps {
     productId: string
     isOut: boolean
+    size?: 'sm' | 'default'
 }
 
-export const BuyButton = ({ productId, isOut }: BuyButtonProps) => {
+export const BuyButton = ({ productId, isOut, size }: BuyButtonProps) => {
     const { state, dispatch } = useGlobalContext()
 
     const addProductToCart = () => {
@@ -20,13 +21,22 @@ export const BuyButton = ({ productId, isOut }: BuyButtonProps) => {
     return (
         <>
             {!state.products[productId] ? (
-                <ButtonDefault onClick={addProductToCart} fontSize='md'>
+                <ButtonDefault
+                    onClick={addProductToCart}
+                    fontSize={size === 'sm' ? undefined : 'md'}
+                    height={size === 'sm' ? 'xs' : undefined}
+                >
                     {isOut ? 'Buy now' : 'Preorder'}
                 </ButtonDefault>
             ) : null}
             {state.products[productId] ? (
                 <Link href='/cart'>
-                    <ButtonDefault color='red' isGlitching={false} fontSize='md'>
+                    <ButtonDefault
+                        color='red'
+                        isGlitching={false}
+                        fontSize={size === 'sm' ? undefined : 'md'}
+                        height={size === 'sm' ? 'xs' : undefined}
+                    >
                         in cart
                     </ButtonDefault>
                 </Link>
