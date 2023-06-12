@@ -43,6 +43,14 @@
         letter-spacing: 0.2em;
         text-transform: uppercase;
         color: #fff;
+
+        @media all and (max-width: 900px) {
+            font-size: 15px;
+        }
+
+        @media all and (max-width: 480px) {
+            font-size: 14px;
+        }
     }
 
     @media all and (max-width: 1200px) {
@@ -200,6 +208,10 @@
 
         @media all and (max-width: 1200px) {
             height: 34px;
+        }
+
+        @media all and (max-width: 480px) {
+            height: 30px;
         }
     }
 
