@@ -51,9 +51,9 @@ export const Nav = () => {
             <Link className={s.nav__item} href='/catalog?sale=true'>
                 Sale
             </Link>
-            <a className={s.nav__item} href='#'>
+            {/* <a className={s.nav__item} href='#'>
                 About us
-            </a>
+            </a> */}
         </div>
     )
 }
