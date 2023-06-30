@@ -125,6 +125,10 @@ export const ProductCard = ({
             imageOrientation = '3/4'
             withClip = false
             break
+        case 'catalog':
+            wrapCN += ` ${s.wrap_catalog}`
+            imageOrientation = matchMedia && matchMedia.isLess480 ? '16/9' : '3/4'
+            break
         default:
             break
     }

@@ -8,3 +8,4 @@ export type View =
     | 'popular'
     | 'search'
     | 'favorites'
+    | 'catalog'

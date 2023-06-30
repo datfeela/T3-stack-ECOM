@@ -55,6 +55,9 @@ export const Info = ({
 
     return (
         <div className={s.bottom}>
+            {!!productTypeParsed && view === 'catalog' ? (
+                <div className={s.productType}>{productTypeParsed}</div>
+            ) : null}
             <div className={s.info}>
                 {href ? (
                     <Link href={href} className={s.name}>
