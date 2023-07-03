@@ -1,0 +1,23 @@
+@import '/src/modules/shared/styles/mixins.scss';
+@import '/src/modules/shared/styles/var.scss';
+
+.buttonWithIcon {
+    @include button-square-sm;
+    border: 1px solid $purple;
+
+    &:hover {
+        background: $purple;
+    }
+
+    &_add {
+        background: rgba($color: $purple, $alpha: 0.5);
+    }
+
+    &_toCart {
+        background: transparent;
+    }
+
+    svg {
+        fill: $blueLight;
+    }
+}
