@@ -268,10 +268,7 @@ export const SvgSelector = ({ id, className }: { id: SvgSelectorIds; className?:
                     viewBox='0 0 16 11'
                     fill='none'
                 >
-                    <path
-                        d='M6.125 11L0.5 5.37502L1.38375 4.49127L6.125 9.2319L14.6163 0.741272L15.5 1.62502L6.125 11Z'
-                        fill='#00E4F2'
-                    />
+                    <path d='M6.125 11L0.5 5.37502L1.38375 4.49127L6.125 9.2319L14.6163 0.741272L15.5 1.62502L6.125 11Z' />
                 </svg>
             )
         case 'upload':
