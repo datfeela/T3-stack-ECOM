@@ -1,4 +1,5 @@
 @import '/src/modules/shared/styles/var.scss';
+@import '/src/modules/shared/styles/mixins.scss';
 
 .wrap {
     display: grid;
@@ -78,13 +79,8 @@
 }
 
 .buttonSmall {
-    height: 40px;
-    width: 40px;
-
-    svg {
-        height: 100%;
-        width: 100%;
-    }
+    @include button-square-sm;
+    padding: 0;
 
     &_delete {
         &:hover {

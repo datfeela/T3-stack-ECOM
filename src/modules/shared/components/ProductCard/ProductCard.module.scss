@@ -677,18 +677,44 @@
             flex-direction: column;
             justify-content: space-between;
             gap: 12px;
+
+            @media all and (max-width: 480px) {
+                min-height: unset;
+            }
+        }
+
+        .priceRow {
+            padding-right: 0.5rem;
+            padding-bottom: 0.2rem;
+        }
+
+        .priceBlock {
+            flex-direction: row-reverse;
+            gap: 0px;
+
+            @media all and (max-width: 480px) {
+                flex-direction: row;
+                align-items: flex-end;
+            }
         }
 
         .priceBlockInner {
             flex-direction: column-reverse;
-            align-items: flex-start;
             gap: 0;
+
+            @media all and (max-width: 480px) {
+                align-items: flex-start;
+            }
         }
 
         .price,
         .priceWithoutDiscount {
             font-weight: 400;
-            font-size: inherit;
+            font-size: 16px;
+
+            @media all and (max-width: 768px) {
+                font-size: 15px;
+            }
         }
 
         .discount {

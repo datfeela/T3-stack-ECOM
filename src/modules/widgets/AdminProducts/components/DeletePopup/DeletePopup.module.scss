@@ -2,15 +2,7 @@
 @import '/src/modules/shared/styles/mixins.scss';
 
 .button {
-    height: 40px;
-    width: 40px;
-    padding: 8px;
-    border-radius: 5px;
-
-    svg {
-        height: 100%;
-        width: 100%;
-    }
+    @include button-square-sm;
 
     &_delete {
         background: rgba($color: $red, $alpha: 0.5);

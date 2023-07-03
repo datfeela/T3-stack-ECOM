@@ -373,3 +373,17 @@
         fill: #000;
     }
 }
+
+// buttons
+
+@mixin button-square-sm {
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    border-radius: 5px;
+
+    svg {
+        height: 100%;
+        width: 100%;
+    }
+}

@@ -12,15 +12,7 @@
 }
 
 .button {
-    height: 40px;
-    width: 40px;
-    padding: 8px;
-    border-radius: 5px;
-
-    svg {
-        height: 100%;
-        width: 100%;
-    }
+    @include button-square-sm;
 
     &_edit {
         background: rgba($color: $purple, $alpha: 0.5);

@@ -90,6 +90,11 @@ export const Info = ({
                                 <BuyButton isOut={isGameOut} productId={id} size='sm' />
                             </div>
                         ) : null}
+                        {view === 'catalog' && isGameOut !== undefined ? (
+                            <div className={s.buyBtn}>
+                                <BuyButton isOut={isGameOut} productId={id} view='icon' />
+                            </div>
+                        ) : null}
                     </div>
                     {view === 'cartHeader' && typeof quantityInCart === 'number' ? (
                         <ProductQuantityController
