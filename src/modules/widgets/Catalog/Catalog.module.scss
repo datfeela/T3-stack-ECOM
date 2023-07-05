@@ -1,6 +1,7 @@
 @import '/src/modules/shared/styles/var.scss';
 
 .wrap {
+    margin-top: 20px;
     display: grid;
     grid-template-columns: 295px 1fr;
     grid-gap: 21px;
@@ -27,7 +28,7 @@
         grid-template-columns: repeat(3, 1fr);
     }
 
-    @media all and (max-width: 960px) {
+    @media all and (max-width: 1000px) {
         grid-template-columns: repeat(2, 1fr);
     }
 

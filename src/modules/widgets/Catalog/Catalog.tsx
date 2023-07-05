@@ -7,6 +7,8 @@ import { useInfiniteScroll } from '~/modules/shared/hooks/useInfiniteScroll'
 import { mapProductDataFromApi } from './mappers/mapProductDataFromApi'
 import { DotsLoader } from '~/modules/shared/components/Loaders/Loaders'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
+import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
+import { Header } from './components/Header/Header'
 
 export const Catalog = () => {
     const matchMedia = useMatchMedia()
@@ -18,6 +20,11 @@ export const Catalog = () => {
         250,
     )
 
+    const [sortBy, setSortBy] = useState<ProductSortBy>({
+        name: 'popularity',
+        value: 'desc',
+    })
+
     const {
         products: data,
         isLoading,
@@ -26,6 +33,8 @@ export const Catalog = () => {
     } = useManyProductsData({
         searchQuery: debouncedSearchQuery,
         quantity: 16,
+        sortBy,
+        keepPreviousData: true,
     })
 
     const scrollAnchorRef = useInfiniteScroll({
@@ -46,7 +55,12 @@ export const Catalog = () => {
                 <ProductCard
                     key={id}
                     id={id}
-                    imageSizes='100px'
+                    imageSizes='(max-width: 480px) 100vw,
+                        (max-width: 600px) 400px,
+                        (max-width: 768px) 360px,
+                        (max-width: 1000px) 420px,
+                        (max-width: 1200px) 360px,
+                        320px'
                     imgPath={
                         matchMedia && matchMedia.isLess480 ? horizontalImagePath : verticalImagePath
                     }
@@ -65,11 +79,11 @@ export const Catalog = () => {
     return (
         <div className={`${s.wrap} wrap`}>
             <div></div>
-            <div>sort by</div>
+            <Header sortBy={sortBy} setSortBy={setSortBy} />
             <div className={s.sidebar}>sidebar</div>
             <div className={`${s.productsWrap}`}>
                 {areProductsFound ? <div className={s.products}>{products}</div> : null}
-                {isLoading ? (
+                {isLoading || isDebouncing ? (
                     <div className={s.loader}>
                         <DotsLoader />
                     </div>

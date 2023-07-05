@@ -1,0 +1,54 @@
+@import '/src/modules/shared/styles/var.scss';
+
+.wrap {
+    position: relative;
+    width: fit-content;
+}
+
+.popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    display: none;
+
+    &_active {
+        display: block;
+    }
+}
+
+.sortByEl {
+    width: 185px;
+    padding: 2px 6px;
+    cursor: pointer;
+    background: $purple;
+    user-select: none;
+
+    &:not(.sortByEl_header):hover {
+        background: $blueLight;
+        color: #000;
+    }
+
+    &_header {
+        border: 1px solid $blueLight;
+        background: rgba($color: $purple, $alpha: 0.15);
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        svg {
+            fill: #fff;
+            width: 14px;
+            height: 7px;
+            transform: rotate(180deg);
+            margin-top: 3px;
+        }
+    }
+
+    &_active {
+        svg {
+            transform: unset;
+        }
+    }
+}

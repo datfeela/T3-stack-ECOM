@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { getManyProductsInputSchema } from '~/modules/shared/lib/validationSchemas'
 import type { Prisma, Product, ProductImagePath, User } from '@prisma/client'
 import type { GetManyProductsInput } from '~/modules/shared/types/productTypes'
+import type { ProductSortByName } from '../apiTypes/productsRouterTypes'
 
 export const getProductById = publicProcedure.input(z.string()).query(async ({ input }) => {
     try {
@@ -308,7 +309,9 @@ export async function getManyProducts_server({
         },
     }))
 
-    const orderBy = [{ name: 'asc' }] as { [x: string]: 'asc' | 'desc' }[]
+    const orderBy = [{ name: 'asc' }] as { [x in ProductSortByName]?: 'asc' | 'desc' }[]
+
+    if (sortBy && sortBy.name === 'name') orderBy[0] = { [sortBy.name]: sortBy.value }
     if (sortBy && sortBy.name !== 'name') orderBy.unshift({ [sortBy.name]: sortBy.value })
 
     try {
