@@ -1,9 +1,13 @@
+import type { ProductSortBy } from './../apiTypes/productsRouterTypes'
 import { prisma } from '~/server/db'
 import { publicProcedure } from '../trpc'
 import { z } from 'zod'
 import { getManyProductsInputSchema } from '~/modules/shared/lib/validationSchemas'
 import type { Prisma, Product, ProductImagePath, User } from '@prisma/client'
-import type { GetManyProductsInput } from '~/modules/shared/types/productTypes'
+import type {
+    GetManyProductsInput,
+    GetManyProductsSortFilters,
+} from '~/modules/shared/types/productTypes'
 import type { ProductSortByName } from '../apiTypes/productsRouterTypes'
 
 export const getProductById = publicProcedure.input(z.string()).query(async ({ input }) => {
@@ -48,8 +52,16 @@ export const getProductMainDataByIdProcedure = publicProcedure
 export const getManyProducts = publicProcedure
     .input(getManyProductsInputSchema)
     .query(async ({ input }) => {
-        const { quantity, searchQuery, isAdvancedSearch, sortBy, comingSoon, onSale, cursor } =
-            input
+        const {
+            quantity,
+            searchQuery,
+            isAdvancedSearch,
+            sortBy,
+            comingSoon,
+            onSale,
+            sortFilters,
+            cursor,
+        } = input
         const query = searchQuery ? searchQuery : ''
 
         try {
@@ -61,6 +73,7 @@ export const getManyProducts = publicProcedure
                 comingSoon,
                 onSale,
                 cursor,
+                sortFilters,
             })
         } catch (e) {
             console.log(`ERROR! getManyProducts`, JSON.stringify(e))
@@ -282,7 +295,63 @@ export async function getManyProducts_server({
     comingSoon,
     onSale,
     cursor,
+    sortFilters,
 }: GetManyProductsInput) {
+    const { nameConditions, categoriesConditions, onSaleCondition, releaseDateCondition, orderBy } =
+        getManyProductsSearchFilters({ searchQuery, sortBy, comingSoon, onSale })
+
+    const advancedSearchFilters = sortFilters
+        ? getManyProductsAdvancedSearchFilters({ sortFilters })
+        : []
+
+    try {
+        const products = await prisma.product.findMany({
+            include: {
+                categories: true,
+            },
+            take: quantity + 1,
+            orderBy: orderBy,
+            where: {
+                AND: [
+                    releaseDateCondition,
+                    onSaleCondition,
+                    isAdvancedSearch
+                        ? { OR: [{ AND: nameConditions }, { AND: categoriesConditions }] }
+                        : { AND: nameConditions },
+                    ...advancedSearchFilters,
+                ],
+            },
+            cursor: cursor ? { id: cursor } : undefined,
+        })
+
+        let nextCursor: typeof cursor | undefined = undefined
+        if (products.length > quantity) {
+            const nextItem = products.pop()
+            nextCursor = nextItem!.id
+        }
+        return {
+            products,
+            nextCursor,
+        }
+    } catch (e) {
+        console.log(`ERROR! getManyProducts:`, JSON.stringify(e))
+        throw e
+    }
+}
+
+interface GetManyProductsSearchFiltersProps {
+    searchQuery: string
+    comingSoon?: boolean
+    onSale?: boolean
+    sortBy?: ProductSortBy
+}
+
+function getManyProductsSearchFilters({
+    searchQuery,
+    sortBy,
+    comingSoon,
+    onSale,
+}: GetManyProductsSearchFiltersProps) {
     const releaseDateCondition = {
         releaseDate: comingSoon
             ? {
@@ -314,38 +383,83 @@ export async function getManyProducts_server({
     if (sortBy && sortBy.name === 'name') orderBy[0] = { [sortBy.name]: sortBy.value }
     if (sortBy && sortBy.name !== 'name') orderBy.unshift({ [sortBy.name]: sortBy.value })
 
-    try {
-        const products = await prisma.product.findMany({
-            include: {
-                categories: true,
-            },
-            take: quantity + 1,
-            orderBy: orderBy,
-            where: {
-                AND: [
-                    releaseDateCondition,
-                    onSaleCondition,
-                    isAdvancedSearch
-                        ? { OR: [{ AND: nameConditions }, { AND: categoriesConditions }] }
-                        : { AND: nameConditions },
-                ],
-            },
-            cursor: cursor ? { id: cursor } : undefined,
-        })
-
-        let nextCursor: typeof cursor | undefined = undefined
-        if (products.length > quantity) {
-            const nextItem = products.pop()
-            nextCursor = nextItem!.id
-        }
-        return {
-            products,
-            nextCursor,
-        }
-    } catch (e) {
-        console.log(`ERROR! getManyProducts:`, JSON.stringify(e))
-        throw e
+    return {
+        releaseDateCondition,
+        onSaleCondition,
+        nameConditions,
+        categoriesConditions,
+        orderBy,
     }
+}
+
+interface GetManyProductsAdvancedSearchFiltersProps {
+    sortFilters: GetManyProductsSortFilters
+}
+
+function getManyProductsAdvancedSearchFilters({
+    sortFilters,
+}: GetManyProductsAdvancedSearchFiltersProps) {
+    const advancedFiltersConditions = {
+        priceMin: sortFilters?.priceMin ? { price: { gte: sortFilters.priceMin } } : undefined,
+        priceMax: sortFilters?.priceMax ? { price: { lte: sortFilters.priceMax } } : undefined,
+        releaseDateStart: sortFilters?.releaseDateStart
+            ? { releaseDate: { gte: sortFilters.releaseDateStart } }
+            : undefined,
+        releaseDateEnd: sortFilters?.releaseDateEnd
+            ? { releaseDate: { lte: sortFilters.releaseDateEnd } }
+            : undefined,
+        productType: sortFilters?.productType
+            ? {
+                  OR: sortFilters.productType.map((value) => ({ productType: { equals: value } })),
+              }
+            : undefined,
+        isWithDiscount: sortFilters?.isWithDiscount
+            ? { priceWithoutDiscount: { gt: 0 } }
+            : undefined,
+        categories: sortFilters?.categories
+            ? {
+                  OR: sortFilters.categories.map((category) => ({
+                      categories: {
+                          some: {
+                              name: { equals: category },
+                          },
+                      },
+                  })),
+              }
+            : undefined,
+        filters: sortFilters?.filters
+            ? {
+                  AND: sortFilters.filters.map(({ name, values }) => ({
+                      OR: values.map((value) => ({
+                          filters: {
+                              some: {
+                                  name: {
+                                      equals: name,
+                                  },
+                                  values: {
+                                      some: {
+                                          value: {
+                                              equals: value,
+                                          },
+                                      },
+                                  },
+                              },
+                          },
+                      })),
+                  })),
+              }
+            : undefined,
+    }
+
+    const advancedSearchFilters: Array<
+        NonNullable<(typeof advancedFiltersConditions)[keyof typeof advancedFiltersConditions]>
+    > = []
+
+    Object.values(advancedFiltersConditions).forEach((value) => {
+        if (!!value) advancedSearchFilters.push(value)
+    })
+
+    return advancedSearchFilters
 }
 
 export async function getMainPageProducts_server() {

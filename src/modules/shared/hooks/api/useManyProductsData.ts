@@ -1,6 +1,7 @@
 import type { Product, ProductCategory } from '@prisma/client'
 import { api } from '~/modules/shared/api/apiTRPC'
 import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
+import type { GetManyProductsSortFilters } from '../../types/productTypes'
 
 interface UseProductsDataProps {
     searchQuery?: string
@@ -8,6 +9,7 @@ interface UseProductsDataProps {
     sortBy?: ProductSortBy
     keepPreviousData?: boolean
     refetchOnWindowFocus?: boolean
+    sortFilters?: GetManyProductsSortFilters
 }
 
 export const useManyProductsData = ({
@@ -16,6 +18,7 @@ export const useManyProductsData = ({
     keepPreviousData = false,
     refetchOnWindowFocus = true,
     sortBy,
+    sortFilters,
 }: UseProductsDataProps) => {
     const { data, isLoading, isError, isSuccess, fetchNextPage, hasNextPage, isFetchingNextPage } =
         api.products.getManyProducts.useInfiniteQuery(
@@ -23,6 +26,7 @@ export const useManyProductsData = ({
                 quantity,
                 searchQuery: searchQuery?.trim(),
                 sortBy,
+                sortFilters,
             },
             {
                 keepPreviousData,

@@ -59,6 +59,17 @@ export const addReviewValidationSchema = z.object({
         .optional(),
 })
 
+export const getManyProductsFiltersSchema = z.object({
+    categories: z.array(z.string()).optional(),
+    filters: filtersSchema.optional(),
+    priceMin: z.number().optional(),
+    priceMax: z.number().optional(),
+    releaseDateStart: z.date().optional(),
+    releaseDateEnd: z.date().optional(),
+    productType: z.array(productType).optional(),
+    isWithDiscount: z.boolean().optional(),
+})
+
 export const getManyProductsInputSchema = z.object({
     quantity: z.number(),
     searchQuery: z.string().optional(),
@@ -67,6 +78,7 @@ export const getManyProductsInputSchema = z.object({
     comingSoon: z.boolean().optional(),
     onSale: z.boolean().optional(),
     cursor: z.string().nullish(),
+    sortFilters: getManyProductsFiltersSchema.optional(),
 })
 
 // order
