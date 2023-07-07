@@ -283,11 +283,11 @@ type CreateProductFiltersProps = {
 }[]
 
 async function createProductFilters(filters: CreateProductFiltersProps) {
-    const promises = [] as Promise<ProductFilter>[]
+    const productFilterPromises = [] as Promise<ProductFilter>[]
 
     filters.forEach(({ name, values }) => {
         try {
-            const categoryRes = prisma.productFilter.create({
+            const productFilterRes = prisma.productFilter.create({
                 data: {
                     name,
                     values: {
@@ -297,14 +297,58 @@ async function createProductFilters(filters: CreateProductFiltersProps) {
                     },
                 },
             })
-            promises.push(categoryRes)
+            productFilterPromises.push(productFilterRes)
+
+            // update categories
+            updateGlobalFilters({ name, valuesToCheck: values })
         } catch (e) {
-            console.log("ERROR! can't create categoryFilter!", e)
+            console.log("ERROR! can't create productFilter!", e)
             throw e
         }
     })
 
-    return await Promise.all(promises)
+    return await Promise.all(productFilterPromises)
+}
+
+interface UpdateGlobalFiltersProps {
+    name: string
+    valuesToCheck: string[]
+}
+
+async function updateGlobalFilters({ name, valuesToCheck }: UpdateGlobalFiltersProps) {
+    try {
+        const categoryFilters = await prisma.categoryFilter.findFirst({
+            where: { name },
+            include: {
+                options: true,
+            },
+        })
+
+        const valuesToAppend: string[] = []
+
+        const valuesFiltered = Array.from(new Set(valuesToCheck))
+
+        valuesFiltered.forEach((value) => {
+            if (!categoryFilters?.options.find(({ name }) => name === value))
+                valuesToAppend.push(value)
+        })
+
+        if (valuesToAppend.length > 0) {
+            await prisma.categoryFilter.update({
+                where: { name },
+                data: {
+                    options: {
+                        createMany: {
+                            data: valuesToAppend.map((option) => ({ name: option })),
+                        },
+                    },
+                },
+            })
+        }
+    } catch (e) {
+        console.log("ERROR! updateGlobalFilters: can't update filters!", e)
+        throw e
+    }
 }
 
 interface changeProductPopularityProps {
