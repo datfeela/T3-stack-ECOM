@@ -1,8 +1,9 @@
 import { mapProductFiltersFromApi } from './../../../shared/mappers/mapProductFiltersFromApi'
 import type { AppRouterOutput } from '~/server/api/root'
-import { mapDateFromApi } from './mapDateFromApi'
+
 import { mapSystemReqFromApi } from './mapSystemReqFromApi'
 import type { ProductType } from '~/modules/shared/types/productTypes'
+import { mapDateToString } from '~/modules/shared/mappers/mapDateToString'
 
 type ProductData = NonNullable<AppRouterOutput['products']['getProductById']>
 
@@ -44,7 +45,7 @@ export function mapProductDataFromApi(productData: ProductData) {
     const detailPageImagesMapped = detailPageImages.map((image, id) => ({ value: image.value, id }))
     console.log(detailPageImagesMapped)
 
-    const parsedReleaseDate = mapDateFromApi(releaseDate)
+    const parsedReleaseDate = mapDateToString(releaseDate)
 
     const priceStr = String(price)
     const priceWithoutDiscountStr = priceWithoutDiscount ? String(priceWithoutDiscount) : null

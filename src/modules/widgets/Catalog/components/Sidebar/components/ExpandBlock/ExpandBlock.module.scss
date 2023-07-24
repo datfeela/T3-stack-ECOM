@@ -1,0 +1,64 @@
+@import '/src/modules/shared/styles/mixins.scss';
+
+.wrap {
+    margin: 0 -1px;
+
+    border: 1px solid $purple;
+
+    &_active {
+        border: 1px solid $blueLight;
+    }
+
+    &_expanded {
+        .itemsWrapOuter {
+            @include animated-height-visible;
+        }
+
+        .header {
+            svg {
+                transform: unset;
+            }
+        }
+    }
+}
+
+.header {
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    background: $purple;
+
+    &:hover {
+        .title {
+            color: $blueLight;
+        }
+
+        svg {
+            fill: $blueLight;
+        }
+    }
+
+    svg {
+        fill: #fff;
+        transform: rotate(180deg);
+    }
+}
+
+.title {
+    text-transform: uppercase;
+}
+
+.itemsWrapOuter {
+    @include animated-height-hidden;
+}
+
+.itemsWrapInner {
+    overflow: hidden;
+}
+
+.items {
+    padding: 16px 12px;
+}

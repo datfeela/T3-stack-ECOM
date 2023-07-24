@@ -1,4 +1,4 @@
-export const mapDateFromApi = (date: Date) => {
+export const mapDateToString = (date: Date) => {
     const year = `${date.getFullYear()}`
 
     let month = `${date.getMonth() + 1}`

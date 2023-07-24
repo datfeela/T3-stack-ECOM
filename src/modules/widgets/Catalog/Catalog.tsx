@@ -1,57 +1,35 @@
 import s from './Catalog.module.scss'
-import { useState } from 'react'
 import { ProductCard } from '~/modules/shared/components/ProductCard'
-import { useManyProductsData } from '~/modules/shared/hooks/api/useManyProductsData'
-import { useDebouncedValue } from '~/modules/shared/hooks/useDebouncedValue'
-import { useInfiniteScroll } from '~/modules/shared/hooks/useInfiniteScroll'
-import { mapProductDataFromApi } from './mappers/mapProductDataFromApi'
 import { DotsLoader } from '~/modules/shared/components/Loaders/Loaders'
 import { useMatchMedia } from '~/modules/shared/hooks/useMatchMedia'
-import type { ProductSortBy } from '~/server/api/apiTypes/productsRouterTypes'
 import { Header } from './components/Header/Header'
+import { Sidebar } from './components/Sidebar/Sidebar'
+import { useCatalogFilters } from './hooks/useCatalogFilters'
+import { useCatalogProductsData } from './hooks/useCatalogProductsData'
 
 export const Catalog = () => {
     const matchMedia = useMatchMedia()
 
-    const [searchQuery, setSearchQuery] = useState('')
-
-    const { value: debouncedSearchQuery, isDebouncing } = useDebouncedValue<string>(
-        searchQuery,
-        250,
-    )
-
-    const [sortBy, setSortBy] = useState<ProductSortBy>({
-        name: 'popularity',
-        value: 'desc',
-    })
-
     const {
-        products: data,
-        isLoading,
-        getNextPage,
-        isAllProductsLoaded,
-    } = useManyProductsData({
-        searchQuery: debouncedSearchQuery,
-        quantity: 16,
+        searchQuery,
+        setSearchQuery,
+        debouncedSearchQuery,
+        isDebouncing,
         sortBy,
-        keepPreviousData: true,
+        setSortBy,
+        advancedFilters,
+        setAdvancedFilters,
+    } = useCatalogFilters()
+
+    const { productData, isLoading, isFetching, scrollAnchorRef } = useCatalogProductsData({
+        sortBy,
+        debouncedSearchQuery,
+        advancedFilters,
     })
 
-    const scrollAnchorRef = useInfiniteScroll({
-        getMore: () => {
-            getNextPage()
-        },
-        shouldGetMore: !isLoading && !isAllProductsLoaded,
-    })
-
-    const productsDataMapped = mapProductDataFromApi(data)
-
-    const products = productsDataMapped?.map(
+    const products = productData?.map(
         ({ id, verticalImagePath, horizontalImagePath, ...rest }, mapId) => (
-            <div
-                key={id}
-                ref={mapId === productsDataMapped.length - 9 ? scrollAnchorRef : undefined}
-            >
+            <div key={id} ref={mapId === productData.length - 9 ? scrollAnchorRef : undefined}>
                 <ProductCard
                     key={id}
                     id={id}
@@ -80,7 +58,13 @@ export const Catalog = () => {
         <div className={`${s.wrap} wrap`}>
             <div></div>
             <Header sortBy={sortBy} setSortBy={setSortBy} />
-            <div className={s.sidebar}>sidebar</div>
+            <Sidebar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                advancedFilters={advancedFilters}
+                handleFiltersChange={setAdvancedFilters}
+                areProductsLoading={isFetching}
+            />
             <div className={`${s.productsWrap}`}>
                 {areProductsFound ? <div className={s.products}>{products}</div> : null}
                 {isLoading || isDebouncing ? (

@@ -20,20 +20,28 @@ export const useManyProductsData = ({
     sortBy,
     sortFilters,
 }: UseProductsDataProps) => {
-    const { data, isLoading, isError, isSuccess, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        api.products.getManyProducts.useInfiniteQuery(
-            {
-                quantity,
-                searchQuery: searchQuery?.trim(),
-                sortBy,
-                sortFilters,
-            },
-            {
-                keepPreviousData,
-                refetchOnWindowFocus,
-                getNextPageParam: (lastPage) => lastPage.nextCursor,
-            },
-        )
+    const {
+        data,
+        isLoading,
+        isFetching,
+        isError,
+        isSuccess,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = api.products.getManyProducts.useInfiniteQuery(
+        {
+            quantity,
+            searchQuery: searchQuery?.trim(),
+            sortBy,
+            sortFilters,
+        },
+        {
+            keepPreviousData,
+            refetchOnWindowFocus,
+            getNextPageParam: (lastPage) => lastPage.nextCursor,
+        },
+    )
 
     let products = undefined as
         | (Product & {
@@ -49,6 +57,7 @@ export const useManyProductsData = ({
     return {
         products,
         isLoading: isFetchingNextPage || isLoading,
+        isFetching,
         isError,
         isSuccess,
         getNextPage: fetchNextPage,

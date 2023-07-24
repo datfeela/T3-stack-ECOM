@@ -1,0 +1,67 @@
+@import '/src/modules/shared/styles/mixins.scss';
+@import '/src/modules/shared/styles/var.scss';
+
+.searchWrap {
+    margin-bottom: 16px;
+}
+
+.items {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+}
+
+.item {
+    display: block;
+
+    &_hidden {
+        display: none;
+    }
+
+    &_active {
+        * {
+            color: $blueLight;
+        }
+
+        .checkboxTitle__icon {
+            svg {
+                fill: $blueLight;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.checkboxTitle {
+    &_withIcon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__icon {
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            fill: #fff;
+            opacity: 0.7;
+            height: 20px;
+        }
+    }
+}
+
+.expandBtn {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 12px;
+
+    border-top: 1px solid $purple;
+
+    &:hover {
+        color: $blueLight;
+    }
+}
