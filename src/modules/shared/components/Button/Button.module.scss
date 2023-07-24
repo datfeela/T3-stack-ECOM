@@ -185,6 +185,10 @@
         }
     }
 
+    &_fullWidth {
+        width: 100%;
+    }
+
     &_lgHeight {
         @media all and (max-width: 1200px) {
             height: 50px;

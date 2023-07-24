@@ -12,7 +12,7 @@ interface ButtonProps<El extends ElementType = ElementType> {
     element?: El
     // visual customization
     color?: DefaultColor
-    width?: 'sm' | 'default' | 'wide'
+    width?: 'sm' | 'default' | 'wide' | 'full'
     height?: 'xs' | 'sm' | 'default' | 'lg'
     fontW?: '400' | '500' | '600' | '700'
     fontSize?: 'default' | 'md' | 'lg'
@@ -93,6 +93,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
         default:
             break
     }
+    width === 'full' && (clName += ' ' + s.button_fullWidth)
     width === 'wide' && (clName += ' ' + s.button_wide)
     width === 'sm' && (clName += ' ' + s.button_small)
     height === 'xs' && (clName += ' ' + s.button_xsHeight)
@@ -110,7 +111,7 @@ export const ButtonDefault = <El extends ElementType = typeof defaultElement>({
     return (
         <div className={s.wrap}>
             <ClippedContainer
-                width='fit'
+                width={width === 'full' ? 'full' : 'fit'}
                 clipSize='sm'
                 corners={{
                     topRight: withDecorative ? false : true,
