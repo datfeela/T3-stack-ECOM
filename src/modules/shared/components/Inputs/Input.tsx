@@ -6,21 +6,33 @@ import { SvgSelector } from '../SvgSelector/SvgSelector'
 
 export const Input: React.FC<InputProps> = ({
     name,
-    title,
+    inputTitle,
     errors,
     extraClassName,
     touched,
     type,
     value,
     color,
+    withBg = true,
+    withMargin = true,
+    withCheckboxSquare = true,
     radioOptions,
+    size,
     ...props
 }) => {
     let inputClassname = s.input
+
     inputClassname += type === 'textarea' ? ' ' + s.textarea : ''
     inputClassname += type === 'date' ? ' ' + s.date : ''
+
     inputClassname += touched ? ' ' + s.input_touched : ''
     inputClassname += errors ? ` ${s.input_error} input_error` : ''
+
+    inputClassname += props.dateInputWidth === 'full' ? ' ' + s.date_fullWidth : ''
+    inputClassname += size === 'sm' ? ' ' + s.input_sm : ''
+    inputClassname += size === 'xs' ? ' ' + s.input_xs : ''
+    inputClassname += withBg === false ? ' ' + s.input_noBg : ''
+    inputClassname += withMargin === false ? ' ' + s.input_noMargin : ''
 
     switch (color) {
         case 'purple':
@@ -42,10 +54,12 @@ export const Input: React.FC<InputProps> = ({
             <div>
                 <Field type='checkbox' id={id} className={s.checkbox} name={name} value={value} />
                 <label htmlFor={id} className={s.checkboxWrap}>
-                    <div className={s.checkboxIcon}>
-                        <SvgSelector id='checkboxTick' />
-                    </div>
-                    <span>{title || name}</span>
+                    {withCheckboxSquare ? (
+                        <div className={s.checkboxIcon}>
+                            <SvgSelector id='checkboxTick' />
+                        </div>
+                    ) : null}
+                    <span>{inputTitle || name}</span>
                 </label>
             </div>
         )
@@ -80,8 +94,12 @@ export const Input: React.FC<InputProps> = ({
     }
 
     return (
-        <div className={s.inputWrap}>
-            {title && <span className={s.title}>{title}</span>}
+        <div
+            className={`${s.inputWrap} ${size === 'sm' ? s.inputWrap_sm : ''} ${
+                withMargin === false ? s.inputWrap_noMargin : ''
+            }`}
+        >
+            {inputTitle && <span className={s.title}>{inputTitle}</span>}
             <Field
                 name={name}
                 component={type === 'textarea' ? type : 'input'}

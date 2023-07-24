@@ -29,45 +29,45 @@ export const MainInputs = ({ mainFields, errors, touched }: MainInputsProps) => 
             touched: touched[inputName] as boolean,
             errors:
                 errors[inputName] && touched[inputName] ? (errors[inputName] as string) : undefined,
-            title: inputName,
+            inputTitle: inputName,
         }
 
         switch (inputName) {
             case 'name':
-                props.title = 'Name (required)'
+                props.inputTitle = 'Name (required)'
                 props.type = 'textarea'
                 props.rows = '3'
                 break
             case 'price':
-                props.title = 'price (required)'
+                props.inputTitle = 'price (required)'
                 props.placeholder = '0'
                 props.inputMode = 'numeric'
                 break
             case 'quantityInStock':
                 props.inputMode = 'numeric'
-                props.title = 'Quantity in stock (required)'
+                props.inputTitle = 'Quantity in stock (required)'
                 break
             case 'desc':
                 props.type = 'textarea'
                 props.rows = '4'
-                props.title = 'description'
+                props.inputTitle = 'description'
                 break
             case 'priceWithoutDiscount':
                 props.inputMode = 'numeric'
                 props.placeholder = '0'
                 break
             case 'ytTrailerPath':
-                props.title = 'Youtube trailer id (required)'
+                props.inputTitle = 'Youtube trailer id (required)'
                 props.placeholder =
                     'dQw4w9WgXcQ for "https://www.youtube.com/watch?v=dQw4w9WgXcQ" link'
                 break
             case 'ytGameplayTrailerPath':
-                props.title = 'Youtube gameplay trailer id'
+                props.inputTitle = 'Youtube gameplay trailer id'
                 props.placeholder =
                     'dQw4w9WgXcQ for "https://www.youtube.com/watch?v=dQw4w9WgXcQ" link'
                 break
             case 'releaseDate':
-                props.title = 'Release date (required)'
+                props.inputTitle = 'Release date (required)'
                 props.type = 'date'
                 break
             default:

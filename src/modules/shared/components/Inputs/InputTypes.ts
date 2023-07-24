@@ -25,7 +25,7 @@ export interface DynamicInputProps {
 
 export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
     name: string
-    title?: string
+    inputTitle?: string | React.ReactNode
     errors?: string
     touched?: boolean
     type?: string
@@ -34,8 +34,13 @@ export interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
     isUserField?: boolean
     value?: string | boolean
     color?: Exclude<DefaultColor, 'red'>
+    withBg?: boolean
     radioOptions?: string[]
     autoComplete?: 'on' | 'off'
+    dateInputWidth?: 'auto' | 'full'
+    size?: 'default' | 'sm' | 'xs'
+    withCheckboxSquare?: boolean
+    withMargin?: boolean
 }
 
 export interface CustomInputProps extends InputProps {

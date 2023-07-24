@@ -95,7 +95,7 @@ export const Summary = ({
                                 />
                             </div>
                             <div className={s.agreement}>
-                                <Input name='agreement' type='checkbox' title=' ' />
+                                <Input name='agreement' type='checkbox' inputTitle=' ' />
                                 <span>
                                     Lorem ipsum dolor sit amet consectetu with{' '}
                                     <Link href='/uterms'>Terms of Service</Link> and{' '}

@@ -26,7 +26,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
                                         <div
                                             className={`${s.inputEditable__wrap} ${s.inputEditable__wrap_singleField}`}
                                         >
-                                            <Input name={`${name}[${id}]`} />
+                                            <Input name={`${name}['${id}']`} />
                                             <ButtonDefault
                                                 color='purple'
                                                 width='sm'
@@ -66,7 +66,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
                                                                 key={`complex_input_${idChild}`}
                                                                 type={'textarea'}
                                                                 rows={'4'}
-                                                                name={`${name}[${id}].${keyTyped}`}
+                                                                name={`${name}['${id}'].${keyTyped}`}
                                                                 placeholder={keyTyped}
                                                             />
                                                         )
@@ -75,7 +75,7 @@ export const DynamicInput: React.FC<DynamicInputProps> = ({
                                                     return (
                                                         <Input
                                                             key={`complex_input_${idChild}`}
-                                                            name={`${name}[${id}].${keyTyped}`}
+                                                            name={`${name}['${id}'].${keyTyped}`}
                                                             placeholder={keyTyped}
                                                         />
                                                     )

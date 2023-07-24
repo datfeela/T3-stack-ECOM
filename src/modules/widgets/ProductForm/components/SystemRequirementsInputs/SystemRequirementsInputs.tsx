@@ -18,7 +18,7 @@ export const SystemRequirementsInputs = ({
     const inputs = fields
         ? Object.keys(fields).map((fieldName) => {
               const fieldNameTyped = fieldName as keyof SystemRequirementsFields
-              const inputName = `${name}[${fieldNameTyped}]`
+              const inputName = `${name}['${fieldNameTyped}']`
               let title: undefined | string
 
               switch (fieldNameTyped) {
@@ -40,7 +40,7 @@ export const SystemRequirementsInputs = ({
                   <Input
                       key={inputName}
                       name={inputName}
-                      title={title}
+                      inputTitle={title}
                       type='textarea'
                       rows='4'
                       errors={errors && errors[fieldNameTyped]}

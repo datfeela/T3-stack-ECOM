@@ -36,7 +36,9 @@ export const ProductForm = ({
     const categoriesData = useCategoriesData({ refetchOnWindowFocus: false })
 
     // data for filters checkbox inputs initialize
-    const filtersData = useFiltersData({ refetchOnWindowFocus: false })
+    const filtersData = useFiltersData({ refetchOnWindowFocus: false })?.filter(({ name }) => {
+        return name !== 'publisher' && name !== 'developer' && name !== 'tags'
+    })
 
     // initial form values
     const initialFormValues = {
@@ -215,7 +217,7 @@ export const ProductForm = ({
                                     name='productType'
                                     type='radio'
                                     radioOptions={['DLC', 'game', 'edition']}
-                                    title={'Product Type'}
+                                    inputTitle={'Product Type'}
                                 />
                             </div>
                             <CategoriesInput categoriesNames={categoriesNames} />

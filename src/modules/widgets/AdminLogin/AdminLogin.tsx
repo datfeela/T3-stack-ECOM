@@ -43,7 +43,7 @@ export const AdminLogin: React.FC = () => {
                                 name,
                                 touched: touched[name],
                                 errors: errors[name] && touched[name] ? errors[name] : undefined,
-                                title: name,
+                                inputTitle: name,
                             }
 
                             if (name === 'password') props.type = 'password'

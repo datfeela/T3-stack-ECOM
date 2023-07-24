@@ -13,7 +13,7 @@ export const CategoriesInput = ({ categoriesNames }: CategoriesInputProps) => {
                   name='categories'
                   type='checkbox'
                   value={name}
-                  title={name}
+                  inputTitle={name}
               />
           ))
         : null

@@ -16,10 +16,10 @@ export const FiltersCheckboxes = ({ filtersData }: FiltersCheckboxesProps) => {
                           {options.map((option, optionId) => (
                               <Input
                                   key={`filterOption${optionId}`}
-                                  name={`filters[${name}]`}
+                                  name={`filters['${name}']`}
                                   type='checkbox'
                                   value={option.name}
-                                  title={option.name}
+                                  inputTitle={option.name}
                               />
                           ))}
                       </div>

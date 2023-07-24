@@ -4,25 +4,40 @@ import type { CustomInputProps } from './InputTypes'
 
 export const CustomInput: React.FC<CustomInputProps> = ({
     name,
-    title,
+    inputTitle,
     errors,
     extraClassName,
     touched,
     type,
     changeHandler,
     view = 'default',
+    size = 'default',
+    withBg,
+    withMargin,
     ...props
 }) => {
     let inputClassname = s.input
+
+    inputClassname += view === 'blackWhite' ? ' ' + s.input_blackWhite : ''
     inputClassname += type === 'textarea' ? ' ' + s.textarea : ''
+
     inputClassname += touched ? ' ' + s.input_touched : ''
     inputClassname += errors ? ' ' + s.input_error : ''
+
+    inputClassname += size === 'sm' ? ' ' + s.input_sm : ''
+    inputClassname += withBg === false ? ' ' + s.input_noBg : ''
+    inputClassname += withMargin === false ? ' ' + s.input_noMargin : ''
+
     inputClassname += extraClassName ? ' ' + extraClassName : ''
-    inputClassname += view === 'blackWhite' ? ' ' + s.input_blackWhite : ''
+
+    let inputWrapClassname = s.inputWrap
+    inputWrapClassname += view === 'blackWhite' ? ' ' + s.inputWrap_blackWhite : ''
+    inputWrapClassname += size === 'sm' ? ' ' + s.inputWrap_sm : ''
+    inputWrapClassname += withMargin === false ? ' ' + s.inputWrap_noMargin : ''
 
     return (
-        <div className={`${s.inputWrap} ${view === 'blackWhite' ? s.inputWrap_blackWhite : ''}`}>
-            {title && <span className={`${s.title} ${s.title_md}`}>{title}</span>}
+        <div className={inputWrapClassname}>
+            {inputTitle && <span className={`${s.title} ${s.title_md}`}>{inputTitle}</span>}
             <input
                 name={name}
                 className={inputClassname}

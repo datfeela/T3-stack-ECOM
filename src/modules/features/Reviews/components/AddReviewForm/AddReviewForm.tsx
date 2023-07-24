@@ -66,7 +66,7 @@ export const AddReviewForm = ({
                             <div className={s.inputsWrap}>
                                 <Input
                                     name='message'
-                                    title=''
+                                    inputTitle=''
                                     type='textarea'
                                     rows='4'
                                     placeholder='What do you think about this game?'
