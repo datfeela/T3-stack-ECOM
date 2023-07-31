@@ -28,7 +28,7 @@ export const Catalog = () => {
         advancedFilters,
     })
 
-    const { isFiltersVisible, setIsFiltersVisible, toggleFiltersDisplay } = useFiltersVisibility()
+    const { isFiltersVisible, toggleFiltersDisplay } = useFiltersVisibility()
 
     const products = productData?.map(
         ({ id, verticalImagePath, horizontalImagePath, ...rest }, mapId) => (
@@ -54,8 +54,8 @@ export const Catalog = () => {
     )
 
     const areProductsFound = products && products.length > 0 ? true : false
-    const isNothingFound =
-        searchQuery && !isLoading && (!products || products?.length <= 0) ? true : false
+
+    const isNothingFound = !isLoading && (!products || products?.length <= 0) ? true : false
 
     return (
         <div className={`${s.wrap} wrap`}>
@@ -72,7 +72,7 @@ export const Catalog = () => {
                 handleFiltersChange={setAdvancedFilters}
                 areProductsLoading={isFetching}
                 isFiltersVisible={isFiltersVisible}
-                setIsFiltersVisible={setIsFiltersVisible}
+                toggleFiltersDisplay={toggleFiltersDisplay}
             />
             <div className={`${s.productsWrap}`}>
                 {areProductsFound ? <div className={s.products}>{products}</div> : null}

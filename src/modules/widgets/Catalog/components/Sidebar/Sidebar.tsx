@@ -3,6 +3,7 @@ import { FiltersForm } from './components/FiltersForm/FiltersForm'
 import type { FormikFormData } from '../../types'
 import { useInitialFormData } from './hooks/useInitialFormData'
 import { mapFiltersDataToApi } from '../../mappers/mapFiltersDataToApi'
+import { useRouter } from 'next/router'
 
 interface SidebarProps {
     advancedFilters: GetManyProductsSortFilters
@@ -11,7 +12,7 @@ interface SidebarProps {
     setSearchQuery: (searchQuery: string) => void
     areProductsLoading: boolean
     isFiltersVisible: boolean
-    setIsFiltersVisible: (isVisible: boolean) => void
+    toggleFiltersDisplay: () => void
 }
 
 export const Sidebar = ({
@@ -21,8 +22,9 @@ export const Sidebar = ({
     setSearchQuery,
     areProductsLoading,
     isFiltersVisible,
-    setIsFiltersVisible,
+    toggleFiltersDisplay,
 }: SidebarProps) => {
+    const router = useRouter()
     const initialFormValues = useInitialFormData(advancedFilters)
 
     const handleChange = (values: FormikFormData) => {
@@ -33,6 +35,7 @@ export const Sidebar = ({
     const resetForm = () => {
         setSearchQuery('')
         handleFiltersChange({})
+        router.replace('/catalog', undefined, { shallow: true })
     }
 
     return (
@@ -44,7 +47,7 @@ export const Sidebar = ({
             areProductsLoading={areProductsLoading}
             resetForm={resetForm}
             isVisible={isFiltersVisible}
-            setIsVisible={setIsFiltersVisible}
+            changeIsVisible={toggleFiltersDisplay}
         />
     )
 }

@@ -30,7 +30,7 @@ export const CatalogNav = ({ isExpanded }: CatalogNavProps) => {
     const platforms = usePlatformsData()
 
     const categoriesEls = categories?.map(({ id, name }) => (
-        <Link className={s.sublink} key={id} href={`/catalog?category=${id}`}>
+        <Link className={s.sublink} key={id} href={`/catalog?category=${name}`}>
             {name}
         </Link>
     ))

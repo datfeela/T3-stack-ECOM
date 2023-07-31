@@ -10,15 +10,10 @@
         left: 0;
         z-index: 20;
         background: $background;
-        transition: 0.3s;
-        // opacity: 0;
-        // visibility: hidden;
         transform: translateX(100%);
 
         &_visible {
             transform: unset;
-            // opacity: 1;
-            // visibility: visible;
         }
     }
 
@@ -52,6 +47,12 @@
 }
 
 .hideBtn {
+    display: none;
+
+    @media all and (max-width: 768px) {
+        display: block;
+    }
+
     &:hover {
         svg {
             fill: $blueLight;

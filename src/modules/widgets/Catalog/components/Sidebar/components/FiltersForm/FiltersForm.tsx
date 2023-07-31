@@ -17,7 +17,7 @@ interface FiltersFormProps {
     areProductsLoading: boolean
     resetForm: () => void
     isVisible: boolean
-    setIsVisible: (isVisible: boolean) => void
+    changeIsVisible: () => void
 }
 
 export const FiltersForm = ({
@@ -28,7 +28,7 @@ export const FiltersForm = ({
     areProductsLoading,
     resetForm,
     isVisible,
-    setIsVisible,
+    changeIsVisible,
 }: FiltersFormProps) => {
     return (
         <div className={`${s.wrap} ${isVisible ? s.wrap_visible : ''}`}>
@@ -38,7 +38,7 @@ export const FiltersForm = ({
                     initialValues={initialValues}
                     onSubmit={(values) => {
                         handleChange(values)
-                        setIsVisible(false)
+                        !!isVisible && changeIsVisible()
                     }}
                 >
                     {({ values }) => {
@@ -61,7 +61,7 @@ export const FiltersForm = ({
                                             type='button'
                                             className={s.hideBtn}
                                             onClick={() => {
-                                                setIsVisible(false)
+                                                !!isVisible && changeIsVisible()
                                             }}
                                         >
                                             <SvgSelector id='arrowDefault' />
