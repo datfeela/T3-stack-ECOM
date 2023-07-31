@@ -7,13 +7,14 @@ import { useHandleClickOutside } from '~/modules/shared/hooks/useHandleClickOuts
 interface HeaderProps {
     sortBy: ProductSortBy
     setSortBy: (value: ProductSortBy) => void
+    toggleFiltersDisplay: () => void
 }
 
 type SortByWithTitle = ProductSortBy & {
     title: string
 }
 
-export const Header = ({ sortBy, setSortBy }: HeaderProps) => {
+export const Header = ({ sortBy, setSortBy, toggleFiltersDisplay }: HeaderProps) => {
     const [isPopupActive, setIsPopupActive] = useState(false)
     const wrapRef = useRef<HTMLDivElement>(null)
 
@@ -67,6 +68,9 @@ export const Header = ({ sortBy, setSortBy }: HeaderProps) => {
                 <span>{currentSortByTitle}</span>
                 <SvgSelector id='arrowExpand' />
             </div>
+            <button onClick={toggleFiltersDisplay} type='button' className={s.expandFiltersBtn}>
+                <SvgSelector id='filters' />
+            </button>
             <div className={`${s.popup} ${isPopupActive ? s.popup_active : ''}`}>{popupEls}</div>
         </div>
     )

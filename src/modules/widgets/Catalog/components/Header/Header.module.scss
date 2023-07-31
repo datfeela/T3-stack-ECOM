@@ -3,6 +3,14 @@
 .wrap {
     position: relative;
     width: fit-content;
+
+    @media all and (max-width: 768px) {
+        width: 100%;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
 .popup {
@@ -14,6 +22,29 @@
 
     &_active {
         display: block;
+    }
+}
+
+.expandFiltersBtn {
+    margin-right: 5px;
+    display: none;
+
+    @media all and (max-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:hover {
+        svg {
+            fill: $blueLight;
+        }
+    }
+
+    svg {
+        fill: #fff;
+        height: 27px;
+        width: 27px;
     }
 }
 

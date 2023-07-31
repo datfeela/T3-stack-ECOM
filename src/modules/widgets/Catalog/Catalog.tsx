@@ -6,6 +6,7 @@ import { Header } from './components/Header/Header'
 import { Sidebar } from './components/Sidebar/Sidebar'
 import { useCatalogFilters } from './hooks/useCatalogFilters'
 import { useCatalogProductsData } from './hooks/useCatalogProductsData'
+import { useFiltersVisibility } from './hooks/useFiltersVisibility'
 
 export const Catalog = () => {
     const matchMedia = useMatchMedia()
@@ -26,6 +27,8 @@ export const Catalog = () => {
         debouncedSearchQuery,
         advancedFilters,
     })
+
+    const { isFiltersVisible, setIsFiltersVisible, toggleFiltersDisplay } = useFiltersVisibility()
 
     const products = productData?.map(
         ({ id, verticalImagePath, horizontalImagePath, ...rest }, mapId) => (
@@ -57,13 +60,19 @@ export const Catalog = () => {
     return (
         <div className={`${s.wrap} wrap`}>
             <div></div>
-            <Header sortBy={sortBy} setSortBy={setSortBy} />
+            <Header
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                toggleFiltersDisplay={toggleFiltersDisplay}
+            />
             <Sidebar
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 advancedFilters={advancedFilters}
                 handleFiltersChange={setAdvancedFilters}
                 areProductsLoading={isFetching}
+                isFiltersVisible={isFiltersVisible}
+                setIsFiltersVisible={setIsFiltersVisible}
             />
             <div className={`${s.productsWrap}`}>
                 {areProductsFound ? <div className={s.products}>{products}</div> : null}

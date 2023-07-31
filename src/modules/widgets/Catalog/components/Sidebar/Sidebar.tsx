@@ -10,6 +10,8 @@ interface SidebarProps {
     searchQuery: string
     setSearchQuery: (searchQuery: string) => void
     areProductsLoading: boolean
+    isFiltersVisible: boolean
+    setIsFiltersVisible: (isVisible: boolean) => void
 }
 
 export const Sidebar = ({
@@ -18,6 +20,8 @@ export const Sidebar = ({
     searchQuery,
     setSearchQuery,
     areProductsLoading,
+    isFiltersVisible,
+    setIsFiltersVisible,
 }: SidebarProps) => {
     const initialFormValues = useInitialFormData(advancedFilters)
 
@@ -39,6 +43,8 @@ export const Sidebar = ({
             handleChange={handleChange}
             areProductsLoading={areProductsLoading}
             resetForm={resetForm}
+            isVisible={isFiltersVisible}
+            setIsVisible={setIsFiltersVisible}
         />
     )
 }

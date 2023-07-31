@@ -7,6 +7,7 @@ import { ExpandBlock } from '../ExpandBlock/ExpandBlock'
 import { FilterWithExpand } from '../FilterWithExpand/FilterWithExpand'
 import type { FormikFormData } from '~/modules/widgets/Catalog/types'
 import { CircleLoader } from '~/modules/shared/components/Loaders/Loaders'
+import { SvgSelector } from '~/modules/shared/components/SvgSelector/SvgSelector'
 
 interface FiltersFormProps {
     searchQuery: string
@@ -15,6 +16,8 @@ interface FiltersFormProps {
     handleChange: (values: FormikFormData) => void
     areProductsLoading: boolean
     resetForm: () => void
+    isVisible: boolean
+    setIsVisible: (isVisible: boolean) => void
 }
 
 export const FiltersForm = ({
@@ -24,11 +27,20 @@ export const FiltersForm = ({
     handleChange,
     areProductsLoading,
     resetForm,
+    isVisible,
+    setIsVisible,
 }: FiltersFormProps) => {
     return (
-        <div className={s.wrap}>
+        <div className={`${s.wrap} ${isVisible ? s.wrap_visible : ''}`}>
             <div className={s.searchWrap}>
-                <Formik enableReinitialize initialValues={initialValues} onSubmit={handleChange}>
+                <Formik
+                    enableReinitialize
+                    initialValues={initialValues}
+                    onSubmit={(values) => {
+                        handleChange(values)
+                        setIsVisible(false)
+                    }}
+                >
                     {({ values }) => {
                         const {
                             priceMin,
@@ -42,17 +54,29 @@ export const FiltersForm = ({
                         } = values
 
                         return (
-                            <Form className={s.wrap}>
+                            <Form className={s.formWrap}>
                                 <div className={s.filtersWrap}>
-                                    <button
-                                        type='button'
-                                        className={s.resetBtn}
-                                        onClick={() => {
-                                            resetForm()
-                                        }}
-                                    >
-                                        clear all
-                                    </button>
+                                    <div className={s.filtersHeader}>
+                                        <button
+                                            type='button'
+                                            className={s.hideBtn}
+                                            onClick={() => {
+                                                setIsVisible(false)
+                                            }}
+                                        >
+                                            <SvgSelector id='arrowDefault' />
+                                        </button>
+                                        <button
+                                            type='button'
+                                            className={s.resetBtn}
+                                            onClick={() => {
+                                                resetForm()
+                                            }}
+                                        >
+                                            clear all
+                                        </button>
+                                    </div>
+
                                     <ExpandBlock title='name' isActive={!!searchQuery}>
                                         <Search
                                             handleChange={setSearchQuery}
