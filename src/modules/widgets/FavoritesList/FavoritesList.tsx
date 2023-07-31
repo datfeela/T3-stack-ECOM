@@ -31,7 +31,7 @@ export const FavoritesList = () => {
         <>
             <Breadcrumbs />
             <div className={`${s.wrap} wrap`}>
-                <h1>Favorite products</h1>
+                <h1>Your favorite products</h1>
                 {!!productsData ? <div>{favoritesEls}</div> : null}
                 {isLoading ? (
                     <div className={s.loader}>
